@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<html lang="ja">
+
+<head>
+<link rev="MADE" href="mailto:vavivavi@yahoo.co.jp" />
+<link rel="INDEX" href="orverview.html" />
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link rel="stylesheet" type="text/css" href="../../../../vavi.css" />
+<title>vavi.util.barcode</title>
+<!--
+ * Copyright (c) 2004 by Naohide Sano, All rights reserved.
+ *
+ * Written by Naohide Sano
+ *
+ * @description	バーコードライブラリ
+ * @status	動作確認
+ *
+ * @author	<a href=mailto:"vavivavi@yahoo.co.jp">Naohide Sano</a>(nsano)
+ *
+ * @version	0.00	04xxxx	nsano	initial version
+-->
+</head>
+
+<body>
+
+<p>
+バーコードライブラリ
+</p>
+
+<h2>これから実装すること</h2>
+
+<ul>
+<li></li>
+</ul>
+
+<h2>一次ライセンス</h2>
+
+<p>
+<a href="http://barcode4j.krysalis.org/index.html">Barcode4J</a>
+</p>
+<p>
+<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, version 2.0</a>
+</p>
+
+<h2>サンプルコード</h2>
+
+<pre>
+    /** */
+    public static void main(String[] args) throws Exception {
+        String value = args[0];
+        String symbol = args[1];
+        int dpi = Integer.parseInt(args[2]);
+        boolean bw = Boolean.parseBoolean(args[3]);
+
+        Barcode barcode = new Barcode(value, symbol, dpi, bw);
+
+        BufferedImage image = barcode.getBufferedImage();
+        int h = image.getHeight();
+        int w = image.getWidth();
+
+        BufferedImage newImage = new BufferedImage(h, w, image.getType());
+        Graphics2D g2d = newImage.createGraphics();
+        g2d.rotate(Math.toRadians(90));
+        g2d.drawImage(image, 0, -h, null);
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JImageComponent component = new JImageComponent();
+        component.setImage(newImage);
+        component.setPreferredSize(new Dimension(newImage.getWidth(), newImage.getHeight()));
+        frame.getContentPane().add(component);
+        frame.pack();
+        frame.setVisible(true);
+    }
+</pre>
+
+</body>
+
+</html>

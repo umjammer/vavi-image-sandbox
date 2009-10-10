@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<html lang="ja">
+
+<head>
+<link rev="MADE" href="mailto:vavivavi@yahoo.co.jp" />
+<link rel="INDEX" href="orverview.html" />
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link rel="stylesheet" type="text/css" href="../../../../vavi.css" />
+<title>vavi.util.qr</title>
+<!--
+ * Copyright (c) 2004 by Naohide Sano, All rights reserved.
+ *
+ * Written by Naohide Sano
+ *
+ * @description	QR コードライブラリ
+ * @status	動作確認
+ *
+ * @author	<a href=mailto:"vavivavi@yahoo.co.jp">Naohide Sano</a>(nsano)
+ *
+ * @version	0.00	04xxxx	nsano	initial version
+-->
+</head>
+
+<body>
+
+<p>
+QR コードライブラリ
+</p>
+
+<h2>これから実装すること</h2>
+
+<ul>
+<li></li>
+</ul>
+
+<h2>一次ライセンス</h2>
+
+<a href="http://www.swetake.com/qr/java/qr_java.html">QR コードクラスライブラリ for Java</a>
+<pre>
+これらのプログラムの著作権は作者であるY.Swetakeにあります。
+これらのプログラムはフリーウエアです。もとの著作権表示を変更しなければ
+自由に再配布・改造してもかまいません。
+</pre>
+
+<h2>サンプルコード</h2>
+
+<pre>
+    /**
+     * usage: java QrcodeImageSource string size
+     */
+    public static void main(String[] args) throws Exception {
+        int times = Integer.parseInt(args[1]);
+        final Toolkit t = Toolkit.getDefaultToolkit();
+        final QrcodeImageSource ip = new QrcodeImageSource(args[0], times, "Windows-31J");
+        ip.setForeground(Color.pink);
+        Image image = t.createImage(ip);
+        
+        final JImageComponent component = new JImageComponent();
+        component.setImage(image);
+        int width = image.getWidth(null);
+        component.setBorder(new LineBorder(Color.white, times / 2));
+        component.setPreferredSize(new Dimension(width + times, width + times));
+
+        JFrame frame = new JFrame();
+        frame.setTitle(args[0] +  " x " + times);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(component);
+        frame.pack();
+        frame.setVisible(true);
+    }
+</pre>
+
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+
+<!-- ////////////////////////////////////////////////////////////////////// -->
+<!-- Copyright (c) 2004 by Naohide Sano, All rights reserved.               -->
+<!--                                                                        -->
+<!-- Written by Naohide Sano                                                -->
+<!--                                                                        -->
+<!-- vavi-image-sandbox                                                     -->
+<!--                                                                        -->
+<!-- @author	Naohide Sano                                                -->
+<!-- @version	0.00	020522	nsano	initial version                     -->
+<!--                                                                        -->
+<!-- ////////////////////////////////////////////////////////////////////// -->
+
+<project name="vavi-image-sandbox" default="run" basedir="."
+	     xmlns:ivy="antlib:org.apache.ivy.ant">
+
+  <!-- -->
+  <property file="local.properties" />
+  
+  <property name="dir.src" value="src/main/java" />
+  
+  <!-- クラスパスの定義 -->
+  <path id="project.class.path">
+    <fileset dir="lib">
+      <include name="*.jar" />
+    </fileset>
+    <pathelement location="target/classes"/>
+  </path>
+  
+  <!-- ターゲットの定義 -->
+  
+  <!-- clean -->
+  <target name="clean" description="ビルド環境のクリア">
+    <delete>
+      <fileset dir="target">
+        <include name="**/*" />
+      </fileset>
+      <fileset dir="${dir.src}/vavix/imageio/jpeg">
+        <include name="*.o" />
+        <include name="vavix_*.h" />
+      </fileset>
+      <fileset dir="lib">
+        <include name="libimageioJPEG_simd.*" />
+      </fileset>
+    </delete>
+  </target>
+  
+  <!-- prepare -->
+  <target name="prepare" description="">
+    <ivy:settings file="ivy-settings.xml" />
+    <ivy:convertpom pomFile="pom.xml" ivyFile="ivy.xml" />
+    <ivy:retrieve />
+  </target>
+
+  <!-- javac -->
+  <target name="compile" depends="prepare" description="コンパイル">
+    <javac debug="on" deprecation="on" destdir="target/classes"
+    	   encoding="MS932">
+      <classpath refid="project.class.path" />
+      <include name="**/*.java" />
+      <src path="src/main/java" />
+    </javac>
+  </target>
+
+  <!-- javah -->
+  <target name="javah" depends="compile" description="Makeing Header">
+    <javah destdir="${dir.src}/vavix/imageio/jpeg">
+      <classpath refid="project.class.path" />
+      <class name="vavix.imageio.jpeg.JPEGImageReader" />
+      <class name="vavix.imageio.jpeg.JPEGImageWriter" />
+    </javah>
+  </target>
+
+  <!-- gcc mac -->
+  <target name="compile.native" depends="javah" description="コンパイル C">
+    <apply executable="gcc" dest="${dir.src}/vavix/imageio/jpeg" parallel="false">
+      <arg value="-c" />
+      <arg line="-g -Wall -O2" />
+      <arg line="-arch i386 -arch x86_64" />
+      <arg value="-I." />
+      <arg value="-I${libjpeg.include}" />
+      <arg value="-I${jdk.home}/include" />
+      <arg value="-o"/>
+      <targetfile/>
+      <srcfile/>
+      <fileset dir="${dir.src}/vavix/imageio/jpeg" includes="*.c"/>
+      <mapper type="glob" from="*.c" to="*.o"/>
+    </apply>
+  </target>
+
+  <!-- link mac -->
+  <target name="link" depends="compile.native" description="Makeing DLL">
+    <apply executable="gcc" dest="lib">
+      <arg line="-dynamiclib" />
+      <arg line="--add-stdcall-alias -read_only_relocs suppress" />
+<!--
+      <arg line="-arch i386 -arch x86_64" />
+-->
+      <arg value="${libjpeg.home}/.libs/libjpeg.a" />
+      <arg value="${dir.src}/vavix/imageio/jpeg/jni_util.o" />
+      <arg value="-o" />
+      <targetfile />
+      <srcfile />
+      <fileset dir="${dir.src}/vavix/imageio/jpeg" includes="*.o" excludes="${dir.src}/vavix/imageio/jpeg/jni_util.o"/>
+      <mapper type="glob" from="imageio*.o" to="libimageio*.jnilib"/>
+    </apply>
+    <!-- for Mac OpenJDK -->
+    <copy file="lib/libimageioJPEG_simd.jnilib" tofile="lib/libimageioJPEG_simd.dylib" />
+  </target>
+
+  <!-- jar -->
+  <target name="packaging" depends="compile" description="パッケージング">
+  	<copy todir="target/classes">
+  	  <fileset dir="src/main/resources">
+  	  	<include name="**/*" />
+      </fileset>
+  	</copy>
+    <jar jarfile="target/vavi-image-sandbox.jar">
+      <fileset dir="target/classes" />
+    </jar>
+  </target>
+  
+  <!-- run -->
+  <target name="run" depends="packaging" description="プログラムの実行">
+    <java classname="vavi.util.qr.Qrcode" fork="yes">
+      <jvmarg value="-Dfile.encoding=${encoding}"/>
+      <classpath refid="project.class.path" />
+      <arg value="${run.value}" />
+    </java>
+  </target>
+
+  <!-- t2 -->
+  <target name="t2" depends="packaging" description="by ImageProducer">
+    <java classname="vavi.util.qr.QrcodeImageSource" fork="yes">
+      <classpath refid="project.class.path" />
+      <arg value="${run.value}" />
+      <arg value="${run.size}" />
+    </java>
+  </target>
+
+  <!-- t3 -->
+  <target name="t3" depends="packaging" description="by JComponent">
+    <java classname="vavi.util.qr.JQrcodeComponent" fork="yes">
+      <classpath refid="project.class.path" />
+      <arg value="${run.value}" />
+      <arg value="${run.size}" />
+    </java>
+  </target>
+
+  <!-- t4 -->
+  <target name="t4" depends="packaging" description="Barcode Image">
+    <java classname="vavi.util.barcode.Barcode" fork="yes">
+      <classpath refid="project.class.path" />
+      <arg value="0123456" />
+      <arg value="intl2of5" />
+      <arg value="300" />
+      <arg value="false" />
+    </java>
+  </target>
+
+  <!-- t113 -->    
+  <target name="t113" depends="packaging" description="Tests ColorMatcher class.">
+    <java classname="ColorMatcher" fork="yes">
+      <classpath refid="project.class.path" />
+	  <arg value="#00ff00" />
+	</java>
+  </target>
+	
+  <!-- t8 -->
+  <target name="t8" depends="" description="jpeg simd">
+    <java classname="Test8" jvm="${java6_32.home}/bin/java" fork="yes">
+      <jvmarg value="-Djava.library.path=lib"/>
+      <classpath>
+      	<path refid="project.class.path" />
+      	<pathelement location="target/test-classes"/>
+      </classpath>
+      <arg value="${t8.in}" />
+    </java>
+  </target>
+
+</project>
+
+<!-- -->
