@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="Shift_JIS"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- ////////////////////////////////////////////////////////////////////// -->
 <!-- Copyright (c) 2004 by Naohide Sano, All rights reserved.               -->
@@ -20,7 +20,7 @@
   
   <property name="dir.src" value="src/main/java" />
   
-  <!-- ƒNƒ‰ƒXƒpƒX‚Ì’è‹` -->
+  <!-- ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ã®å®šç¾© -->
   <path id="project.class.path">
     <fileset dir="lib">
       <include name="*.jar" />
@@ -28,12 +28,15 @@
     <pathelement location="target/classes"/>
   </path>
   
-  <!-- ƒ^[ƒQƒbƒg‚Ì’è‹` -->
+  <!-- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®å®šç¾© -->
   
   <!-- clean -->
-  <target name="clean" description="ƒrƒ‹ƒhŠÂ‹«‚ÌƒNƒŠƒA">
+  <target name="clean" description="ãƒ“ãƒ«ãƒ‰ç’°å¢ƒã®ã‚¯ãƒªã‚¢">
     <delete>
-      <fileset dir="target">
+      <fileset dir="target/classes">
+        <include name="**/*" />
+      </fileset>
+      <fileset dir="target/test-classes">
         <include name="**/*" />
       </fileset>
       <fileset dir="${dir.src}/vavix/imageio/jpeg">
@@ -54,7 +57,7 @@
   </target>
 
   <!-- javac -->
-  <target name="compile" depends="prepare" description="ƒRƒ“ƒpƒCƒ‹">
+  <target name="compile" depends="prepare" description="ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«">
     <javac debug="on" deprecation="on" destdir="target/classes"
     	   encoding="MS932">
       <classpath refid="project.class.path" />
@@ -73,7 +76,7 @@
   </target>
 
   <!-- gcc mac -->
-  <target name="compile.native" depends="javah" description="ƒRƒ“ƒpƒCƒ‹ C">
+  <target name="compile.native" depends="javah" description="ã‚³ãƒ³ãƒ‘ã‚¤ãƒ« C">
     <apply executable="gcc" dest="${dir.src}/vavix/imageio/jpeg" parallel="false">
       <arg value="-c" />
       <arg line="-g -Wall -O2" />
@@ -94,9 +97,7 @@
     <apply executable="gcc" dest="lib">
       <arg line="-dynamiclib" />
       <arg line="--add-stdcall-alias -read_only_relocs suppress" />
-<!--
-      <arg line="-arch i386 -arch x86_64" />
--->
+      <arg line="-arch i386" />
       <arg value="${libjpeg.home}/.libs/libjpeg.a" />
       <arg value="${dir.src}/vavix/imageio/jpeg/jni_util.o" />
       <arg value="-o" />
@@ -110,7 +111,7 @@
   </target>
 
   <!-- jar -->
-  <target name="packaging" depends="compile" description="ƒpƒbƒP[ƒWƒ“ƒO">
+  <target name="packaging" depends="compile" description="ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ãƒ³ã‚°">
   	<copy todir="target/classes">
   	  <fileset dir="src/main/resources">
   	  	<include name="**/*" />
@@ -122,7 +123,7 @@
   </target>
   
   <!-- run -->
-  <target name="run" depends="packaging" description="ƒvƒƒOƒ‰ƒ€‚ÌŽÀs">
+  <target name="run" depends="packaging" description="ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®å®Ÿè¡Œ">
     <java classname="vavi.util.qr.Qrcode" fork="yes">
       <jvmarg value="-Dfile.encoding=${encoding}"/>
       <classpath refid="project.class.path" />
@@ -176,6 +177,21 @@
       	<pathelement location="target/test-classes"/>
       </classpath>
       <arg value="${t8.in}" />
+    </java>
+  </target>
+
+  <!-- dump jpeg -->
+  <target name="dumpjpeg" depends="compile" description="jpeg analyze">
+    <java classname="DumpJpeg" fork="yes">
+      <jvmarg value="-ea" />
+      <env key="path" value="lib" />
+      <classpath>
+        <pathelement location="${dir.build}" />
+        <pathelement location="target/test-classes" />
+        <path refid="project.class.path" />
+        <pathelement location="${ant.home}/lib/junit.jar" />
+      </classpath>
+      <arg value="${jpeg}" />
     </java>
   </target>
 
