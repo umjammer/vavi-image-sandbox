@@ -18,6 +18,15 @@ public class Hsv {
     float s;
     float v;
 
+    public Hsv() {
+    }
+
+    public Hsv(float h, float s, float v) {
+        this.h = h;
+        this.s = s;
+        this.v = v;
+    }
+
     /** */
     public Rgb toRgb() {
         float r, g, b;
@@ -27,42 +36,42 @@ public class Hsv {
 //System.err.println(hsv + " -> " + rgb);
             return rgb;
         }
-        s = s / 100f;
-        v = v / 100f;
-        h /= 60f;
-        int i = (int) Math.floor(h);
-        float f = h - i;
-        float p = v * (1 - s);
-        float q = v * (1 - s * f);
-        float t = v * (1 - s * (1 - f));
+        float s_ = s / 100f;
+        float v_ = v / 100f;
+        float h_ = h / 60f;
+        int i = (int) Math.floor(h_);
+        float f = h_ - i;
+        float p = v_ * (1 - s_);
+        float q = v_ * (1 - s_ * f);
+        float t = v_ * (1 - s_ * (1 - f));
         switch (i) {
         case 0:
-            r = v;
+            r = v_;
             g = t;
             b = p;
             break;
         case 1:
             r = q;
-            g = v;
+            g = v_;
             b = p;
             break;
         case 2:
             r = p;
-            g = v;
+            g = v_;
             b = t;
             break;
         case 3:
             r = p;
             g = q;
-            b = v;
+            b = v_;
             break;
         case 4:
             r = t;
             g = p;
-            b = v;
+            b = v_;
             break;
         default:
-            r = v;
+            r = v_;
             g = p;
             b = q;
         }
@@ -74,9 +83,9 @@ public class Hsv {
 //System.err.println(hsv + " -> " + rgb);
         return rgb;
     }
-    
+
     public String toString() {
-        return String.format("H:%.2f V:%.2f S:%.2f", h, v, s);
+        return String.format("H:%.2f S:%.2f V:%.2f", h, s, v);
     }
 }
 /* */

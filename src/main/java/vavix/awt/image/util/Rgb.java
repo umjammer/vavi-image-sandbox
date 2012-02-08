@@ -6,6 +6,8 @@
 
 package vavix.awt.image.util;
 
+import java.awt.Color;
+
 
 /**
  * Rgb. 
@@ -23,6 +25,11 @@ public class Rgb {
         this.r = r;
         this.g = g;
         this.b = b;
+    }
+
+    /** */
+    public Rgb(Color c) {
+        this(c.getRed(), c.getGreen(), c.getBlue());
     }
 
     /** */
@@ -80,6 +87,10 @@ public class Rgb {
         return hsv;
     }
     
+    public Color toColor() {
+        return new Color(r, g, b);
+    }
+
     public String toString() {
         return String.format("R:%02X G: %02X B: %02X", r, g, b);
     }

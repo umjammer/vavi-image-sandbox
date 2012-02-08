@@ -19,6 +19,11 @@ public class ColorMatcher {
 
     private Color[] results = new Color[6];
 
+    /**
+     * 
+     * @param color base color you want to match
+     * @return matching colors size is 6, 0: given color, 1...5: matching colors
+     */
     public Color[] getMatchedColors(Color color) {
         rgb.r = color.getRed();
         rgb.g = color.getGreen();
@@ -29,7 +34,7 @@ public class ColorMatcher {
     }
 
     /** */
-    private final int rc(int x, int m) {
+    private static final int rc(int x, int m) {
         if (x > m) {
             return m;
         }
@@ -38,12 +43,6 @@ public class ColorMatcher {
         } else {
             return x;
         }
-    }
-    
-    /** */
-    private final Color toColor(Hsv hsv) {
-        Rgb rgb = hsv.toRgb();
-        return new Color(rgb.r, rgb.g, rgb.b);
     }
     
     /** */
@@ -58,7 +57,7 @@ public class ColorMatcher {
         } else {
             y.v = hsv.v + 30;
         }
-        results[1] = toColor(y);
+        results[1] = y.toRgb().toColor();
 
         if ((hsv.h >= 0) && (hsv.h < 30)) {
             yx.h = y.h = hsv.h + 20;
@@ -123,19 +122,19 @@ public class ColorMatcher {
             }
         }
 
-        results[2] = toColor(y);
+        results[2] = y.toRgb().toColor();
 
-        results[3] = toColor(yx);
+        results[3] = yx.toRgb().toColor();
 
         y.h = 0;
         y.s = 0;
         y.v = 100 - hsv.v;
-        results[4] = toColor(y);
+        results[4] = y.toRgb().toColor();
 
         y.h = 0;
         y.s = 0;
         y.v = hsv.v;
-        results[5] = toColor(y);
+        results[5] = y.toRgb().toColor();
     }
 }
 
