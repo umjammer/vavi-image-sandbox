@@ -220,8 +220,9 @@ public class ColorCurveOp implements BufferedImageOp {
                 int newy = clamp0255(round(y));
 
                 // if this point is different than the last one...then draw it
-                if ((lastx != newx) || (lasty != newy))
+                if ((lastx != newx) || (lasty != newy)) {
                     this.curve[channel][newx] = newy;
+                }
 
                 lastx = newx;
                 lasty = newy;
@@ -382,7 +383,7 @@ System.err.printf("index: %d, value: %d\n", index[i][j], value[i][j]);
     private Curves curves;
 
     /** */ 
-    public ColorCurveOp(Curves curves) throws IOException {
+    public ColorCurveOp(Curves curves) {
         this.curves = curves;
     }
 
