@@ -26,6 +26,10 @@ import vavi.imageio.ImageConverter;
  */
 public class ColorCurveOpTest {
 
+    /**
+     * 
+     * @see "http://www1.axfc.net/uploader/File/so/File_56252.zip" 疑似四色刷りファイル
+     */
     @Test
     public void test() throws Exception {
         BufferedImage image = ImageIO.read(new File("tmp/inputBW3.jpg"));

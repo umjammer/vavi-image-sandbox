@@ -399,31 +399,36 @@ System.err.printf("index: %d, value: %d\n", index[i][j], value[i][j]);
 
         int width = dst.getWidth();
         int height = dst.getHeight();
+        int[] rgbs = new int[width * height];
+
+        src.getRGB(0, 0, width, height, rgbs, 0, width);
 
         if (src.getType() == BufferedImage.TYPE_INT_RGB) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    int rgb = src.getRGB(x, y);
-                    int r = curves.curve[0][curves.curve[1][(rgb & 0x00ff0000) >> 16]];
-                    int g = curves.curve[0][curves.curve[2][(rgb & 0x0000ff00) >> 8]];
-                    int b = curves.curve[0][curves.curve[3][rgb & 0x000000ff]];
-                    dst.setRGB(x, y, r << 16 | g << 8 | b);
+                    int p = x + y * width;
+                    int r = curves.curve[0][curves.curve[1][(rgbs[p] & 0x00ff0000) >> 16]];
+                    int g = curves.curve[0][curves.curve[2][(rgbs[p] & 0x0000ff00) >> 8]];
+                    int b = curves.curve[0][curves.curve[3][rgbs[p] & 0x000000ff]];
+                    rgbs[p] = r << 16 | g << 8 | b;
                 }
             }
         } else if (src.getType() == BufferedImage.TYPE_INT_ARGB) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    int rgb = src.getRGB(x, y);
-                    int a = curves.curve[4][(rgb & 0xff000000) >>> 24];
-                    int r = curves.curve[0][curves.curve[1][(rgb & 0x00ff0000) >> 16]];
-                    int g = curves.curve[0][curves.curve[2][(rgb & 0x0000ff00) >> 8]];
-                    int b = curves.curve[0][curves.curve[3][(rgb & 0x000000ff)]];
-                    dst.setRGB(x, y, a << 24 | r << 16 | g << 8 | b);
+                    int p = x + y * width;
+                    int a = curves.curve[4][(rgbs[p] & 0xff000000) >>> 24];
+                    int r = curves.curve[0][curves.curve[1][(rgbs[p] & 0x00ff0000) >> 16]];
+                    int g = curves.curve[0][curves.curve[2][(rgbs[p] & 0x0000ff00) >> 8]];
+                    int b = curves.curve[0][curves.curve[3][(rgbs[p] & 0x000000ff)]];
+                    rgbs[p] = a << 24 | r << 16 | g << 8 | b;
                 }
             }
         } else {
             throw new IllegalArgumentException("unsupported image type: " + src.getType());
         }
+
+        dst.setRGB(0, 0, width, height, rgbs, 0, width);
 
         return dst;
     }
