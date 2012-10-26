@@ -35,6 +35,9 @@ import vavi.swing.JImageComponent;
  */
 public class t146_92 {
 
+    /**
+     * @param args image
+     */
     public static void main(String[] args) throws Exception {
         new t146_92(args);
     }
@@ -65,7 +68,7 @@ System.err.println(w + ", " + h);
         slider.setMinimum(1);
         slider.setValue(100);
         slider.addChangeListener(new ChangeListener() {
-            ImageWriter iw = ImageIO.getImageWritersByFormatName("JPEG").next(); // ÇøÇÂÇ¡Ç∆ìKìñÇ©ÅH
+            ImageWriter iw = ImageIO.getImageWritersByFormatName("JPEG").next(); // „Å°„Çá„Å£„Å®ÈÅ©ÂΩì„ÅãÔºü
             {
                 Properties props = new Properties();
                 try {
@@ -84,7 +87,7 @@ e.printStackTrace(System.err);
                 Iterator<ImageWriter> iws = ImageIO.getImageWritersByFormatName("JPEG");
                 while (iws.hasNext()) {
                     ImageWriter tmpIw = iws.next();
-                    // BUG? JPEG ÇÃ ImageWriter Ç™ Thread Safe Ç∂Ç·Ç»Ç¢ãCÇ™Ç∑ÇÈ
+                    // BUG? JPEG „ÅÆ ImageWriter „Åå Thread Safe „Åò„ÇÉ„Å™„ÅÑÊ∞ó„Åå„Åô„Çã
                     if (clazz.isInstance(tmpIw)) {
                         iw = tmpIw;
 System.err.println("ImageWriter: " + iw.getClass());

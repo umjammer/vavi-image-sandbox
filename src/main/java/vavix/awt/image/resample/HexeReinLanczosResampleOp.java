@@ -16,13 +16,13 @@ import java.util.Arrays;
 
 
 /**
- * ‘S‘RƒLƒŒ‚­‚È‚¢‚â‚ñ‚¯I
+ * å…¨ç„¶ã‚­ãƒ¬ããªã„ã‚„ã‚“ã‘ï¼
  * 
  * @see "http://www7a.biglobe.ne.jp/~fairytale/article/program/graphics.html#lanczos"
  */
 public class HexeReinLanczosResampleOp implements BufferedImageOp {
 
-    /** N’l */
+    /** Nå€¤ */
     private int n;
     /** */
     private double scale;
@@ -56,24 +56,24 @@ public class HexeReinLanczosResampleOp implements BufferedImageOp {
 
                 int color = 0;
 
-                // ƒ‰ƒ“ƒcƒHƒVƒ…‚Ìˆ—”ÍˆÍ
+                // ãƒ©ãƒ³ãƒ„ã‚©ã‚·ãƒ¥ã®å‡¦ç†ç¯„å›²
                 if (xBase >= nx && xBase < src.getWidth() - n && yBase >= nx && yBase < src.getHeight() - n) {
                     double color_element[] = new double[3];
                     Arrays.fill(color_element, 0.0);
 
                     double w_total = 0.0;
 
-                    // Žü•Ó(a*2)^2‰æ‘f‚ðŽæ“¾‚µ‚Äˆ—
+                    // å‘¨è¾º(a*2)^2ç”»ç´ ã‚’å–å¾—ã—ã¦å‡¦ç†
                     for (int i = -nx; i <= n; i++) {
                         for (int j = -nx; j <= n; j++) {
                             int xCurrent = xBase + i;
                             int yCurrent = yBase + j;
 
-                            // ‹——£Œˆ’è
+                            // è·é›¢æ±ºå®š
                             double distX = Math.abs(xCurrent - x0);
                             double distY = Math.abs(yCurrent - y0);
 
-                            // d‚Ý•t‚¯
+                            // é‡ã¿ä»˜ã‘
                             double weight = 0.0;
 
                             if (distX == 0.0) {
@@ -94,7 +94,7 @@ public class HexeReinLanczosResampleOp implements BufferedImageOp {
                                 continue;
                             }
 
-                            // ‰æ‘fŽæ“¾
+                            // ç”»ç´ å–å¾—
                             int color_process = src.getRGB(xCurrent, yCurrent);
 
                             for (int k = 0; k < 3; k++) {

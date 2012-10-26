@@ -10,7 +10,7 @@ import java.awt.image.ColorModel;
 
 
 /**
- * AreaAverage ÇÊÇËÇøÇÂÇ¡Ç∆É}ÉV
+ * AreaAverage „Çà„Çä„Å°„Çá„Å£„Å®„Éû„Ç∑
  * 
  * @see "http://mxsoftware20071114144427.javaeye.com/blog/251089"
  */

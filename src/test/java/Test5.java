@@ -21,11 +21,14 @@ import vavix.util.XmlUtil;
 /**
  * Test5. (JPEG 2000) 
  *
- * @author <a href="mailto:sano-n@klab.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
 public class Test5 {
 
+    /**
+     * @param args image output_base_name
+     */
     public static void main(String[] args) throws Exception {
         File file = new File(args[0]);
         File j2k_1 = new File(args[1] + "_normal.jp2");
@@ -50,7 +53,6 @@ public class Test5 {
         IIOMetadata metaData = reader.getImageMetadata(0);
         String formatName = metaData.getNativeMetadataFormatName();
         XmlUtil.printNode("", (IIOMetadataNode) metaData.getAsTree(formatName));
-
     }
 }
 

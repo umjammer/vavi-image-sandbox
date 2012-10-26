@@ -13,19 +13,19 @@ import vavix.awt.image.jpeg.JpegLibrary.jpeg_error_mgr;
 
 
 /**
- * JpegEncoder. 
- *
+ * JpegEncoder.
+ * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/07/03 nsano initial version <br>
  */
 public class JpegEncoder {
 
-    boolean jpg_save_dib_file(InputStream fp, byte[] dib, int quality, boolean progression ) {
-        int   i, j;
-        int   bmp_row_bytes;
+    boolean jpg_save_dib_file(InputStream fp, byte[] dib, int quality, boolean progression) {
+        int i, j;
+        int bmp_row_bytes;
         int bmp_image;
         int src, dest;
-        byte[]   new_dib = null;
+        byte[] new_dib = null;
 
         JpegLibrary jpegLibrary = null;
 
@@ -33,55 +33,57 @@ public class JpegEncoder {
         jpeg_error_mgr jerr = null;
 
         byte[] image_buffer;
-        int row_pointer;      /* pointer to JSAMPLE row[s] */
-        int row_stride;               /* physical row width in image buffer */
+        int row_pointer; // pointer to JSAMPLE row[s]
+        int row_stride; // physical row width in image buffer
         int image_height = 0;
         int image_width = 0;
 
-        // DIBî•ñ
-//        image_width = *(long  *)(dib+4);
-//        image_height = *(long  *)(dib+8) ;
+        // DIBæƒ…å ±
+//        image_width = *(long *)(dib + 4);
+//        image_height = *(long *)(dib + 8) ;
 
-        // 24 bit ƒJƒ‰[‚É•ÏŠ·
-//        new_dib = bmp_convert_dib_24color( dib ) ;
-        if( new_dib == null ) return false;
+        // 24 bit ã‚«ãƒ©ãƒ¼ã«å¤‰æ›
+//        new_dib = bmp_convert_dib_24color(dib);
+        if (new_dib == null)
+            return false;
         dib = new_dib;
 
-        /* JPEGˆ³kƒIƒuƒWƒFƒNƒg‚ğŠ„‚è“–‚Ä‚ÄA‰Šú‰» */
+        // JPEGåœ§ç¸®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰²ã‚Šå½“ã¦ã¦ã€åˆæœŸåŒ–
         cinfo.err = jpegLibrary.jpeg_std_error(jerr.getPointer());
         jpegLibrary.jpeg_create_compress(cinfo.getPointer());
 
-        jpegLibrary.jpeg_stdio_dest(cinfo.getPointer(), /*fp*/null);
+        jpegLibrary.jpeg_stdio_dest(cinfo.getPointer(), /* fp */null);
 
-        /* ˆ³k—p‚Ìƒpƒ‰ƒ[ƒ^‚ğİ’è */
-        cinfo.image_width  = image_width;     /* ƒCƒ[ƒW‚ÌƒsƒNƒZƒ‹•‚Æ‚‚³ */
+        // åœ§ç¸®ç”¨ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®š
+        cinfo.image_width = image_width; // ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ”ã‚¯ã‚»ãƒ«å¹…ã¨é«˜ã•
         cinfo.image_height = image_height;
-        cinfo.input_components = 3;           /* ƒsƒNƒZƒ‹“–‚½‚è‚ÌF */
-        cinfo.in_color_space = JpegLibrary.jpeg_compress_struct.JCS_RGB;       /* ƒJƒ‰[ƒXƒy[ƒX */
+        cinfo.input_components = 3; // ãƒ”ã‚¯ã‚»ãƒ«å½“ãŸã‚Šã®è‰²
+        cinfo.in_color_space = JpegLibrary.jpeg_compress_struct.JCS_RGB; // ã‚«ãƒ©ãƒ¼ã‚¹ãƒšãƒ¼ã‚¹
 
-        /* ƒfƒtƒHƒ‹ƒgˆ³kƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚é */
+        // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆåœ§ç¸®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹
         jpegLibrary.jpeg_set_defaults(cinfo.getPointer());
 
-        /* ”ñƒfƒtƒHƒ‹ƒgƒpƒ‰ƒ[ƒ^‚Ìİ’è */
+        // éãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š
         jpegLibrary.jpeg_set_quality(cinfo.getPointer(), quality, -1);
 
-        /* Progression ƒIƒvƒVƒ‡ƒ“‚ğ’Ç‰Á  */
-        if( progression )  jpegLibrary.jpeg_simple_progression (cinfo.getPointer());
+        // Progression ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¿½åŠ 
+        if (progression)
+            jpegLibrary.jpeg_simple_progression(cinfo.getPointer());
 
-        /* ˆ³kŠJn */
+        // åœ§ç¸®é–‹å§‹
         jpegLibrary.jpeg_start_compress(cinfo.getPointer(), -1);
 
-        row_stride = image_width * 3; /* JSAMPLEs per row in image_buffer */
+        row_stride = image_width * 3; // JSAMPLEs per row in image_buffer
         image_buffer = new byte[row_stride];
-        bmp_row_bytes = (image_width * 3 + 3) / 4 * 4;  // DWORD ‹«ŠE
-        bmp_image = /*dib*/ 40; // = sizeof(BITMAPINFOHEADER)
+        bmp_row_bytes = (image_width * 3 + 3) / 4 * 4; // DWORD å¢ƒç•Œ
+        bmp_image = /* dib */40; // = sizeof(BITMAPINFOHEADER)
 
         i = image_height - 1;
         while (cinfo.next_scanline < cinfo.image_height) {
-            // BMP ‚ÍŠi”[Œ`®‚ªã‰º‹tB
-            dest = 0/*image_buffer*/;
-            src = /*bmp_image*/ i * bmp_row_bytes ;
-            for( j = 0; j < image_width; j++ ) {
+            // BMP ã¯æ ¼ç´å½¢å¼ãŒä¸Šä¸‹é€†ã€‚
+            dest = 0/* image_buffer */;
+            src = /* bmp_image */i * bmp_row_bytes;
+            for (j = 0; j < image_width; j++) {
                 image_buffer[dest++] = dib[bmp_image + src + 2];
                 image_buffer[dest++] = dib[bmp_image + src + 1];
                 image_buffer[dest++] = dib[bmp_image + src + 0];
@@ -89,19 +91,19 @@ public class JpegEncoder {
             }
             i--;
 
-            row_pointer = 0 /*image_buffer*/;
-            jpegLibrary.jpeg_write_scanlines(cinfo.getPointer(), null/*row_pointer*/, 1);
+            row_pointer = 0 /* image_buffer */;
+            jpegLibrary.jpeg_write_scanlines(cinfo.getPointer(), null/* row_pointer */, 1);
         }
 
-        /* ˆ³kI—¹ */
+        // åœ§ç¸®çµ‚äº†
         jpegLibrary.jpeg_finish_compress(cinfo.getPointer());
 
-        /* JPEG ˆ³kƒIƒuƒWƒFƒNƒg‚ÌŠJ•ú */
+        // JPEG åœ§ç¸®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é–‹æ”¾
         jpegLibrary.jpeg_destroy_compress(cinfo.getPointer());
 
-//        free( image_buffer );
+//        free(image_buffer);
         image_buffer = null;
-//        free( new_dib );
+//        free(new_dib);
         return true;
     }
 }

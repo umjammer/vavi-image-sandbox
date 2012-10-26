@@ -16,11 +16,14 @@ import javax.imageio.stream.ImageOutputStream;
 /**
  * Test8. (JPEG SIMD) 
  *
- * @author <a href="mailto:sano-n@klab.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
 public class Test8 {
 
+    /**
+     * @param args input
+     */
     public static void main(String[] args) throws Exception {
         File file = new File(args[0]);
         BufferedImage image = ImageIO.read(file);
@@ -37,7 +40,7 @@ public class Test8 {
         Iterator<ImageWriter> iws = ImageIO.getImageWritersByFormatName("JPEG");
         while (iws.hasNext()) {
             ImageWriter tmpIw = iws.next();
-            // BUG? JPEG ÇÃ ImageWriter Ç™ Thread Safe Ç∂Ç·Ç»Ç¢ãCÇ™Ç∑ÇÈ
+            // BUG? JPEG „ÅÆ ImageWriter „Åå Thread Safe „Åò„ÇÉ„Å™„ÅÑÊ∞ó„Åå„Åô„Çã
             if (clazz.isInstance(tmpIw)) {
                 iw = tmpIw;
 System.err.println("ImageWriter: " + iw.getClass());

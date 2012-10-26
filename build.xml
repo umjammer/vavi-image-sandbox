@@ -59,7 +59,7 @@
   <!-- javac -->
   <target name="compile" depends="prepare" description="コンパイル">
     <javac debug="on" deprecation="on" destdir="target/classes"
-    	   encoding="MS932">
+    	   encoding="${encoding}">
       <classpath refid="project.class.path" />
       <include name="**/*.java" />
       <src path="src/main/java" />

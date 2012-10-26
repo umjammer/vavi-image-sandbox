@@ -17,7 +17,7 @@ import vavix.awt.image.pixel.SimpleDrawOp;
 /**
  * Test1. Ranczos3
  *
- * @author <a href="mailto:sano-n@klab.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
 public class Test4 {

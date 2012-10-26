@@ -19,8 +19,10 @@ import com.sun.jna.Structure;
  */
 public interface JpegLibrary extends Library {
 
+    /** */
     public static final JpegLibrary INSTANCE = null;
 
+    /** */
     public static class jpeg_compress_struct extends Structure {
 
         static final String JCS_RGB = null;
@@ -34,9 +36,9 @@ public interface JpegLibrary extends Library {
         public Object err;
 
         public int next_scanline;
-        
     }
     
+    /** */
     public static class jpeg_error_mgr extends Structure {
         
     }

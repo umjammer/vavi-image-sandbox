@@ -40,7 +40,7 @@ import vavi.swing.JImageComponent;
 /**
  * Jpeg quality. (jpg, j2k)
  * 
- * j2k reader ‚Í ImageConverter#convert ‚ÌƒCƒ[ƒW‚ğ‚¤‚Ü‚­ˆµ‚¦‚È‚¢
+ * j2k reader ã¯ ImageConverter#convert ã®ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ã†ã¾ãæ‰±ãˆãªã„
  * 
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 07xxxx nsano initial version <br>
@@ -114,7 +114,7 @@ e.printStackTrace(System.err);
                 while (iws.hasNext()) {
                     ImageWriter tmpIw = iws.next();
 //System.err.println("ImageWriter: " + tmpIw.getClass());
-                    // BUG? JPEG ‚Ì ImageWriter ‚ª Thread Safe ‚¶‚á‚È‚¢‹C‚ª‚·‚é
+                    // BUG? JPEG ã® ImageWriter ãŒ Thread Safe ã˜ã‚ƒãªã„æ°—ãŒã™ã‚‹
                     if (classL.isInstance(tmpIw)) {
                         iwL = tmpIw;
 System.err.println("ImageWriter L: " + iwL.getClass());

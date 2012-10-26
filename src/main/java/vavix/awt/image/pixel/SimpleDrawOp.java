@@ -33,10 +33,10 @@ public class SimpleDrawOp implements BufferedImageOp {
     private int dh;
 
     /**
-     * @param dx dst ‚É‘Î‚·‚é‘‚«o‚µ x
-     * @param dy dst ‚É‘Î‚·‚é‘‚«o‚µ y
-     * @param dw dst ‚Ì•
-     * @param dh dst ‚Ì‚‚³
+     * @param dx dst ã«å¯¾ã™ã‚‹æ›¸ãå‡ºã— x
+     * @param dy dst ã«å¯¾ã™ã‚‹æ›¸ãå‡ºã— y
+     * @param dw dst ã®å¹…
+     * @param dh dst ã®é«˜ã•
      */
     public SimpleDrawOp(int dx, int dy, int dw, int dh) {
         this.dx = dx;

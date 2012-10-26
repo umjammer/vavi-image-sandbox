@@ -16,11 +16,14 @@ import vavi.awt.image.resample.FfmpegResampleOp;
 /**
  * Test6. (JPEG 2000 scale) 
  *
- * @author <a href="mailto:sano-n@klab.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
 public class Test6 {
 
+    /**
+     * @param args input output
+     */
     public static void main(String[] args) throws Exception {
         File file = new File(args[0]);
         File j2k = new File(args[1]);

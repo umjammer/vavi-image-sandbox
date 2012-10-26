@@ -1,0 +1,25 @@
+##
+# vavi-image-sandbox
+#
+
+#
+#
+#
+encoding=UTF-8
+m2.repo=${user.home}/.m2/repository
+jdk.home=${java.home}
+libjpeg.home=/usr/local/src/jpeg-6bx
+libjpeg.include=${libjpeg.home}
+
+java6_32.home=/usr/local/openjdk6-b16-24_apr_2009-r1
+
+#
+#
+#
+run.value=\u4f50\u91ce \u76f4\u79c0
+#run.value=http://www.klab.org/
+run.size=16
+
+t8.in=../vavi-image/tmp/erika.jpg
+
+##

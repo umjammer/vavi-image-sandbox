@@ -21,7 +21,7 @@ import java.awt.image.FilteredImageSource;
 
 
 /**
- * AwtResampleOp.
+ * AwtCropOp.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>

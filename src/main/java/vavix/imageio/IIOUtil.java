@@ -35,8 +35,43 @@ public class IIOUtil {
      * @param p2 secondary provider class name
      */
     public static <T> void setOrder(Class<T> pt, String p1, String p2) {
-        setOrderInternal(pt, p1, p2); // TODO 一回で効かないケースがある
-        setOrderInternal(pt, p1, p2);
+        list(pt, p1, p2);
+        int retry = 0;
+        while (!verify(pt, p1, p2) && retry < 10) {
+            setOrderInternal(pt, p1, p2);
+            retry++;
+        }
+        list(pt, p1, p2);
+    }
+
+    static <T> void list(Class<T> pt, String p1, String p2) {
+        IIORegistry iioRegistry = IIORegistry.getDefaultInstance();
+        Iterator<T> i = iioRegistry.getServiceProviders(pt, true);
+        System.err.println("---------");
+        while (i.hasNext()) {
+            T p = i.next();
+            if (p1.equals(p.getClass().getName())) {
+                System.err.println(p.getClass().getName() + " (I)");
+            } else if (p2.equals(p.getClass().getName())) {
+                System.err.println(p.getClass().getName() + " (II)");
+            }
+        }
+    }
+
+    private static <T> boolean verify(Class<T> pt, String p1, String p2) {
+        IIORegistry iioRegistry = IIORegistry.getDefaultInstance();
+        Iterator<T> i = iioRegistry.getServiceProviders(pt, true);
+        int pos1 = 0, pos2 = 0, pos = 0;
+        while (i.hasNext()) {
+            T p = i.next();
+            if (p1.equals(p.getClass().getName())) {
+                pos1 = pos;
+            } else if (p2.equals(p.getClass().getName())) {
+                pos2 = pos;
+            }
+            pos++;
+        }
+        return pos1 < pos2;
     }
 
     private static <T> void setOrderInternal(Class<T> pt, String p1, String p2) {
@@ -60,6 +95,31 @@ public class IIOUtil {
             }
         }
         iioRegistry.setOrdering(pt, sp1, sp2);
+    }
+
+    /**
+     * @param <T> service provider type
+     * @param pt service provider class
+     * @param p0 provider class name
+     */
+    public static <T> void deregister(Class<T> pt, String p0) {
+        IIORegistry iioRegistry = IIORegistry.getDefaultInstance();
+        T sp = null;
+        Iterator<T> i = iioRegistry.getServiceProviders(pt, true);
+        while (i.hasNext()) {
+            T p = i.next();
+            if (p0.equals(p.getClass().getName())) {
+                sp = p;
+            }
+        }
+        if (sp == null) {
+            if (!ignoreErrors) {
+                throw new IllegalArgumentException(p0 + " not found");
+            } else {
+                System.err.println("IIOUtil::deregister: " + p0 + " not found");
+            }
+        }
+        iioRegistry.deregisterServiceProvider(sp, pt);
     }
 }
 

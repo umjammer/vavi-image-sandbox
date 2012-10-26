@@ -44,10 +44,10 @@ public class Qrcode {
     private static final BidiMap levels = new TreeBidiMap();
     /** */
     static {
-        levels.put(new Integer(0), new Character(ERROR_CORRECTION_LEVEL_M));
-        levels.put(new Integer(1), new Character(ERROR_CORRECTION_LEVEL_L));
-        levels.put(new Integer(3), new Character(ERROR_CORRECTION_LEVEL_Q));
-        levels.put(new Integer(2), new Character(ERROR_CORRECTION_LEVEL_H));
+        levels.put(0, ERROR_CORRECTION_LEVEL_M);
+        levels.put(1, ERROR_CORRECTION_LEVEL_L);
+        levels.put(3, ERROR_CORRECTION_LEVEL_Q);
+        levels.put(2, ERROR_CORRECTION_LEVEL_H);
     }
     /** */
     public static final char ENCODING_NUMERIC = 'N';
@@ -70,10 +70,10 @@ public class Qrcode {
     private String structureAppendOriginalData;
 
     /**
-     * ƒfƒtƒHƒ‹ƒg’l‚Å QR ƒR[ƒhƒWƒFƒlƒŒ[ƒ^‚ğì¬‚µ‚Ü‚·B
-     * <li>ƒGƒ‰[’ù³ƒŒƒxƒ‹ ... 'M'
-     * <li>ƒGƒ“ƒR[ƒfƒBƒ“ƒO ... ƒoƒCƒgƒ‚[ƒh
-     * <li>ƒo[ƒWƒ‡ƒ“ ... ©“®İ’è
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã§ QR ã‚³ãƒ¼ãƒ‰ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã‚’ä½œæˆã—ã¾ã™ã€‚
+     * <li>ã‚¨ãƒ©ãƒ¼è¨‚æ­£ãƒ¬ãƒ™ãƒ« ... 'M'
+     * <li>ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚° ... ãƒã‚¤ãƒˆãƒ¢ãƒ¼ãƒ‰
+     * <li>ãƒãƒ¼ã‚¸ãƒ§ãƒ³ ... è‡ªå‹•è¨­å®š
      */
     public Qrcode() {
         errorCorrectionLevel = ERROR_CORRECTION_LEVEL_M;
@@ -87,32 +87,32 @@ public class Qrcode {
     }
 
     /**
-     * ƒGƒ‰[’ù³ƒŒƒxƒ‹‚ğİ’è‚µ‚Ü‚·B
-     * @param errorCorrectionLevel ƒGƒ‰[’ù³ƒŒƒxƒ‹('L', 'M', 'Q', 'H')
+     * ã‚¨ãƒ©ãƒ¼è¨‚æ­£ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param errorCorrectionLevel ã‚¨ãƒ©ãƒ¼è¨‚æ­£ãƒ¬ãƒ™ãƒ«('L', 'M', 'Q', 'H')
      */
     public void setErrorCorrectionLevel(char errorCorrectionLevel) {
         this.errorCorrectionLevel = errorCorrectionLevel;
     }
 
     /**
-     * ƒGƒ‰[’ù³ƒŒƒxƒ‹‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒGƒ‰[’ù³ƒŒƒxƒ‹('L', 'M', 'Q', 'H')
+     * ã‚¨ãƒ©ãƒ¼è¨‚æ­£ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¨ãƒ©ãƒ¼è¨‚æ­£ãƒ¬ãƒ™ãƒ«('L', 'M', 'Q', 'H')
      */
     public char getErrorCorrectionLevel() {
         return errorCorrectionLevel;
     }
 
     /**
-     * ƒo[ƒWƒ‡ƒ“‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒo[ƒWƒ‡ƒ“ 0 ‚©‚ç 40 ‚Ì®”A0 ‚Ìê‡‚Í©“®İ’è
+     * ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ãƒãƒ¼ã‚¸ãƒ§ãƒ³ 0 ã‹ã‚‰ 40 ã®æ•´æ•°ã€0 ã®å ´åˆã¯è‡ªå‹•è¨­å®š
      */
     public int getVersion() {
         return version;
     }
 
     /**
-     * ƒo[ƒWƒ‡ƒ“‚ğİ’è‚µ‚Ü‚·B
-     * @param version  0 ‚©‚ç 40 ‚Ì®”A 0 ‚ğİ’è‚·‚é‚Æ©“®İ’è
+     * ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * @param version  0 ã‹ã‚‰ 40 ã®æ•´æ•°ã€ 0 ã‚’è¨­å®šã™ã‚‹ã¨è‡ªå‹•è¨­å®š
      */
     public void setVersion(int version) {
         if (version >= 0 && version <= 40) {
@@ -121,25 +121,25 @@ public class Qrcode {
     }
 
     /**
-     * ƒGƒ“ƒR[ƒhƒ‚[ƒh‚ğİ’è‚µ‚Ü‚·B
-     * 'N': ”šƒ‚[ƒh  'A': ‰p”šƒ‚[ƒh@‚»‚Ì‘¼: byte ƒ‚[ƒh
-     * @param encoding ƒGƒ“ƒR[ƒhƒ‚[ƒh('N', 'A' or other)
+     * ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®šã—ã¾ã™ã€‚
+     * 'N': æ•°å­—ãƒ¢ãƒ¼ãƒ‰  'A': è‹±æ•°å­—ãƒ¢ãƒ¼ãƒ‰ã€€ãã®ä»–: byte ãƒ¢ãƒ¼ãƒ‰
+     * @param encoding ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ãƒ¢ãƒ¼ãƒ‰('N', 'A' or other)
      */
     public void setEncoding(char encoding) {
         this.encoding = encoding;
     }
 
     /**
-     * ƒGƒ“ƒR[ƒhƒ‚[ƒh‚ğæ“¾‚µ‚Ü‚·B
-     * @return ƒGƒ“ƒR[ƒhƒ‚[ƒh ('N', 'A' or other)
+     * ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ãƒ¢ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ãƒ¢ãƒ¼ãƒ‰ ('N', 'A' or other)
      */
     public char getEncoding() {
         return encoding;
     }
 
     /**
-     * ˜AŒ‹ŠÖ˜A‚Ìƒƒ\ƒbƒh‚Å‚·B
-     * (Œ±“±“ü)
+     * é€£çµé–¢é€£ã®ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
+     * (è©¦é¨“å°å…¥)
      */
     public void setStructureAppend(int m, int n, int p) {
         if (n > 1 && n <= 16 && m > 0 && m <= 16 && p >= 0 && p <= 255) {
@@ -150,8 +150,8 @@ public class Qrcode {
     }
 
     /**
-     * ˜AŒ‹‚É—p‚¢‚éƒpƒŠƒeƒB‚ğZo‚µ‚Ü‚·B
-     * (Œ±“±“ü)
+     * é€£çµã«ç”¨ã„ã‚‹ãƒ‘ãƒªãƒ†ã‚£ã‚’ç®—å‡ºã—ã¾ã™ã€‚
+     * (è©¦é¨“å°å…¥)
      */
     public int calculateStructureAppendParity(byte[] originalData) {
         int originalDataLength;
@@ -172,28 +172,28 @@ public class Qrcode {
         return structureAppendParity;
     }
 
-    /** ‰p”šƒ‚[ƒh */
+    /** è‹±æ•°å­—ãƒ¢ãƒ¼ãƒ‰ */
     private static final int[] codeWordNumPlusA = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2,
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4,
         4, 4, 4, 4, 4, 4, 4, 4, 4
     };
 
-    /** ”šƒ‚[ƒh */
+    /** æ•°å­—ãƒ¢ãƒ¼ãƒ‰ */
     private static final int[] codeWordNumPlusN = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2,
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4,
         4, 4, 4, 4, 4, 4, 4, 4, 4
     };
 
-    /** ƒoƒCƒgƒ‚[ƒh */
+    /** ãƒã‚¤ãƒˆãƒ¢ãƒ¼ãƒ‰ */
     private static final int[] codeWordNumPlusDefault = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8,
         8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
         8, 8, 8, 8, 8, 8, 8, 8, 8
     };
     
-    /** ‹ó’l */
+    /** ç©ºå€¤ */
     private static final boolean[][] nullResult = {
         { false }
     };
@@ -300,10 +300,10 @@ public class Qrcode {
     };
 
     /**
-     * —^‚¦‚ç‚ê‚½ƒf[ƒ^—ñ‚©‚çQR ƒR[ƒhƒGƒ“ƒR[ƒhƒf[ƒ^‚ğ
-     * boolean “ñŸŒ³”z—ñ‚Å•Ô‚µ‚Ü‚·B
-     * @param qrcodeData ƒGƒ“ƒR[ƒh‚·‚éƒf[ƒ^
-     * @return QR ƒR[ƒhƒGƒ“ƒR[ƒhƒf[ƒ^
+     * ä¸ãˆã‚‰ã‚ŒãŸãƒ‡ãƒ¼ã‚¿åˆ—ã‹ã‚‰QR ã‚³ãƒ¼ãƒ‰ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ãƒ‡ãƒ¼ã‚¿ã‚’
+     * boolean äºŒæ¬¡å…ƒé…åˆ—ã§è¿”ã—ã¾ã™ã€‚
+     * @param qrcodeData ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+     * @return QR ã‚³ãƒ¼ãƒ‰ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ãƒ‡ãƒ¼ã‚¿
      */
     public boolean[][] toQrcode(byte[] qrcodeData) {
         int dataLength;

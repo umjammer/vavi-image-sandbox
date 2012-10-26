@@ -44,7 +44,7 @@ public class t146_5 {
     }
 
     /**
-     * 
+     * @param args message dpi bw(boolean) symbol("code128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet")
      */
     public t146_5(String[] args) throws Exception {
 
