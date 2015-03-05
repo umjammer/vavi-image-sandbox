@@ -35,9 +35,12 @@ import vavix.util.grep.RegexFileDigger;
  */
 public class BinPackerTest {
 
+    static {
+        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+    }
+
     @Test
     public void test001() throws IOException {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
 
         final List<BufferedImage> images = new ArrayList<BufferedImage>();
         final List<Dimension> rects = new ArrayList<Dimension>();

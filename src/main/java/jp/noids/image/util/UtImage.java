@@ -31,24 +31,40 @@ public class UtImage {
         data = null;
     }
 
+    /**
+     * @return alpha value
+     * @throws  
+     */
     public int getA(int x, int y) throws Exception {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width] >> 24 & 0xff;
     }
 
+    /**
+     * @return red value
+     * @throws  
+     */
     public int getR(int x, int y) throws Exception {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width] >> 16 & 0xff;
     }
 
+    /**
+     * @return green value
+     * @throws  
+     */
     public int getG(int x, int y) throws Exception {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width] >> 8 & 0xff;
     }
 
+    /**
+     * @return blue value
+     * @throws  
+     */
     public int getB(int x, int y) throws Exception {
         if (checkBounds)
             checkBounds(x, y);
@@ -98,22 +114,22 @@ public class UtImage {
     }
 
     public static int toARGB(double a, double r, double g, double b) {
-        int r0 = (int) (r + 0.5D);
+        int r0 = (int) (r + 0.5d);
         if (r0 < 0)
             r0 = 0;
         if (r0 > 255)
             r0 = 255;
-        int g0 = (int) (g + 0.5D);
+        int g0 = (int) (g + 0.5d);
         if (g0 < 0)
             g0 = 0;
         if (g0 > 255)
             g0 = 255;
-        int b0 = (int) (b + 0.5D);
+        int b0 = (int) (b + 0.5d);
         if (b0 < 0)
             b0 = 0;
         if (b0 > 255)
             b0 = 255;
-        int a0 = (int) (a + 0.5D);
+        int a0 = (int) (a + 0.5d);
         if (a0 < 0)
             a0 = 0;
         if (a0 > 255)

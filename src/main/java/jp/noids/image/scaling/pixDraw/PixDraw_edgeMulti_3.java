@@ -33,27 +33,27 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
         PixDraw_edge3P pix1 = (PixDraw_edge3P) px1;
         PixDraw_edge3P pix2 = (PixDraw_edge3P) px2;
         Point.Double sp = pix2.startPoint;
-        boolean flag = pix1.a((int) sp.x, (int) sp.y, sp.x, sp.y);
+        boolean flag = pix1.get_flag_a((int) sp.x, (int) sp.y, sp.x, sp.y);
         this.flag = flag;
     }
 
     public int getRgb(int x, int y, double x1, double y1, double scaleX, double scaleY) {
-        byte byte0 = 3;
-        int sq = byte0 * byte0;
+        int l = 3;
+        int sq = l * l;
         int r = 0;
         int g = 0;
         int b = 0;
-        if (byte0 == 1 || scaleX == 0.0d || scaleY == 0.0d) {
+        if (l == 1 || scaleX == 0.0d || scaleY == 0.0d) {
             double x2 = x1 + scaleX / 2d;
             double y2 = y1 + scaleY / 2d;
-            int rgb = b(x, y, x2, y2, 0.0d, 0.0d);
+            int rgb = getRgb_b(x, y, x2, y2, 0.0d, 0.0d);
             return rgb;
         }
-        for (int dy = 0; dy < byte0; dy++) {
-            for (int dx = 0; dx < byte0; dx++) {
-                double x2 = x1 + (scaleX * dx) / (byte0 - 1);
-                double x3 = y1 + (scaleY * dy) / (byte0 - 1);
-                int rgb = b(x, y, x2, x3, 0.0D, 0.0D);
+        for (int dy = 0; dy < l; dy++) {
+            for (int dx = 0; dx < l; dx++) {
+                double x2 = x1 + (scaleX * dx) / (l - 1);
+                double x3 = y1 + (scaleY * dy) / (l - 1);
+                int rgb = getRgb_b(x, y, x2, x3, 0.0d, 0.0d);
                 r += rgb >>> 16 & 0xff;
                 g += rgb >>> 8 & 0xff;
                 b += rgb & 0xff;
@@ -69,10 +69,10 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
             return 0xff000000 | r << 16 | g << 8 | b;
     }
 
-    private int b(int x, int y, double x1, double y1, double scaleX, double scaleY) {
+    private int getRgb_b(int x, int y, double x1, double y1, double scaleX, double scaleY) {
         PixDraw_edge3P pixdraw_edge3p = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixdraw_edge3p1 = (PixDraw_edge3P) pixel2;
-        boolean flag = pixdraw_edge3p.a(x, y, x1 + scaleX / 2D, y1 + scaleY / 2D);
+        boolean flag = pixdraw_edge3p.get_flag_a(x, y, x1 + scaleX / 2d, y1 + scaleY / 2d);
         int argb;
         if (flag != this.flag)
             argb = pixdraw_edge3p.getRgb(x, y, x1, y1, scaleX, scaleY);
@@ -106,9 +106,9 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
         }
         PixDraw_edge3P pix1 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pix2 = (PixDraw_edge3P) pixel2;
-        boolean flag = pix1.a(x, y, x1, y1);
+        boolean flag = pix1.get_flag_a(x, y, x1, y1);
         @SuppressWarnings("unused")
-        boolean flag1 = pix2.a(x, y, x1, y1);
+        boolean flag1 = pix2.get_flag_a(x, y, x1, y1);
         if (flag != this.flag)
             pix1.setCornerColor(x, y, direction, argb);
         else

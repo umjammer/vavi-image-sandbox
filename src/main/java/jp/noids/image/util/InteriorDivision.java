@@ -5,17 +5,17 @@ import jp.noids.graphics.color.UtColor;
 
 
 /** a */
-public class Class_a {
+public class InteriorDivision {
 
     double value1;
     double value2;
     boolean notAvailable;
 
-    public Class_a(int rgb1, int rgb2, int rgb3) {
-        this(UtColor.toFlat(rgb1), UtColor.toFlat(rgb2), UtColor.toFlat(rgb3));
+    public InteriorDivision(int rgb1, int rgb2, int rgb3) {
+        this(UtColor.flatten(rgb1), UtColor.flatten(rgb2), UtColor.flatten(rgb3));
     }
 
-    public Class_a(double[] rgb1, double[] rgb2, double[] rgb3) {
+    public InteriorDivision(double[] rgb1, double[] rgb2, double[] rgb3) {
         notAvailable = false;
         if (rgb2[0] == rgb3[0] && rgb2[1] == rgb3[1] && rgb2[2] == rgb3[2]) {
             notAvailable = true;

@@ -110,10 +110,10 @@ public class PixDraw_edge3P implements PixDraw {
                 endPoint.x -= f;
             else
                 endPoint.y -= f;
-        flag1 = a(p.x, p.y, p.x, p.y);
-        flag2 = a(p.x, p.y, p.x + 1, p.y);
-        flag3 = a(p.x, p.y, p.x, p.y + 1);
-        flag4 = a(p.x, p.y, p.x + 1, p.y + 1);
+        flag1 = get_flag_a(p.x, p.y, p.x, p.y);
+        flag2 = get_flag_a(p.x, p.y, p.x + 1, p.y);
+        flag3 = get_flag_a(p.x, p.y, p.x, p.y + 1);
+        flag4 = get_flag_a(p.x, p.y, p.x + 1, p.y + 1);
         rgb1 = flag1 ? rgb1_ : rgb2_;
         rgb2 = flag2 ? rgb1_ : rgb2_;
         rgb3 = flag3 ? rgb1_ : rgb2_;
@@ -137,7 +137,7 @@ public class PixDraw_edge3P implements PixDraw {
         return a(x, y, x1, y1, scaleX, scaleY, point, startPoint, endPoint, 3);
     }
 
-    public boolean a(int x1, int y1, double x2, double y2) {
+    public boolean get_flag_a(int x1, int y1, double x2, double y2) {
         return ScalingUtil.is_d(x2, y2, point, startPoint, endPoint);
     }
 
@@ -152,10 +152,10 @@ public class PixDraw_edge3P implements PixDraw {
         int g = 0;
         int b = 0;
         if (l == 1 || scaleX == 0.0d || scaleY == 0.0d) {
-            double d5 = x1 + scaleX / 2D;
-            double d6 = y1 + scaleY / 2D;
+            double d5 = x1 + scaleX / 2d;
+            double d6 = y1 + scaleY / 2d;
             boolean flag = ScalingUtil.is_d(d5, d6, p1, p2, p3);
-            int argb = a(x, y, d5, d6, flag);
+            int argb = getRgb_a(x, y, d5, d6, flag);
             return argb;
         }
         for (int xi = 0; xi < l; xi++) {
@@ -163,7 +163,7 @@ public class PixDraw_edge3P implements PixDraw {
                 double x2 = x1 + (scaleX * yi) / (l - 1);
                 double y2 = y1 + (scaleY * xi) / (l - 1);
                 boolean flag1 = ScalingUtil.is_d(x2, y2, p1, p2, p3);
-                int rgb = a(x, y, x2, y2, flag1);
+                int rgb = getRgb_a(x, y, x2, y2, flag1);
                 r += rgb >>> 16 & 0xff;
                 g += rgb >>> 8 & 0xff;
                 b += rgb & 0xff;
@@ -180,8 +180,8 @@ public class PixDraw_edge3P implements PixDraw {
     }
 
     /** @return argb */
-    protected int a(int x, int y, double x1, double y1, boolean flag) {
-        int c = flag ? (int) count1 : 4 - count1;
+    protected int getRgb_a(int x, int y, double x1, double y1, boolean contains) {
+        int c = contains ? (int) count1 : 4 - count1;
         if (c == 0)
             return rgb;
         if (c == 4) {
@@ -199,12 +199,12 @@ public class PixDraw_edge3P implements PixDraw {
             int r4 = rgb4 >>> 16 & 0xff;
             int g4 = rgb4 >>> 8 & 0xff;
             int b4 = rgb4 & 0xff;
-            int r = (int) ((1.0D - d3) * (1.0D - d9) * (r1 & 0xff) + d3 * (1.0D - d9) * (r2 & 0xff)
-                            + (1.0D - d3) * d9 * (r3 & 0xff) + d3 * d9 * (r4 & 0xff));
-            int g = (int) ((1.0D - d3) * (1.0D - d9) * (g1 & 0xff) + d3 * (1.0D - d9) * (g2 & 0xff)
-                            + (1.0D - d3) * d9 * (g3 & 0xff) + d3 * d9 * (g4 & 0xff));
-            int b = (int) ((1.0D - d3) * (1.0D - d9) * (b1 & 0xff) + d3 * (1.0D - d9) * (b2 & 0xff)
-                            + (1.0D - d3) * d9 * (b3 & 0xff) + d3 * d9 * (b4 & 0xff));
+            int r = (int) ((1.0d - d3) * (1.0d - d9) * (r1 & 0xff) + d3 * (1.0d - d9) * (r2 & 0xff)
+                            + (1.0d - d3) * d9 * (r3 & 0xff) + d3 * d9 * (r4 & 0xff));
+            int g = (int) ((1.0d - d3) * (1.0d - d9) * (g1 & 0xff) + d3 * (1.0d - d9) * (g2 & 0xff)
+                            + (1.0d - d3) * d9 * (g3 & 0xff) + d3 * d9 * (g4 & 0xff));
+            int b = (int) ((1.0d - d3) * (1.0d - d9) * (b1 & 0xff) + d3 * (1.0d - d9) * (b2 & 0xff)
+                            + (1.0d - d3) * d9 * (b3 & 0xff) + d3 * d9 * (b4 & 0xff));
             if (r < 0)
                 r = 0;
             else if (r > 255)
@@ -220,31 +220,31 @@ public class PixDraw_edge3P implements PixDraw {
             return 0xff000000 | r << 16 | g << 8 | b;
         }
         if (c == 1) {
-            if (flag1 == flag)
+            if (flag1 == contains)
                 return rgb1;
-            if (flag2 == flag)
+            if (flag2 == contains)
                 return rgb2;
-            if (flag3 == flag)
+            if (flag3 == contains)
                 return rgb3;
-            if (flag4 == flag)
+            if (flag4 == contains)
                 return rgb4;
             else
                 throw new RuntimeException("おかしな状態3");
         }
         if (c == 2) {
-            if (flag1 == flag && flag2 == flag) {
+            if (flag1 == contains && flag2 == contains) {
                 double rate1 = (x + 1) - x1;
                 return ScalingUtil.blend(rgb1, rgb2, rate1);
             }
-            if (flag3 == flag && flag4 == flag) {
+            if (flag3 == contains && flag4 == contains) {
                 double rate2 = (x + 1) - x1;
                 return ScalingUtil.blend(rgb3, rgb4, rate2);
             }
-            if (flag1 == flag && flag3 == flag) {
+            if (flag1 == contains && flag3 == contains) {
                 double rate3 = (y + 1) - y1;
                 return ScalingUtil.blend(rgb1, rgb3, rate3);
             }
-            if (flag2 == flag && flag4 == flag) {
+            if (flag2 == contains && flag4 == contains) {
                 double rate4 = (y + 1) - y1;
                 return ScalingUtil.blend(rgb2, rgb4, rate4);
             } else {
@@ -262,7 +262,7 @@ public class PixDraw_edge3P implements PixDraw {
                 rate5 = 0.0d;
             else if (rate5 > 1.0d)
                 rate5 = 1.0D;
-            if (flag1 != flag) {
+            if (flag1 != contains) {
                 if (rate5 > -v1 + 1.0d)
                     if (v1 == 1.0D) {
                         return ScalingUtil.blend(rgb4, rgb2, rate5);
@@ -282,62 +282,62 @@ public class PixDraw_edge3P implements PixDraw {
                     return argb;
                 }
             }
-            if (flag2 != flag) {
+            if (flag2 != contains) {
                 if (rate5 > v1)
                     if (v1 == 0.0d) {
                         return ScalingUtil.blend(rgb1, rgb3, 1.0d - rate5);
                     } else {
-                        double d13 = (rate5 - 1.0D) / (v1 - 0.0D);
-                        double rate9 = 1.0D / (1.0D - d13);
+                        double d13 = (rate5 - 1.0d) / (v1 - 0.0d);
+                        double rate9 = 1.0d / (1.0d - d13);
                         double rate17 = (rate9 - v1) / rate9;
-                        int argb = ScalingUtil.blend(rgb1, rgb4, 1.0D - rate9);
+                        int argb = ScalingUtil.blend(rgb1, rgb4, 1.0d - rate9);
                         return ScalingUtil.blend(rgb3, argb, rate17);
                     }
                 if (v1 == 0.0D) {
                     return rgb1;
                 } else {
-                    double d14 = (rate5 - 0.0D) / (v1 - 1.0D);
-                    double rate16 = 1.0D / (1.0D - d14);
+                    double d14 = (rate5 - 0.0d) / (v1 - 1.0d);
+                    double rate16 = 1.0D / (1.0d - d14);
                     int argb = ScalingUtil.blend(rgb1, rgb4, rate16);
                     return argb;
                 }
             }
-            if (flag3 != flag) {
+            if (flag3 != contains) {
                 if (rate5 < v1)
-                    if (v1 == 1.0D) {
-                        return ScalingUtil.blend(rgb2, rgb4, 1.0D - rate5);
+                    if (v1 == 1.0d) {
+                        return ScalingUtil.blend(rgb2, rgb4, 1.0d - rate5);
                     } else {
-                        double d15 = (rate5 - 0.0D) / (v1 - 1.0D);
-                        double rate10 = d15 / (d15 - 1.0D);
-                        double rate15 = (v1 - rate10) / (1.0D - rate10);
-                        int argb = ScalingUtil.blend(rgb1, rgb4, 1.0D - rate10);
+                        double d15 = (rate5 - 0.0d) / (v1 - 1.0d);
+                        double rate10 = d15 / (d15 - 1.0d);
+                        double rate15 = (v1 - rate10) / (1.0d - rate10);
+                        int argb = ScalingUtil.blend(rgb1, rgb4, 1.0d - rate10);
                         return ScalingUtil.blend(rgb2, argb, rate15);
                     }
-                if (v1 == 0.0D) {
+                if (v1 == 0.0d) {
                     return rgb1;
                 } else {
-                    double d16 = (rate5 - 1.0D) / (v1 - 0.0D);
-                    double rate11 = d16 / (d16 - 1.0D);
+                    double d16 = (rate5 - 1.0d) / (v1 - 0.0d);
+                    double rate11 = d16 / (d16 - 1.0d);
                     int argb = ScalingUtil.blend(rgb1, rgb4, rate11);
                     return argb;
                 }
             }
-            if (flag4 != flag) {
-                if (rate5 < -v1 + 1.0D)
-                    if (v1 == 0.0D) {
-                        return ScalingUtil.blend(rgb1, rgb3, 1.0D - rate5);
+            if (flag4 != contains) {
+                if (rate5 < -v1 + 1.0d)
+                    if (v1 == 0.0d) {
+                        return ScalingUtil.blend(rgb1, rgb3, 1.0d - rate5);
                     } else {
                         double d17 = rate5 / v1;
-                        double rate12 = 1.0D / (d17 + 1.0D);
+                        double rate12 = 1.0D / (d17 + 1.0d);
                         double rate14 = (rate12 - v1) / rate12;
-                        int argb = ScalingUtil.blend(rgb3, rgb2, 1.0D - rate12);
+                        int argb = ScalingUtil.blend(rgb3, rgb2, 1.0d - rate12);
                         return ScalingUtil.blend(rgb1, argb, rate14);
                     }
-                if (v1 == 1.0D) {
+                if (v1 == 1.0d) {
                     return rgb2;
                 } else {
-                    double d18 = (rate5 - 1.0D) / (v1 - 1.0D);
-                    double rate13 = 1.0D / (d18 + 1.0D);
+                    double d18 = (rate5 - 1.0d) / (v1 - 1.0d);
+                    double rate13 = 1.0d / (d18 + 1.0d);
                     int argb = ScalingUtil.blend(rgb3, rgb2, rate13);
                     return argb;
                 }

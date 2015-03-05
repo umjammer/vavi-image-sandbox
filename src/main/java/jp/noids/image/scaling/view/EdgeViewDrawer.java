@@ -30,10 +30,10 @@ public class EdgeViewDrawer implements Scaler {
         for (int y = rect1_.y; y < y2_; y++) {
             for (int x = rect1_.x; x < rect1_.x + rect1_.width; x++) {
                 Pixel p = pixel.getPixel(x, y);
-                int x11 = (int) Math.ceil((rect2.x + ((x - rect1.x) * rect2.width) / rect1.width) - 0.5D);
-                int x12 = (int) Math.ceil((rect2.x + (((x + 1.0D) - rect1.x) * rect2.width) / rect1.width) - 0.5D);
-                int y11 = (int) Math.ceil((rect2.y + ((y - rect1.y) * rect2.height) / rect1.height) - 0.5D);
-                int y12 = (int) Math.ceil((rect2.y + (((y + 1.0D) - rect1.y) * rect2.height) / rect1.height) - 0.5D);
+                int x11 = (int) Math.ceil((rect2.x + ((x - rect1.x) * rect2.width) / rect1.width) - 0.5d);
+                int x12 = (int) Math.ceil((rect2.x + (((x + 1.0d) - rect1.x) * rect2.width) / rect1.width) - 0.5d);
+                int y11 = (int) Math.ceil((rect2.y + ((y - rect1.y) * rect2.height) / rect1.height) - 0.5d);
+                int y12 = (int) Math.ceil((rect2.y + (((y + 1.0d) - rect1.y) * rect2.height) / rect1.height) - 0.5d);
                 if (x11 < x1)
                     x11 = x1;
                 if (x12 > x2)

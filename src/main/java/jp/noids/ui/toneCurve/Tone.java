@@ -30,7 +30,7 @@ public interface Tone {
 
     void update();
 
-    double get_xs(int index);
+    double getX(int index);
 
-    double get_ys(int index);
+    double getY(int index);
 }

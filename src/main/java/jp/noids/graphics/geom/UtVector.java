@@ -7,7 +7,7 @@ import java.awt.Point;
 public class UtVector {
 
     /** @return angle [radian] */
-    public static double get_angle_a(double[] hsl1, double[] hsl2) {
+    public static double getAngle(double[] hsl1, double[] hsl2) {
         double ml = hsl1[0] * hsl2[0] + hsl1[1] * hsl2[1] + hsl1[2] * hsl2[2];
         double d1 = Math.sqrt(hsl1[0] * hsl1[0] + hsl1[1] * hsl1[1] + hsl1[2] * hsl1[2]);
         double d2 = Math.sqrt(hsl2[0] * hsl2[0] + hsl2[1] * hsl2[1] + hsl2[2] * hsl2[2]);

@@ -129,7 +129,7 @@ public class Line implements DirectionConstants, Constants {
     public double get_angle_a(Edge edge, boolean flag) {
         Edge edge1 = edge;
         boolean flag1 = !flag;
-        double d1 = 0.52359877559829882d;
+        double rad30 = 0.52359877559829882d;
         int c1 = 1;
         Point.Double[] points = new Point.Double[3];
         double[] angles1 = new double[3];
@@ -157,7 +157,7 @@ public class Line implements DirectionConstants, Constants {
         int c2 = 0;
         for (int i = 0; i < c1 - 2; i++) {
             double angle1 = UtAngle.diff(angles1[i], angles1[i + 1]);
-            if (Math.abs(angle1) > d1) {
+            if (Math.abs(angle1) > rad30) {
                 if (i == 0)
                     return FMath.getAngle(points[0].y - points[1].y, points[0].x - points[1].x);
                 break;
@@ -187,7 +187,7 @@ public class Line implements DirectionConstants, Constants {
         return angle + sumOfAngle;
     }
 
-    public boolean is_a(Edge edge, int len, double smoothLevel) {
+    public boolean isSmoothable(Edge edge, int len, double smoothLevel) {
         Edge edge1 = edge.nextEdge(true);
         Edge edge2 = edge.nextEdge(false);
         if (!ScalingUtil.isValid(edge1) || !ScalingUtil.isValid(edge2))
@@ -224,7 +224,7 @@ public class Line implements DirectionConstants, Constants {
         if (c < 3)
             return 0.0d;
         double diff = UtAngle.diff(angles[0], angles[1]);
-        double min = -1.0D / 0.0d;
+        double min = -1.0d / 0.0d;
         double size = Math.abs(diff);
         for (int i = 1; i < c - 1; i++) {
             double diff2 = UtAngle.diff(angles[i], angles[i + 1]);
@@ -236,24 +236,24 @@ public class Line implements DirectionConstants, Constants {
                 min = diff3;
         }
 
-        double d6 = 1.0d;
-        double d9 = 0.78539816339744828d;
-        if (size > d9) {
-            double d11 = 0.3d;
-            d6 = d11 - (d11 * (size - d9)) / 0.78539816339744828d;
-            if (d6 <= 0.0D)
-                return 0.0D;
+        double level = 1.0d;
+        double a1 = 0.78539816339744828d; // 45 degrees
+        if (size > a1) {
+            double v1 = 0.3d;
+            level = v1 - (v1 * (size - a1)) / 0.78539816339744828d;
+            if (level <= 0.0d)
+                return 0.0d;
         }
-        double d12 = 0.3490658503988659d;
-        double d14 = 0.78539816339744828d;
-        if (min > d12) {
-            double d15 = 1.0D - (min - d12) / d14;
-            if (d15 <= 0.0D)
-                return 0.0D;
-            if (d15 < d6)
-                d6 = d15;
+        double a2 = 0.3490658503988659d; // 20 degrees
+        double a3 = 0.78539816339744828d;
+        if (min > a2) {
+            double v2 = 1.0d - (min - a2) / a3;
+            if (v2 <= 0.0d)
+                return 0.0d;
+            if (v2 < level)
+                level = v2;
         }
-        return d6;
+        return level;
     }
 
     public void debug() {
@@ -300,7 +300,7 @@ label0: do {
         if (valid1 && valid2) {
             boolean connected1 = nextEdge1.isConnected(edge);
             boolean connected2 = nextEdge2.isConnected(edge);
-            UtLine.a(nextEdge1, connected1, nextEdge2, connected2, 1, true);
+            UtLine.connect(nextEdge1, connected1, nextEdge2, connected2, 1, true);
             if (edge == edge1) {
                 if (_connected1) {
                     edge1 = nextEdge1;
@@ -319,7 +319,7 @@ label0: do {
                 }
         } else if (valid1) {
             boolean flag3 = nextEdge1.isConnected(edge);
-            UtLine.a(nextEdge1, flag3, (Edge) null, true, 1, true);
+            UtLine.connect(nextEdge1, flag3, (Edge) null, true, 1, true);
             if (edge == edge1) {
                 if (_connected1) {
                     edge1 = nextEdge1;
@@ -336,7 +336,7 @@ label0: do {
                 }
         } else if (valid2) {
             boolean flag4 = nextEdge2.isConnected(edge);
-            UtLine.a((Edge) null, true, nextEdge2, flag4, 1, true);
+            UtLine.connect((Edge) null, true, nextEdge2, flag4, 1, true);
             if (edge == edge1) {
                 if (_connected1)
                     throw new RuntimeException("未実装");

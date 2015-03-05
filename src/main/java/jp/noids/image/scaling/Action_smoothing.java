@@ -10,7 +10,7 @@ import jp.noids.image.scaling.edge.EdgeY;
 import jp.noids.image.scaling.edge.Edge_g;
 import jp.noids.image.scaling.line.Line;
 import jp.noids.image.scaling.line.Class_b;
-import jp.noids.image.util.Class_a;
+import jp.noids.image.util.InteriorDivision;
 
 
 /** g */
@@ -71,12 +71,12 @@ label0:             for (int i = 0; i < 2; i++) {
                             boolean flag2 = edge2.isConnected((edge1));
                             int rgb3 = edge2.get_color_a(!flag2, true);
                             int rgb4 = edge2.get_color_a(!flag2, false);
-                            double[] rgb1_ = UtColor.toFlat(rgb1);
-                            double[] rgb2_ = UtColor.toFlat(rgb2);
-                            double[] rgb3_ = UtColor.toFlat(rgb3);
-                            double[] rgb4_ = UtColor.toFlat(rgb4);
-                            Class_a a1 = new Class_a(rgb3_, rgb1_, rgb2_);
-                            Class_a a3 = new Class_a(rgb4_, rgb1_, rgb2_);
+                            double[] rgb1_ = UtColor.flatten(rgb1);
+                            double[] rgb2_ = UtColor.flatten(rgb2);
+                            double[] rgb3_ = UtColor.flatten(rgb3);
+                            double[] rgb4_ = UtColor.flatten(rgb4);
+                            InteriorDivision a1 = new InteriorDivision(rgb3_, rgb1_, rgb2_);
+                            InteriorDivision a3 = new InteriorDivision(rgb4_, rgb1_, rgb2_);
                             if (a1.get_value1() < 0.0025d && a3.get_value1() < 0.0025d) {
                                 double d2 = 0.001d;
                                 boolean flag3 = a1.is_InRange2(d2);
@@ -117,11 +117,11 @@ label0:             for (int i = 0; i < 2; i++) {
                                     int argb1 = ScalingUtil.blend(rgb3, rgb1, 1.0d - rate1);
                                     int argb2 = ScalingUtil.blend(rgb4, rgb2, 1.0d - rate2);
                                     rgb1 = argb1;
-                                    double[] rgb5_ = UtColor.toFlat(rgb1);
-                                    Class_a a2 = new Class_a(rgb3_, rgb5_, rgb2_);
+                                    double[] rgb5_ = UtColor.flatten(rgb1);
+                                    InteriorDivision a2 = new InteriorDivision(rgb3_, rgb5_, rgb2_);
                                     rgb2 = argb2;
-                                    rgb2_ = UtColor.toFlat(rgb2);
-                                    Class_a a4 = new Class_a(rgb4_, rgb5_, rgb2_);
+                                    rgb2_ = UtColor.flatten(rgb2);
+                                    InteriorDivision a4 = new InteriorDivision(rgb4_, rgb5_, rgb2_);
                                     double d7 = a2.get_value2();
                                     double d8 = a4.get_value2();
                                     boolean flag5 = 0.0d - d2 < d7 && d7 < 1.0d + d2;

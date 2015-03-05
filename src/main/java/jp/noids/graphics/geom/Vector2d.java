@@ -4,7 +4,6 @@ package jp.noids.graphics.geom;
 import java.awt.Point;
 
 
-
 /** a */
 public class Vector2d extends Point.Double {
 
@@ -19,29 +18,29 @@ public class Vector2d extends Point.Double {
         super(x, y);
     }
 
-    public Vector2d(Point.Double point1, Point.Double point2) {
-        super(point2.x - point1.x, point2.y - point1.y);
+    public Vector2d(Point.Double source, Point.Double target) {
+        super(target.x - source.x, target.y - source.y);
     }
 
-    public Vector2d swap() {
+    public Vector2d rotate() {
         double tmp = x;
         x = -y;
         y = tmp;
         return this;
     }
 
-    public Vector2d aq() {
+    public Vector2d newRotatedInstance() {
         return new Vector2d(-y, x);
     }
 
     public Vector2d ar() {
-        double distance = Math.sqrt(x * x + y * y);
-        if (distance == 0.0d) {
+        double v = Math.sqrt(x * x + y * y);
+        if (v == 0.0d) {
             x = 0.0d;
             y = 0.0d;
         } else {
-            x /= distance;
-            y /= distance;
+            x /= v;
+            y /= v;
         }
         return this;
     }
@@ -52,7 +51,7 @@ public class Vector2d extends Point.Double {
         return this;
     }
 
-    public Vector2d move(Point.Double point) {
+    public Vector2d newMovedInstance(Point.Double point) {
         return new Vector2d(x + point.x, y + point.y);
     }
 

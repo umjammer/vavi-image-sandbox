@@ -40,7 +40,7 @@ public class Action_makeCorner implements Constants {
                             flag = false;
                             edge = edge1;
                         } else {
-                            Edge edge6 = UtLine.a(edge1, flag1, 1, aflag);
+                            Edge edge6 = UtLine.getEdge_a(edge1, flag1, 1, aflag);
                             boolean flag2 = ScalingUtil.is_b(edge1, 4, 0.4d);
                             if (!flag2) {
                                 flag = false;
@@ -54,7 +54,7 @@ public class Action_makeCorner implements Constants {
                                 boolean flag5 = true;
                                 boolean flag6 = false;
                                 if (flag3) {
-                                    Edge edge5 = UtLine.a(edge1, flag1, 2, aflag1);
+                                    Edge edge5 = UtLine.getEdge_a(edge1, flag1, 2, aflag1);
                                     boolean flag7 = ScalingUtil.is_b(edge5, 4, 0.4d);
                                     if (!flag7) {
                                         edge2 = null;
@@ -73,22 +73,22 @@ public class Action_makeCorner implements Constants {
                                     flag6 = true;
                                 }
                                 if (flag6) {
-                                    double d2 = line.get_angle_a(edge3, flag4);
+                                    double a1 = line.get_angle_a(edge3, flag4);
                                     Point.Double p1 = edge3.get_point1();
-                                    double d3 = line.get_angle_a(edge4, flag5);
+                                    double a2 = line.get_angle_a(edge4, flag5);
                                     Point.Double p2 = edge4.get_point1();
-                                    Point.Double p3 = a(d2, p1, d3, p2);
-                                    double d4 = p1.distance(p3);
-                                    double d5 = p2.distance(p3);
+                                    Point.Double p3 = a(a1, p1, a2, p2);
+                                    double d1 = p1.distance(p3);
+                                    double d2 = p2.distance(p3);
                                     if (p3 != null &&
-                                        p3.x >= 0.0D &&
-                                        p3.y >= 0.0D &&
+                                        p3.x >= 0.0d &&
+                                        p3.y >= 0.0d &&
                                         p3.x < edgeData.getWidth() &&
                                         p3.y < edgeData.getHeight() &&
-                                        d4 < 2d &&
-                                        d5 < 2d)
+                                        d1 < 2d &&
+                                        d2 < 2d)
                                         if (edge2 == null) {
-                                            if (d4 < d5) {
+                                            if (d1 < d2) {
                                                 edge1.moveBit(p3.x, p3.y);
                                                 edge1.set_flag1(true);
                                             } else {

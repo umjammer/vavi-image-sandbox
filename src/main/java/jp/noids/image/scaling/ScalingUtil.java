@@ -97,6 +97,7 @@ public class ScalingUtil implements DirectionConstants, Constants {
         return a << 24 | r << 16 | g << 8 | b;
     }
 
+    /** @return argb */
     public static int average(int argb1, int argb2) {
         int a1 = argb1 >>> 24 & 0xff;
         int r1 = argb1 >>> 16 & 0xff;
@@ -113,6 +114,7 @@ public class ScalingUtil implements DirectionConstants, Constants {
         return a << 24 | r << 16 | g << 8 | b;
     }
 
+    /** @return argb */
     public static int average(int[] colors, int len) {
         if (len == 1)
             return colors[0];
@@ -135,18 +137,18 @@ public class ScalingUtil implements DirectionConstants, Constants {
     }
 
     public static boolean isNearly(EdgeX edgeX, EdgeY edgeY) {
-        double[] sxc = UtColor.toFlat(edgeX.getStartColor());
-        double[] exc = UtColor.toFlat(edgeX.getEndColor());
-        double[] syc = UtColor.toFlat(edgeY.getStartColor());
-        double[] eyc = UtColor.toFlat(edgeY.getEndColor());
+        double[] sxc = UtColor.flatten(edgeX.getStartColor());
+        double[] exc = UtColor.flatten(edgeX.getEndColor());
+        double[] syc = UtColor.flatten(edgeY.getStartColor());
+        double[] eyc = UtColor.flatten(edgeY.getEndColor());
         return isNearly(sxc, syc, eyc) && isNearly(exc, syc, eyc);
     }
 
     public static boolean isNearly(EdgeY edgeX, EdgeX edgeY) {
-        double[] sxc = UtColor.toFlat(edgeX.getStartColor());
-        double[] exc = UtColor.toFlat(edgeX.getEndColor());
-        double[] syc = UtColor.toFlat(edgeY.getStartColor());
-        double[] eyc = UtColor.toFlat(edgeY.getEndColor());
+        double[] sxc = UtColor.flatten(edgeX.getStartColor());
+        double[] exc = UtColor.flatten(edgeX.getEndColor());
+        double[] syc = UtColor.flatten(edgeY.getStartColor());
+        double[] eyc = UtColor.flatten(edgeY.getEndColor());
         return isNearly(sxc, syc, eyc) && isNearly(exc, syc, eyc);
     }
 
@@ -165,21 +167,21 @@ public class ScalingUtil implements DirectionConstants, Constants {
 
     public static boolean is_a(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
         boolean flag = is_c(x, y, p1, p2, p3);
-        boolean flag1 = is_h(x, y, p1, p2, p3);
+        boolean flag1 = contains(x, y, p1, p2, p3);
         if (flag != flag1) {
-            is_h(x, y, p1, p2, p3);
+            contains(x, y, p1, p2, p3);
             throw new RuntimeException("未実装");
         } else {
             return flag1;
         }
     }
 
-    public static boolean is_h(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
+    public static boolean contains(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
         Point.Double[] points = {
             p2, p1, p3
         };
         UtPoint util = new UtPoint(points);
-        return util.is_h(x, y);
+        return util.contains(x, y);
     }
 
     public static boolean is_c(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
@@ -221,7 +223,7 @@ public class ScalingUtil implements DirectionConstants, Constants {
                             j++;
                     }
                     double d14 = (p3.x - x) / (p3.x - p1.x);
-                    if (d14 < 0.0D) {
+                    if (d14 < 0.0d) {
                         double d16 = (1.0d - d14) * p3.y + d14 * p1.y;
                         if (d16 < y)
                             j++;
@@ -252,8 +254,8 @@ public class ScalingUtil implements DirectionConstants, Constants {
                     return p2.y < p3.y;
             } else {
                 double d7 = (p3.x - p2.x) / (p3.x - p1.x);
-                if (d7 < 0.0D) {
-                    double d11 = (1.0D - d7) * p3.y + d7 * p1.y;
+                if (d7 < 0.0d) {
+                    double d11 = (1.0d - d7) * p3.y + d7 * p1.y;
                     if (d11 < p2.y)
                         i++;
                 }
@@ -265,10 +267,10 @@ public class ScalingUtil implements DirectionConstants, Constants {
             if (d8 == 0.0d) {
                 if (p3.x < p2.x)
                     i++;
-            } else if (0.0d < d8 && d8 <= 1.0D && d12 < p2.y)
+            } else if (0.0d < d8 && d8 <= 1.0d && d12 < p2.y)
                 i++;
             boolean flag1 = i % 2 == 0;
-            double d15 = x2 * x2 - 4D * x1 * x3;
+            double d15 = x2 * x2 - 4d * x1 * x3;
             if (d15 == 0.0d) {
                 int l = 0;
                 double d18 = (p2.x - x) / (p2.x - p1.x);
@@ -304,9 +306,9 @@ public class ScalingUtil implements DirectionConstants, Constants {
                     if (d33 < y)
                         j1++;
                 }
-                if (0.0D < d20 && d20 < 1.0D && d28 < y)
+                if (0.0d < d20 && d20 < 1.0d && d28 < y)
                     j1++;
-                if (0.0D < d25 && d25 < 1.0D && d29 < y)
+                if (0.0d < d25 && d25 < 1.0d && d29 < y)
                     j1++;
                 boolean flag4 = j1 % 2 == 0;
                 flag = flag4 == flag1;
@@ -319,7 +321,7 @@ public class ScalingUtil implements DirectionConstants, Constants {
                         i1++;
                 }
                 double d24 = (p3.x - x) / (p3.x - p1.x);
-                if (d24 < 0.0D) {
+                if (d24 < 0.0d) {
                     double d27 = (1.0d - d24) * p3.y + d24 * p1.y;
                     if (d27 < y)
                         i1++;
@@ -362,7 +364,7 @@ public class ScalingUtil implements DirectionConstants, Constants {
             double angle2 = line.get_angle_a(edge, flag);
             double smoothLevel2 = line.getSmoothLevel(edge, !flag, len);
             double angle = UtAngle.absDiff(angle1, angle2 + Math.PI);
-            if ((smoothLevel1 > smoothLevel || smoothLevel2 > smoothLevel) && angle > 0.52359877559829882d)
+            if ((smoothLevel1 > smoothLevel || smoothLevel2 > smoothLevel) && angle > 0.52359877559829882d) // 30 [radian]
                 return true;
         }
         return false;

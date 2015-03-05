@@ -125,7 +125,7 @@ public abstract class UtToString {
     }
 
     public static String getMemoryUsageString() {
-        double d = 9.9999999999999995E-07D;
+        double d = 9.9999999999999995e-07d;
         double d1 = Runtime.getRuntime().maxMemory() * d;
         double d2 = Runtime.getRuntime().totalMemory() * d;
         double d3 = Runtime.getRuntime().freeMemory() * d;

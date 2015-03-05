@@ -5,6 +5,8 @@ package jp.noids.math;
 
 public abstract class FMath {
 
+    private static final double INVERSE_PI = 0.31830988618379069d;
+
     static final double[] cosins;
     static final double[] atans;
 
@@ -15,7 +17,7 @@ public abstract class FMath {
         System.out.println("aa " + getAngle(1.0d, -1d));
         System.out.println("aa " + getAngle(-1d, -1d));
         double q = 0.0d;
-        int m = 0x4c4b40;
+        int m = 5000000; // 0x4c4b40
         double d1 = -0.33414340999999997d;
         double d2 = -0.91080432d;
         double d = 0.0d;
@@ -31,7 +33,7 @@ public abstract class FMath {
     }
 
     public static double getAngle(double x, double y) {
-        if (y == 0.0D)
+        if (y == 0.0d)
             return x >= 0.0d ? Math.PI / 2 : -Math.PI / 2;
         double rate = x / y;
         double angle = getAngle(rate);
@@ -79,7 +81,7 @@ public abstract class FMath {
         if (angle_ < 0.0d)
             angle_ = -angle_;
         if (angle_ > Math.PI * 2) {
-            long a1 = (long) (180d * angle_ * 0.31830988618379069d);
+            long a1 = (long) (180d * angle_ * INVERSE_PI);
             a1 /= 360l;
             angle_ -= a1 * Math.PI * 2;
             if (angle_ < 0.0d)
@@ -111,7 +113,7 @@ public abstract class FMath {
         if (angle_ < 0.0d)
             angle_ = -angle_;
         if (angle_ > Math.PI * 2) {
-            long a1 = (long) (180d * angle_ * 0.31830988618379069d);
+            long a1 = (long) (180d * angle_ * INVERSE_PI);
             a1 /= 360l;
             angle_ -= a1 * Math.PI * 2;
             if (angle_ < 0.0d)

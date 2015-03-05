@@ -175,7 +175,7 @@ public abstract class UtString {
         return toHex2(i);
     }
 
-    public static int q(String s) {
+    public static int parseHexInt(String s) {
         long l = Long.parseLong(s, 16);
         return (int) (-1L & l);
     }

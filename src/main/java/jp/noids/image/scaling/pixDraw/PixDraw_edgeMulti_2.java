@@ -35,9 +35,9 @@ public class PixDraw_edgeMulti_2 implements Constants, jp.noids.image.scaling.pi
         PixDraw_edge3P pixel11 = pixel1;
         PixDraw_edgeEnd pixel22 = pixel2;
         Point.Double ep = pixel22.endPoint;
-        boolean flag = pixel11.a((int) ep.x, (int) ep.y, ep.x, ep.y);
+        boolean flag = pixel11.get_flag_a((int) ep.x, (int) ep.y, ep.x, ep.y);
         Point.Double sp = pixel22.startPoint;
-        boolean flag1 = pixel11.a((int) sp.x, (int) sp.y, sp.x, sp.y);
+        boolean flag1 = pixel11.get_flag_a((int) sp.x, (int) sp.y, sp.x, sp.y);
         if (flag != flag1) {
             if (needToShow) {
                 System.err.println("クロスしている重複境界線の描画は未対応です\n  jp.noids.image.scaling.pixDraw.PixDraw_edgeMulti#PixDraw_edgeMulti( ) ");
@@ -49,7 +49,7 @@ public class PixDraw_edgeMulti_2 implements Constants, jp.noids.image.scaling.pi
     }
 
     public int getRgb(int x, int y, double x1, double y1, double scaleX, double scaleY) {
-        boolean flag = pixel1.a(x, y, x1 + scaleX / 2d, y1 + scaleY / 2d);
+        boolean flag = pixel1.get_flag_a(x, y, x1 + scaleX / 2d, y1 + scaleY / 2d);
         int argb;
         if (flag != this.flag) {
             argb = pixel1.getRgb(x, y, x1, y1, scaleX, scaleY);
@@ -84,7 +84,7 @@ public class PixDraw_edgeMulti_2 implements Constants, jp.noids.image.scaling.pi
         default:
             throw new RuntimeException("おかしな状態");
         }
-        boolean flag = pixel1.a(x, y, x1, y1);
+        boolean flag = pixel1.get_flag_a(x, y, x1, y1);
         if (flag != this.flag) {
             pixel1.setCornerColor(x, y, direction, rgb);
         } else {

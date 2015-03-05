@@ -20,6 +20,10 @@ public class CleanFilter {
 
     static ToneLine toneLine = new ToneLine(0.0d, 1.0d, 0.0d, 1.0d, points);
 
+    /**
+     * 
+     * @return null when some errors occur.
+     */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         try {
             if (src.getType() != BufferedImage.TYPE_INT_ARGB)
@@ -38,7 +42,7 @@ public class CleanFilter {
             for (int y = 1; y < h - 1; y++) {
                 for (int x = 1; x < w - 1; x++) {
                     int argb = util1.getARGB(x, y);
-                    double l = 0.0d;
+                    double t = 0.0d;
                     int c = 0;
                     for (int dy = 0; dy < 3; dy++) {
                         for (int dx = 0; dx < 3; dx++) {
@@ -65,14 +69,14 @@ public class CleanFilter {
                                 r += util1.getR(x1, y1) * tone;
                                 g += util1.getG(x1, y1) * tone;
                                 b += util1.getB(x1, y1) * tone;
-                                l += tone;
+                                t += tone;
                             }
                         }
 
-                        a /= l;
-                        r /= l;
-                        g /= l;
-                        b /= l;
+                        a /= t;
+                        r /= t;
+                        g /= t;
+                        b /= t;
                         util2.setARGB(x, y, a, r, g, b);
                     } else {
                         util2.setARGB(x, y, argb);

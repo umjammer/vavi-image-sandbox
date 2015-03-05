@@ -42,13 +42,13 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
         PixDraw_edge3P pixel11 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixel22 = (PixDraw_edge3P) pixel2;
         Point.Double sp1 = pixel22.startPoint;
-        boolean flag = pixel11.a((int) sp1.x, (int) sp1.y, sp1.x, sp1.y);
+        boolean flag = pixel11.get_flag_a((int) sp1.x, (int) sp1.y, sp1.x, sp1.y);
         Point.Double ep1 = pixel22.endPoint;
-        boolean flag1 = pixel11.a((int) ep1.x, (int) ep1.y, ep1.x, ep1.y);
+        boolean flag1 = pixel11.get_flag_a((int) ep1.x, (int) ep1.y, ep1.x, ep1.y);
         Point.Double sp2 = pixel11.startPoint;
-        boolean flag2 = pixel22.a((int) sp2.x, (int) sp2.y, sp2.x, sp2.y);
+        boolean flag2 = pixel22.get_flag_a((int) sp2.x, (int) sp2.y, sp2.x, sp2.y);
         Point.Double ep2 = pixel11.endPoint;
-        boolean flag3 = pixel22.a((int) ep2.x, (int) ep2.y, ep2.x, ep2.y);
+        boolean flag3 = pixel22.get_flag_a((int) ep2.x, (int) ep2.y, ep2.x, ep2.y);
         if (flag != flag1 || flag2 != flag3) {
             f3 = true;
         } else {
@@ -56,21 +56,21 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
             f2 = flag2;
             f3 = false;
         }
-        boolean flag4 = pixel11.a(p.x, p.y, p.x, p.y);
-        boolean flag5 = pixel22.a(p.x, p.y, p.x, p.y);
-        boolean flag6 = pixel11.a(p.x, p.y, p.x, p.y + 1);
-        boolean flag7 = pixel22.a(p.x, p.y, p.x, p.y + 1);
-        boolean flag8 = pixel11.a(p.x, p.y, p.x + 1, p.y);
-        boolean flag9 = pixel22.a(p.x, p.y, p.x + 1, p.y);
-        boolean flag10 = pixel11.a(p.x, p.y, p.x + 1, p.y + 1);
-        boolean flag11 = pixel22.a(p.x, p.y, p.x + 1, p.y + 1);
-        hasWest = a(flag4, flag5) == -a(flag6, flag7);
-        hasEast = a(flag8, flag9) == -a(flag10, flag11);
-        hasNorth = a(flag4, flag5) == -a(flag8, flag9);
-        hasSouth = a(flag6, flag7) == -a(flag10, flag11);
+        boolean flag4 = pixel11.get_flag_a(p.x, p.y, p.x, p.y);
+        boolean flag5 = pixel22.get_flag_a(p.x, p.y, p.x, p.y);
+        boolean flag6 = pixel11.get_flag_a(p.x, p.y, p.x, p.y + 1);
+        boolean flag7 = pixel22.get_flag_a(p.x, p.y, p.x, p.y + 1);
+        boolean flag8 = pixel11.get_flag_a(p.x, p.y, p.x + 1, p.y);
+        boolean flag9 = pixel22.get_flag_a(p.x, p.y, p.x + 1, p.y);
+        boolean flag10 = pixel11.get_flag_a(p.x, p.y, p.x + 1, p.y + 1);
+        boolean flag11 = pixel22.get_flag_a(p.x, p.y, p.x + 1, p.y + 1);
+        hasWest = hasDirection(flag4, flag5) == -hasDirection(flag6, flag7);
+        hasEast = hasDirection(flag8, flag9) == -hasDirection(flag10, flag11);
+        hasNorth = hasDirection(flag4, flag5) == -hasDirection(flag8, flag9);
+        hasSouth = hasDirection(flag6, flag7) == -hasDirection(flag10, flag11);
     }
 
-    public boolean a(Direction direction) {
+    public boolean isDirectionOf(Direction direction) {
         if (direction == Direction.ANY)
             return hasWest | hasEast | hasNorth | hasSouth;
         if (direction == Direction.NORTH)
@@ -98,67 +98,73 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
         return directions.toArray(new Direction[0]);
     }
 
-    /** @return rgb */
+    /** 
+     * @return rgb
+     * @throws IllegalArgumentException direction
+     */
     public int a(int x, int y, Direction direction) {
         PixDraw_edge3P pixel11 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixel22 = (PixDraw_edge3P) pixel2;
         int rgb1;
         int rgb2;
         if (direction == Direction.NORTH) {
-            boolean flag = pixel11.startPoint.y < y + 0.0001D;
+            boolean flag = pixel11.startPoint.y < y + 0.0001d;
             rgb1 = pixel11.getCornerColor(x, y, flag ^ f1 ? 0 : 1);
-            boolean flag4 = pixel22.startPoint.y < y + 0.0001D;
+            boolean flag4 = pixel22.startPoint.y < y + 0.0001d;
             rgb2 = pixel22.getCornerColor(x, y, flag4 ^ f2 ? 0 : 1);
         } else if (direction == Direction.SOUTH) {
-            boolean flag1 = pixel11.startPoint.y > (y + 1) - 0.0001D;
+            boolean flag1 = pixel11.startPoint.y > (y + 1) - 0.0001d;
             rgb1 = pixel11.getCornerColor(x, y, flag1 ^ f1 ? 3 : 2);
-            boolean flag5 = pixel22.startPoint.y > (y + 1) - 0.0001D;
+            boolean flag5 = pixel22.startPoint.y > (y + 1) - 0.0001d;
             rgb2 = pixel22.getCornerColor(x, y, flag5 ^ f2 ? 3 : 2);
         } else if (direction == Direction.WEST) {
-            boolean flag2 = pixel11.startPoint.x < x + 0.0001D;
+            boolean flag2 = pixel11.startPoint.x < x + 0.0001d;
             rgb1 = pixel11.getCornerColor(x, y, flag2 ^ f1 ? 2 : 0);
-            boolean flag6 = pixel22.startPoint.x < x + 0.0001D;
+            boolean flag6 = pixel22.startPoint.x < x + 0.0001d;
             rgb2 = pixel22.getCornerColor(x, y, flag6 ^ f2 ? 2 : 0);
         } else if (direction == Direction.EAST) {
-            boolean flag3 = pixel11.startPoint.x > (x + 1) - 0.0001D;
+            boolean flag3 = pixel11.startPoint.x > (x + 1) - 0.0001d;
             rgb1 = pixel11.getCornerColor(x, y, flag3 ^ f1 ? 1 : 3);
-            boolean flag7 = pixel22.startPoint.x > (x + 1) - 0.0001D;
+            boolean flag7 = pixel22.startPoint.x > (x + 1) - 0.0001d;
             rgb2 = pixel22.getCornerColor(x, y, flag7 ^ f2 ? 1 : 3);
         } else {
-            throw new RuntimeException("おかしな指定 : " + direction);
+            throw new IllegalArgumentException("direction: " + direction);
         }
         return ScalingUtil.average(rgb1, rgb2);
     }
 
+    /**
+     * @throws IllegalArgumentException direction
+     */
     public void a(int x, int y, Direction direction, int rgb) {
         PixDraw_edge3P pixel11 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixel22 = (PixDraw_edge3P) pixel2;
         if (direction == Direction.NORTH) {
-            boolean flag = pixel11.startPoint.y < y + 0.0001D;
+            boolean flag = pixel11.startPoint.y < y + 0.0001d;
             pixel11.setCornerColor(x, y, flag ^ f1 ? 0 : 1, rgb);
-            boolean flag4 = pixel22.startPoint.y < y + 0.0001D;
+            boolean flag4 = pixel22.startPoint.y < y + 0.0001d;
             pixel22.setCornerColor(x, y, flag4 ^ f2 ? 0 : 1, rgb);
         } else if (direction == Direction.SOUTH) {
-            boolean flag1 = pixel11.startPoint.y < y + 0.0001D;
+            boolean flag1 = pixel11.startPoint.y < y + 0.0001d;
             pixel11.setCornerColor(x, y, flag1 ^ f1 ? 2 : 3, rgb);
-            boolean flag5 = pixel22.startPoint.y < y + 0.0001D;
+            boolean flag5 = pixel22.startPoint.y < y + 0.0001d;
             pixel22.setCornerColor(x, y, flag5 ^ f2 ? 2 : 3, rgb);
         } else if (direction == Direction.WEST) {
-            boolean flag2 = pixel11.startPoint.x < x + 0.0001D;
+            boolean flag2 = pixel11.startPoint.x < x + 0.0001d;
             pixel11.setCornerColor(x, y, flag2 ^ f1 ? 2 : 0, rgb);
-            boolean flag6 = pixel22.startPoint.x < x + 0.0001D;
+            boolean flag6 = pixel22.startPoint.x < x + 0.0001d;
             pixel22.setCornerColor(x, y, flag6 ^ f2 ? 2 : 0, rgb);
         } else if (direction == Direction.EAST) {
-            boolean flag3 = pixel11.startPoint.x < x + 0.0001D;
+            boolean flag3 = pixel11.startPoint.x < x + 0.0001d;
             pixel11.setCornerColor(x, y, flag3 ^ f1 ? 3 : 1, rgb);
-            boolean flag7 = pixel22.startPoint.x < x + 0.0001D;
+            boolean flag7 = pixel22.startPoint.x < x + 0.0001d;
             pixel22.setCornerColor(x, y, flag7 ^ f2 ? 3 : 1, rgb);
         } else {
-            throw new RuntimeException("おかしな指定 : " + direction);
+            throw new IllegalArgumentException("direction: " + direction);
         }
     }
 
-    private int a(boolean flag, boolean flag1) {
+    private int hasDirection(boolean flag, boolean flag1) {
         if (flag != f1 && flag1 == f2)
             return 1;
         return flag != f1 || flag1 == f2 ? 2 : -1;
@@ -167,8 +173,8 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
     public int getRgb(int x, int y, double x1, double y1, double scaleX, double scaleY) {
         PixDraw_edge3P pixdraw_edge3p = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixdraw_edge3p1 = (PixDraw_edge3P) pixel2;
-        boolean flag = pixdraw_edge3p.a(x, y, x1 + scaleX / 2D, y1 + scaleY / 2D);
-        boolean flag1 = pixdraw_edge3p1.a(x, y, x1 + scaleX / 2D, y1 + scaleY / 2D);
+        boolean flag = pixdraw_edge3p.get_flag_a(x, y, x1 + scaleX / 2d, y1 + scaleY / 2d);
+        boolean flag1 = pixdraw_edge3p1.get_flag_a(x, y, x1 + scaleX / 2d, y1 + scaleY / 2d);
         int rgb;
         if (f3) {
             if (flag != f1 && flag1 == f2)
@@ -218,8 +224,8 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
         PixDraw_edge3P pixel11 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixel22 = (PixDraw_edge3P) pixel2;
         if (f3) {
-            boolean flag11 = pixel11.a(x, y, x1, y1);
-            boolean flag22 = pixel22.a(x, y, x1, y1);
+            boolean flag11 = pixel11.get_flag_a(x, y, x1, y1);
+            boolean flag22 = pixel22.get_flag_a(x, y, x1, y1);
             if (flag11 != f1 && flag22 == f2)
                 pixel11.setCornerColor(x, y, direction, rgb);
             else if (flag11 == f1 && flag22 != f2) {
@@ -229,8 +235,8 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
                 pixel22.setCornerColor(x, y, direction, rgb);
             }
         } else {
-            boolean flag11 = pixel11.a(x, y, x1, y1);
-            boolean flag22 = pixel22.a(x, y, x1, y1);
+            boolean flag11 = pixel11.get_flag_a(x, y, x1, y1);
+            boolean flag22 = pixel22.get_flag_a(x, y, x1, y1);
             if (flag11 != f1 && flag22 == f2)
                 pixel11.setCornerColor(x, y, direction, rgb);
             else if (flag11 == f1 && flag22 != f2) {

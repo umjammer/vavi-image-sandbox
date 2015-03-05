@@ -108,7 +108,7 @@ public class UtPoint {
         stat1 = 2;
     }
 
-    public boolean is_h(double x, double y) {
+    public boolean contains(double x, double y) {
         if (stat1 == -1)
             return true;
         if (stat1 == 0)

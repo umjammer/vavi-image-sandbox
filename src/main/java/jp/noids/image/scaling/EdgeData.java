@@ -81,12 +81,12 @@ public class EdgeData implements DirectionConstants, Constants {
     }
 
     public EdgeY[] getEdgeYs(int x, int y) {
-        List<EdgeY> list = edgeYs[x];
-        if (list == null)
+        List<EdgeY> ys = edgeYs[x];
+        if (ys == null)
             return new EdgeY[0];
         EdgeY edgeY1 = null;
         EdgeY edgeY2 = null;
-        for (EdgeY edgeY : list) {
+        for (EdgeY edgeY : ys) {
             if (edgeY.contains(x, y))
                 if (edgeY1 == null)
                     edgeY1 = edgeY;
@@ -107,12 +107,12 @@ public class EdgeData implements DirectionConstants, Constants {
     }
 
     public EdgeX[] getEdgeXs(int x, int y) {
-        List<EdgeX> list = edgeXs[y];
-        if (list == null)
+        List<EdgeX> xs = edgeXs[y];
+        if (xs == null)
             return new EdgeX[0];
         EdgeX edgeX1 = null;
         EdgeX edgeX2 = null;
-        for (EdgeX edgeX : list) {
+        for (EdgeX edgeX : xs) {
             if (edgeX.contains(x, y))
                 if (edgeX1 == null)
                     edgeX1 = edgeX;
@@ -141,10 +141,10 @@ public class EdgeData implements DirectionConstants, Constants {
     }
 
     public void remove(int x, EdgeY edgeY) {
-        List<EdgeY> arraylist = edgeYs[x];
-        if (arraylist == null)
+        List<EdgeY> ys = edgeYs[x];
+        if (ys == null)
             throw new RuntimeException("未実装");
-        boolean flag = arraylist.remove(edgeY);
+        boolean flag = ys.remove(edgeY);
         if (!flag)
             throw new RuntimeException("削除に失敗 : " + edgeY);
     }

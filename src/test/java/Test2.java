@@ -29,14 +29,16 @@ import vavix.util.grep.RegexFileDigger;
  */
 public class Test2 {
 
+    static {
+        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+    }
+
     static BufferedImage image;
 
     /**
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
-
         final JPanel panel = new JPanel() {
             public void paint(Graphics g) {
                 g.drawImage(image, 0, 0, this);

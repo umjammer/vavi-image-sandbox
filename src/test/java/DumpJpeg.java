@@ -8,6 +8,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,7 +84,15 @@ System.err.println(file);
         boolean inStream = false;
 end:
         while (true) {
-            int c = dis.readUnsignedByte();
+            int c;
+            try {
+                c = dis.readUnsignedByte();
+            } catch (EOFException e) {
+                if (inStream) {
+                    System.err.println("EOI  : *** NOT FOUND ***");
+                }
+                break;
+            }
             if (c == 0xff) {
                 Segment segment = null;
                 c = dis.readUnsignedByte();

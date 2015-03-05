@@ -25,8 +25,8 @@ public abstract class Edge_c implements Edge {
         return edge.get_color_a(flag, flag1);
     }
 
-    public void set_color_a(boolean flag, boolean flag1, int i) {
-        edge.set_color_a(flag, flag1, i);
+    public void set_color_a(boolean flag, boolean flag1, int argb) {
+        edge.set_color_a(flag, flag1, argb);
     }
 
     public Edge nextEdge(boolean flag) {
@@ -53,16 +53,16 @@ public abstract class Edge_c implements Edge {
         return this.edge.isConnected(edge);
     }
 
-    public boolean isClosed(Edge edge) {
-        return this.edge.isClosed(edge);
+    public boolean contains(Edge edge) {
+        return this.edge.contains(edge);
     }
 
-    public void b(Edge edge) {
-        this.edge.b(edge);
+    public void disconnect(Edge edge) {
+        this.edge.disconnect(edge);
     }
 
-    public void a(boolean flag, Edge edge, int i) {
-        this.edge.a(flag, edge, i);
+    public void connect(boolean flag, Edge edge, int i) {
+        this.edge.connect(flag, edge, i);
     }
 
     public void setLine(Line line) {

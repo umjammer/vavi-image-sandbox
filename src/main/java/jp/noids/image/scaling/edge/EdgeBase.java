@@ -18,7 +18,7 @@ public abstract class EdgeBase implements Edge {
     static int X = 248;
     static int Y = 340;
 
-    public void a(boolean asc, Edge edge, int value) {
+    public void connect(boolean asc, Edge edge, int value) {
         if (asc) {
             edge1 = edge;
             value1 = value;
@@ -28,7 +28,7 @@ public abstract class EdgeBase implements Edge {
         }
     }
 
-    public void b(Edge edge) {
+    public void disconnect(Edge edge) {
         if (edge1 == edge) {
             edge1 = null;
             value1 = 0;
@@ -65,7 +65,7 @@ public abstract class EdgeBase implements Edge {
             throw new RuntimeException("おかしな状態 : ScalingUtil.isEdge()で比較していますか？ : " + this);
     }
 
-    public boolean isClosed(Edge edge) {
+    public boolean contains(Edge edge) {
         return edge == edge1 || edge == edge2;
     }
 

@@ -72,7 +72,7 @@ public abstract class Action_createView implements DirectionConstants, Constants
                         Point.Double p4 = edge4.get_point1();
                         Point.Double p3 = edge3.get_Point();
                         Point.Double p5 = a(p, p4, p3);
-                        Point.Double p6 = new Point.Double(p3.x + (p3.x - p4.x) * 100000000D, p3.y + (p3.y - p4.y) * 100000000D);
+                        Point.Double p6 = new Point.Double(p3.x + (p3.x - p4.x) * 100000000d, p3.y + (p3.y - p4.y) * 100000000d);
                         Point.Double p7 = a(p, p6, p3);
                         PixDraw_edge3P pixdraw_edge3p2 = a(false, p, p0, p5, p7, rgb1, rgb2, 1.0d, 1.0d);
                         PixDraw_edgeMulti_3 pixDraw_edgeMulti_2 = new PixDraw_edgeMulti_3(p,
@@ -94,7 +94,7 @@ public abstract class Action_createView implements DirectionConstants, Constants
                             pixels[y][x] = pixel;
                         } else if (pixels[y][x] instanceof PixDraw_edge3P) {
                             PixDraw_edgeMulti pixel1 = new PixDraw_edgeMulti(p, pixels[y][x], pixel, 0.5d, 0.5d);
-                            if (pixel1.a(Direction.ANY)) {
+                            if (pixel1.isDirectionOf(Direction.ANY)) {
                                 pixelData.add(new PixelData(x, y, pixel1));
                             }
                             pixels[y][x] = pixel1;
@@ -156,7 +156,7 @@ public abstract class Action_createView implements DirectionConstants, Constants
                                                                                              pixdraw_edge3p3,
                                                                                              0.5d,
                                                                                              0.5d);
-                                                if (pixel.a(Direction.ANY))
+                                                if (pixel.isDirectionOf(Direction.ANY))
                                                     pixelData.add(new PixelData(x3, y3, pixel));
                                                 pixels[y3][x3] = (pixel);
                                             } else if (pixels[y3][x3] instanceof PixDraw_edgeEnd)

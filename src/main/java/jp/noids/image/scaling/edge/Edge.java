@@ -21,13 +21,13 @@ public interface Edge extends DirectionConstants, Constants {
 
     int get_color_a(boolean flag, boolean flag1);
 
-    void set_color_a(boolean flag, boolean flag1, int color);
+    void set_color_a(boolean flag, boolean flag1, int argb);
 
     Point get_point_b(boolean flag, boolean flag1);
 
-    void a(boolean flag, Edge edge, int i);
+    void connect(boolean flag, Edge edge, int i);
 
-    void b(Edge edge);
+    void disconnect(Edge edge);
 
     Edge nextEdge(boolean asc);
 
@@ -35,7 +35,7 @@ public interface Edge extends DirectionConstants, Constants {
 
     boolean isConnected(Edge edge);
 
-    boolean isClosed(Edge edge);
+    boolean contains(Edge edge);
 
     void setLine(Line line);
 

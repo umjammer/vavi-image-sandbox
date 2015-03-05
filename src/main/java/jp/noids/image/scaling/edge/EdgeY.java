@@ -44,7 +44,7 @@ public class EdgeY extends AbstractEdge implements Edge {
                 ad2[i] = ad[i];
             }
 
-            double[] ad3 = UtMath.c(ad1, ad2, (double[]) null);
+            double[] ad3 = UtMath.method_c(ad1, ad2, (double[]) null);
             double d2 = ad[l] / 2d;
             y = (float) ((d2 - ad3[1]) / ad3[0]);
             if (y < (startY + 1))

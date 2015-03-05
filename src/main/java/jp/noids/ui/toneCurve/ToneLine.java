@@ -59,22 +59,22 @@ public class ToneLine extends ToneBase {
             return ys[0];
         if (color > xs[xs.length - 1])
             return ys[xs.length - 1];
-        double d = 0.0d;
+        double tone = 0.0d;
         for (int i = 1; i < xs.length; i++) {
             if (xs[i - 1] == xs[i])
                 throw new RuntimeException("未実装");
             if (xs[i - 1] > color || color > xs[i])
                 continue;
-            d = ((ys[i - 1] - ys[i]) / (xs[i - 1] - xs[i])) * (color - xs[i]) + ys[i];
+            tone = ((ys[i - 1] - ys[i]) / (xs[i - 1] - xs[i])) * (color - xs[i]) + ys[i];
             break;
         }
 
-        if (d < min)
+        if (tone < min)
             return min;
-        if (d > max)
+        if (tone > max)
             return max;
         else
-            return d;
+            return tone;
     }
 
     public void update() {
@@ -93,30 +93,30 @@ public class ToneLine extends ToneBase {
             new Point.Double(0.5d, 0.7d),
             new Point.Double(1.0d, 1.0d)
         });
-        for (double d = 0.0d; d < 1.0d; d += 0.1d)
-            System.out.println("cv" + toneline.getTone(d));
+        for (double c = 0.0d; c < 1.0d; c += 0.1d)
+            System.out.println("cv" + toneline.getTone(c));
     }
 
     public int size() {
         return points.size();
     }
 
-    public double get_xs(int index) {
+    public double getX(int index) {
         return xs[index];
     }
 
-    public double get_ys(int index) {
+    public double getY(int index) {
         return ys[index];
     }
 
     public int indexOf(Point2D.Double point) {
         int index = 0;
-        double d0 = Double.MAX_VALUE; // 1.7976931348623157E+308D
+        double max = Double.MAX_VALUE; // 1.7976931348623157e+308d
         for (int i = 0; i < points.size(); i++) {
             Point.Double p = points.get(i);
             double d = Math.abs(point.x - p.x);
-            if (d < d0) {
-                d0 = d;
+            if (d < max) {
+                max = d;
                 index = i;
             }
         }
@@ -131,6 +131,7 @@ public class ToneLine extends ToneBase {
         }
     }
 
+    /** @return null when not found */
     public Point.Double get(int index) {
         if (index >= 0 && index < points.size())
             return points.get(index);
@@ -138,6 +139,7 @@ public class ToneLine extends ToneBase {
             return null;
     }
 
+    /** @return -1 when not added */
     public int add(Point2D.Double point) {
         if (point.y < min || max < point.y)
             return -1;

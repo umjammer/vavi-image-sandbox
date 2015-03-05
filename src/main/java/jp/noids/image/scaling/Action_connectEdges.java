@@ -42,11 +42,11 @@ public abstract class Action_connectEdges implements DirectionConstants, Constan
                 return null;
             else
                 return edge1;
-        byte byte0;
+        int direction;
         if (edge instanceof EdgeX)
-            byte0 = ((byte) (asc ? 1 : 3));
+            direction = asc ? 1 : 3;
         else if (edge instanceof EdgeY)
-            byte0 = ((byte) (asc ? 2 : 0));
+            direction = asc ? 2 : 0;
         else
             throw new RuntimeException("不正な値");
         int l = 0;
@@ -54,18 +54,18 @@ public abstract class Action_connectEdges implements DirectionConstants, Constan
         boolean flag1 = false;
 label0: for (int i = 0; i < table_a.length; i++) {
             Class_a a1 = table_a[i];
-            Point p = a(x, y, byte0, a1);
+            Point p = getPoint_a(x, y, direction, a1);
             if (p.x < 0 || edgeData.getImage().getWidth() <= p.x || p.y < 0 || edgeData.getImage().getHeight() <= p.y)
                 continue;
             Edge[] edges = edgeData.getEdgesAt(p.x, p.y);
             for (int j = 0; j < edges.length; j++) {
                 Edge_g edge2 = (Edge_g) edges[j];
-                if (edge2 == edge || edge.isClosed((edge2)))
+                if (edge2 == edge || edge.contains((edge2)))
                     continue;
-                int r = a(edgeData, edge, edge2, byte0, x, y, a1);
+                int r = a(edgeData, edge, edge2, direction, x, y, a1);
                 if (r <= 0)
                     continue;
-                boolean flag2 = a(byte0, a1, edge2);
+                boolean flag2 = a(direction, a1, edge2);
                 if (obj == null) {
                     obj = (edge2);
                     l = r;
@@ -82,10 +82,10 @@ label0: for (int i = 0; i < table_a.length; i++) {
 
         if (l < 8)
             return null;
-        if (UtLine.a((Edge) edge, asc, (Edge) obj, flag1, l)) {
+        if (UtLine.connect((Edge) edge, asc, (Edge) obj, flag1, l)) {
             return ((Edge_g) obj);
         } else {
-            edge.a(asc, Edge.dummyEdge, 0);
+            edge.connect(asc, Edge.dummyEdge, 0);
             return null;
         }
     }
@@ -389,7 +389,7 @@ label0: for (int i = 0; i < table_a.length; i++) {
         return d3 + d4 < d1 + d2;
     }
 
-    private static Point a(int x, int y, int direction, Class_a a1) {
+    private static Point getPoint_a(int x, int y, int direction, Class_a a1) {
         int x1;
         int y1;
         switch (direction) {

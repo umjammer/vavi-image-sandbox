@@ -36,7 +36,7 @@ public class PixDraw_edgeEnd implements jp.noids.image.scaling.pixDraw.Pixel {
     protected byte b3;
 
     public PixDraw_edgeEnd(Point p, Point.Double sp, Point.Double ep, int i, int rgb2, int rgb3, double sx, double sy) {
-        double d = 0.0001D;
+        double d = 0.0001d;
         if (sp.x == p.x)
             sp.x += d;
         else if (sp.x == (p.x + 1))
@@ -102,14 +102,14 @@ public class PixDraw_edgeEnd implements jp.noids.image.scaling.pixDraw.Pixel {
     }
 
     public int getRgb(int x, int y, double x1, double y1, double scaleX, double scaleY) {
-        return b(x, y, x1 + scaleX * 0.5d, y1 + scaleY * 0.5d);
+        return getRgb_b(x, y, x1 + scaleX * 0.5d, y1 + scaleY * 0.5d);
     }
 
     private int toArgb(byte r, byte g, byte b) {
         return 0xff000000 | (r & 0xff) << 16 | (g & 0xff) << 8 | b & 0xff;
     }
 
-    public int b(int x, int y, double x1, double y1) {
+    public int getRgb_b(int x, int y, double x1, double y1) {
         int argb2 = c(x, y, x1, y1);
         double rateX;
         double rateY;
@@ -117,61 +117,61 @@ public class PixDraw_edgeEnd implements jp.noids.image.scaling.pixDraw.Pixel {
         switch (direction) {
         case 2:
             rateX = (startPoint.x - x1) / (startPoint.x - x);
-            if (rateX < 0.0D)
-                rateX = 0.0D;
-            else if (rateX > 1.0D)
-                rateX = 1.0D;
-            double v2 = rateX * endPoint.y + (1.0D - rateX) * startPoint.y;
+            if (rateX < 0.0d)
+                rateX = 0.0d;
+            else if (rateX > 1.0d)
+                rateX = 1.0d;
+            double v2 = rateX * endPoint.y + (1.0d - rateX) * startPoint.y;
             if (y1 < v2) {
-                rateY = 1.0D - (v2 - y1) / (endPoint.y - y);
+                rateY = 1.0d - (v2 - y1) / (endPoint.y - y);
                 argb = toArgb(r0, g0, b0);
             } else {
-                rateY = 1.0D - (y1 - v2) / ((y + 1) - endPoint.y);
+                rateY = 1.0d - (y1 - v2) / ((y + 1) - endPoint.y);
                 argb = toArgb(r2, g2, b2);
             }
             break;
         case 0:
             rateX = (x1 - startPoint.x) / ((x + 1) - startPoint.x);
-            if (rateX < 0.0D)
-                rateX = 0.0D;
-            else if (rateX > 1.0D)
-                rateX = 1.0D;
-            double v0 = rateX * endPoint.y + (1.0D - rateX) * startPoint.y;
+            if (rateX < 0.0d)
+                rateX = 0.0d;
+            else if (rateX > 1.0d)
+                rateX = 1.0d;
+            double v0 = rateX * endPoint.y + (1.0d - rateX) * startPoint.y;
             if (y1 < v0) {
-                rateY = 1.0D - (v0 - y1) / (endPoint.y - y);
+                rateY = 1.0d - (v0 - y1) / (endPoint.y - y);
                 argb = toArgb(r1, g1, b1);
             } else {
-                rateY = 1.0D - (y1 - v0) / ((y + 1) - endPoint.y);
+                rateY = 1.0d - (y1 - v0) / ((y + 1) - endPoint.y);
                 argb = toArgb(r3, g3, b3);
             }
             break;
         case 3:
             rateX = (y1 - startPoint.y) / ((y + 1) - startPoint.y);
-            if (rateX < 0.0D)
-                rateX = 0.0D;
-            else if (rateX > 1.0D)
-                rateX = 1.0D;
-            double v3 = rateX * endPoint.x + (1.0D - rateX) * startPoint.x;
+            if (rateX < 0.0d)
+                rateX = 0.0d;
+            else if (rateX > 1.0d)
+                rateX = 1.0d;
+            double v3 = rateX * endPoint.x + (1.0d - rateX) * startPoint.x;
             if (x1 < v3) {
-                rateY = 1.0D - (v3 - x1) / (endPoint.x - x);
+                rateY = 1.0d - (v3 - x1) / (endPoint.x - x);
                 argb = toArgb(r2, g2, b2);
             } else {
-                rateY = 1.0D - (x1 - v3) / ((x + 1) - endPoint.x);
+                rateY = 1.0d - (x1 - v3) / ((x + 1) - endPoint.x);
                 argb = toArgb(r3, g3, b3);
             }
             break;
         case 1:
             rateX = (startPoint.y - y1) / (startPoint.y - y);
-            if (rateX < 0.0D)
-                rateX = 0.0D;
-            else if (rateX > 1.0D)
-                rateX = 1.0D;
-            double v1 = rateX * endPoint.x + (1.0D - rateX) * startPoint.x;
+            if (rateX < 0.0d)
+                rateX = 0.0d;
+            else if (rateX > 1.0d)
+                rateX = 1.0d;
+            double v1 = rateX * endPoint.x + (1.0d - rateX) * startPoint.x;
             if (x1 < v1) {
-                rateY = 1.0D - (v1 - x1) / (endPoint.x - x);
+                rateY = 1.0d - (v1 - x1) / (endPoint.x - x);
                 argb = toArgb(r0, g0, b0);
             } else {
-                rateY = 1.0D - (x1 - v1) / ((x + 1) - endPoint.x);
+                rateY = 1.0d - (x1 - v1) / ((x + 1) - endPoint.x);
                 argb = toArgb(r1, g1, b1);
             }
             break;
@@ -179,15 +179,15 @@ public class PixDraw_edgeEnd implements jp.noids.image.scaling.pixDraw.Pixel {
         default:
             throw new RuntimeException("未実装 : " + direction);
         }
-        if (rateY < 0.0D)
-            rateY = 0.0D;
-        else if (rateY > 1.0D)
-            rateY = 1.0D;
+        if (rateY < 0.0d)
+            rateY = 0.0d;
+        else if (rateY > 1.0d)
+            rateY = 1.0d;
         double rate = rateX + rateX * rateY;
-        if (rate > 1.0D)
-            rate = 1.0D;
-        else if (rate < 0.0D)
-            rate = 0.0D;
+        if (rate > 1.0d)
+            rate = 1.0d;
+        else if (rate < 0.0d)
+            rate = 0.0d;
         return ScalingUtil.blend(argb, argb2, rate);
     }
 
@@ -226,17 +226,17 @@ public class PixDraw_edgeEnd implements jp.noids.image.scaling.pixDraw.Pixel {
     public int c(int x1, int y1, double x2, double y2) {
         double dx = x2 - x1;
         double dy = y2 - y1;
-        int r = (int) ((1.0D - dx) * (1.0D - dy) * (r0 & 0xff) +
-                dx * (1.0D - dy) * (r1 & 0xff) +
-                (1.0D - dx) * dy * (r2 & 0xff) +
+        int r = (int) ((1.0d - dx) * (1.0d - dy) * (r0 & 0xff) +
+                dx * (1.0d - dy) * (r1 & 0xff) +
+                (1.0d - dx) * dy * (r2 & 0xff) +
                 dx * dy * (r3 & 0xff));
-        int g = (int) ((1.0D - dx) * (1.0D - dy) * (g0 & 0xff) +
-                dx * (1.0D - dy) * (g1 & 0xff) +
-                (1.0D - dx) * dy * (g2 & 0xff) +
+        int g = (int) ((1.0d - dx) * (1.0d - dy) * (g0 & 0xff) +
+                dx * (1.0d - dy) * (g1 & 0xff) +
+                (1.0d - dx) * dy * (g2 & 0xff) +
                 dx * dy * (g3 & 0xff));
-        int b = (int) ((1.0D - dx) * (1.0D - dy) * (b0 & 0xff) +
-                dx * (1.0D - dy) * (b1 & 0xff) +
-                (1.0D - dx) * dy * (b2 & 0xff) +
+        int b = (int) ((1.0d - dx) * (1.0d - dy) * (b0 & 0xff) +
+                dx * (1.0d - dy) * (b1 & 0xff) +
+                (1.0d - dx) * dy * (b2 & 0xff) +
                 dx * dy * (b3 & 0xff));
         if (r < 0)
             r = 0;

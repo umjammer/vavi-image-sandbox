@@ -10,12 +10,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
+import javax.imageio.spi.ImageReaderSpi;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import vavi.imageio.ImageConverter;
 import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
+import vavix.imageio.IIOUtil;
 
 
 /**
@@ -25,6 +30,34 @@ import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
  * @version 0.00 2011/08/31 umjammer initial version <br>
  */
 public class Test20 {
+
+    static {
+        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+    }
+
+    /**
+     * TODO png
+     */
+    @Test
+    public void test01() throws Exception {
+        final double scale = Math.PI * 2;
+
+        BufferedImage originalImage = ImageIO.read(getClass().getResourceAsStream("namacha02.jpg"));
+        ImageConverter converter = ImageConverter.getInstance();
+        converter.setColorModelType(BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = converter.toBufferedImage(originalImage);
+
+        NoidsEnlargeOp filter = new NoidsEnlargeOp(scale, scale);
+        BufferedImage actualImage = filter.filter(image, null);
+
+        final BufferedImage expectedImage = ImageIO.read(getClass().getResourceAsStream("enlarged.png"));
+        
+        for (int y = 0; y < expectedImage.getHeight(); y++) {
+            for (int x = 0; x < expectedImage.getWidth(); x++) {
+                Assert.assertEquals(expectedImage.getRGB(x, y), actualImage.getRGB(x, y));
+            }
+        }
+    }
 
     /**
      * @param args
@@ -49,7 +82,7 @@ public class Test20 {
             }
         };
         panel.setPreferredSize(new Dimension(filterdImage.getWidth(), filterdImage.getHeight()));
-
+ImageIO.write(filterdImage, "PNG", new File("tmp/enlarged.png"));
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(new JScrollPane(panel));

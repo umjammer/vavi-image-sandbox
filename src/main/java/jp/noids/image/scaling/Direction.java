@@ -3,15 +3,15 @@ package jp.noids.image.scaling;
 
 
 /** l */
-public final class Direction {
+public enum Direction {
+
+    NORTH("N"),
+    SOUTH("S"),
+    WEST("W"),
+    EAST("E"),
+    ANY("ANY");
 
     String text;
-
-    public static final Direction NORTH = new Direction("N");
-    public static final Direction SOUTH = new Direction("S");
-    public static final Direction WEST = new Direction("W");
-    public static final Direction EAST = new Direction("E");
-    public static final Direction ANY = new Direction("ANY");
 
     private Direction(String text) {
         this.text = text;

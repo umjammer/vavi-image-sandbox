@@ -19,7 +19,7 @@ public abstract class HSL {
     };
 
     @SuppressWarnings("unused")
-    private static double[] table3 = UtMath.a(table1, table2, (double[]) null);
+    private static double[] table3 = UtMath.mathod_a(table1, table2, (double[]) null);
 
     public static void main(String[] args) {
         int[] colors = UtColor.getDefaultColorTable();
@@ -72,31 +72,31 @@ public abstract class HSL {
     public static double[] toHsl(double r, double g, double b, double[] ret) {
         if (ret == null)
             ret = new double[3];
-        double d4 = r < g ? g <= b ? b : g : r <= b ? b : r;
-        double d3 = r > g ? g >= b ? b : g : r >= b ? b : r;
-        ret[2] = (d4 + d3) - 1.0d;
-        double d5 = d4 - d3;
-        if (d5 == 0.0d) {
+        double max = r < g ? g <= b ? b : g : r <= b ? b : r;
+        double min = r > g ? g >= b ? b : g : r >= b ? b : r;
+        ret[2] = (max + min) - 1.0d;
+        double delta = max - min;
+        if (delta == 0.0d) {
             ret[1] = 0.0d;
             ret[0] = 0.0d;
             return ret;
         }
         if (ret[2] <= 0.0d)
-            ret[1] = d5 / (d4 + d3);
+            ret[1] = delta / (max + min);
         else
-            ret[1] = d5 / (2d - (d4 + d3));
+            ret[1] = delta / (2d - (max + min));
         double h;
-        if (r == d4)
-            h = (g - b) / d5;
-        else if (g == d4)
-            h = 2d + (b - r) / d5;
+        if (r == max)
+            h = (g - b) / delta;
+        else if (g == max)
+            h = 2d + (b - r) / delta;
         else
-            h = 4d + (r - g) / d5;
+            h = 4d + (r - g) / delta;
         h *= 60d;
         if (h < 0.0d)
             h += 360d;
         ret[0] = h;
-        ret[1] = ret[1] * (1.0D - (ret[2] >= 0.0D ? ret[2] : -ret[2]));
+        ret[1] = ret[1] * (1.0d - (ret[2] >= 0.0d ? ret[2] : -ret[2]));
         return ret;
     }
 
@@ -136,33 +136,33 @@ public abstract class HSL {
         h = limit(h, 360d);
         if (h < 0.0d)
             h += 360d;
-        double s_;
-        double l_;
+        double m1;
+        double m2;
         if (l <= 0.0d) {
-            s_ = ((l + 1.0d) / 2d) * (1.0d - s);
-            l_ = (l + 1.0d) - s_;
+            m1 = ((l + 1.0d) / 2d) * (1.0d - s);
+            m2 = (l + 1.0d) - m1;
         } else {
-            l_ = ((l + 1.0d) / 2d) * (1.0d - s) + s;
-            s_ = (l + 1.0d) - l_;
+            m2 = ((l + 1.0d) / 2d) * (1.0d - s) + s;
+            m1 = (l + 1.0d) - m2;
         }
-        ret[0] = get_b(h + 120d, s_, l_);
-        ret[1] = get_b(h, s_, l_);
-        ret[2] = get_b(h - 120D, s_, l_);
+        ret[0] = getRgbValue(h + 120d, m1, m2);
+        ret[1] = getRgbValue(h, m1, m2);
+        ret[2] = getRgbValue(h - 120d, m1, m2);
         return ret;
     }
 
-    static double get_b(double h, double s, double l) {
+    static double getRgbValue(double h, double n1, double n2) {
         h = limit(h, 360d);
         if (h < 0.0d)
             h += 360d;
         if (h < 60d)
-            return s + ((l - s) * h) / 60d;
+            return n1 + ((n2 - n1) * h) / 60d;
         if (h >= 60d && h < 180d)
-            return l;
+            return n2;
         if (h >= 180d && h < 240d)
-            return s + ((l - s) * (240d - h)) / 60d;
+            return n1 + ((n2 - n1) * (240d - h)) / 60d;
         else
-            return s;
+            return n1;
     }
 
     static double limit(double value, double limit) {

@@ -55,19 +55,19 @@ public abstract class UtColor {
     private static double[] table12 = c(table10, table11);
 
     private static double[] c(double[] rgb1, double[] rgb2) {
-        return UtMath.a(rgb1, rgb2, (double[]) null);
+        return UtMath.mathod_a(rgb1, rgb2, (double[]) null);
     }
 
     public static double distance(int rgb1, int rgb2) {
-        double[] c1 = toFlat(rgb1);
-        double[] c2 = toFlat(rgb2);
+        double[] c1 = flatten(rgb1);
+        double[] c2 = flatten(rgb2);
         return Math.sqrt((c1[0] - c2[0]) * (c1[0] - c2[0]) +
                          (c1[1] - c2[1]) * (c1[1] - c2[1]) +
                          (c1[2] - c2[2]) * (c1[2] - c2[2]));
     }
 
     /** @return rgb */
-    public static double[] toFlat(int rgb) {
+    public static double[] flatten(int rgb) {
         double r = (rgb >>> 16 & 0xff) / 255D;
         double g = (rgb >>> 8 & 0xff) / 255D;
         double b = (rgb & 0xff) / 255D;

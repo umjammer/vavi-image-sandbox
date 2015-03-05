@@ -9,7 +9,7 @@ import jp.noids.graphics.geom.UtVector;
 import jp.noids.image.scaling.edge.EdgeX;
 import jp.noids.image.scaling.edge.EdgeY;
 import jp.noids.image.util.UtImage;
-import jp.noids.image.util.Class_a;
+import jp.noids.image.util.InteriorDivision;
 
 
 public abstract class Action_createEdgeData4 implements DirectionConstants, Constants {
@@ -19,10 +19,16 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
     static boolean flag1 = false;
     static double value3 = 0.01d;
 
+    /**
+     * 
+     * @param image type should be {@link BufferedImage#TYPE_INT_ARGB}
+     * @throws IllegalArgumentException
+     * @throws InterruptedException
+     */
     public static EdgeData createEdge(BufferedImage image, int margin) throws InterruptedException {
         try {
             if (image.getType() != BufferedImage.TYPE_INT_ARGB)
-                throw new RuntimeException("INT_ARGB以外の型については未実装です");
+                throw new IllegalArgumentException("INT_ARGB以外の型については未実装です");
             int w = image.getWidth();
             int h = image.getHeight();
             EdgeData edgeData = new EdgeData(image, margin);
@@ -41,7 +47,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                         x = ex;
                     }
                     if (c++ > h * w * 10)
-                        throw new RuntimeException("無限ループ");
+                        throw new IllegalStateException("無限ループ");
                 }
             }
 
@@ -61,7 +67,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                         y = ey;
                     }
                     if (c++ > h * w * 10)
-                        throw new RuntimeException("無限ループ");
+                        throw new IllegalStateException("無限ループ");
                 }
             }
 
@@ -151,7 +157,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             HSL.toHsl(argb3, hsl1);
             double d4 = HSL.get_value_a(hsl2, hsl1);
             if (d4 > 0.09d) {
-                Class_a a1 = new Class_a(argb2, argb1, argb3);
+                InteriorDivision a1 = new InteriorDivision(argb2, argb1, argb3);
                 if (a1.is_InRange1(0.0d, value2)) {
                     flag = true;
                     x2 = x + 3;
@@ -172,7 +178,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                 break;
             double[] hsl9 = HSL.getHsl_b(hsl1, (double[]) null);
             UtVector.get_diff(hsl0, hsl9, hsl8);
-            double a = UtVector.get_angle_a(hsl7, hsl8);
+            double a = UtVector.getAngle(hsl7, hsl8);
             if (a > 0.69813170079773179d) { // 40 degree [radian]
                 break;
             }
@@ -190,7 +196,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             HSL.toHsl(l2, hsl1);
             double d6 = HSL.get_value_a(hsl2, hsl1);
             if (d6 - d1 > value1) {
-                Class_a a2 = new Class_a(l2, argb1, argb2);
+                InteriorDivision a2 = new InteriorDivision(l2, argb1, argb2);
                 if (a2.is_InRange3(0.0D, value2)) {
                     argb2 = l2;
                     k2++;
@@ -229,7 +235,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             HSL.toHsl(argb3, hsl0);
             double hsl5 = HSL.get_value_a(hsl1, hsl0);
             if (hsl5 > 0.09d) {
-                Class_a a1 = new Class_a(argb2, argb1, argb3);
+                InteriorDivision a1 = new InteriorDivision(argb2, argb1, argb3);
                 if (a1.is_InRange1(0.0D, value2)) {
                     flag = true;
                     y1 = y + 3;
@@ -252,7 +258,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             }
             double[] hsl9 = HSL.getHsl_b(hsl0, (double[]) null);
             UtVector.get_diff(hsl2, hsl9, hsl8);
-            double a = UtVector.get_angle_a(hsl7, hsl8);
+            double a = UtVector.getAngle(hsl7, hsl8);
             if (a > 0.69813170079773179d) { // 40 degree [radian]
                 break;
             }
@@ -269,7 +275,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             HSL.toHsl(argb3, hsl0);
             double d6 = HSL.get_value_a(hsl1, hsl0);
             if (d6 - d1 > value1) {
-                Class_a a2 = new Class_a(argb3, argb1, argb2);
+                InteriorDivision a2 = new InteriorDivision(argb3, argb1, argb2);
                 if (a2.is_InRange3(0.0d, value2)) {
                     argb2 = argb3;
                     y2++;

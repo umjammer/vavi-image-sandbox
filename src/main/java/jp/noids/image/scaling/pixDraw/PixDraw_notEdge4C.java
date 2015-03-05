@@ -43,12 +43,12 @@ public class PixDraw_notEdge4C implements Pixel {
     public int getRgb(int x, int y, double x1, double y1, double sx, double sy) {
         double dx = x1 - x;
         double dy = y1 - y;
-        int r = (int) ((1.0D - dx) * (1.0D - dy) * (r0 & 0xff) + dx * (1.0D - dy) * (r1 & 0xff) + (1.0D - dx)
-                       * dy * (r2 & 0xff) + dx * dy * (r3 & 0xff));
-        int g = (int) ((1.0D - dx) * (1.0D - dy) * (g0 & 0xff) + dx * (1.0D - dy) * (g1 & 0xff)
-                        + (1.0D - dx) * dy * (g2 & 0xff) + dx * dy * (g3 & 0xff));
-        int b = (int) ((1.0D - dx) * (1.0D - dy) * (b0 & 0xff) + dx * (1.0D - dy) * (b1 & 0xff)
-                        + (1.0D - dx) * dy * (b2 & 0xff) + dx * dy * (b3 & 0xff));
+        int r = (int) ((1.0d - dx) * (1.0d - dy) * (r0 & 0xff) + dx * (1.0d - dy) * (r1 & 0xff) + (1.0d - dx) * dy
+                       * (r2 & 0xff) + dx * dy * (r3 & 0xff));
+        int g = (int) ((1.0d - dx) * (1.0d - dy) * (g0 & 0xff) + dx * (1.0d - dy) * (g1 & 0xff) + (1.0d - dx) * dy
+                       * (g2 & 0xff) + dx * dy * (g3 & 0xff));
+        int b = (int) ((1.0d - dx) * (1.0d - dy) * (b0 & 0xff) + dx * (1.0d - dy) * (b1 & 0xff) + (1.0d - dx) * dy
+                       * (b2 & 0xff) + dx * dy * (b3 & 0xff));
         if (r < 0)
             r = 0;
         else if (r > 255)
@@ -68,6 +68,9 @@ public class PixDraw_notEdge4C implements Pixel {
         return true;
     }
 
+    /**
+     * @throws IllegalArgumentException direction
+     */
     public void setCornerColor(int r, int g, int direction, int rgb) {
         switch (direction) {
         case 0:
@@ -91,7 +94,7 @@ public class PixDraw_notEdge4C implements Pixel {
             b3 = (byte) (rgb & 0xff);
             break;
         default:
-            throw new RuntimeException("おかしな状態");
+            throw new IllegalArgumentException("direction: " + direction);
         }
     }
 
