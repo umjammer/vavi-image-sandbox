@@ -1,0 +1,14 @@
+--- avalon-framework-impl-4.2.0.pom.orig	2012-10-30 16:14:32.000000000 +0900
++++ avalon-framework-impl-4.2.0.pom	2012-10-30 16:14:12.000000000 +0900
+@@ -3,4 +3,11 @@
+   <groupId>avalon-framework</groupId>
+   <artifactId>avalon-framework-impl</artifactId>
+   <version>4.2.0</version>
++  <dependencies>
++    <dependency>
++      <groupId>avalon-framework</groupId>
++      <artifactId>avalon-framework-api</artifactId>
++      <version>4.2.0</version>
++    </dependency>
++  </dependencies>
+ </project>

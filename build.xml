@@ -13,7 +13,7 @@
 <!-- ////////////////////////////////////////////////////////////////////// -->
 
 <project name="vavi-image-sandbox" default="run" basedir="."
-	     xmlns:ivy="antlib:org.apache.ivy.ant">
+         xmlns:ivy="antlib:org.apache.ivy.ant">
 
   <!-- -->
   <property file="local.properties" />
@@ -47,6 +47,7 @@
         <include name="libimageioJPEG_simd.*" />
       </fileset>
     </delete>
+    <ivy:cleancache/>
   </target>
   
   <!-- prepare -->
@@ -84,6 +85,7 @@
       <arg value="-I." />
       <arg value="-I${libjpeg.include}" />
       <arg value="-I${jdk.home}/include" />
+      <arg value="-I${jdk.home}/include/darwin" />
       <arg value="-o"/>
       <targetfile/>
       <srcfile/>
@@ -96,7 +98,7 @@
   <target name="link" depends="compile.native" description="Makeing DLL">
     <apply executable="gcc" dest="lib">
       <arg line="-dynamiclib" />
-      <arg line="--add-stdcall-alias -read_only_relocs suppress" />
+      <arg line="-read_only_relocs suppress" />
       <arg line="-arch i386" />
       <arg value="${libjpeg.home}/.libs/libjpeg.a" />
       <arg value="${dir.src}/vavix/imageio/jpeg/jni_util.o" />
@@ -162,10 +164,13 @@
 
   <!-- t113 -->    
   <target name="t113" depends="packaging" description="Tests ColorMatcher class.">
-    <java classname="ColorMatcher" fork="yes">
-      <classpath refid="project.class.path" />
-	  <arg value="#00ff00" />
-	</java>
+    <java classname="vavix.awt.image.util.ColorMatcherTest" fork="yes">
+      <classpath>
+      	<path refid="project.class.path" />
+      	<pathelement location="target/test-classes"/>
+      </classpath>
+      <arg value="#00ff00" />
+    </java>
   </target>
 	
   <!-- t8 -->
