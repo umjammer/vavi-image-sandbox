@@ -51,7 +51,11 @@ public class Test20 {
         BufferedImage actualImage = filter.filter(image, null);
 
         final BufferedImage expectedImage = ImageIO.read(getClass().getResourceAsStream("enlarged.png"));
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> NOIDS
         for (int y = 0; y < expectedImage.getHeight(); y++) {
             for (int x = 0; x < expectedImage.getWidth(); x++) {
                 Assert.assertEquals(expectedImage.getRGB(x, y), actualImage.getRGB(x, y));

@@ -42,45 +42,45 @@
     </repository>
   </repositories>
   <dependencies>
-    <dependency>
-      <groupId>vavi</groupId>
-      <artifactId>vavi-commons</artifactId>
+  	<dependency>
+  		<groupId>vavi</groupId>
+  		<artifactId>vavi-commons</artifactId>
       <version>1.0.4</version>
+  	</dependency>
+    <dependency>
+        <groupId>net.sf.barcode4j</groupId>
+        <artifactId>barcode4j</artifactId>
+        <version>2.0</version>
     </dependency>
     <dependency>
-      <groupId>net.sf.barcode4j</groupId>
-      <artifactId>barcode4j</artifactId>
-      <version>2.0</version>
+    	<groupId>vavi</groupId>
+    	<artifactId>vavi-image</artifactId>
+    	<version>1.0.0</version>
+    	<optional>false</optional>
     </dependency>
     <dependency>
-      <groupId>vavi</groupId>
-      <artifactId>vavi-image</artifactId>
-      <version>1.0.0</version>
-      <optional>false</optional>
+    	<groupId>commons-logging</groupId>
+    	<artifactId>commons-logging</artifactId>
+    	<version>1.1.1</version>
+    	<scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-      <scope>test</scope>
+    	<groupId>commons-collections</groupId>
+    	<artifactId>commons-collections</artifactId>
+    	<version>3.2</version>
+    	<optional>false</optional>
     </dependency>
     <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <version>3.2</version>
-      <optional>false</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.mortennobel</groupId>
+    	<groupId>com.mortennobel</groupId>
       <artifactId>java-image-scaling</artifactId>
       <version>0.8.5</version>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.5</version>
-      <scope>test</scope>
-      <optional>false</optional>
+    	<groupId>junit</groupId>
+    	<artifactId>junit</artifactId>
+    	<version>4.5</version>
+    	<scope>test</scope>
+    	<optional>false</optional>
     </dependency>
     <dependency>
       <groupId>com.github.jai-imageio</groupId>
@@ -89,14 +89,14 @@
     </dependency>
     <dependency>
       <groupId>net.java.dev.jna</groupId>
-      <artifactId>jna</artifactId>
-      <version>3.1.0</version>
+    	<artifactId>jna</artifactId>
+    	<version>3.1.0</version>
     </dependency>
     <dependency>
-      <groupId>vavi</groupId>
-      <artifactId>vavi-commons-sandbox</artifactId>
-      <version>0.3.1</version>
-      <optional>false</optional>
+    	<groupId>vavi</groupId>
+    	<artifactId>vavi-commons-sandbox</artifactId>
+    	<version>0.3.1</version>
+    	<optional>false</optional>
     </dependency>
     <dependency>
       <groupId>com.github.umjammer</groupId>

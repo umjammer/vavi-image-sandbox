@@ -13,14 +13,14 @@
 <!-- ////////////////////////////////////////////////////////////////////// -->
 
 <project name="vavi-image-sandbox" default="run" basedir="."
-         xmlns:ivy="antlib:org.apache.ivy.ant">
+	     xmlns:ivy="antlib:org.apache.ivy.ant">
 
   <!-- -->
   <property environment="env"/>
   <property file="local.properties" />
-
+  
   <property name="dir.src" value="src/main/java" />
-
+  
   <!-- クラスパスの定義 -->
   <path id="project.class.path">
     <fileset dir="lib">
@@ -28,9 +28,9 @@
     </fileset>
     <pathelement location="target/classes"/>
   </path>
-
+  
   <!-- ターゲットの定義 -->
-
+  
   <!-- clean -->
   <target name="clean" description="ビルド環境のクリア">
     <delete>
@@ -50,7 +50,7 @@
     </delete>
     <ivy:cleancache/>
   </target>
-
+  
   <!-- prepare -->
   <target name="prepare" description="">
     <ivy:settings file="ivy-settings.xml" />
@@ -63,7 +63,7 @@
     <javac debug="on"
            deprecation="on"
            destdir="target/classes"
-           encoding="${encoding}">
+    	   encoding="${encoding}">
       <classpath refid="project.class.path" />
       <include name="**/*.java" />
       <src path="src/main/java" />
@@ -117,16 +117,16 @@
 
   <!-- jar -->
   <target name="packaging" depends="compile" description="パッケージング">
-    <copy todir="target/classes">
-      <fileset dir="src/main/resources">
-        <include name="**/*" />
+  	<copy todir="target/classes">
+  	  <fileset dir="src/main/resources">
+  	  	<include name="**/*" />
       </fileset>
-    </copy>
+  	</copy>
     <jar jarfile="target/vavi-image-sandbox.jar">
       <fileset dir="target/classes" />
     </jar>
   </target>
-
+  
   <!-- run -->
   <target name="run" depends="packaging" description="プログラムの実行">
     <java classname="vavi.util.qr.Qrcode" fork="yes">
@@ -165,24 +165,24 @@
     </java>
   </target>
 
-  <!-- t113 -->
+  <!-- t113 -->    
   <target name="t113" depends="packaging" description="Tests ColorMatcher class.">
     <java classname="vavix.awt.image.util.ColorMatcherTest" fork="yes">
       <classpath>
-        <path refid="project.class.path" />
-        <pathelement location="target/test-classes"/>
+      	<path refid="project.class.path" />
+      	<pathelement location="target/test-classes"/>
       </classpath>
-      <arg value="#00ff00" />
-    </java>
+	  <arg value="#00ff00" />
+	</java>
   </target>
-
+	
   <!-- t8 -->
   <target name="t8" depends="" description="jpeg simd">
     <java classname="Test8" jvm="${java6_32.home}/bin/java" fork="yes">
       <jvmarg value="-Djava.library.path=lib"/>
       <classpath>
-        <path refid="project.class.path" />
-        <pathelement location="target/test-classes"/>
+      	<path refid="project.class.path" />
+      	<pathelement location="target/test-classes"/>
       </classpath>
       <arg value="${t8.in}" />
     </java>
