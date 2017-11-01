@@ -16,8 +16,8 @@ java6_32.home=/usr/local/openjdk6-b16-24_apr_2009-r1
 #
 #
 #
-run.value=\u4f50\u91ce \u76f4\u79c0
-#run.value=http://www.klab.org/
+run.value=Foo Bar
+#run.value=http://www.oracle.com/
 run.size=16
 
 t8.in=../vavi-image/tmp/erika.jpg
