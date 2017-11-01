@@ -28,7 +28,7 @@ import vavix.awt.image.resample.enlarge.smilla.PFloat;
 
 
 /**
- * BasicEnlargerTest. 
+ * BasicEnlargerTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/14 nsano initial version <br>
@@ -110,7 +110,7 @@ System.err.println(srcX + ", " + srcY + ": " + source.getRGB(srcX, srcY));
             }
         };
         panel.setPreferredSize(new Dimension(640, 480));
-        
+
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JScrollPane scrollPane = new JScrollPane();

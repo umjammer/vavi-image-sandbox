@@ -79,7 +79,7 @@ System.err.println(file);
         DataInputStream dis = new DataInputStream(is);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-        List<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<>();
 
         boolean inStream = false;
 end:
@@ -148,7 +148,7 @@ System.err.printf("data: %d bytes\n", baos.size());
                 assert false : String.format("bad placed data: %02X", c);
             }
         }
-        
+
         System.err.println();
         for (Segment segment : segments) {
             System.err.println(segment);

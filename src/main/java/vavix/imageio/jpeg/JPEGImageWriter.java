@@ -62,6 +62,7 @@ import org.w3c.dom.Node;
 
 import sun.java2d.Disposer;
 import sun.java2d.DisposerRecord;
+import vavix.imageio.jpeg.DQTMarkerSegment.Qtable;
 
 public class JPEGImageWriter extends ImageWriter {
 
@@ -103,7 +104,7 @@ public class JPEGImageWriter extends ImageWriter {
     /**
      * If there are thumbnails to be written, this is the list.
      */
-    private List thumbnails = null;
+    private List<? extends BufferedImage> thumbnails = null;
 
     /**
      * If metadata should include an icc profile, store it here.
@@ -310,7 +311,7 @@ public class JPEGImageWriter extends ImageWriter {
                                                   IIOMetadata streamMetadata,
                                                   IIOMetadata imageMetadata) {
         if (jfifOK(imageType, param, streamMetadata, imageMetadata)) {
-            return (Dimension [])preferredThumbSizes.clone();
+            return preferredThumbSizes.clone();
         }
         return null;
     }
@@ -1339,12 +1340,12 @@ public class JPEGImageWriter extends ImageWriter {
      */
     private int [] collectScans(JPEGMetadata metadata,
                                 SOFMarkerSegment sof) {
-        List segments = new ArrayList();
+        List<MarkerSegment> segments = new ArrayList<>();
         int SCAN_SIZE = 9;
         int MAX_COMPS_PER_SCAN = 4;
-        for (Iterator iter = metadata.markerSequence.iterator();
+        for (Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
              iter.hasNext();) {
-            MarkerSegment seg = (MarkerSegment) iter.next();
+            MarkerSegment seg = iter.next();
             if (seg instanceof SOSMarkerSegment) {
                 segments.add(seg);
             }
@@ -1386,10 +1387,10 @@ public class JPEGImageWriter extends ImageWriter {
      */
     private JPEGQTable [] collectQTablesFromMetadata
         (JPEGMetadata metadata) {
-        ArrayList tables = new ArrayList();
-        Iterator iter = metadata.markerSequence.iterator();
+        ArrayList<Qtable> tables = new ArrayList<>();
+        Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
         while (iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment) iter.next();
+            MarkerSegment seg = iter.next();
             if (seg instanceof DQTMarkerSegment) {
                 DQTMarkerSegment dqt =
                     (DQTMarkerSegment) seg;
@@ -1401,7 +1402,7 @@ public class JPEGImageWriter extends ImageWriter {
             retval = new JPEGQTable[tables.size()];
             for (int i = 0; i < retval.length; i++) {
                 retval[i] =
-                    new JPEGQTable(((DQTMarkerSegment.Qtable)tables.get(i)).data);
+                    new JPEGQTable(tables.get(i).data);
             }
         }
         return retval;
@@ -1416,16 +1417,16 @@ public class JPEGImageWriter extends ImageWriter {
      */
     private JPEGHuffmanTable[] collectHTablesFromMetadata
         (JPEGMetadata metadata, boolean wantDC) throws IIOException {
-        ArrayList tables = new ArrayList();
-        Iterator iter = metadata.markerSequence.iterator();
+        ArrayList<DHTMarkerSegment.Htable> tables = new ArrayList<>();
+        Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
         while (iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment) iter.next();
+            MarkerSegment seg = iter.next();
             if (seg instanceof DHTMarkerSegment) {
                 DHTMarkerSegment dht =
                     (DHTMarkerSegment) seg;
                 for (int i = 0; i < dht.tables.size(); i++) {
                     DHTMarkerSegment.Htable htable =
-                        (DHTMarkerSegment.Htable) dht.tables.get(i);
+                        dht.tables.get(i);
                     if (htable.tableClass == (wantDC ? 0 : 1)) {
                         tables.add(htable);
                     }
@@ -1607,9 +1608,9 @@ public class JPEGImageWriter extends ImageWriter {
     ////////////// Native methods and callbacks
 
     /** Sets up static native structures. */
-    private static native void initWriterIDs(Class iosClass,
-                                             Class qTableClass,
-                                             Class huffClass);
+    private static native void initWriterIDs(Class<?> iosClass,
+                                             Class<?> qTableClass,
+                                             Class<?> huffClass);
 
     /** Sets up per-writer native structure and returns a pointer to it. */
     private native long initJPEGImageWriter();

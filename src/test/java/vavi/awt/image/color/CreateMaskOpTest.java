@@ -86,8 +86,8 @@ public class CreateMaskOpTest {
 
 //    @Test
     public void test01() throws Exception {
-        List<BufferedImage> images = new ArrayList<BufferedImage>();
-        List<IIOMetadataNode> metadataNodes = new ArrayList<IIOMetadataNode>();
+        List<BufferedImage> images = new ArrayList<>();
+        List<IIOMetadataNode> metadataNodes = new ArrayList<>();
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
         ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/vavi/awt/image/color/sendMail.gif"));
@@ -162,8 +162,8 @@ public class CreateMaskOpTest {
 
 //    @Test
     public void test04() throws Exception {
-        List<BufferedImage> images = new ArrayList<BufferedImage>();
-        List<IIOMetadataNode> metadataNodes = new ArrayList<IIOMetadataNode>();
+        List<BufferedImage> images = new ArrayList<>();
+        List<IIOMetadataNode> metadataNodes = new ArrayList<>();
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
         ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/vavi/awt/image/color/sendMail.gif"));
@@ -176,7 +176,7 @@ public class CreateMaskOpTest {
         int imageWidth = 0;
         int imageHeight = 0;
         ColorModel colorModel = null; 
-        Map<RenderingHints.Key, Object> map = new HashMap<RenderingHints.Key, Object>();
+        Map<RenderingHints.Key, Object> map = new HashMap<>();
         map.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         map.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         map.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
@@ -317,9 +317,9 @@ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOpt
 
         GifRenderer renderer = new GifRenderer();
 
-        List<BufferedImage> images = new ArrayList<BufferedImage>();
-        List<BufferedImage> backupImages = new ArrayList<BufferedImage>();
-        List<IIOMetadataNode> metadataNodes = new ArrayList<IIOMetadataNode>();
+        List<BufferedImage> images = new ArrayList<>();
+        List<BufferedImage> backupImages = new ArrayList<>();
+        List<IIOMetadataNode> metadataNodes = new ArrayList<>();
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
         ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/vavi/awt/image/color/sendMail.gif"));

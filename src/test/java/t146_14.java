@@ -11,6 +11,7 @@ import java.awt.image.BufferedImageOp;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -51,19 +52,6 @@ public class t146_14 {
         new t146_14(args);
     }
 
-    static final float[] elements;
-    
-    static {
-        int N = 3;
-        elements = new float[N * N];
-        float center = .4f;
-        float othes = (1 - center) / (N * N - 1);
-        for (int i = 0; i < N * N; i++) {
-            elements[i] = othes;
-        }
-        elements[N * N / 2] = center;
-    };
-
     BufferedImage rightImage;
 
     BufferedImage leftImage;
@@ -95,7 +83,7 @@ System.err.println(args[0]);
             {
                 Properties props = new Properties();
                 try {
-                    props.load(t146_14.class.getResourceAsStream("local.properties"));
+                    props.load(new FileInputStream("local.properties"));
                 } catch (Exception e) {
 e.printStackTrace(System.err);
                 }
@@ -108,7 +96,7 @@ e.printStackTrace(System.err);
                     classL = Class.forName(classNameL);
                     classR = Class.forName(classNameR);
                 } catch (ClassNotFoundException e) {
-                    throw new IllegalArgumentException("no such ImageWriter: " + classNameL + " or " + classNameR);
+                    throw new IllegalArgumentException("no such ImageWriter: " + e.getMessage());
                 }
                 Iterator<ImageWriter> iws = ImageIO.getImageWritersByFormatName("JPEG");
                 while (iws.hasNext()) {
@@ -146,7 +134,7 @@ System.err.println("ImageWriter R: " + iwR.getClass());
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
                     iwL.setOutput(ios);
-    
+
                     ImageWriteParam iwp = iwL.getDefaultWriteParam();
                     iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
                     iwp.setCompressionQuality(quality);
@@ -156,7 +144,7 @@ System.err.println("ImageWriter R: " + iwR.getClass());
                     }
 //System.err.println(StringUtil.paramString(iwp.getCompressionTypes()));
 
-                    //                    
+                    //
                     iwL.write(null, new IIOImage(leftImage, null, null), iwp);
                     ios.flush();
                     ios.close();
@@ -178,13 +166,13 @@ System.err.println("ImageWriter R: " + iwR.getClass());
                     double j2kQuality = quality * 2;
                     iwp = iwR.getDefaultWriteParam();
 //System.err.println(StringUtil.paramString(iwp));
-                    if (com.sun.media.imageio.plugins.jpeg2000.J2KImageWriteParam.class.isInstance(iwp)) {
-                        com.sun.media.imageio.plugins.jpeg2000.J2KImageWriteParam.class.cast(iwp).setLossless(false);
-                        com.sun.media.imageio.plugins.jpeg2000.J2KImageWriteParam.class.cast(iwp).setFilter(com.sun.media.imageio.plugins.jpeg2000.J2KImageWriteParam.FILTER_97);
-                        com.sun.media.imageio.plugins.jpeg2000.J2KImageWriteParam.class.cast(iwp).setEncodingRate(j2kQuality);
+                    if (com.github.jaiimageio.jpeg2000.J2KImageWriteParam.class.isInstance(iwp)) {
+                        com.github.jaiimageio.jpeg2000.J2KImageWriteParam.class.cast(iwp).setLossless(false);
+                        com.github.jaiimageio.jpeg2000.J2KImageWriteParam.class.cast(iwp).setFilter(com.github.jaiimageio.jpeg2000.J2KImageWriteParam.FILTER_97);
+                        com.github.jaiimageio.jpeg2000.J2KImageWriteParam.class.cast(iwp).setEncodingRate(j2kQuality);
                     }
 
-                    //                    
+                    //
 //iwR.write(image);
                     iwR.write(null, new IIOImage(rightImage, null, null), iwp);
                     ios.flush();
@@ -197,11 +185,11 @@ System.err.println("quality: " + quality + ", size: " + baos.size());
                     os.write(j2kBytes);
                     os.flush();
                     os.close();
-                    
+
 //                    processedImage = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
                     ImageReader imageReader = ImageIO.getImageReadersByFormatName("JPEG2000").next();
                     imageReader.setInput(ImageIO.createImageInputStream(new ByteArrayInputStream(j2kBytes)), false, true);
-                    com.sun.media.imageio.plugins.jpeg2000.J2KImageReadParam irp = new com.sun.media.imageio.plugins.jpeg2000.J2KImageReadParam();
+                    com.github.jaiimageio.jpeg2000.J2KImageReadParam irp = new com.github.jaiimageio.jpeg2000.J2KImageReadParam();
 //System.err.println("decodingRate: " + irp.getDecodingRate());
                     irp.setDecodingRate(Double.MAX_VALUE);
                     processedImage = imageReader.read(0, irp);

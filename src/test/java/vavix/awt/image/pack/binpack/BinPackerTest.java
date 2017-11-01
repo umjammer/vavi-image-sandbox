@@ -28,7 +28,7 @@ import vavix.util.grep.RegexFileDigger;
 
 
 /**
- * BinPackerTest. 
+ * BinPackerTest.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/10/28 umjammer initial version <br>
@@ -42,8 +42,8 @@ public class BinPackerTest {
     @Test
     public void test001() throws IOException {
 
-        final List<BufferedImage> images = new ArrayList<BufferedImage>();
-        final List<Dimension> rects = new ArrayList<Dimension>();
+        final List<BufferedImage> images = new ArrayList<>();
+        final List<Dimension> rects = new ArrayList<>();
 
         new RegexFileDigger(new FileDigger.FileDredger() {
             public void dredge(File file) throws IOException {
@@ -59,7 +59,7 @@ public class BinPackerTest {
                 }
             }
         }, Pattern.compile(".+\\.(png|PNG)")).dig(new File("tmp/textures"));
-        
+
         BinPacker packer = new BinPacker();
         List<List<BinPacker.Rect>> packs = packer.pack(rects, 1024, true);
 

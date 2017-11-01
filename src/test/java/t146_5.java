@@ -37,7 +37,7 @@ public class t146_5 {
 
     /** */
     private static Logger logger = new AdvancedConsoleLogger(AdvancedConsoleLogger.LEVEL_DEBUG, false, System.out, System.err);
-    
+
     /** */
     public static void main(String[] args) throws Exception {
         new t146_5(args);
@@ -51,12 +51,12 @@ public class t146_5 {
         int dpi = Integer.parseInt(args[1]);
         boolean bw = Boolean.parseBoolean(args[2]);
         String symbol = args[3];
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String format = MimeTypes.expandFormat(MimeTypes.MIME_PNG);
 logger.debug("Generating " + format + "...");
 
-	    BarcodeClassResolver resolver = new DefaultBarcodeClassResolver();
+        BarcodeClassResolver resolver = new DefaultBarcodeClassResolver();
         BarcodeGenerator gen = BarcodeUtil.createBarcodeGenerator(getConfiguration(symbol), resolver);
 
 logger.debug("Resolution: " + dpi + "dpi");
@@ -75,7 +75,7 @@ logger.debug(args[0]);
         Image image = ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
 logger.debug(image.toString());
         JFrame frame = new JFrame();
-//	frame.setSize(320, 200);
+//      frame.setSize(320, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JImageComponent component = new JImageComponent();
         component.setImage(image);

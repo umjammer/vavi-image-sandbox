@@ -25,35 +25,33 @@
 
 package vavix.imageio.jpeg;
 
+import java.awt.Point;
+import java.awt.color.ColorSpace;
+import java.awt.color.ICC_ColorSpace;
+import java.awt.color.ICC_Profile;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import javax.imageio.IIOException;
 import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.ImageWriteParam;
-import javax.imageio.IIOException;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
 import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.plugins.jpeg.JPEGQTable;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataFormatImpl;
+import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.io.IOException;
-import java.awt.color.ICC_Profile;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.Point;
 
 /**
  * Metadata for the JPEG plug-in.
@@ -69,7 +67,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      * <code>markerSequence</code> is modified.  This is used by reset
      * to restore the original state.
      */
-    private List resetSequence = null;
+    private List<MarkerSegment> resetSequence = null;
 
     /**
      * Set to <code>true</code> when reading a thumbnail stored as
@@ -100,7 +98,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      * list is package visible so that the writer can access it.
      * @see #MarkerSegment
      */
-    List markerSequence = new ArrayList();
+    List<MarkerSegment> markerSequence = new ArrayList<>();
 
     /**
      * Indicates whether this object represents stream or image
@@ -644,9 +642,9 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      * with the given tag, or null if none is found.
      */
     MarkerSegment findMarkerSegment(int tag) {
-        Iterator iter = markerSequence.iterator();
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         while (iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment)iter.next();
+            MarkerSegment seg = iter.next();
             if (seg.tag == tag) {
                 return seg;
             }
@@ -658,19 +656,19 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      * Returns the first or last MarkerSegment object in the list
      * of the given class, or null if none is found.
      */
-    MarkerSegment findMarkerSegment(Class cls, boolean first) {
+    MarkerSegment findMarkerSegment(Class<?> cls, boolean first) {
         if (first) {
-            Iterator iter = markerSequence.iterator();
+            Iterator<MarkerSegment> iter = markerSequence.iterator();
             while (iter.hasNext()) {
-                MarkerSegment seg = (MarkerSegment)iter.next();
+                MarkerSegment seg = iter.next();
                 if (cls.isInstance(seg)) {
                     return seg;
                 }
             }
         } else {
-            ListIterator iter = markerSequence.listIterator(markerSequence.size());
+            ListIterator<MarkerSegment> iter = markerSequence.listIterator(markerSequence.size());
             while (iter.hasPrevious()) {
-                MarkerSegment seg = (MarkerSegment)iter.previous();
+                MarkerSegment seg = iter.previous();
                 if (cls.isInstance(seg)) {
                     return seg;
                 }
@@ -683,19 +681,19 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      * Returns the index of the first or last MarkerSegment in the list
      * of the given class, or -1 if none is found.
      */
-    private int findMarkerSegmentPosition(Class cls, boolean first) {
+    private int findMarkerSegmentPosition(Class<?> cls, boolean first) {
         if (first) {
-            ListIterator iter = markerSequence.listIterator();
+            ListIterator<MarkerSegment> iter = markerSequence.listIterator();
             for (int i = 0; iter.hasNext(); i++) {
-                MarkerSegment seg = (MarkerSegment)iter.next();
+                MarkerSegment seg = iter.next();
                 if (cls.isInstance(seg)) {
                     return i;
                 }
             }
         } else {
-            ListIterator iter = markerSequence.listIterator(markerSequence.size());
+            ListIterator<MarkerSegment> iter = markerSequence.listIterator(markerSequence.size());
             for (int i = markerSequence.size()-1; iter.hasPrevious(); i--) {
-                MarkerSegment seg = (MarkerSegment)iter.previous();
+                MarkerSegment seg = iter.previous();
                 if (cls.isInstance(seg)) {
                     return i;
                 }
@@ -705,9 +703,9 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     }
 
     private int findLastUnknownMarkerSegmentPosition() {
-        ListIterator iter = markerSequence.listIterator(markerSequence.size());
+        ListIterator<MarkerSegment> iter = markerSequence.listIterator(markerSequence.size());
         for (int i = markerSequence.size()-1; iter.hasPrevious(); i--) {
-            MarkerSegment seg = (MarkerSegment)iter.previous();
+            MarkerSegment seg = iter.previous();
             if (seg.unknown == true) {
                 return i;
             }
@@ -723,7 +721,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
             newGuy = (JPEGMetadata) super.clone();
         } catch (CloneNotSupportedException e) {} // won't happen
         if (markerSequence != null) {
-            newGuy.markerSequence = (List) cloneSequence();
+            newGuy.markerSequence = cloneSequence();
         }
         newGuy.resetSequence = null;
         return newGuy;
@@ -732,15 +730,15 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     /**
      * Returns a deep copy of the current marker sequence.
      */
-    private List cloneSequence() {
+    private List<MarkerSegment> cloneSequence() {
         if (markerSequence == null) {
             return null;
         }
-        List retval = new ArrayList(markerSequence.size());
-        Iterator iter = markerSequence.iterator();
+        List<MarkerSegment> retval = new ArrayList<>(markerSequence.size());
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         while(iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment)iter.next();
-            retval.add(seg.clone());
+            MarkerSegment seg = iter.next();
+            retval.add((MarkerSegment) seg.clone());
         }
 
         return retval;
@@ -773,7 +771,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     IIOMetadataNode getNativeTree() {
         IIOMetadataNode root;
         IIOMetadataNode top;
-        Iterator iter = markerSequence.iterator();
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         if (isStream) {
             root = new IIOMetadataNode(JPEG.nativeStreamMetadataFormatName);
             top = root;
@@ -796,7 +794,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
             top = sequence;
         }
         while(iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment) iter.next();
+            MarkerSegment seg = iter.next();
             top.appendChild(seg.getNativeNode());
         }
         return root;
@@ -960,9 +958,9 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
 
         // NumProgressiveScans - count sos segments
         int sosCount = 0;
-        Iterator iter = markerSequence.iterator();
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         while (iter.hasNext()) {
-            MarkerSegment ms = (MarkerSegment) iter.next();
+            MarkerSegment ms = iter.next();
             if (ms.tag == JPEG.SOS) {
                 sosCount++;
             }
@@ -1027,9 +1025,9 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
         // Add a text entry for each COM Marker Segment
         if (findMarkerSegment(JPEG.COM) != null) {
             text = new IIOMetadataNode("Text");
-            Iterator iter = markerSequence.iterator();
+            Iterator<MarkerSegment> iter = markerSequence.iterator();
             while (iter.hasNext()) {
-                MarkerSegment seg = (MarkerSegment) iter.next();
+                MarkerSegment seg = iter.next();
                 if (seg.tag == JPEG.COM) {
                     COMMarkerSegment com = (COMMarkerSegment) seg;
                     IIOMetadataNode entry = new IIOMetadataNode("TextEntry");
@@ -1067,7 +1065,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
         if (root == null) {
             throw new IllegalArgumentException("null root!");
         }
-        List copy = null;
+        List<MarkerSegment> copy = null;
         if (resetSequence == null) {
             resetSequence = cloneSequence();  // Deep copy
             copy = resetSequence;  // Avoid cloning twice
@@ -1180,10 +1178,10 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      */
     private void mergeDQTNode(Node node) throws IIOInvalidTreeException {
         // First collect any existing DQT nodes into a local list
-        ArrayList oldDQTs = new ArrayList();
-        Iterator iter = markerSequence.iterator();
+        ArrayList<MarkerSegment> oldDQTs = new ArrayList<>();
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         while (iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment) iter.next();
+            MarkerSegment seg = iter.next();
             if (seg instanceof DQTMarkerSegment) {
                 oldDQTs.add(seg);
             }
@@ -1203,7 +1201,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
                     DQTMarkerSegment testDQT = (DQTMarkerSegment) oldDQTs.get(j);
                     for (int k = 0; k < testDQT.tables.size(); k++) {
                         DQTMarkerSegment.Qtable testTable =
-                            (DQTMarkerSegment.Qtable) testDQT.tables.get(k);
+                            testDQT.tables.get(k);
                         if (childID == testTable.tableID) {
                             dqt = testDQT;
                             tableIndex = k;
@@ -1256,10 +1254,10 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      */
     private void mergeDHTNode(Node node) throws IIOInvalidTreeException {
         // First collect any existing DQT nodes into a local list
-        ArrayList oldDHTs = new ArrayList();
-        Iterator iter = markerSequence.iterator();
+        ArrayList<MarkerSegment> oldDHTs = new ArrayList<>();
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         while (iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment) iter.next();
+            MarkerSegment seg = iter.next();
             if (seg instanceof DHTMarkerSegment) {
                 oldDHTs.add(seg);
             }
@@ -1285,7 +1283,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
                     DHTMarkerSegment testDHT = (DHTMarkerSegment) oldDHTs.get(j);
                     for (int k = 0; k < testDHT.tables.size(); k++) {
                         DHTMarkerSegment.Htable testTable =
-                            (DHTMarkerSegment.Htable) testDHT.tables.get(k);
+                            testDHT.tables.get(k);
                         if ((childID == testTable.tableID) &&
                             (childClass == testTable.tableClass)) {
                             dht = testDHT;
@@ -1734,8 +1732,8 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
                 }
                 if (idsDiffer) {
                     // update the ids in each SOS marker segment
-                    for (Iterator iter = markerSequence.iterator(); iter.hasNext();) {
-                        MarkerSegment seg = (MarkerSegment) iter.next();
+                    for (Iterator<MarkerSegment> iter = markerSequence.iterator(); iter.hasNext();) {
+                        MarkerSegment seg = iter.next();
                         if (seg instanceof SOSMarkerSegment) {
                             SOSMarkerSegment target = (SOSMarkerSegment) seg;
                             for (int i = 0; i < target.componentSpecs.length; i++) {
@@ -1787,9 +1785,9 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
         }
 
         if (updateQtables) {
-            List tableSegments = new ArrayList();
-            for (Iterator iter = markerSequence.iterator(); iter.hasNext();) {
-                MarkerSegment seg = (MarkerSegment) iter.next();
+            List<MarkerSegment> tableSegments = new ArrayList<>();
+            for (Iterator<MarkerSegment> iter = markerSequence.iterator(); iter.hasNext();) {
+                MarkerSegment seg = iter.next();
                 if (seg instanceof DQTMarkerSegment) {
                     tableSegments.add(seg);
                 }
@@ -1805,12 +1803,12 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
 
                 // Find the table with selector 1.
                 boolean found = false;
-                for (Iterator iter = tableSegments.iterator(); iter.hasNext();) {
+                for (Iterator<MarkerSegment> iter = tableSegments.iterator(); iter.hasNext();) {
                     DQTMarkerSegment testdqt = (DQTMarkerSegment) iter.next();
-                    for (Iterator tabiter = testdqt.tables.iterator();
+                    for (Iterator<DQTMarkerSegment.Qtable> tabiter = testdqt.tables.iterator();
                          tabiter.hasNext();) {
                         DQTMarkerSegment.Qtable tab =
-                            (DQTMarkerSegment.Qtable) tabiter.next();
+                            tabiter.next();
                         if (tab.tableID == 1) {
                             found = true;
                         }
@@ -1819,12 +1817,12 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
                 if (!found) {
                     //    find the table with selector 0.  There should be one.
                     DQTMarkerSegment.Qtable table0 = null;
-                    for (Iterator iter = tableSegments.iterator(); iter.hasNext();) {
+                    for (Iterator<MarkerSegment> iter = tableSegments.iterator(); iter.hasNext();) {
                         DQTMarkerSegment testdqt = (DQTMarkerSegment) iter.next();
-                        for (Iterator tabiter = testdqt.tables.iterator();
+                        for (Iterator<DQTMarkerSegment.Qtable> tabiter = testdqt.tables.iterator();
                              tabiter.hasNext();) {
                             DQTMarkerSegment.Qtable tab =
-                                (DQTMarkerSegment.Qtable) tabiter.next();
+                                tabiter.next();
                             if (tab.tableID == 0) {
                                 table0 = tab;
                             }
@@ -1842,9 +1840,9 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
         }
 
         if (updateHtables) {
-            List tableSegments = new ArrayList();
-            for (Iterator iter = markerSequence.iterator(); iter.hasNext();) {
-                MarkerSegment seg = (MarkerSegment) iter.next();
+            List<MarkerSegment> tableSegments = new ArrayList<>();
+            for (Iterator<MarkerSegment> iter = markerSequence.iterator(); iter.hasNext();) {
+                MarkerSegment seg = iter.next();
                 if (seg instanceof DHTMarkerSegment) {
                     tableSegments.add(seg);
                 }
@@ -1859,12 +1857,12 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
 
                 // find a table with selector 1. AC/DC is irrelevant
                 boolean found = false;
-                for (Iterator iter = tableSegments.iterator(); iter.hasNext();) {
+                for (Iterator<MarkerSegment> iter = tableSegments.iterator(); iter.hasNext();) {
                     DHTMarkerSegment testdht = (DHTMarkerSegment) iter.next();
-                    for (Iterator tabiter = testdht.tables.iterator();
+                    for (Iterator<DHTMarkerSegment.Htable> tabiter = testdht.tables.iterator();
                          tabiter.hasNext();) {
                         DHTMarkerSegment.Htable tab =
-                            (DHTMarkerSegment.Htable) tabiter.next();
+                            tabiter.next();
                         if (tab.tableID == 1) {
                             found = true;
                         }
@@ -2015,14 +2013,14 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
 
         // First approximation
         int y = 1;
-        int x = (int) Math.round(value);
+        int x = Math.round(value);
 
-        float ratio = (float) x;
+        float ratio = x;
         float delta = Math.abs(value - ratio);
         while (delta > epsilon) { // not close enough
             // Increment y and compute a new x
             y++;
-            x = (int) Math.round(y*value);
+            x = Math.round(y*value);
             ratio = (float)x/(float)y;
             delta = Math.abs(value - ratio);
         }
@@ -2180,7 +2178,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
         if (resetSequence == null) {
             resetSequence = markerSequence;
         }
-        markerSequence = new ArrayList();
+        markerSequence = new ArrayList<>();
 
         // Build a whole new marker sequence from the tree
 
@@ -2309,10 +2307,10 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
      * segments, including 0 if there are no SOS marker segments.
      */
     private int countScanBands() {
-        List ids = new ArrayList();
-        Iterator iter = markerSequence.iterator();
+        List<Integer> ids = new ArrayList<>();
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         while(iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment)iter.next();
+            MarkerSegment seg = iter.next();
             if (seg instanceof SOSMarkerSegment) {
                 SOSMarkerSegment sos = (SOSMarkerSegment) seg;
                 SOSMarkerSegment.ScanComponentSpec [] specs = sos.componentSpecs;
@@ -2333,7 +2331,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
     void writeToStream(ImageOutputStream ios,
                        boolean ignoreJFIF,
                        boolean forceJFIF,
-                       List thumbnails,
+                       List<? extends BufferedImage> thumbnails,
                        ICC_Profile iccProfile,
                        boolean ignoreAdobe,
                        int newAdobeTransform,
@@ -2359,9 +2357,9 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
             }
         }
         // Iterate over each MarkerSegment
-        Iterator iter = markerSequence.iterator();
+        Iterator<MarkerSegment> iter = markerSequence.iterator();
         while(iter.hasNext()) {
-            MarkerSegment seg = (MarkerSegment)iter.next();
+            MarkerSegment seg = iter.next();
             if (seg instanceof JFIFMarkerSegment) {
                 if (ignoreJFIF == false) {
                     JFIFMarkerSegment jfif = (JFIFMarkerSegment) seg;
@@ -2408,7 +2406,7 @@ public class JPEGMetadata extends IIOMetadata implements Cloneable {
 
     public void print() {
         for (int i = 0; i < markerSequence.size(); i++) {
-            MarkerSegment seg = (MarkerSegment) markerSequence.get(i);
+            MarkerSegment seg = markerSequence.get(i);
             seg.print();
         }
     }

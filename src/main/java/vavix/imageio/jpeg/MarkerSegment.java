@@ -114,7 +114,7 @@ class MarkerSegment implements Cloneable {
             newGuy = (MarkerSegment) super.clone();
         } catch (CloneNotSupportedException e) {} // won't happen
         if (this.data != null) {
-            newGuy.data = (byte[]) data.clone();
+            newGuy.data = data.clone();
         }
         return newGuy;
     }
@@ -205,18 +205,18 @@ class MarkerSegment implements Cloneable {
             System.out.print("First 5 bytes:");
             for (int i=0;i<5;i++) {
                 System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+                                 + Integer.toHexString(data[i]));
             }
             System.out.print("\nLast 5 bytes:");
             for (int i=data.length-5;i<data.length;i++) {
                 System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+                                 + Integer.toHexString(data[i]));
             }
         } else {
             System.out.print("Data:");
             for (int i=0;i<data.length;i++) {
                 System.out.print(" Ox"
-                                 + Integer.toHexString((int)data[i]));
+                                 + Integer.toHexString(data[i]));
             }
         }
         System.out.println();

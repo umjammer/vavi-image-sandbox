@@ -521,7 +521,7 @@ public class Qrcode {
             is.close();
             is.close();
         } catch (IOException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
 
         byte rsBlockOrderLength = 1;
@@ -550,7 +550,7 @@ public class Qrcode {
             is.close();
             is.close();
         } catch (IOException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
 
         // set terminator
@@ -743,7 +743,7 @@ public class Qrcode {
             is.close();
             is.close();
         } catch (IOException e) {
-            throw (RuntimeException) new IllegalStateException().initCause(e);
+            throw new IllegalStateException(e);
         }
 
         // RS-ECC prepare

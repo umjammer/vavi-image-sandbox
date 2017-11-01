@@ -26,7 +26,7 @@ import vavi.util.qr.QrcodeImageSource;
  */
 public class t146_4 {
 
-    /** */   
+    /** */
     private static Log log = LogFactory.getLog(t146_4.class);
 
     /**

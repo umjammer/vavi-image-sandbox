@@ -45,7 +45,7 @@ public class Test2 {
             }
         };
         panel.setPreferredSize(new Dimension(640, 480));
-        
+
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);
@@ -63,6 +63,7 @@ public class Test2 {
                     image = ImageIO.read(file);
                     panel.repaint();
                 } catch (IOException e) {
+System.err.println(file);
                     e.printStackTrace();
                 }
             }

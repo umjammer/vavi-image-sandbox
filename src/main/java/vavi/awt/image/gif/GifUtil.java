@@ -29,9 +29,9 @@ public class GifUtil {
     }
 
     /** @cache */
-    private static Map<File, Boolean> isAnimationGIFCache = new HashMap<File, Boolean>();
+    private static Map<File, Boolean> isAnimationGIFCache = new HashMap<>();
 
-    private static Map<File, Boolean> isGIFCache = new HashMap<File, Boolean>();
+    private static Map<File, Boolean> isGIFCache = new HashMap<>();
 
     /** @cache */
     public static boolean isGIF(File sourceFile) throws IOException {

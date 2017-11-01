@@ -245,7 +245,7 @@ class JPEGBuffer {
             count = bufAvail;
         }
         for (int ptr = bufPtr; count > 0; count--) {
-            int val = (int)buf[ptr++] & 0xff;
+            int val = buf[ptr++] & 0xff;
             System.out.print(" " + Integer.toHexString(val));
         }
         System.out.println();

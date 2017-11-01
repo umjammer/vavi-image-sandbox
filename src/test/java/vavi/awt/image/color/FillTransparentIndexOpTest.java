@@ -102,7 +102,7 @@ System.err.printf("trans defined: %d\n",  trans);
             icm.getBlues(bs);
 
             // index, count
-            Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>();
+            Map<Integer, Integer> colorMap = new HashMap<>();
             int tw = targetImage.getWidth();
             int th = targetImage.getHeight();
             int[] data = targetImage.getData().getPixels(0, 0, tw, th, (int[]) null);
@@ -140,7 +140,7 @@ System.err.printf("unused color: %d\n", i);
                 dst = new BufferedImage(newIcm, newIcm.createCompatibleWritableRaster(w, h), newIcm.isAlphaPremultiplied(), null);
 System.err.printf("trans unused color: %d %08x, %d/%d\n", trans, getRgb(trans, rs, bs, gs), icm.getMapSize() - colorMap.size(), colorMap.size());
             } else {
-                List<Entry<Integer, Integer>> list = new ArrayList<Entry<Integer, Integer>>(colorMap.entrySet());
+                List<Entry<Integer, Integer>> list = new ArrayList<>(colorMap.entrySet());
                 Collections.sort(list, new Comparator<Entry<Integer, Integer>>() {
                     @Override
                     public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {

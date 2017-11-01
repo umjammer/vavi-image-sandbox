@@ -22,10 +22,10 @@ public class BinPacker {
 
     private int packSize;
     private int numPacked;
-    private List<Rect> rects = new ArrayList<Rect>();
-    private List<Rect> packs = new ArrayList<Rect>();
-    private List<Integer> roots = new ArrayList<Integer>();
-    private List<List<Rect>> results = new ArrayList<List<Rect>>();
+    private List<Rect> rects = new ArrayList<>();
+    private List<Rect> packs = new ArrayList<>();
+    private List<Integer> roots = new ArrayList<>();
+    private List<List<Rect>> results = new ArrayList<>();
 
     /**
      * Packs rectangles.
@@ -65,7 +65,7 @@ public class BinPacker {
 
         // Write out
         for (int i = 0; i < this.roots.size(); i++) {
-            List<Rect> array = new ArrayList<Rect>();
+            List<Rect> array = new ArrayList<>();
             addPackToArray(this.roots.get(i), array);
             results.add(array);
         }

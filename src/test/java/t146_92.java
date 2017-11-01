@@ -116,7 +116,9 @@ System.err.println("left: " + (System.currentTimeMillis() - t) + "ms");
 
                 // right
                 image = rightImage;
-                com.mortennobel.imagescaling.ResampleOp leftFilter = new com.mortennobel.imagescaling.ResampleOp((int) (image.getWidth() * scale), (int) (image.getHeight() * scale));
+                com.mortennobel.imagescaling.ResampleOp leftFilter =
+                        new com.mortennobel.imagescaling.ResampleOp((int) (image.getWidth() * scale),
+                                                                    (int) (image.getHeight() * scale));
                 leftFilter.setFilter(com.mortennobel.imagescaling.ResampleFilters.getLanczos3Filter());
 t = System.currentTimeMillis();
                 filteredImage = leftFilter.filter(image, null); 

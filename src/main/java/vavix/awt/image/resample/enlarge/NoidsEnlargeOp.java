@@ -138,7 +138,7 @@ public class NoidsEnlargeOp implements BufferedImageOp {
             DataBufferPixel pixel = edgeData.getDataBufferPixel();
             Scaler scaler = ScalerFactory.createScaler(pixel);
             scaler.scale(rect5, dest, rect6);
-            
+
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
@@ -156,7 +156,7 @@ public class NoidsEnlargeOp implements BufferedImageOp {
         }
 
         return dest;
-    }    
+    }
 
     /**
      * @param destCM when null, used src color model 

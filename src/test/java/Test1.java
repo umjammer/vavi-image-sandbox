@@ -35,15 +35,15 @@ public class Test1 {
         IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
 
         BufferedImage image = ImageIO.read(new File(args[0]));
-        
+
         final int N = 18;
 
         int w = image.getWidth();
         int h = image.getHeight();
         int r = Math.min(h, w); 
-        
-        BufferedImage[] resultImages = new BufferedImage[N];
-        
+
+        final BufferedImage[] resultImages = new BufferedImage[N];
+
         for (int i = 0; i < N; i++) {
             resultImages[i] = new BufferedImage(w, h, image.getType() != 0 ? image.getType() : BufferedImage.TYPE_INT_ARGB);
 
@@ -54,18 +54,17 @@ public class Test1 {
 
 //            g2d.setColor(new Color(0xff, 0xff, 0xff, 0xff));
 //            g2d.fillRect(0, 0, w, h);
-            
+
             g2d.setClip(new Ellipse2D.Double(0, 0, r, r));
 
             g2d.translate(w / 2, h / 2);
             g2d.rotate(2 * Math.PI / N * i);
-            
+
             g2d.drawImage(image, w / -2, h / -2, null);
 
 //            ImageIO.write(resultImages[i], "PNG", new FileOutputStream(String.format("%s%02d.%s", args[1], i, "jpg")));
         }
-        
-        final BufferedImage[] is = resultImages;
+
         JPanel panel = new JPanel() {
             int c = 0;
             {
@@ -94,11 +93,11 @@ public class Test1 {
             public void paint(Graphics g) {
 //System.err.println(c);
 //                g.setClip(new Rectangle(0, is[c].getHeight() / 3 * 2, is[c].getWidth(), is[c].getHeight()));
-                g.drawImage(is[c], 0, 0, this);
+                g.drawImage(resultImages[c], 0, 0, this);
             }
         };
         panel.setPreferredSize(new Dimension(w, h));
-        
+
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);

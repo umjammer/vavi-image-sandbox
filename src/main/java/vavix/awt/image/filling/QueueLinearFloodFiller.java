@@ -74,7 +74,7 @@ public class QueueLinearFloodFiller {
     /** Called before starting flood-fill */
     protected void prepare() {
         pixelsChecked = new boolean[width * height];
-        ranges = new LinkedList<FloodFillRange>();
+        ranges = new LinkedList<>();
     }
 
     /**

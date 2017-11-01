@@ -32,39 +32,39 @@ class Constants {
 
     static final int enLen = (1 << enExp);
 
-// len of dstBlock
+    // len of dstBlock
     static final int blockExp = 9;
 
     static final int blockLen = (1 << blockExp);
 
-// srcBlock contains additional margins of borderPixels
+    // srcBlock contains additional margins of borderPixels
     static final int srcBlockMargin = 9;
 
-// sharper peak at 0.0 -> others are less similar
+    // sharper peak at 0.0 -> others are less similar
     static final float similPeakThinness = 8.0f;
 
-//
+    //
     static final float similPeakFlatness = 1.5f;
 
-// 0.09
+    // 0.09
     static final float similWeightFakt = 0.09f;
 
-// fakt*peak + ( 1 - fakt )*linear
+    // fakt*peak + ( 1 - fakt )*linear
     static final float similPeakFakt = 0.7f;
 
     //
-// modifies weight of indies
+    // modifies weight of indies
     static final float indieWeightFact = 1.0f;
 
-// higher value -> individuality at smaller distance
+    // higher value -> individuality at smaller distance
     static final float indieSensitivity = 7.0f;
 
-// threshold for summed-up individuality
+    // threshold for summed-up individuality
     static final float indieThreshold = 1.0f;
 
     //
-// sharper peak at 0.0 -> others are less similar
-// and thus less weighted -> sharper image
+    // sharper peak at 0.0 -> others are less similar
+    // and thus less weighted -> sharper image
     static final float selectPeakSharpness = 10.0f;
 
     static final int kerFineExp = 4;

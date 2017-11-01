@@ -25,16 +25,13 @@
 
 package vavix.imageio.jpeg;
 
-import javax.imageio.metadata.IIOMetadataFormatImpl;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.plugins.jpeg.JPEGQTable;
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
-
-import java.awt.image.ColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
+import java.awt.image.ColorModel;
+
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
+import javax.imageio.plugins.jpeg.JPEGQTable;
 
 /**
  * A class containing JPEG-related constants, definitions, and

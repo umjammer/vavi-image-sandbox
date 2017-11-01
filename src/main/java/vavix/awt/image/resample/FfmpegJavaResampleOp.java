@@ -102,7 +102,7 @@ public class FfmpegJavaResampleOp implements BufferedImageOp {
 //        swScale.sws_scale(context, srcBuffer, srcDataType, srcPixelSize, srcWidth, srcHeight, destBuffer, destDataType, destPixelSize, resizedWidth, resizedHeight, hint.value);
 
         return dest;
-    }    
+    }
 
     /**
      * @param destCM when null, used src color model 

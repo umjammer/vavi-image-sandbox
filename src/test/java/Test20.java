@@ -51,7 +51,7 @@ public class Test20 {
         BufferedImage actualImage = filter.filter(image, null);
 
         final BufferedImage expectedImage = ImageIO.read(getClass().getResourceAsStream("enlarged.png"));
-        
+
         for (int y = 0; y < expectedImage.getHeight(); y++) {
             for (int x = 0; x < expectedImage.getWidth(); x++) {
                 Assert.assertEquals(expectedImage.getRGB(x, y), actualImage.getRGB(x, y));
@@ -64,7 +64,7 @@ public class Test20 {
      */
     public static void main(String[] args) throws Exception {
         String file = args[0];
-        
+
         final double scale = Math.PI * 2;
 
         BufferedImage originalImage = ImageIO.read(new File(file));

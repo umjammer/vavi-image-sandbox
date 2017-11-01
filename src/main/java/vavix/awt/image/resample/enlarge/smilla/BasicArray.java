@@ -20,7 +20,6 @@
 
 package vavix.awt.image.resample.enlarge.smilla;
 
-
 /**
  * basic template for 2-dim. arrays
  * 
@@ -246,14 +245,14 @@ class BasicArray<T extends Primitive<T>> {
     }
 
     public BasicArray<T> clip(int leftX, int topY, int sizeXNew, int sizeYNew) {
-        BasicArray<T> clipArr = new BasicArray<T>(sizeXNew, sizeYNew);
+        BasicArray<T> clipArr = new BasicArray<>(sizeXNew, sizeYNew);
         clipArr.copyFromArray(this, leftX, topY);
         return clipArr;
     }
 
     @SuppressWarnings("unchecked")
     public BasicArray<T> smoothDouble() {
-        BasicArray<T> newArray = new BasicArray<T>(sizeX * 2, sizeY * 2);
+        BasicArray<T> newArray = new BasicArray<>(sizeX * 2, sizeY * 2);
 
         T[] line0 = (T[]) new Primitive[2 * sizeX];
         T[] line1 = (T[]) new Primitive[2 * sizeX];
@@ -286,7 +285,7 @@ class BasicArray<T extends Primitive<T>> {
 
     @SuppressWarnings("unchecked")
     public BasicArray<T> smoothDoubleTorus() {
-        BasicArray<T> newArray = new BasicArray<T>(sizeX * 2, sizeY * 2);
+        BasicArray<T> newArray = new BasicArray<>(sizeX * 2, sizeY * 2);
 
         T[] line0 = (T[]) new Primitive[2 * sizeX];
         T[] line1 = (T[]) new Primitive[2 * sizeX];
@@ -319,7 +318,7 @@ class BasicArray<T extends Primitive<T>> {
 
     public BasicArray<T> shrinkHalf() {
         int x, y;
-        BasicArray<T> halfArr = new BasicArray<T>((sizeX + 1) >> 1, (sizeY + 1) >> 1);
+        BasicArray<T> halfArr = new BasicArray<>((sizeX + 1) >> 1, (sizeY + 1) >> 1);
 
         for (y = 0; y < halfArr.sizeY(); y++) {
             for (x = 0; x < halfArr.sizeX(); x++) {
@@ -353,7 +352,7 @@ class BasicArray<T extends Primitive<T>> {
         int y, xBig;
         float ff;
 
-        BasicArray<T> dst = new BasicArray<T>(sizeXNew, sizeYNew);
+        BasicArray<T> dst = new BasicArray<>(sizeXNew, sizeYNew);
         @SuppressWarnings("unchecked")
         T[] line = (T[]) new Primitive[sizeXNew];
 
@@ -393,7 +392,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
         int x, y, xSrc;
         float floorX, ffx, ffy;
 
-        BasicArray<T> dst = new BasicArray<T>(sizeXNew, sizeYNew);
+        BasicArray<T> dst = new BasicArray<>(sizeXNew, sizeYNew);
 
         int ySrc = 0;
         float floorY = 0.0f;
@@ -437,7 +436,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
     }
 
     public BasicArray<T> splitLowFreq(int lenExp) {
-        BasicArray<T> loArr = new BasicArray<T>((sizeX + (1 << lenExp)) >> lenExp, (sizeY + (1 << lenExp)) >> lenExp);
+        BasicArray<T> loArr = new BasicArray<>((sizeX + (1 << lenExp)) >> lenExp, (sizeY + (1 << lenExp)) >> lenExp);
         loArr.setFactory(factory); // TODO vavi
 
         for (int y = 0; y < loArr.sizeY(); y++) {
@@ -464,7 +463,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
             a2 = a3;
         }
 
-        a3 = new BasicArray<T>(sizeX, sizeY);
+        a3 = new BasicArray<>(sizeX, sizeY);
 
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
@@ -479,7 +478,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
     }
 
     public BasicArray<T> smooth() {
-        BasicArray<T> a4 = new BasicArray<T>(sizeX, sizeY);
+        BasicArray<T> a4 = new BasicArray<>(sizeX, sizeY);
 
         for (int y = 1; y < sizeY - 1; y++) {
             for (int x = 1; x < sizeX - 1; x++) {
@@ -520,7 +519,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
     }
 
     public void sharpen(float f) {
-        BasicArray<T> src = new BasicArray<T>(this);
+        BasicArray<T> src = new BasicArray<>(this);
 
         if (f == 0.0)
             return;
@@ -541,7 +540,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
     }
 
     public void smoothen() {
-        BasicArray<T> src = new BasicArray<T>(this);
+        BasicArray<T> src = new BasicArray<>(this);
 
         for (int y = 1; y < sizeY - 1; y++) {
             for (int x = 1; x < sizeX - 1; x++) {
@@ -578,7 +577,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
             return;
         reduceF = 1.0f / reduceF;
 
-        BasicArray<T> hiF = new BasicArray<T>(this);
+        BasicArray<T> hiF = new BasicArray<>(this);
         hiF.setFactory(factory);
         @SuppressWarnings("unused")
         BasicArray<T> loF = hiF.splitLowFreq(1);
@@ -608,7 +607,7 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
     }
 
     public void hiSharpen(float f) {
-        BasicArray<T> src = new BasicArray<T>(this);
+        BasicArray<T> src = new BasicArray<>(this);
         int sizeX = sizeX(), sizeY = sizeY();
 
         for (int y = 1; y < sizeY - 1; y++) {

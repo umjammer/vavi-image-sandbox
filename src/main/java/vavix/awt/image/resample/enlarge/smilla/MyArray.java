@@ -20,6 +20,8 @@
 
 package vavix.awt.image.resample.enlarge.smilla;
 
+import vavi.util.Debug;
+
 
 /**
  * 2-dim. float-array and direction-array
@@ -51,19 +53,22 @@ class MyArray extends BasicArray<PFloat> {
     }
 
     public float getF(int x, int y) {
+if (get(x, y) == null) {
+    Debug.println(x + ", " + y);
+}
         return get(x, y).toF();
     }
 
     public void set(int x, int y, PFloat p) {
-        set(x, y, p);
+        super.set(x, y, p);
     }
 
     public void add(int x, int y, PFloat p) {
-        add(x, y, p);
+        super.add(x, y, p);
     }
 
     public void sub(int x, int y, PFloat p) {
-        sub(x, y, p);
+        super.sub(x, y, p);
     }
 
     public void set(int x, int y, float p) {

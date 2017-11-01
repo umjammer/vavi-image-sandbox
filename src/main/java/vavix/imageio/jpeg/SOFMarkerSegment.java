@@ -98,7 +98,7 @@ class SOFMarkerSegment extends MarkerSegment {
     protected Object clone() {
         SOFMarkerSegment newGuy = (SOFMarkerSegment) super.clone();
         if (componentSpecs != null) {
-            newGuy.componentSpecs = (ComponentSpec []) componentSpecs.clone();
+            newGuy.componentSpecs = componentSpecs.clone();
             for (int i = 0; i < componentSpecs.length; i++) {
                 newGuy.componentSpecs[i] =
                     (ComponentSpec) componentSpecs[i].clone();

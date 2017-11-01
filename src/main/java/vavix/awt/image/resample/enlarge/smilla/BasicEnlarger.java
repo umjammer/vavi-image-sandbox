@@ -252,8 +252,8 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
         sizeDstBlock = Constants.blockLen;
         sizeSrcBlockX = (int) (invScaleFaktX * (sizeDstBlock) + 0.5) + 2 * Constants.srcBlockMargin;
         sizeSrcBlockY = (int) (invScaleFaktY * (sizeDstBlock) + 0.5) + 2 * Constants.srcBlockMargin;
-        srcBlock = new BasicArray<T>(sizeSrcBlockX, sizeSrcBlockY);
-        dstBlock = new BasicArray<T>(sizeDstBlock, sizeDstBlock);
+        srcBlock = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
+        dstBlock = new BasicArray<>(sizeDstBlock, sizeDstBlock);
 
         baseWeights = new MyArray(sizeSrcBlockX, sizeSrcBlockY);
         workMask = new MyArray(sizeSrcBlockX, sizeSrcBlockY);
@@ -261,12 +261,12 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
         baseIntensity = new MyArray(sizeSrcBlockX, sizeSrcBlockY);
         workMaskDst = new MyArray(sizeDstBlock, sizeDstBlock);
 
-        dX = new BasicArray<T>(sizeSrcBlockX, sizeSrcBlockY);
-        dY = new BasicArray<T>(sizeSrcBlockX, sizeSrcBlockY);
-        d2X = new BasicArray<T>(sizeSrcBlockX, sizeSrcBlockY);
-        d2Y = new BasicArray<T>(sizeSrcBlockX, sizeSrcBlockY);
-        dXY = new BasicArray<T>(sizeSrcBlockX, sizeSrcBlockY);
-        d2L = new BasicArray<T>(sizeSrcBlockX, sizeSrcBlockY);
+        dX = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
+        dY = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
+        d2X = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
+        d2Y = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
+        dXY = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
+        d2L = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
 
         selectDiffTab = new float[Constants.diffTabLen];
         centerWeightTab = new float[Constants.diffTabLen];

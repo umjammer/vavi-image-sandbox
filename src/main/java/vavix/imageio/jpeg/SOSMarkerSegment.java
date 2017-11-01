@@ -94,7 +94,7 @@ class SOSMarkerSegment extends MarkerSegment {
         SOSMarkerSegment newGuy = (SOSMarkerSegment) super.clone();
         if (componentSpecs != null) {
             newGuy.componentSpecs =
-                (ScanComponentSpec []) componentSpecs.clone();
+                componentSpecs.clone();
             for (int i = 0; i < componentSpecs.length; i++) {
                 newGuy.componentSpecs[i] =
                     (ScanComponentSpec) componentSpecs[i].clone();

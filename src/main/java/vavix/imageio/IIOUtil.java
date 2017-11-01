@@ -54,6 +54,8 @@ public class IIOUtil {
                 System.err.println(p.getClass().getName() + " (I)");
             } else if (p2.equals(p.getClass().getName())) {
                 System.err.println(p.getClass().getName() + " (II)");
+//            } else {
+//                System.err.println(p.getClass().getName());
             }
         }
     }

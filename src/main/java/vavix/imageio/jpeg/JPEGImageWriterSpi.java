@@ -25,21 +25,17 @@
 
 package vavix.imageio.jpeg;
 
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.spi.ServiceRegistry;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.ImageWriter;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.IIOException;
-
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
 import java.awt.image.SampleModel;
 import java.util.Locale;
 
+import javax.imageio.IIOException;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriter;
+import javax.imageio.spi.ImageWriterSpi;
+
 public class JPEGImageWriterSpi extends ImageWriterSpi {
 
-    private static String [] readerSpiNames =
+    private static String [] ReaderSpiNames =
         {"vavix.imageio.jpeg.JPEGImageReaderSpi"};
 
     public JPEGImageWriterSpi() {
@@ -50,7 +46,7 @@ public class JPEGImageWriterSpi extends ImageWriterSpi {
               JPEG.MIMETypes,
               "vavix.imageio.jpeg.JPEGImageWriter",
               STANDARD_OUTPUT_TYPE,
-              readerSpiNames,
+              ReaderSpiNames,
               true,
               JPEG.nativeStreamMetadataFormatName,
               JPEG.nativeStreamMetadataFormatClassName,

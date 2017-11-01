@@ -82,7 +82,7 @@ public class FillTransparentIndexOp implements BufferedImageOp {
             icm.getBlues(bs);
 
             // index, count
-            Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>();
+            Map<Integer, Integer> colorMap = new HashMap<>();
             int tw = targetImage.getWidth();
             int th = targetImage.getHeight();
             int[] data = targetImage.getData().getPixels(0, 0, tw, th, (int[]) null);
@@ -138,7 +138,7 @@ public class FillTransparentIndexOp implements BufferedImageOp {
                 dst = createCompatibleDestImage(src, newIcm);
 		//System.err.printf("trans add unused color: %d %08x, 1/%d\n", trans, getRgb(trans, rs2, bs2, gs2), (int) Math.pow(2, icm.getPixelSize()) - colorMap.size());
             } else {
-                List<Entry<Integer, Integer>> list = new ArrayList<Entry<Integer, Integer>>(colorMap.entrySet());
+                List<Entry<Integer, Integer>> list = new ArrayList<>(colorMap.entrySet());
                 Collections.sort(list, new Comparator<Entry<Integer, Integer>>() {
                     @Override
                     public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {

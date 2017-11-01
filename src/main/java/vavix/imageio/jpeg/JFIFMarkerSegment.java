@@ -25,40 +25,39 @@
 
 package vavix.imageio.jpeg;
 
+import java.awt.Graphics;
+import java.awt.color.ColorSpace;
+import java.awt.color.ICC_ColorSpace;
+import java.awt.color.ICC_Profile;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.IndexColorModel;
+import java.awt.image.Raster;
+import java.awt.image.SampleModel;
+import java.awt.image.WritableRaster;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.imageio.IIOException;
 import javax.imageio.IIOImage;
-import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.ImageReader;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
-import javax.imageio.event.IIOReadProgressListener;
 
-import java.awt.Graphics;
-import java.awt.color.ICC_Profile;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.image.SampleModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
 
 /**
  * A JFIF (JPEG File Interchange Format) APP0 (Application-Specific)
@@ -76,7 +75,7 @@ class JFIFMarkerSegment extends MarkerSegment {
     int thumbWidth;
     int thumbHeight;
     JFIFThumbRGB thumb = null;  // If present
-    ArrayList extSegments = new ArrayList();
+    ArrayList<JFIFExtensionMarkerSegment> extSegments = new ArrayList<>();
     ICCMarkerSegment iccSegment = null; // optional ICC
     private static final int THUMB_JPEG = 0x10;
     private static final int THUMB_PALETTE = 0x11;
@@ -157,11 +156,11 @@ class JFIFMarkerSegment extends MarkerSegment {
     protected Object clone() {
         JFIFMarkerSegment newGuy = (JFIFMarkerSegment) super.clone();
         if (!extSegments.isEmpty()) { // Clone the list with a deep copy
-            newGuy.extSegments = new ArrayList();
-            for (Iterator iter = extSegments.iterator(); iter.hasNext();) {
+            newGuy.extSegments = new ArrayList<>();
+            for (Iterator<JFIFExtensionMarkerSegment> iter = extSegments.iterator(); iter.hasNext();) {
                 JFIFExtensionMarkerSegment jfxx =
-                    (JFIFExtensionMarkerSegment) iter.next();
-                newGuy.extSegments.add(jfxx.clone());
+                    iter.next();
+                newGuy.extSegments.add((JFIFExtensionMarkerSegment) jfxx.clone());
             }
         }
         if (iccSegment != null) {
@@ -230,9 +229,9 @@ class JFIFMarkerSegment extends MarkerSegment {
         if (!extSegments.isEmpty()) {
             IIOMetadataNode JFXXnode = new IIOMetadataNode("JFXX");
             node.appendChild(JFXXnode);
-            for (Iterator iter = extSegments.iterator(); iter.hasNext();) {
+            for (Iterator<JFIFExtensionMarkerSegment> iter = extSegments.iterator(); iter.hasNext();) {
                 JFIFExtensionMarkerSegment seg =
-                    (JFIFExtensionMarkerSegment) iter.next();
+                    iter.next();
                 JFXXnode.appendChild(seg.getNativeNode());
             }
         }
@@ -313,7 +312,7 @@ class JFIFMarkerSegment extends MarkerSegment {
             index--;
         }
         JFIFExtensionMarkerSegment jfxx =
-            (JFIFExtensionMarkerSegment) extSegments.get(index);
+            extSegments.get(index);
         return jfxx.thumb.getWidth();
     }
 
@@ -325,7 +324,7 @@ class JFIFMarkerSegment extends MarkerSegment {
             index--;
         }
         JFIFExtensionMarkerSegment jfxx =
-            (JFIFExtensionMarkerSegment) extSegments.get(index);
+            extSegments.get(index);
         return jfxx.thumb.getHeight();
     }
 
@@ -341,7 +340,7 @@ class JFIFMarkerSegment extends MarkerSegment {
                 index--;
             }
             JFIFExtensionMarkerSegment jfxx =
-                (JFIFExtensionMarkerSegment) extSegments.get(index);
+                extSegments.get(index);
             ret = jfxx.thumb.getThumbnail(iis, reader);
         }
         reader.thumbnailComplete();
@@ -421,7 +420,7 @@ class JFIFMarkerSegment extends MarkerSegment {
             ios.write(thumbData[i]);
             if ((i > progInterval) && (i % progInterval == 0)) {
                 writer.thumbnailProgress
-                    (((float) i * 100) / ((float) thumbData.length));
+                    (((float) i * 100) / (thumbData.length));
             }
         }
     }
@@ -436,16 +435,16 @@ class JFIFMarkerSegment extends MarkerSegment {
      * default encoding is used for the extra thumbnails.
      */
     void writeWithThumbs(ImageOutputStream ios,
-                         List thumbnails,
+                         List<? extends BufferedImage> thumbnails,
                          JPEGImageWriter writer) throws IOException {
         if (thumbnails != null) {
             JFIFExtensionMarkerSegment jfxx = null;
             if (thumbnails.size() == 1) {
                 if (!extSegments.isEmpty()) {
-                    jfxx = (JFIFExtensionMarkerSegment) extSegments.get(0);
+                    jfxx = extSegments.get(0);
                 }
                 writeThumb(ios,
-                           (BufferedImage) thumbnails.get(0),
+                           thumbnails.get(0),
                            jfxx,
                            0,
                            true,
@@ -456,10 +455,10 @@ class JFIFMarkerSegment extends MarkerSegment {
                 for (int i = 0; i < thumbnails.size(); i++) {
                     jfxx = null;
                     if (i < extSegments.size()) {
-                        jfxx = (JFIFExtensionMarkerSegment) extSegments.get(i);
+                        jfxx = extSegments.get(i);
                     }
                     writeThumb(ios,
-                               (BufferedImage) thumbnails.get(i),
+                               thumbnails.get(i),
                                jfxx,
                                i,
                                false,
@@ -604,7 +603,7 @@ class JFIFMarkerSegment extends MarkerSegment {
      * marker segments as necessary.
      */
     static void writeDefaultJFIF(ImageOutputStream ios,
-                                 List thumbnails,
+                                 List<? extends BufferedImage> thumbnails,
                                  ICC_Profile iccProfile,
                                  JPEGImageWriter writer)
         throws IOException {
@@ -636,9 +635,9 @@ class JFIFMarkerSegment extends MarkerSegment {
         System.out.print("Thumbnail Height: ");
         System.out.println(thumbHeight);
         if (!extSegments.isEmpty()) {
-            for (Iterator iter = extSegments.iterator(); iter.hasNext();) {
+            for (Iterator<JFIFExtensionMarkerSegment> iter = extSegments.iterator(); iter.hasNext();) {
                 JFIFExtensionMarkerSegment extSegment =
-                    (JFIFExtensionMarkerSegment) iter.next();
+                    iter.next();
                 extSegment.print();
             }
         }
@@ -1372,7 +1371,7 @@ class JFIFMarkerSegment extends MarkerSegment {
      * combining chunks as necessary.
      */
     class ICCMarkerSegment extends MarkerSegment {
-        ArrayList chunks = null;
+        ArrayList<byte[]> chunks = null;
         byte [] profile = null; // The complete profile when it's fully read
                          // May remain null when writing
         private static final int ID_SIZE = 12;
@@ -1427,7 +1426,7 @@ class JFIFMarkerSegment extends MarkerSegment {
                 // two chunk numbering bytes
                 length -= 2;
                 buffer.readData(profileData);
-                chunks = new ArrayList();
+                chunks = new ArrayList<>();
                 chunks.add(profileData);
                 chunksRead = 1;
                 inICC = true;
@@ -1448,7 +1447,7 @@ class JFIFMarkerSegment extends MarkerSegment {
         protected Object clone () {
             ICCMarkerSegment newGuy = (ICCMarkerSegment) super.clone();
             if (profile != null) {
-                newGuy.profile = (byte[]) profile.clone();
+                newGuy.profile = profile.clone();
             }
             return newGuy;
         }
@@ -1517,7 +1516,7 @@ class JFIFMarkerSegment extends MarkerSegment {
                 for (int i = 1; i <= numChunks; i++) {
                     boolean foundIt = false;
                     for (int chunk = 0; chunk < chunks.size(); chunk++) {
-                        byte [] chunkData = (byte []) chunks.get(chunk);
+                        byte [] chunkData = chunks.get(chunk);
                         if (chunkData[0] == i) { // Right one
                             System.arraycopy(chunkData, 2,
                                              profile, index,

@@ -45,7 +45,7 @@ public class Test10 {
             }
         };
         panel.setPreferredSize(new Dimension(640, 480));
-        
+
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);

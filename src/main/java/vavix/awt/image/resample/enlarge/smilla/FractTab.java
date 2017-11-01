@@ -73,7 +73,7 @@ class FractTab {
         float rFakt;
         float fRatio = scaleF / (1 << (FRACTTABEXP - startExp));
 
-        a0 = new BasicArray<PFloat>(aLen, aLen);
+        a0 = new BasicArray<>(aLen, aLen);
         for (int s = 0; s < FRACTTABEXP - startExp; s++) {
             BasicArray<PFloat> hh;
             hh = a0.smoothDoubleTorus();

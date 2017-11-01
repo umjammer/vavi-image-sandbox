@@ -352,6 +352,7 @@ public class ColorCurveOp implements BufferedImageOp {
 
 System.err.println(header);
             if (!"# GIMP Curves File".equals(header)) {
+                scanner.close();
                 throw new IOException("not gimp curves file");
             }
 
@@ -363,6 +364,8 @@ System.err.printf("index: %d, value: %d\n", index[i][j], value[i][j]);
                 }
             }
 
+            scanner.close();
+            
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 17; j++) {
                     curves.points[i][j][0] = index[i][j];

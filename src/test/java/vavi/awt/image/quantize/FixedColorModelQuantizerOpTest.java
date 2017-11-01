@@ -57,8 +57,8 @@ public class FixedColorModelQuantizerOpTest {
         ImageInputStream iis = new FileImageInputStream(new File(input));
         reader.setInput(iis, true);
 
-        List<BufferedImage> images = new ArrayList<BufferedImage>();
-        List<BufferedImage> backupImages = new ArrayList<BufferedImage>();
+        List<BufferedImage> images = new ArrayList<>();
+        List<BufferedImage> backupImages = new ArrayList<>();
 
         GifRenderer renderer = new GifRenderer();
         IndexColorModel colorModel = null;
@@ -168,9 +168,9 @@ System.err.println("image does not have palette");
         ImageInputStream iis = new FileImageInputStream(new File(input));
         reader.setInput(iis, true);
 
-        List<BufferedImage> images = new ArrayList<BufferedImage>();
-        List<BufferedImage> backupImages = new ArrayList<BufferedImage>();
-        List<IIOMetadataNode> metadataNodes = new ArrayList<IIOMetadataNode>();
+        List<BufferedImage> images = new ArrayList<>();
+        List<BufferedImage> backupImages = new ArrayList<>();
+        List<IIOMetadataNode> metadataNodes = new ArrayList<>();
 
         GifRenderer renderer = new GifRenderer();
 

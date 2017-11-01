@@ -21,18 +21,21 @@ import vavix.imageio.IIOUtil;
 
 
 /**
- * QueueLinearFloodFillerTest. 
+ * QueueLinearFloodFillerTest.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/10/29 umjammer initial version <br>
  */
 public class QueueLinearFloodFillerTest {
 
-    public static void main(String[] args) throws Exception {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
-//        IIOUtil.deregister(ImageReaderSpi.class, "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+    static {
+//        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+        IIOUtil.deregister(ImageReaderSpi.class, "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+    }
 
-        final BufferedImage image = ImageIO.read(new File("tmp", "base.png"));
+    public static void main(String[] args) throws Exception {
+
+        final BufferedImage image = ImageIO.read(new File(args[0]));
 
         QueueLinearFloodFiller filler = new QueueLinearFloodFiller(image);
         filler.setFillColour(Color.red);

@@ -30,7 +30,7 @@ public class Test11 {
 
         String ext = ".jpg";
         String base = "http://ec2.images-amazon.com/images/I/3141BgH-BkL._SL500_AA400";
-        
+
         BufferedImage image = ImageIO.read(new URL(base + ext));
 
         String text = "_ZA%s,%d,%d,%d,%d,%s,%d,%d,%d,%d";
@@ -59,7 +59,7 @@ System.err.println(sb.length());
             }
         };
         panel.setPreferredSize(new Dimension(640, 480));
-        
+
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);

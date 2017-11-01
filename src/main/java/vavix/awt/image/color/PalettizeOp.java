@@ -55,7 +55,7 @@ public class PalettizeOp implements BufferedImageOp {
         // Just because an image has a palette doesnt mean it has a good one
         // so we re-index even if its an IndexColorModel
         int addedCount = 0;
-        Map<Integer, Integer> added = new LinkedHashMap<Integer, Integer>();
+        Map<Integer, Integer> added = new LinkedHashMap<>();
         for (int y = 0; y < img.getHeight(); y++) {
             for (int x = 0; x < img.getWidth(); x++) {
                 if (!added.containsKey(img.getRGB(x, y))) {

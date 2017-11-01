@@ -36,7 +36,7 @@ import vavi.util.qr.Qrcode;
  */
 public class t146_3 {
 
-    /** */   
+    /** */
     private static Log log = LogFactory.getLog(t146_3.class);
 
     /** */
@@ -61,10 +61,10 @@ public class t146_3 {
     private static byte[] r = new byte[] { (byte) 0xff, 0x00 };
     private static byte[] g = new byte[] { (byte) 0xff, 0x00 };
     private static byte[] b = new byte[] { (byte) 0xff, 0x00 };
-    
+
     /** */
     private static ColorModel cm = new IndexColorModel(1, 2, r, g, b);
-    
+
     /**
      * 
      * @param args 0: content, 1: size
@@ -96,20 +96,20 @@ public class t146_3 {
         BufferedImage bi = ic.toBufferedImage(image);
         boolean result = ImageIO.write(bi, "gif", new File("qr.gif"));
 log.debug("gif: " + result);
-	result = ImageIO.write(bi, "bmp", new File("qr.bmp"));
+        result = ImageIO.write(bi, "bmp", new File("qr.bmp"));
 log.debug("bmp: " + result);
-	result = ImageIO.write(bi, "png", new File("qr.png"));
+        result = ImageIO.write(bi, "png", new File("qr.png"));
 log.debug("png: " + result);
-	result = ImageIO.write(bi, "jpeg", new File("qr.jpeg"));
+        result = ImageIO.write(bi, "jpeg", new File("qr.jpeg"));
 log.debug("jpeg: " + result);
-	result = ImageIO.write(bi, "jpeg 2000", new File("qr.jp2k"));
+        result = ImageIO.write(bi, "jpeg 2000", new File("qr.jp2k"));
 log.debug("jpeg 2000: " + result);
 
 log.debug(image);
         JImageComponent component = new JImageComponent();
         component.setImage(bi);
         component.setPreferredSize(new Dimension(width * times, width * times));
-        
+
         JFrame frame = new JFrame();
         frame.setTitle(args[0] +  " x " + times);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

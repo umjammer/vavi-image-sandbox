@@ -93,7 +93,7 @@ System.err.println("hsv: " + hsv);
      */
     public static void main(String[] args) {
         final ColorThemeTest app = new ColorThemeTest();
-        
+
         final JPanel[] samples = new JPanel[3];
         final JTextField[] textFields = new JTextField[3];
 
@@ -241,7 +241,7 @@ System.err.println("hsv: " + hsv);
             panel.add(textFields[i]);
         }
         basePanel.add(panel);
-        
+
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Color Theme");

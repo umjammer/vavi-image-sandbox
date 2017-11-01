@@ -1,5 +1,4 @@
 
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,7 +56,7 @@ System.err.println("ImageWriter: " + iw.getClass());
 
         ImageWriteParam iwp = iw.getDefaultWriteParam();
 
-        //                    
+        //
         iw.write(null, new IIOImage(image, null, null), iwp);
         ios.flush();
         ios.close();
