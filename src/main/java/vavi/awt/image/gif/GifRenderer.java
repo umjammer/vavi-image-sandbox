@@ -14,7 +14,7 @@ import java.awt.image.DataBufferInt;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 
-import vavix.util.XmlUtil;
+import vavi.xml.util.XmlUtil;
 
 
 /**

@@ -34,7 +34,7 @@ import vavix.awt.image.color.FillTransparentDiffIndexOp;
 import vavix.awt.image.color.PalettizeOp;
 import vavix.awt.image.pixel.CropTransparentIndexOp;
 import vavix.awt.image.quantize.FixedColorModelQuantizeOp;
-import vavix.util.XmlUtil;
+import vavi.xml.util.XmlUtil;
 
 
 /**

@@ -37,8 +37,8 @@ public class Test11 {
 
         StringBuilder sb = new StringBuilder(base);
 
-        int w = image.getWidth();
-        int h = image.getHeight();
+//        int w = image.getWidth();
+//        int h = image.getHeight();
         for (int y = 20; y < 100; y += 20) {
             for (int x = 80; x < 140; x += 20) {
                 int c = image.getRGB(x, y);

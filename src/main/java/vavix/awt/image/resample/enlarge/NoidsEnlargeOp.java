@@ -18,16 +18,16 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 
-import jp.noids.image.filter.clean.CleanFilter;
-import jp.noids.image.scaling.Action_connectEdges;
-import jp.noids.image.scaling.Action_createEdgeData4;
-import jp.noids.image.scaling.Action_createView;
-import jp.noids.image.scaling.Action_makeCorner;
-import jp.noids.image.scaling.Action_smoothing;
-import jp.noids.image.scaling.EdgeData;
-import jp.noids.image.scaling.view.DataBufferPixel;
-import jp.noids.image.scaling.view.Scaler;
-import jp.noids.image.scaling.view.ScalerFactory;
+import vavix.awt.image.resample.enlarge.noids.image.filter.clean.CleanFilter;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.Action_connectEdges;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.Action_createEdgeData4;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.Action_createView;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.Action_makeCorner;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.Action_smoothing;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.EdgeData;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.view.DataBufferPixel;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.view.Scaler;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.view.ScalerFactory;
 
 
 /**

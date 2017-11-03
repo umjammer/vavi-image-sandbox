@@ -14,7 +14,7 @@ import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 
-import vavix.util.XmlUtil;
+import vavi.xml.util.XmlUtil;
 
 
 /**

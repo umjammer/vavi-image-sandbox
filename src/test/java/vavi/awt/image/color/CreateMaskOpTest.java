@@ -52,7 +52,7 @@ import vavix.awt.image.color.CreateMaskIndexOp;
 import vavix.awt.image.color.FillTransparentDiffIndexOp;
 import vavix.awt.image.color.MaskAsTransparentIndexOp;
 import vavix.awt.image.color.PalettizeOp;
-import vavix.util.XmlUtil;
+import vavi.xml.util.XmlUtil;
 
 
 /**
@@ -64,7 +64,7 @@ import vavix.util.XmlUtil;
 public class CreateMaskOpTest {
 
     BufferedImage image;
-    
+
     public CreateMaskOpTest() throws IOException {
         this.image = ImageIO.read(CreateMaskOpTest.class.getResourceAsStream("mask.gif"));
     }
@@ -99,7 +99,7 @@ public class CreateMaskOpTest {
                 IIOMetadata imageMetaData = reader.getImageMetadata(i);
                 String metaFormatName = imageMetaData.getNativeMetadataFormatName();
                 IIOMetadataNode metadataNode = (IIOMetadataNode) imageMetaData.getAsTree(metaFormatName);
-                
+
                 BufferedImage maskImage = new CreateMaskIndexOp().filter(image, null);
                 BufferedImage tempImage = new ResampleMaskOp(.5f, .5f).filter(maskImage, null);
 //JOptionPane.showMessageDialog(null, new ImageIcon(maskImage), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
@@ -111,7 +111,7 @@ public class CreateMaskOpTest {
 //JOptionPane.showMessageDialog(null, new ImageIcon(halfImage), "half", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
                 halfImage.flush();
                 halfImage = tempImage;
-                
+
                 scaleMetadata(metadataNode, .5f, .5f);
 
                 images.add(halfImage);
@@ -189,7 +189,7 @@ public class CreateMaskOpTest {
         RenderingHints hints = new RenderingHints(map);
 
         final Color color = new Color(0xffffff, true);
-        
+
         for (int i = 0;; i++) {
             try {
                 BufferedImage image = reader.read(i);
