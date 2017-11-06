@@ -56,7 +56,7 @@ public class FfmpegJavaResampleOp implements BufferedImageOp {
         this.hint = hint;
     }
 
-//    static SWScaleLibrary swScale = SWScaleLibrary.INSTANCE;
+    static Ffmpeg swScale = Ffmpeg.getInstance();
 
     /* */
     public BufferedImage filter(BufferedImage src, BufferedImage dest) {

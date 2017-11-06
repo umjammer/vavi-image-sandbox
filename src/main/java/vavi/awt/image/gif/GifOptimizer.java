@@ -1010,7 +1010,7 @@ error:
                 if (need[i] != REQUIRED) {
                     continue;
                 }
-    
+
                 // fail if a needed pixel isn't in the global map
                 if (is_global != 0) {
                     val = all_col[i].pixel;
@@ -1026,16 +1026,16 @@ error:
                     col[val] = all_col[i];
                     ncol++;
                 }
-    
+
                 map[i] = (byte) val;
                 into_used[val] = 1;
             }
-    
+
             // now check for transparency
             gfi.transparent = -1;
             if (need[TRANSP] != 0) {
                 int transparent = -1;
-    
+
                 // first, look for an unused index in 'into'. Pick the lowest one:
                 // the lower transparent index we get, the more likely we can shave
                 // a bit off min_code_bits later, thus saving space
@@ -1044,7 +1044,7 @@ error:
                         transparent = i;
                         break;
                     }
-    
+
                 // otherwise, [1.Aug.1999] use a fake slot for the purely
                 // transparent color. Don't actually enter the transparent color
                 // into the colormap -- we might be able to output a smaller
@@ -1058,7 +1058,7 @@ error:
                         break error;
                     }
                 }
-    
+
                 // change mapping
                 map[TRANSP] = (byte) transparent;
                 for (i = 1; i < all_ncol; i++) {
@@ -1066,10 +1066,10 @@ error:
                         map[i] = (byte) transparent;
                     }
                 }
-    
+
                 gfi.transparent = transparent;
             }
-    
+
             // If we get here, it worked! Commit state changes (the number of color
             // cells in 'into') and return the map.
             into.ncol = ncol;

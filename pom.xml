@@ -12,75 +12,72 @@
     <name></name>
   </organization>
   <version>1.0.0</version>
-  <url>http://www.vavisoft.com/</url>
-  <description></description>
+  <url>httpa://github.com/umjammer/vavi-image-sandbox</url>
+  <description>TODO
+
+    https://github.com/jai-imageio/jai-imageio-core/issues/23
+    ffmpeg swscale jnr-ize</description>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>6</source>
-          <target>6</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <encoding>UTF-8</encoding>
-          <compilerVersion>6</compilerVersion>
         </configuration>
       </plugin>
     </plugins>
   </build>
   <repositories>
     <repository>
-      <id>vavi-commons-mvn-repo</id>
-      <url>https://raw.github.com/umjammer/vavi-commons/mvn-repo/</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-    </repository>
-    <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
   </repositories>
   <dependencies>
-  	<dependency>
-  		<groupId>vavi</groupId>
-  		<artifactId>vavi-commons</artifactId>
-      <version>1.0.4</version>
-  	</dependency>
     <dependency>
-        <groupId>net.sf.barcode4j</groupId>
-        <artifactId>barcode4j</artifactId>
-        <version>2.0</version>
+      <groupId>com.github.umjammer</groupId>
+      <artifactId>vavi-commons</artifactId>
+      <version>1.0.6</version>
     </dependency>
     <dependency>
-    	<groupId>vavi</groupId>
-    	<artifactId>vavi-image</artifactId>
-    	<version>1.0.0</version>
-    	<optional>false</optional>
+      <groupId>com.github.umjammer</groupId>
+      <artifactId>vavi-awt</artifactId>
+      <version>1.0.1</version>
     </dependency>
     <dependency>
-    	<groupId>commons-logging</groupId>
-    	<artifactId>commons-logging</artifactId>
-    	<version>1.1.1</version>
-    	<scope>test</scope>
+      <groupId>net.sf.barcode4j</groupId>
+      <artifactId>barcode4j</artifactId>
+      <version>2.0</version>
     </dependency>
     <dependency>
-    	<groupId>commons-collections</groupId>
-    	<artifactId>commons-collections</artifactId>
-    	<version>3.2</version>
-    	<optional>false</optional>
+      <groupId>com.github.umjammer</groupId>
+      <artifactId>vavi-image</artifactId>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
-    	<groupId>com.mortennobel</groupId>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2</version>
+      <optional>false</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.mortennobel</groupId>
       <artifactId>java-image-scaling</artifactId>
       <version>0.8.5</version>
     </dependency>
     <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.5</version>
-    	<scope>test</scope>
-    	<optional>false</optional>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.5</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.github.jai-imageio</groupId>
@@ -89,19 +86,23 @@
     </dependency>
     <dependency>
       <groupId>net.java.dev.jna</groupId>
-    	<artifactId>jna</artifactId>
-    	<version>3.1.0</version>
+      <artifactId>jna</artifactId>
+      <version>3.1.0</version>
     </dependency>
     <dependency>
-    	<groupId>vavi</groupId>
-    	<artifactId>vavi-commons-sandbox</artifactId>
-    	<version>0.3.1</version>
-    	<optional>false</optional>
+      <groupId>com.github.jnr</groupId>
+      <artifactId>jnr-ffi</artifactId>
+      <version>2.1.6</version>
     </dependency>
     <dependency>
       <groupId>com.github.umjammer</groupId>
-      <artifactId>javapng</artifactId>
-      <version>1534b9d49d</version>
+      <artifactId>vavi-commons-sandbox</artifactId>
+      <version>0.3.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.umjammer</groupId>
+      <artifactId>javapng-spi</artifactId>
+      <version>2.1.3</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
@@ -119,4 +120,10 @@
       <version>1.9.31</version>
     </dependency>
   </dependencies>
+  <scm>
+    <url>httpa://github.com/umjammer/vavi-image-sandbox</url>
+  </scm>
+  <issueManagement>
+    <url>httpa://github.com/umjammer/vavi-image-sandbox/issues</url>
+  </issueManagement>
 </project>

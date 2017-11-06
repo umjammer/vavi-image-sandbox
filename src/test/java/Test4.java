@@ -21,7 +21,7 @@ import vavix.awt.image.pixel.SimpleDrawOp;
  */
 public class Test4 {
 
-    File file = new File("../vavi-image/tmp/in.gif");
+    File file = new File("tmp/in.gif");
 
     @Test
     public void test01() throws Exception {

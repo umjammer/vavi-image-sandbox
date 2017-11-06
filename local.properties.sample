@@ -1,25 +1,14 @@
-##
-# vavi-image-sandbox
-#
+jvm=${env.JAVA_HOME}/bin/java
+javac.source=src/main/java
+javac.source.test=src/test/java
+javac.resource=src/main/resources
+javac.resource.test=src/test/resources
+javac.dest=target/classes
+javac.dest.test=target/test-classes
 
-#
-#
-#
-encoding=UTF-8
-m2.repo=${user.home}/.m2/repository
-jdk.home=${java.home}
 libjpeg.home=/usr/local/src/jpeg-6bx
 libjpeg.include=${libjpeg.home}
 
 java6_32.home=/usr/local/openjdk6-b16-24_apr_2009-r1
 
 #
-#
-#
-run.value=Foo Bar
-#run.value=http://www.oracle.com/
-run.size=16
-
-t8.in=../vavi-image/tmp/erika.jpg
-
-##

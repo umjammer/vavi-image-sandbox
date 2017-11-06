@@ -38,7 +38,7 @@ public class GifUtil {
         if (isGIFCache.containsKey(sourceFile)) {
             return isGIFCache.get(sourceFile);
         } else {
-//	         int n = nAnimationGIF(sourceFile);
+//            int n = nAnimationGIF(sourceFile);
             boolean  isGIF = sourceFile.getAbsolutePath().endsWith("gif");
 
             isGIFCache.put(sourceFile, isGIF);
@@ -74,9 +74,9 @@ public class GifUtil {
                 numImages = i;
                 break;
             } catch (IOException e ){
-		numImages = 0;
-		break;
-	    }
+                numImages = 0;
+                break;
+            }
         }
         iis.close();
 //logger.debug("anigif: numImages: " + i);

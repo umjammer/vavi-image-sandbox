@@ -21,7 +21,7 @@ import vavi.awt.image.resample.AwtResampleOp;
  */
 public class Test3 {
 
-    File file = new File("/Users/nsano/src/vavi/vavi-image/tmp/P.jpg");
+    File file = new File("tmp/P.jpg");
 
     @Test
     public void test01() throws Exception {

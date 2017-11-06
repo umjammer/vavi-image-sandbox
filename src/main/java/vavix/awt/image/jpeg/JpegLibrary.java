@@ -12,7 +12,7 @@ import com.sun.jna.Structure;
 
 
 /**
- * LibJpeg. 
+ * LibJpeg.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/07/03 nsano initial version <br>
@@ -37,10 +37,10 @@ public interface JpegLibrary extends Library {
 
         public int next_scanline;
     }
-    
+
     /** */
     public static class jpeg_error_mgr extends Structure {
-        
+
     }
 
     /**

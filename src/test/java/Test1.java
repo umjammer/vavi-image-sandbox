@@ -28,12 +28,14 @@ import vavix.imageio.IIOUtil;
  */
 public class Test1 {
 
+    static {
+        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+    }
+
     /**
      * @param args 0: input image file name, 1: output file base name
      */
     public static void main(String[] args) throws Exception {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
-
         BufferedImage image = ImageIO.read(new File(args[0]));
 
         final int N = 18;

@@ -7,39 +7,51 @@
 <!--                                                                        -->
 <!-- vavi-image-sandbox                                                     -->
 <!--                                                                        -->
-<!-- @author	Naohide Sano                                                -->
-<!-- @version	0.00	020522	nsano	initial version                     -->
+<!-- @author Naohide Sano                                                   -->
+<!-- @version 0.00 020522 nsano initial version                             -->
 <!--                                                                        -->
 <!-- ////////////////////////////////////////////////////////////////////// -->
 
 <project name="vavi-image-sandbox" default="run" basedir="."
-	     xmlns:ivy="antlib:org.apache.ivy.ant">
+  xmlns:artifact="urn:maven-artifact-ant">
 
-  <!-- -->
-  <property environment="env"/>
-  <property file="local.properties" />
-  
-  <property name="dir.src" value="src/main/java" />
-  
-  <!-- クラスパスの定義 -->
-  <path id="project.class.path">
-    <fileset dir="lib">
+  <path id="maven-ant-tasks.classpath">
+    <fileset dir="${user.home}/lib/java/maven-ant-tasks">
       <include name="*.jar" />
     </fileset>
-    <pathelement location="target/classes"/>
   </path>
-  
-  <!-- ターゲットの定義 -->
-  
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+           uri="urn:maven-artifact-ant"
+           classpathref="maven-ant-tasks.classpath" />
+
+  <property environment="env" />
+  <property file="local.properties" />
+
+  <xmlproperty file="pom.xml" />
+
+  <!-- Path Definitions -->
+  <path id="project.class.path">
+    <pathelement location="${javac.dest.test}" />
+    <pathelement location="${javac.dest}" />
+    <fileset refid="maven-ant-tasks.dependency.fileset" />
+  </path>
+
+  <!-- prepare -->
+  <target name="prepare" description="Preparing">
+    <artifact:pom file="pom.xml" id="maven.project" />
+    <artifact:dependencies fileSetId="maven-ant-tasks.dependency.fileset">
+      <pom refid="maven.project" />
+    </artifact:dependencies>
+    <artifact:mvn pom="pom.xml">
+      <arg value="clean"/>
+      <arg value="package"/>
+      <arg value="-Dmaven.test.skip=true"/>
+    </artifact:mvn>
+  </target>
+
   <!-- clean -->
   <target name="clean" description="ビルド環境のクリア">
     <delete>
-      <fileset dir="target/classes">
-        <include name="**/*" />
-      </fileset>
-      <fileset dir="target/test-classes">
-        <include name="**/*" />
-      </fileset>
       <fileset dir="${dir.src}/vavix/imageio/jpeg">
         <include name="*.o" />
         <include name="vavix_*.h" />
@@ -48,30 +60,10 @@
         <include name="libimageioJPEG_simd.*" />
       </fileset>
     </delete>
-    <ivy:cleancache/>
-  </target>
-  
-  <!-- prepare -->
-  <target name="prepare" description="">
-    <ivy:settings file="ivy-settings.xml" />
-    <ivy:convertpom pomFile="pom.xml" ivyFile="ivy.xml" />
-    <ivy:retrieve />
-  </target>
-
-  <!-- javac -->
-  <target name="compile" depends="prepare" description="コンパイル">
-    <javac debug="on"
-           deprecation="on"
-           destdir="target/classes"
-    	   encoding="${encoding}">
-      <classpath refid="project.class.path" />
-      <include name="**/*.java" />
-      <src path="src/main/java" />
-    </javac>
   </target>
 
   <!-- javah -->
-  <target name="javah" depends="compile" description="Makeing Header">
+  <target name="javah" depends="prepare" description="Makeing Header">
     <javah destdir="${dir.src}/vavix/imageio/jpeg">
       <classpath refid="project.class.path" />
       <class name="vavix.imageio.jpeg.JPEGImageReader" />
@@ -115,29 +107,17 @@
     <copy file="lib/libimageioJPEG_simd.jnilib" tofile="lib/libimageioJPEG_simd.dylib" />
   </target>
 
-  <!-- jar -->
-  <target name="packaging" depends="compile" description="パッケージング">
-  	<copy todir="target/classes">
-  	  <fileset dir="src/main/resources">
-  	  	<include name="**/*" />
-      </fileset>
-  	</copy>
-    <jar jarfile="target/vavi-image-sandbox.jar">
-      <fileset dir="target/classes" />
-    </jar>
-  </target>
-  
   <!-- run -->
-  <target name="run" depends="packaging" description="プログラムの実行">
+  <target name="run" depends="prepare" description="qrcode">
     <java classname="vavi.util.qr.Qrcode" fork="yes">
-      <jvmarg value="-Dfile.encoding=${encoding}"/>
+      <jvmarg value="-Dfile.encoding=${project.build.plugins.plugin.configuration.encoding}"/>
       <classpath refid="project.class.path" />
       <arg value="${run.value}" />
     </java>
   </target>
 
-  <!-- t2 -->
-  <target name="t2" depends="packaging" description="by ImageProducer">
+  <!-- qrcode -->
+  <target name="qr1" depends="prepare" description="by ImageProducer">
     <java classname="vavi.util.qr.QrcodeImageSource" fork="yes">
       <classpath refid="project.class.path" />
       <arg value="${run.value}" />
@@ -145,8 +125,8 @@
     </java>
   </target>
 
-  <!-- t3 -->
-  <target name="t3" depends="packaging" description="by JComponent">
+  <!-- qrcode -->
+  <target name="qr2" depends="prepare" description="by JComponent">
     <java classname="vavi.util.qr.JQrcodeComponent" fork="yes">
       <classpath refid="project.class.path" />
       <arg value="${run.value}" />
@@ -154,8 +134,8 @@
     </java>
   </target>
 
-  <!-- t4 -->
-  <target name="t4" depends="packaging" description="Barcode Image">
+  <!-- barcode image -->
+  <target name="bar" depends="prepare" description="Barcode Image">
     <java classname="vavi.util.barcode.Barcode" fork="yes">
       <classpath refid="project.class.path" />
       <arg value="0123456" />
@@ -165,39 +145,47 @@
     </java>
   </target>
 
-  <!-- t113 -->    
-  <target name="t113" depends="packaging" description="Tests ColorMatcher class.">
+  <!-- color matcher -->
+  <target name="matcher" depends="prepare" description="Tests ColorMatcher class.">
     <java classname="vavix.awt.image.util.ColorMatcherTest" fork="yes">
       <classpath>
-      	<path refid="project.class.path" />
-      	<pathelement location="target/test-classes"/>
+        <path refid="project.class.path" />
       </classpath>
-	  <arg value="#00ff00" />
-	</java>
+      <arg value="#00ff00" />
+    </java>
   </target>
-	
-  <!-- t8 -->
-  <target name="t8" depends="" description="jpeg simd">
-    <java classname="Test8" jvm="${java6_32.home}/bin/java" fork="yes">
+
+  <!-- image magick -->
+  <target name="magick" depends="prepare" description="image magick filter">
+    <java classname="t146_11" fork="yes">
+      <classpath>
+        <path refid="project.class.path" />
+      </classpath>
+      <arg value="tmp/out4color1.jpg" />
+    </java>
+  </target>
+
+  <!-- jpeg simd -->
+  <target name="t8" depends="prepare" description="jpeg simd">
+    <java classname="Test8" fork="yes">
+      <!--
+      <jvmarg value="-32" />
+      -->
       <jvmarg value="-Djava.library.path=lib"/>
       <classpath>
-      	<path refid="project.class.path" />
-      	<pathelement location="target/test-classes"/>
+        <path refid="project.class.path" />
       </classpath>
       <arg value="${t8.in}" />
     </java>
   </target>
 
   <!-- dump jpeg -->
-  <target name="dumpjpeg" depends="compile" description="jpeg analyze">
+  <target name="dumpjpeg" depends="prepare" description="jpeg analyze">
     <java classname="DumpJpeg" fork="yes">
       <jvmarg value="-ea" />
       <env key="path" value="lib" />
       <classpath>
-        <pathelement location="${dir.build}" />
-        <pathelement location="target/test-classes" />
         <path refid="project.class.path" />
-        <pathelement location="${ant.home}/lib/junit.jar" />
       </classpath>
       <arg value="${jpeg}" />
     </java>
