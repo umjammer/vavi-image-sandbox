@@ -15,7 +15,7 @@ import java.io.OutputStream;
 
 
 /**
- * FixedColorModelQuantizer. 
+ * FixedColorModelQuantizer.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/06/02 nsano initial version <br>

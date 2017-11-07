@@ -6,12 +6,12 @@
  * modify it under the terms of the IBM Common Public License as
  * published by the IBM Corporation; either version 1.0 of the
  * License, or (at your option) any later version.
- *    
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * IBM Common Public License for more details.
- *  
+ *
  * You should have received a copy of the IBM Common Public
  * License along with this library
  */
@@ -37,7 +37,7 @@ public class OutOfSpaceException extends Exception implements Serializable {
 
     /**
      * Initializes the exception with an error message
-     * 
+     *
      * @param message Error message describing the cause of the exception
      */
     public OutOfSpaceException(String message) {
@@ -46,7 +46,7 @@ public class OutOfSpaceException extends Exception implements Serializable {
 
     /**
      * Initializes the exception as a followup exception
-     * 
+     *
      * @param message Error message describing the cause of the exception
      * @param inner Preceding exception that has caused this exception
      */

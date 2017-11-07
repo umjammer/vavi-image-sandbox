@@ -8,7 +8,7 @@ package vavix.awt.image.util;
 
 
 /**
- * Hsv. 
+ * Hsv.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/07 nsano initial version <br>
@@ -79,7 +79,7 @@ public class Hsv {
         Rgb rgb = new Rgb(Math.round(r * 255),
                           Math.round(g * 255),
                           Math.round(b * 255));
-        
+
 //System.err.println(hsv + " -> " + rgb);
         return rgb;
     }

@@ -11,7 +11,7 @@ import vavi.util.StringUtil;
 
 
 /**
- * DHT. 
+ * DHT.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2015/12/17 umjammer initial version <br>

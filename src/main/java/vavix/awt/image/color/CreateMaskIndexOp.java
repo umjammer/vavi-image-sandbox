@@ -26,7 +26,7 @@ public class CreateMaskIndexOp implements BufferedImageOp {
 
     /**
      * マスクは今のところ {@link #argb} が #ffffff で、そうでないところが #000000 固定
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (!IndexColorModel.class.isInstance(src.getColorModel())) {
@@ -60,7 +60,7 @@ public class CreateMaskIndexOp implements BufferedImageOp {
     }
 
     /**
-     * @return always return B&W color model 
+     * @return always return B&W color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

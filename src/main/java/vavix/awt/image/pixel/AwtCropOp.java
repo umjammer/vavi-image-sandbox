@@ -49,7 +49,7 @@ public class AwtCropOp implements BufferedImageOp {
     }
 
     /**
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         Image tmpImage = Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(src.getSource(), new CropImageFilter(sx, sy, sw, sh)));
@@ -60,12 +60,12 @@ public class AwtCropOp implements BufferedImageOp {
         Graphics g = dst.createGraphics();
         g.drawImage(tmpImage, 0, 0, null);
 //JOptionPane.showMessageDialog(null, "tmpImage", "tmpImage", JOptionPane.PLAIN_MESSAGE, new ImageIcon(dst));
-        
+
         return dst;
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

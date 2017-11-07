@@ -1,6 +1,6 @@
 /*
  * http://www.codeproject.com/KB/GDI-plus/queuelinearfloodfill.aspx
- * 
+ *
  * Original algorithm by J. Dunlap
  */
 
@@ -79,12 +79,12 @@ public class QueueLinearFloodFiller {
 
     /**
      * Fills the specified point on the bitmap with the currently selected fill color.
-     * 
+     *
      * @param x The starting coords for the fill
      * @param y The starting coords for the fill
      */
     public void floodFill(int x, int y) {
-        // Setup 
+        // Setup
         prepare();
 
         // Get starting color.
@@ -129,7 +129,7 @@ public class QueueLinearFloodFiller {
      * on a given y coordinate, starting from a given x coordinate, filling as it goes.
      * Adds the resulting horizontal range to the queue of floodfill ranges,
      * to be processed in the main loop.
-     * 
+     *
      * @param x The starting coords
      * @param y The starting coords
      */

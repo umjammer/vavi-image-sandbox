@@ -32,7 +32,7 @@ public class Ffmpeg {
     }
 
     static _Ffmpeg ffmpeg = LibraryLoader.create(_Ffmpeg.class).load("swscale");
-    public static Runtime runtime = Runtime.getRuntime(ffmpeg); 
+    public static Runtime runtime = Runtime.getRuntime(ffmpeg);
 
     static Ffmpeg instance;
 

@@ -8,7 +8,7 @@ import javax.imageio.stream.ImageInputStream;
 
 
 /**
- * Test7. (JPEG 2000 profiling) 
+ * Test7. (JPEG 2000 profiling)
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>

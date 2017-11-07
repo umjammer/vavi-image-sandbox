@@ -6,12 +6,12 @@
  * modify it under the terms of the IBM Common Public License as
  * published by the IBM Corporation; either version 1.0 of the
  * License, or (at your option) any later version.
- *  
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * IBM Common Public License for more details.
- *  
+ *
  * You should have received a copy of the IBM Common Public
  * License along with this library
  */
@@ -92,7 +92,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
 
         /**
          * Compares the rank of two anchors against each other
-         * 
+         *
          * @param left Left anchor point that will be compared
          * @param right Right anchor point that will be compared
          * @return The relation of the two anchor point's ranks to each other
@@ -105,7 +105,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
 
     /**
      * Initializes a new rectangle packer
-     * 
+     *
      * @param packingAreaWidth Maximum width of the packing area
      * @param packingAreaHeight Maximum height of the packing
      */
@@ -122,7 +122,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
 
     /**
      * Tries to allocate space for a rectangle in the packing area
-     * 
+     *
      * @param rectangleWidth Width of the rectangle to allocate
      * @param rectangleHeight Height of the rectangle to allocate
      * @param placement Output parameter receiving the rectangle's placement
@@ -186,7 +186,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
      * Optimizes the rectangle's placement by moving it either left or up to
      * fill any gaps resulting from rectangles blocking the anchors of the most
      * optimal placements.
-     * 
+     *
      * @param placement Placement to be optimized
      * @param rectangleWidth Width of the rectangle to be optimized
      * @param rectangleHeight Height of the rectangle to be optimized
@@ -223,7 +223,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
     /**
      * Searches for a free anchor and recursively enlarges the packing area if
      * none can be found.
-     * 
+     *
      * @param rectangleWidth Width of the rectangle to be placed
      * @param rectangleHeight Height of the rectangle to be placed
      * @param testedPackingAreaWidth Width of the tested packing area
@@ -282,7 +282,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
 
     /**
      * Locates the first free anchor at which the rectangle fits
-     * 
+     *
      * @param rectangleWidth Width of the rectangle to be placed
      * @param rectangleHeight Height of the rectangle to be placed
      * @param testedPackingAreaWidth Total width of the packing area
@@ -312,7 +312,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
     /**
      * Determines whether the rectangle can be placed in the packing area at its
      * current location.
-     * 
+     *
      * @param rectangle Rectangle whose position to check
      * @param testedPackingAreaWidth Total width of the packing area
      * @param testedPackingAreaHeight Total height of the packing area
@@ -346,7 +346,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
 
     /**
      * Inserts a new anchor point into the anchor list
-     * 
+     *
      * @param anchor Anchor point that will be inserted <remarks> This method
      *            tries to keep the anchor list ordered by ranking the anchors
      *            depending on the distance from the top left corner in the

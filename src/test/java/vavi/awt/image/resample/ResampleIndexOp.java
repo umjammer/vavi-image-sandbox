@@ -21,7 +21,7 @@ import vavix.awt.image.color.MaskAsTransparentIndexOp;
 
 /**
  * ResampleIndexOp.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
@@ -41,7 +41,7 @@ public class ResampleIndexOp implements BufferedImageOp {
     }
 
     /**
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      * @throws IllegalArgumentException src is not indexed color model image
      * @throws IllegalArgumentException TODO dst is not null
      */
@@ -53,7 +53,7 @@ public class ResampleIndexOp implements BufferedImageOp {
         if (dst != null) { // TODO implement
             throw new IllegalArgumentException("not implemented yet");
         }
-        
+
         BufferedImage maskImage = new CreateMaskIndexOp().filter(src, null);
         BufferedImage tempImage = new ResampleMaskOp(sx, sy).filter(maskImage, null);
         maskImage.flush();
@@ -67,7 +67,7 @@ public class ResampleIndexOp implements BufferedImageOp {
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

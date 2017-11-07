@@ -62,7 +62,7 @@ public class QrcodeImageSource implements ImageProducer {
                 }
             }
         }
-	
+    
         return result;
     }
 
@@ -146,7 +146,7 @@ public class QrcodeImageSource implements ImageProducer {
 
     /** @see java.awt.image.ImageProducer#isConsumer(java.awt.image.ImageConsumer) */
     public boolean isConsumer(ImageConsumer ic) {
-	return ip.isConsumer(ic);
+    return ip.isConsumer(ic);
     }
 
     /** @see java.awt.image.ImageProducer#removeConsumer(java.awt.image.ImageConsumer) */

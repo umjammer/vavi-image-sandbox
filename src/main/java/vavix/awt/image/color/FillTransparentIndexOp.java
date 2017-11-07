@@ -118,12 +118,12 @@ public class FillTransparentIndexOp implements BufferedImageOp {
                 trans = unusedColor;
                 IndexColorModel newIcm = new IndexColorModel(icm.getPixelSize(), mapSize, rs, gs, bs, trans);
                 dst = createCompatibleDestImage(src, newIcm);
-		//System.err.printf("trans unused color: %d %08x, %d/%d\n", trans, getRgb(trans, rs, bs, gs), icm.getMapSize() - colorMap.size(), colorMap.size());
+        //System.err.printf("trans unused color: %d %08x, %d/%d\n", trans, getRgb(trans, rs, bs, gs), icm.getMapSize() - colorMap.size(), colorMap.size());
 
 
-	    }
-	    // 
-	    else if (mapSize + 1 < (int) Math.pow(2, icm.getPixelSize())) {
+        }
+        //
+        else if (mapSize + 1 < (int) Math.pow(2, icm.getPixelSize())) {
                 trans = mapSize;
                 byte[] rs2 = new byte[mapSize + 1];
                 byte[] gs2 = new byte[mapSize + 1];
@@ -136,7 +136,7 @@ public class FillTransparentIndexOp implements BufferedImageOp {
                 bs2[trans] = (byte) 0xfe;
                 IndexColorModel newIcm = new IndexColorModel(icm.getPixelSize(), mapSize + 1, rs2, gs2, bs2, trans);
                 dst = createCompatibleDestImage(src, newIcm);
-		//System.err.printf("trans add unused color: %d %08x, 1/%d\n", trans, getRgb(trans, rs2, bs2, gs2), (int) Math.pow(2, icm.getPixelSize()) - colorMap.size());
+        //System.err.printf("trans add unused color: %d %08x, 1/%d\n", trans, getRgb(trans, rs2, bs2, gs2), (int) Math.pow(2, icm.getPixelSize()) - colorMap.size());
             } else {
                 List<Entry<Integer, Integer>> list = new ArrayList<>(colorMap.entrySet());
                 Collections.sort(list, new Comparator<Entry<Integer, Integer>>() {
@@ -145,8 +145,8 @@ public class FillTransparentIndexOp implements BufferedImageOp {
                         return o2.getValue() - o1.getValue();
                     }
                 });
-		//System.err.printf("most used color: %d: %08x count %d\n", list.get(0).getKey(), getRgb(list.get(0).getKey(), rs, gs, bs), list.get(0).getValue());
-		//System.err.printf("last used color: %d: %08x count %d\n", list.get(list.size() - 1).getKey(), getRgb(list.get(list.size() - 1).getKey(), rs, gs, bs), list.get(list.size() - 1).getValue());
+        //System.err.printf("most used color: %d: %08x count %d\n", list.get(0).getKey(), getRgb(list.get(0).getKey(), rs, gs, bs), list.get(0).getValue());
+        //System.err.printf("last used color: %d: %08x count %d\n", list.get(list.size() - 1).getKey(), getRgb(list.get(list.size() - 1).getKey(), rs, gs, bs), list.get(list.size() - 1).getValue());
 
                 if (list.get(list.size() - 1).getValue() < leastColor) {
                     // 3. パレットのピクセル数が #leastColor 以下の場合
@@ -154,12 +154,12 @@ public class FillTransparentIndexOp implements BufferedImageOp {
                     trans = list.get(list.size() - 1).getKey();
                     IndexColorModel newIcm = new IndexColorModel(icm.getPixelSize(), mapSize, rs, gs, bs, trans);
                     dst = createCompatibleDestImage(src, newIcm);
-		    //System.err.printf("trans last used color: %d %08x\n",  trans, getRgb(trans, rs, bs, gs));
+            //System.err.printf("trans last used color: %d %08x\n",  trans, getRgb(trans, rs, bs, gs));
                 } else {
                     // 4. パレットのピクセル数がいちばん多い色で塗りつぶす
                     trans = list.get(0).getKey();
                     dst = createCompatibleDestImage(src, icm);
-		    //System.err.printf("fill most used color %d, %08x\n", trans, getRgb(trans, rs, bs, gs));
+            //System.err.printf("fill most used color %d, %08x\n", trans, getRgb(trans, rs, bs, gs));
                 }
             }
         }

@@ -25,7 +25,7 @@ import javax.swing.border.LineBorder;
 
 
 /**
- * ColorThemeTest. 
+ * ColorThemeTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/07 nsano initial version <br>
@@ -69,11 +69,11 @@ System.err.println("hsv: " + hsv);
                     if (event.isAltDown()) {
                         split = split == 1 ? 0 : 1;
                     } else if (event.isControlDown()) {
-                            
+
                     } else if (event.isMetaDown()) {
-                        
+
                     } else {
-                        
+
                     }
                 }
             });
@@ -84,7 +84,7 @@ System.err.println("hsv: " + hsv);
             this.color = color;
         }
         public void paint(Graphics g) {
-            
+
         }
     }
 

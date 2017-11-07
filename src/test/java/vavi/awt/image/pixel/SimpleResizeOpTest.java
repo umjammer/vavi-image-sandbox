@@ -19,7 +19,7 @@ import vavix.awt.image.pixel.SimpleResizeOp;
 
 
 /**
- * SimpleResizeOpTest. 
+ * SimpleResizeOpTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/08 nsano initial version <br>
@@ -27,7 +27,7 @@ import vavix.awt.image.pixel.SimpleResizeOp;
 public class SimpleResizeOpTest {
 
     BufferedImage image;
-    
+
     public SimpleResizeOpTest() throws IOException {
         this.image = ImageIO.read(SimpleResizeOpTest.class.getResourceAsStream("klab.gif"));
     }

@@ -40,7 +40,7 @@ public class MaskAsTransparentIndexOp implements BufferedImageOp {
 
     /**
      * @param src should be indexed color model, and same size as {@link #maskImage}
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      * @throws IllegalArgumentException src is not indexed color model image
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
@@ -73,7 +73,7 @@ public class MaskAsTransparentIndexOp implements BufferedImageOp {
     }
 
     /**
-     * @return always return B&W color model 
+     * @return always return B&W color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

@@ -98,7 +98,7 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
         return directions.toArray(new Direction[0]);
     }
 
-    /** 
+    /**
      * @return rgb
      * @throws IllegalArgumentException direction
      */

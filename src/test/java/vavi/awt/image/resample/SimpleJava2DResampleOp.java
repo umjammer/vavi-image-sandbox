@@ -18,7 +18,7 @@ import java.awt.image.ColorModel;
 
 /**
  * SimpleResampleOp (Java 2D without hints).
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */

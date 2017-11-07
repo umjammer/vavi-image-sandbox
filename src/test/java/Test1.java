@@ -22,7 +22,7 @@ import vavix.imageio.IIOUtil;
 
 /**
  * Rolling Artwork
- * 
+ *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/09 umjammer initial version <br>
  */
@@ -42,7 +42,7 @@ public class Test1 {
 
         int w = image.getWidth();
         int h = image.getHeight();
-        int r = Math.min(h, w); 
+        int r = Math.min(h, w);
 
         final BufferedImage[] resultImages = new BufferedImage[N];
 

@@ -17,7 +17,7 @@ import java.awt.image.ColorModel;
 
 /**
  * ResampleMaskOp.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
@@ -37,7 +37,7 @@ public class ResampleMaskOp implements BufferedImageOp {
     }
 
     /**
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (src.getType() != BufferedImage.TYPE_BYTE_BINARY) { // TODO check colors 2
@@ -47,7 +47,7 @@ public class ResampleMaskOp implements BufferedImageOp {
         if (dst == null) {
             dst = createCompatibleDestImage(src, src.getColorModel());
         }
-        
+
         Rectangle destBounds = (Rectangle) getBounds2D(src);
         BufferedImage tempImage = new BufferedImage(destBounds.width, destBounds.height, BufferedImage.TYPE_INT_ARGB);
         BufferedImage filteredImage = new AwtResampleOp(sx, sy).filter(src, tempImage);
@@ -74,7 +74,7 @@ public class ResampleMaskOp implements BufferedImageOp {
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

@@ -29,7 +29,7 @@ import vavi.swing.JImageComponent;
 
 /**
  * 1D Barcode Image.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 041017 nsano initial version <br>
  */
@@ -46,7 +46,7 @@ public class Barcode {
     private boolean bw;
     /** */
     private String symbol;
-    
+
     /**
      * @param value only numeric allowed
      * @param symbol "code128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet"
@@ -59,7 +59,7 @@ public class Barcode {
         this.bw = bw;
         this.symbol = symbol;
     }
-    
+
     /**
      * @throws IOException when BarcodeException occurs
      */
@@ -68,10 +68,10 @@ public class Barcode {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             String format = MimeTypes.expandFormat(MimeTypes.MIME_PNG);
 logger.debug("Generating " + format + "...");
-            
+
             BarcodeClassResolver resolver = new DefaultBarcodeClassResolver();
             BarcodeGenerator gen = BarcodeUtil.createBarcodeGenerator(getConfiguration(symbol), resolver);
-            
+
 logger.debug("Resolution: " + dpi + "dpi");
             BitmapCanvasProvider bitmap;
             if (bw) {
@@ -83,7 +83,7 @@ logger.debug("Grayscale image (8-bit) with anti-aliasing");
             }
             gen.generateBarcode(bitmap, value);
             bitmap.finish();
-            
+
 logger.debug(value);
             return ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
         } catch (BarcodeException e) {
@@ -93,7 +93,7 @@ logger.debug(value);
         }
     }
 
-    /** 
+    /**
      * @param symbol "code128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet"
      */
     private Configuration getConfiguration(String symbol) {

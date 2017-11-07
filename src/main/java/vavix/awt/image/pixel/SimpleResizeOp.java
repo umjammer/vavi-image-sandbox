@@ -17,7 +17,7 @@ import java.awt.image.ColorModel;
 
 /**
  * SimpleResizeOp (moving pixels only).
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
@@ -37,13 +37,13 @@ public class SimpleResizeOp implements BufferedImageOp {
     }
 
     /**
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (dst == null) {
             dst = createCompatibleDestImage(src, src.getColorModel());
         }
-        
+
         for (int y = 0; y < dst.getHeight(); y++) {
             for (int x = 0; x < dst.getWidth(); x++) {
                 dst.setRGB(x, y, src.getRGB((int) (x / sx), (int) (y / sy)));
@@ -54,7 +54,7 @@ public class SimpleResizeOp implements BufferedImageOp {
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

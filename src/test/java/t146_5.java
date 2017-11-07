@@ -29,7 +29,7 @@ import vavi.swing.JImageComponent;
 
 /**
  * 1d barcode display.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 041017 nsano initial version <br>
  */
@@ -88,7 +88,7 @@ logger.debug("size: " + w + "x" + h);
         frame.setVisible(true);
     }
 
-    /** 
+    /**
      *  "code128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet"
      */
     private Configuration getConfiguration(String symbol) {

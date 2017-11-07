@@ -18,7 +18,7 @@ import java.awt.image.IndexColorModel;
 
 /**
  * DiffFillTransparentIndexOp.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
@@ -62,12 +62,12 @@ public class FillTransparentDiffIndexOp implements BufferedImageOp {
             }
         }
         dst.getRaster().setPixels(0, 0, sw, sh, dstData);
-        
+
         return dst;
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

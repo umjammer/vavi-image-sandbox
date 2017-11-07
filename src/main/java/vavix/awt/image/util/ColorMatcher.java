@@ -9,18 +9,18 @@ import java.awt.Color;
 
 /**
  * ColorMatcher.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 041007 nsano initial version <br>
  */
 public class ColorMatcher {
-    
+
     private Rgb rgb = new Rgb(127, 127, 127);
 
     private Color[] results = new Color[6];
 
     /**
-     * 
+     *
      * @param color base color you want to match
      * @return matching colors size is 6, 0: given color, 1...5: matching colors
      */
@@ -44,7 +44,7 @@ public class ColorMatcher {
             return x;
         }
     }
-    
+
     /** */
     private void update(Hsv hsv) {
         Hsv y = new Hsv();

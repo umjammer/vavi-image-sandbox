@@ -40,22 +40,22 @@ public class DumpJpeg extends TestCase {
         put(0x01, "TEM"); // テンポラリ・マーカ (算術圧縮)
         put(0xc0, "SOF0"); // 標準DCT圧縮
         put(0xc1, "SOF1"); // プログレッシブ DCT 圧縮
-        put(0xc2, "SOF2"); 
-        put(0xc3, "SOF3"); 
-        put(0xc4, "DHT"); // DCTで算出された値のエンコード用に作られたハフマンテーブルの情報 
-        put(0xc5, "SOF5"); 
-        put(0xc6, "SOF6"); 
-        put(0xc7, "SOF7"); 
-        put(0xc8, "JPG"); 
-        put(0xc9, "SOF9"); 
-        put(0xca, "SOF10"); 
-        put(0xcb, "SOF11"); 
-        put(0xcc, "DAC"); 
-        put(0xcd, "SOF13"); 
-        put(0xce, "SOF14"); 
-        put(0xcf, "SOF15"); 
-//      put(0xd8, "SOI"); 
-//      put(0xd9, "EOI"); 
+        put(0xc2, "SOF2");
+        put(0xc3, "SOF3");
+        put(0xc4, "DHT"); // DCTで算出された値のエンコード用に作られたハフマンテーブルの情報
+        put(0xc5, "SOF5");
+        put(0xc6, "SOF6");
+        put(0xc7, "SOF7");
+        put(0xc8, "JPG");
+        put(0xc9, "SOF9");
+        put(0xca, "SOF10");
+        put(0xcb, "SOF11");
+        put(0xcc, "DAC");
+        put(0xcd, "SOF13");
+        put(0xce, "SOF14");
+        put(0xcf, "SOF15");
+//      put(0xd8, "SOI");
+//      put(0xd9, "EOI");
 //      put(0xda, "SOS"); // Start of Scan (Required)
         put(0xdb, "DQT"); // 量子化テーブル定義 (Required)
         put(0xdc, "DNL"); // ライン数定義
@@ -78,7 +78,7 @@ System.err.println(file);
         InputStream is = new BufferedInputStream(new FileInputStream(file));
         DataInputStream dis = new DataInputStream(is);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         List<Segment> segments = new ArrayList<>();
 
         boolean inStream = false;
@@ -107,7 +107,7 @@ end:
                         if (inStream) {
                             baos.write(0xff);
                         } else {
-                            assert false : "[ff 00] at out of stream"; 
+                            assert false : "[ff 00] at out of stream";
                         }
                         continue end;
                     case 0xd8: // SOI

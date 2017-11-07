@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * PalettizeOp.
- * 
+ *
  * ex.
  * <pre>
  *  src = new PalettizeOp(256).filter(src, null);
@@ -45,7 +45,7 @@ public class PalettizeOp implements BufferedImageOp {
     /**
      * Convert an image to a palletized one. Will not create a palette above a
      * fixed number of entries
-     * 
+     *
      * @param src should be indexed color model
      * @param dst should not be set
      * @throws IllegalStateException when palette becomes too large

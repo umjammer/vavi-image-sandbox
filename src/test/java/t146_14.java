@@ -40,9 +40,9 @@ import vavi.swing.JImageComponent;
 
 /**
  * Jpeg quality. (jpg, j2k)
- * 
+ *
  * j2k reader は ImageConverter#convert のイメージをうまく扱えない
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 07xxxx nsano initial version <br>
  */

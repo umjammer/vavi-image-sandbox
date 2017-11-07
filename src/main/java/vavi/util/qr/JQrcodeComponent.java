@@ -21,7 +21,7 @@ import javax.swing.border.LineBorder;
 
 /**
  * JQrcodeComponent.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 040912 nsano initial version <br>
  */
@@ -40,7 +40,7 @@ public class JQrcodeComponent extends JComponent {
     }
 
     /**
-     * 
+     *
      * @param string use encoding
      * @param size size of one dot of QR code
      * @param encoding for string
@@ -48,11 +48,11 @@ public class JQrcodeComponent extends JComponent {
     public JQrcodeComponent(String string, int size, String encoding) {
         Toolkit t = Toolkit.getDefaultToolkit();
         this.image = t.createImage(new QrcodeImageSource(string, size, "Windows-31J"));
-        
+
         int width = image.getWidth(null);
         setPreferredSize(new Dimension(width + size, width + size));
     }
-    
+
     /** */
     public void update(Graphics g) {
         Border border = getBorder();
@@ -80,13 +80,13 @@ public class JQrcodeComponent extends JComponent {
     }
 
     //----
-    
+
     /** */
     public static void main(String[] args) throws Exception {
         int times = Integer.parseInt(args[1]);
         JQrcodeComponent component = new JQrcodeComponent(args[0], times, "Windows-31J");
         component.setBorder(new LineBorder(Color.white, times / 2));
-        
+
         JFrame frame = new JFrame();
         frame.setTitle(args[0] +  " x " + times);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -10,7 +10,7 @@ import java.awt.Color;
 
 
 /**
- * Rgb. 
+ * Rgb.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/07 nsano initial version <br>
@@ -59,13 +59,13 @@ public class Rgb {
         }
         float value = 100f * v / 255f;
         float delta = v - m;
-        
+
         if (v == 0.0) {
             hsv.s = 0;
         } else {
             hsv.s = 100 * delta / v;
         }
-        
+
         if (hsv.s == 0) {
             hsv.h = 0;
         } else {
@@ -76,17 +76,17 @@ public class Rgb {
             } else if (b == v) {
                 hsv.h = 240f + 60f * (r - g) / delta;
             }
-            
+
             if (hsv.h < 0.0) {
                 hsv.h = hsv.h + 360f;
             }
         }
-        
+
         hsv.v = Math.round(value);
 
         return hsv;
     }
-    
+
     public Color toColor() {
         return new Color(r, g, b);
     }

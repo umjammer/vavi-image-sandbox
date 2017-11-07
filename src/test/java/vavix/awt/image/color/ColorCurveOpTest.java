@@ -19,7 +19,7 @@ import vavi.imageio.ImageConverter;
 
 
 /**
- * ColorCurveOpTest. 
+ * ColorCurveOpTest.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2012/02/07 umjammer initial version <br>
@@ -27,7 +27,7 @@ import vavi.imageio.ImageConverter;
 public class ColorCurveOpTest {
 
     /**
-     * 
+     *
      * @see "http://www1.axfc.net/uploader/File/so/File_56252.zip" 疑似四色刷りファイル
      */
     @Test

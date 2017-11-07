@@ -18,7 +18,7 @@ import java.awt.image.IndexColorModel;
 
 /**
  * CropTransparentIndexOp.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
@@ -32,7 +32,7 @@ public class CropTransparentIndexOp implements BufferedImageOp {
     }
 
     /**
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (!IndexColorModel.class.isInstance(src.getColorModel())) {
@@ -98,7 +98,7 @@ height:
                 if (dst == null) {
                     dst = createCompatibleDestImage(src, src.getColorModel());
                 }
-    
+
                 return new SimpleCropOp(rectangle.x, rectangle.y, rectangle.width, rectangle.height).filter(src, dst);
             } else {
 //System.err.printf("CTI: can not crop: %d, %d, %d, %d, %d, %d\n", rectangle.x, rectangle.y, rectangle.width, rectangle.height, w, h);
@@ -121,8 +121,8 @@ height:
     }
 
     /**
-     * @before rectangle 
-     * @param destCM when null, used src color model 
+     * @before rectangle
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);
@@ -134,14 +134,14 @@ height:
     }
 
     /**
-     * @before rectangle 
+     * @before rectangle
      */
     public Rectangle2D getBounds2D(BufferedImage src) {
         return new Rectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
     /**
-     * @before rectangle 
+     * @before rectangle
      */
     public Point2D getPoint2D(Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {

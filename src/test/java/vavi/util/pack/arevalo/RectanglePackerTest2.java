@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 
 /**
  * t4
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (vavi)
  * @version 0.00 020427 vavi initial version <br>
  */

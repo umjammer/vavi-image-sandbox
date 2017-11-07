@@ -21,7 +21,7 @@ public class CleanFilter {
     static ToneLine toneLine = new ToneLine(0.0d, 1.0d, 0.0d, 1.0d, points);
 
     /**
-     * 
+     *
      * @return null when some errors occur.
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {

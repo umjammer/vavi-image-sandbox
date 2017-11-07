@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 1997-2008 Eddie Kohler, ekohler@gmail.com
- * 
+ *
  * Gifsicle is free software. It is distributed under the GNU Public License,
  * version 2 or later; you can copy, distribute, or alter it at will, as long
  * as this notice is kept intact and this source code is made available. There
@@ -15,7 +15,7 @@ import java.util.Comparator;
 
 /**
  * Functions to optimize animated GIFs.
- * 
+ *
  * @author <a href="mailto:ekohler@gmail.com">Eddie Kohler</a>
  */
 public class GifOptimizer {
@@ -334,7 +334,7 @@ found:
     private static int constrain(int low, int x, int high) {
         return x < low ? low : (x < high ? x : high);
     }
-    
+
     /** Returns bounds constrained to lie within the screen. */
     private GifOptBounds safe_bounds(GifImage area) {
         GifOptBounds b = new GifOptBounds();
@@ -653,7 +653,7 @@ found_expanded:
      * need array so that need[j] == REQUIRED if the output colormap must
      * include all_color j; REPLACE_TRANSP if it should be replaced by
      * transparency; and 0 if it's not in the image at all.
-     * 
+     *
      * If use_transparency > 0, then a pixel which was the same in the last
      * frame may be replaced with transparency. If use_transparency == 2,
      * transparency MUST be set. (This happens on the first image if the
@@ -861,15 +861,15 @@ found_expanded:
      * create_out_global_map: The interface function to this pass. It creates
      * out_global_map and sets pixel values on all_colormap appropriately.
      * Specifically:
-     * 
+     *
      * all_colormap.col[P].pixel >= 256 ==> P is not in the global colormap.
-     * 
+     *
      * Otherwise, all_colormap.col[P].pixel == the J so that
      * GIF_COLOREQ(&all_colormap.col[P], &out_global_map.col[J]).
-     * 
+     *
      * On return, the 'colormap_penalty' component of an image's Gif_OptData
      * structure is <0 iff that image will need a local colormap.
-     * 
+     *
      * 20.Aug.1999 - updated to new version that arranges the entire colormap,
      * not just the stuff above 256 colors.
      */
@@ -1183,9 +1183,9 @@ error:
 
         /*
          * Actually copy data to frame.
-         * 
+         *
          * Use transparency if possible to shrink the size of the written GIF.
-         * 
+         *
          * The written GIF will be small if patterns (sequences of pixel values)
          * recur in the image. We could conceivably use transparency to produce
          * THE OPTIMAL image, with the most recurring patterns of the best
@@ -1193,24 +1193,24 @@ error:
          * for a heuristic: we try and create RUNS. (Since we *try* to create
          * them, they will presumably recur!) A RUN is a series of adjacent
          * pixels all with the same value.
-         * 
+         *
          * By & large, we just use the regular image's values. However, we might
          * create a transparent run *not in* the regular image, if TWO OR MORE
          * adjacent runs OF DIFFERENT COLORS *could* be made transparent.
-         * 
+         *
          * (An area can be made transparent if the corresponding area in the
          * previous frame had the same colors as the area does now.)
-         * 
+         *
          * Why? If only one run (say of color C) could be transparent, we get no
          * large immediate advantage from making it transparent (it'll be a run
          * of the same length regardless). Also, we might LOSE: what if the run
          * was adjacent to some more of color C, which couldn't be made
          * transparent? If we use color C (instead of the transparent color),
          * then we get a longer run.
-         * 
+         *
          * This simple heuristic does a little better than Gifwizard's (6/97) on
          * some images, but does *worse than nothing at all* on others.
-         * 
+         *
          * However, it DOES do better than the complicated, greedy algorithm I
          * commented out above; and now we pick either the
          * transparency-optimized version or the normal version, whichever
@@ -1249,7 +1249,7 @@ error:
                         if (gfi.image_data[data] == transparent || (this_data[cur] == last_data[last] && gfi.image_data[swit] != gfi.image_data[data])) {
                             transparentizing = 1;
                             for (int j = 0; j < data - swit; j++) {
-                                gfi.image_data[swit + j] = (byte) transparent;  
+                                gfi.image_data[swit + j] = (byte) transparent;
                             }
                         } else {
                             if (this_data[cur] != last_data[last]) {
@@ -1305,10 +1305,10 @@ error:
     /**
      * last == what last image ended up looking like this == what new image
      * should look like
-     * 
+     *
      * last = apply O1 + dispose O1 + ... + apply On-1 + dispose On-1 this =
      * apply U1 + dispose U1 + ... + apply Un-1 + dispose Un-1 + apply Un
-     * 
+     *
      * invariant: apply O1 + dispose O1 + ... + apply Ok === apply U1 + dispose
      * U1 + ... + apply Uk
      */

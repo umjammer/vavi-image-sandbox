@@ -39,13 +39,13 @@ public class ReplaceColorOp implements BufferedImageOp {
 
     /**
      * @param src should be indexed color model
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (dst == null) {
             dst = createCompatibleDestImage(src, src.getColorModel());
         }
-        
+
         int sw = src.getWidth();
         int sh = src.getHeight();
         int[] srcRgbs = src.getRGB(0, 0, sw, sh, null, 0, sw);
@@ -63,7 +63,7 @@ public class ReplaceColorOp implements BufferedImageOp {
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

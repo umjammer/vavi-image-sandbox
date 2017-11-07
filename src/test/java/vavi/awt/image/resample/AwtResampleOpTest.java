@@ -30,7 +30,7 @@ import javax.swing.event.ChangeListener;
 
 
 /**
- * AwtResampleOpTest. 
+ * AwtResampleOpTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/15 nsano initial version <br>
@@ -88,7 +88,7 @@ public class AwtResampleOpTest {
 
 //    String input = "erika.jpg";
     String input = "voiceInboundCall.jpg";
-    
+
     void test00() throws Exception {
         BufferedImage image = ImageIO.read(AwtResampleOpTest.class.getResource(input));
         int w = image.getWidth();
@@ -147,7 +147,7 @@ System.err.println("left: " + (System.currentTimeMillis() - t) + "ms");
 //                BufferedImage dst = new BufferedImage((int) (image.getWidth() * scale), (int) (image.getHeight() * scale), BufferedImage.TYPE_INT_ARGB);
                 BufferedImage dst = null;
 t = System.currentTimeMillis();
-                filteredImage = filter.filter(image, dst); 
+                filteredImage = filter.filter(image, dst);
 System.err.println("right: " + (System.currentTimeMillis() - t) + "ms");
                 rightImageComponent.setImage(filteredImage);
                 rightImageComponent.repaint();

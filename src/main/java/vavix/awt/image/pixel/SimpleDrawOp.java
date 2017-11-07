@@ -17,7 +17,7 @@ import java.awt.image.ColorModel;
 
 /**
  * SimpleDrawOp.
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
@@ -46,7 +46,7 @@ public class SimpleDrawOp implements BufferedImageOp {
     }
 
     /**
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (dst == null) {
@@ -61,12 +61,12 @@ public class SimpleDrawOp implements BufferedImageOp {
         int y = Math.max(0, dy);
         int[] pixels = src.getRaster().getPixels(dx < 0 ? Math.abs(dx) : 0, dy < 0 ? Math.abs(dy) : 0, w, h, (int[]) null);
         dst.getRaster().setPixels(x, y, w, h, pixels);
-              
+
         return dst;
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

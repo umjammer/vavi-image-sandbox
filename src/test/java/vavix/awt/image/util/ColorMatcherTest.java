@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 
 
 /**
- * ColorMatcherTest. 
+ * ColorMatcherTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/07 nsano initial version <br>

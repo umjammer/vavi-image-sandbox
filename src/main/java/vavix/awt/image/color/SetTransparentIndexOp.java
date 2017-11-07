@@ -52,7 +52,7 @@ public class SetTransparentIndexOp implements BufferedImageOp {
         if (dst != null) { // TODO implement
             throw new IllegalArgumentException("not implemented yet");
         }
-        
+
         IndexColorModel srcICM = (IndexColorModel) src.getColorModel();
         WritableRaster raster = src.getRaster();
         int size = srcICM.getMapSize();
@@ -65,7 +65,7 @@ public class SetTransparentIndexOp implements BufferedImageOp {
         int pixel = -1;
         for (int i = 0; i < size; i++) {
             if ((reds[i] & 0xff) == r && (greens[i] & 0xff) == g && (blues[i] & 0xff) == b) {
-		//		System.err.printf("PIXEL[%3d]: R %02x G %02x B %02x\n", i, reds[i], greens[i], blues[i]);
+        //        System.err.printf("PIXEL[%3d]: R %02x G %02x B %02x\n", i, reds[i], greens[i], blues[i]);
                 pixel = i;
             }
         }
@@ -77,7 +77,7 @@ public class SetTransparentIndexOp implements BufferedImageOp {
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

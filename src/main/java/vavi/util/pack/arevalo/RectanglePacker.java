@@ -37,7 +37,7 @@ public abstract class RectanglePacker {
 
     /**
      * Initializes a new rectangle packer
-     * 
+     *
      * @param packingAreaWidth Width of the packing area
      * @param packingAreaHeight Height of the packing area
      */
@@ -48,7 +48,7 @@ public abstract class RectanglePacker {
 
     /**
      * Allocates space for a rectangle in the packing area
-     * 
+     *
      * @param rectangleWidth Width of the rectangle to allocate
      * @param rectangleHeight Height of the rectangle to allocate
      * @return The location at which the rectangle has been placed
@@ -65,7 +65,7 @@ public abstract class RectanglePacker {
 
     /**
      * Tries to allocate space for a rectangle in the packing area
-     * 
+     *
      * @param rectangleWidth Width of the rectangle to allocate
      * @param rectangleHeight Height of the rectangle to allocate
      * @param placement Output parameter receiving the rectangle's placement

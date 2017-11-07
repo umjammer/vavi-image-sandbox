@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- *  
+ *
  * Original
  *  http://www.gimp.org/
  *  http://avisynth.org.ru/docs/english/externalfilters/gicocu.htm
@@ -33,9 +33,9 @@ import java.util.Scanner;
 
 
 /**
- * ColorCurveOp. 
+ * ColorCurveOp.
  *
- * @author E-Male 
+ * @author E-Male
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2012/02/07 umjammer initial version <br>
  */
@@ -81,7 +81,7 @@ public class ColorCurveOp implements BufferedImageOp {
 
         /** */
         void calculateCurve(int channel) {
-            
+
             int[] points = new int[17];
 
             int num_pts = 0;
@@ -365,7 +365,7 @@ System.err.printf("index: %d, value: %d\n", index[i][j], value[i][j]);
             }
 
             scanner.close();
-            
+
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 17; j++) {
                     curves.points[i][j][0] = index[i][j];
@@ -385,15 +385,15 @@ System.err.printf("index: %d, value: %d\n", index[i][j], value[i][j]);
     /** */
     private Curves curves;
 
-    /** */ 
+    /** */
     public ColorCurveOp(Curves curves) {
         this.curves = curves;
     }
 
     /**
-     * 
-     * @param src RGB24 & RGB32 only! 
-     * @param dst 
+     *
+     * @param src RGB24 & RGB32 only!
+     * @param dst
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (dst == null) {

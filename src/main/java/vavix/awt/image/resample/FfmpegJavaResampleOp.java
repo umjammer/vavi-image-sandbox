@@ -105,7 +105,7 @@ public class FfmpegJavaResampleOp implements BufferedImageOp {
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle2D destBounds = getBounds2D(src);

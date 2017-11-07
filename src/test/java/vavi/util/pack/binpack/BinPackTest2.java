@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 
 /**
  * t4
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (vavi)
  * @version 0.00 020427 vavi initial version <br>
  */
@@ -43,7 +43,7 @@ public class BinPackTest2 {
         final List<List<BinPacker.Rect>> rss = packer.pack(ds, SIZE, true);
         int l = 0;
         for (List<BinPacker.Rect> rs : rss) {
-            l += rs.size(); 
+            l += rs.size();
         }
 System.err.println("pack: " + l + "/" + ds.size());
         JPanel panel = new JPanel() {

@@ -41,13 +41,13 @@ public class CreateMaskOp implements BufferedImageOp {
     /**
      * マスクは今のところ {@link #argb} が #ffffff で、そうでないところが #000000 固定
      * @param src should be indexed color model
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         if (dst == null) {
             dst = createCompatibleDestImage(src, null);
         }
-        
+
         int targetRgb = src.isAlphaPremultiplied() ? argb : argb | 0xff000000;
 
         for (int y = 0; y < src.getHeight(); y++) {
@@ -64,7 +64,7 @@ public class CreateMaskOp implements BufferedImageOp {
     }
 
     /**
-     * @return always return B&W color model 
+     * @return always return B&W color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

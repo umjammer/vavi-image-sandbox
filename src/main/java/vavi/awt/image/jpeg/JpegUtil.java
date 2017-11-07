@@ -22,7 +22,7 @@ import javax.imageio.stream.ImageOutputStream;
 
 
 /**
- * JpegUtil. 
+ * JpegUtil.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 071116 nsano initial version <br>
@@ -53,7 +53,7 @@ public class JpegUtil {
         float previousQuality = -1;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // 
+        //
         ImageWriter iw = ImageIO.getImageWritersByFormatName("JPEG").next();
         while (true) {
 

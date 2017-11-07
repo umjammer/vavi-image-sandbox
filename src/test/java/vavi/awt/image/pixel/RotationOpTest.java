@@ -21,7 +21,7 @@ import vavix.awt.image.pixel.RotationOp;
 
 
 /**
- * RotationOpTest. 
+ * RotationOpTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/04/14 nsano initial version <br>
@@ -29,7 +29,7 @@ import vavix.awt.image.pixel.RotationOp;
 public class RotationOpTest extends TestCase {
 
     BufferedImage image;
-    
+
     public RotationOpTest() throws IOException {
         this.image = ImageIO.read(RotationOpTest.class.getResourceAsStream("klab.gif"));
     }

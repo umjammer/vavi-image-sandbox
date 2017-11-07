@@ -17,14 +17,14 @@ import java.awt.image.ColorModel;
 
 /**
  * Java のバカがイメージ切り抜きのまともなのを持っていないから...
- * 
+ *
  * <ul>
  * <li> {@link BufferedImage#getSubimage(int, int, int, int)} は見かけだけ</li>
  * <li> {@link java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int, int, int, int, int, java.awt.image.ImageObserver)}
  *      はリサイズじゃないときにもリサイズのオペレーションが入るし</li>
  * <li> ImageCropFilter は Toolkit で Image にして draw すると、やっぱり Graphics#draw がカラー変換かけやがる</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
@@ -56,7 +56,7 @@ public class SimpleCropOp implements BufferedImageOp {
     }
 
     /**
-     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)} 
+     * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
 //System.err.printf("2: %d, %d\n", src.getWidth(), src.getHeight());
@@ -70,12 +70,12 @@ public class SimpleCropOp implements BufferedImageOp {
 //System.err.printf("3: %d, %d, %d, %d\n", x, y, w, h);
         int[] pixels = src.getRaster().getPixels(x, y, w, h, (int[]) null);
         dst.getRaster().setPixels(sx < 0 ? Math.abs(sx) : 0, sy < 0 ? Math.abs(sy) : 0, w, h, pixels);
-       
+
         return dst;
     }
 
     /**
-     * @param destCM when null, used src color model 
+     * @param destCM when null, used src color model
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);

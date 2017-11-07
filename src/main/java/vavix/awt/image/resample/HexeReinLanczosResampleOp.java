@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 /**
  * 全然キレくないやんけ！
- * 
+ *
  * @see "http://www7a.biglobe.ne.jp/~fairytale/article/program/graphics.html#lanczos"
  */
 public class HexeReinLanczosResampleOp implements BufferedImageOp {

@@ -30,7 +30,7 @@ import vavix.awt.image.resample.ZhoumxLanczosResample2Op;
 
 /**
  * Scaling. (awt, lanczos)
- * 
+ *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 061012 nsano initial version <br>
  */
@@ -119,7 +119,7 @@ System.err.println("left: " + (System.currentTimeMillis() - t) + "ms");
                 image = rightImage;
                 filter = new ZhoumxLanczosResample2Op((int) (image.getWidth() * scale), (int) (image.getHeight() * scale));
 t = System.currentTimeMillis();
-                filteredImage = filter.filter(image, null); 
+                filteredImage = filter.filter(image, null);
 System.err.println("right: " + (System.currentTimeMillis() - t) + "ms");
 System.err.println("filteredImage: " + filteredImage);
                 rightImageComponent.setImage(filteredImage);

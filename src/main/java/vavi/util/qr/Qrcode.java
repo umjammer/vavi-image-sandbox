@@ -192,7 +192,7 @@ public class Qrcode {
         8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
         8, 8, 8, 8, 8, 8, 8, 8, 8
     };
-    
+
     /** 空値 */
     private static final boolean[][] nullResult = {
         { false }
@@ -495,7 +495,7 @@ public class Qrcode {
         dataBits[codewordNumCounterValue] += codewordNumPlus[version];
 
         int maxCodewords = maxCodeWordsArray[version];
-//	int maxModules1side = 17 + (version << 2);
+//    int maxModules1side = 17 + (version << 2);
 
         // read version ECC data file
         int byte_num = matrixRemainBit[version] + (maxCodewords << 3);
@@ -640,7 +640,7 @@ public class Qrcode {
     }
 
     /**
-     * 
+     *
      * @param data
      * @param bits
      * @param maxDataCodeWords
@@ -719,7 +719,7 @@ public class Qrcode {
     }
 
     /**
-     * 
+     *
      * @param codeWords
      * @param rsEccCodeWords
      * @param rsBlockOrder
@@ -810,7 +810,7 @@ public class Qrcode {
     }
 
     /**
-     * 
+     *
      * @param xa
      * @param xb
      * @param ind
@@ -855,7 +855,7 @@ public class Qrcode {
     };
 
     /**
-     * 
+     *
      * @param matrixContent
      * @param maxCodeWordsBitWithRemain
      * @return byte
@@ -968,7 +968,7 @@ public class Qrcode {
     }
 
     //----
-    
+
     /** java Qrcode string */
     public static void main(String[] args) throws Exception {
         Qrcode qr = new Qrcode();
