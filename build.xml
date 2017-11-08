@@ -161,7 +161,7 @@
       <classpath>
         <path refid="project.class.path" />
       </classpath>
-      <arg value="tmp/out4color1.jpg" />
+      <arg value="${magick.in}" />
     </java>
   </target>
 
