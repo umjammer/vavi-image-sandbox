@@ -19,6 +19,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import vavi.imageio.ImageConverter;
+
 import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
 import vavix.imageio.IIOUtil;
 
@@ -42,7 +43,7 @@ public class Test20 {
     public void test01() throws Exception {
         final double scale = Math.PI * 2;
 
-        BufferedImage originalImage = ImageIO.read(getClass().getResourceAsStream("namacha02.jpg"));
+        BufferedImage originalImage = ImageIO.read(getClass().getResourceAsStream("/namacha02.jpg"));
         ImageConverter converter = ImageConverter.getInstance();
         converter.setColorModelType(BufferedImage.TYPE_INT_ARGB);
         BufferedImage image = converter.toBufferedImage(originalImage);

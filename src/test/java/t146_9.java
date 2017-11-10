@@ -23,6 +23,8 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.junit.Ignore;
+
 import vavi.awt.image.resample.AwtResampleOp;
 import vavi.swing.JImageComponent;
 
@@ -33,6 +35,7 @@ import vavi.swing.JImageComponent;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 061012 nsano initial version <br>
  */
+@Ignore
 public class t146_9 {
 
     /**

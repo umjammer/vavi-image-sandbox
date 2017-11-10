@@ -1,4 +1,3 @@
-package vavi.util.pack.arevalo;
 /*
 Nuclex Framework
 Copyright (C) 2002-2009 Nuclex Development Labs
@@ -16,6 +15,8 @@ IBM Common Public License for more details.
 You should have received a copy of the IBM Common Public
 License along with this library
  */
+
+package vavi.util.pack.arevalo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

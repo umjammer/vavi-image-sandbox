@@ -45,10 +45,8 @@ import vavi.xml.util.XmlUtil;
  */
 public class FixedColorModelQuantizerOpTest {
 
-    String input = "src/test/resources/vavi/awt/image/color/sendMail.gif";
+    String input = "src/test/resources/sample.gif";
 
-    // String input =
-    // "src/test/resources/vavi/awt/image/quantize/resultReceiveMail.gif";
     String output = "/tmp/vavi.awt.image.resample.FixedColorModelQuantizerOpTest.gif";
 
     @Test
@@ -96,11 +94,11 @@ System.out.println("Image:" + i);
                 originalModel.getReds(reds);
                 originalModel.getGreens(greens);
                 originalModel.getBlues(blues);
-for (int j = 0; j < size; j++) {
- System.out.print(reds[j] + ",");
- System.out.print(greens[j] + ",");
- System.out.println(blues[j]);
-}
+//for (int j = 0; j < size; j++) {
+// System.out.print(reds[j] + ",");
+// System.out.print(greens[j] + ",");
+// System.out.println(blues[j]);
+//}
             } else {
 System.err.println("image does not have palette");
             }
@@ -268,7 +266,7 @@ System.err.println("image does not have palette");
                 int r = ((cmap[i % 10 + 1] >> 16) & 0x000000ff);
                 int gr = ((cmap[i % 10 + 1] >> 8) & 0x000000ff);
                 int b = ((cmap[i % 10 + 1] >> 0) & 0x000000ff);
-                System.err.printf("%x %x %x\n", r, gr, b);
+//                System.err.printf("%x %x %x\n", r, gr, b);
                 g.setColor(new java.awt.Color(r, gr, b));
                 // g.setPaintMode();
                 g.fillRect(j * 1, i, 1, 1);
@@ -277,7 +275,7 @@ System.err.println("image does not have palette");
         g.dispose();
         BufferedImage tempImage3 = new PalettizeOp(16).filter(bufImg, null);
         bufImg = tempImage3;
-        ImageIO.write(bufImg, "png", new File("test.png"));
+        ImageIO.write(bufImg, "png", new File("tmp/out_test03.png"));
     }
  }
 

@@ -16,6 +16,8 @@ import javax.imageio.spi.ImageReaderSpi;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.junit.Ignore;
+
 import vavix.imageio.IIOUtil;
 import vavix.util.grep.FileDigger;
 import vavix.util.grep.RegexFileDigger;
@@ -27,6 +29,7 @@ import vavix.util.grep.RegexFileDigger;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/09 umjammer initial version <br>
  */
+@Ignore
 public class Test10 {
 
     static {

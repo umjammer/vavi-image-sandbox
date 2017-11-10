@@ -11,6 +11,8 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
+import org.junit.Ignore;
+
 
 /**
  * Test8. (JPEG SIMD) 
@@ -18,6 +20,7 @@ import javax.imageio.stream.ImageOutputStream;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
+@Ignore
 public class Test8 {
 
     /**

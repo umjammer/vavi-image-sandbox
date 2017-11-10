@@ -29,7 +29,7 @@ public class SimpleResizeOpTest {
     BufferedImage image;
 
     public SimpleResizeOpTest() throws IOException {
-        this.image = ImageIO.read(SimpleResizeOpTest.class.getResourceAsStream("klab.gif"));
+        this.image = ImageIO.read(SimpleResizeOpTest.class.getResourceAsStream("/sample.gif"));
     }
 
     @Test

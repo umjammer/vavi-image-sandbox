@@ -40,9 +40,9 @@ import vavix.awt.image.pixel.SimpleDrawOp;
 public class FillTransparentIndexOpTest {
 
     BufferedImage image;
-    
+
     public FillTransparentIndexOpTest() throws IOException {
-        this.image = ImageIO.read(FillTransparentIndexOpTest.class.getResourceAsStream("imodeCheckMessage.gif"));
+        this.image = ImageIO.read(FillTransparentIndexOpTest.class.getResourceAsStream("/sample.gif"));
     }
 
     @Test
@@ -85,7 +85,7 @@ JOptionPane.showMessageDialog(null, new ImageIcon(image3), "fillTrancerateIndex 
         int w = image.getWidth() + 80;
         int h = image.getHeight() + 80;
         BufferedImage dst;
-        
+
         IndexColorModel icm = IndexColorModel.class.cast(targetImage.getColorModel());
         int trans = icm.getTransparentPixel();
         if (trans != -1) {
@@ -172,10 +172,10 @@ System.err.printf("trans last used color: %d %08x\n",  trans, getRgb(trans, rs, 
         int[] pixels = new int[w * h];
         Arrays.fill(pixels, trans); // TODO why trans is index???
         dst.setRGB(0, 0, w, h, pixels, 0, w);
-        
+
         g.drawRect(0, 0, w - 1, h - 1);
 JOptionPane.showMessageDialog(null, new ImageIcon(dst), "fillTrancerateIndex 02 1", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
-        
+
         pixels = dst.getRaster().getPixels(0, 0, w, h, (int[]) null);
         Arrays.fill(pixels, trans);
         dst.getRaster().setPixels(0, 0, w, h, pixels);

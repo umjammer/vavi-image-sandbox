@@ -17,6 +17,8 @@ import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JFrame;
 
+import org.junit.Ignore;
+
 import vavi.swing.JImageComponent;
 
 import vavix.imageio.IIOUtil;
@@ -28,6 +30,7 @@ import vavix.imageio.IIOUtil;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/09 umjammer initial version <br>
  */
+@Ignore
 public class Test9 {
 
     /**

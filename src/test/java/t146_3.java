@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Ignore;
 
 import vavi.imageio.ImageConverter;
 import vavi.swing.JImageComponent;
@@ -34,6 +35,7 @@ import vavi.util.qr.Qrcode;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 021117 nsano initial version <br>
  */
+@Ignore
 public class t146_3 {
 
     /** */

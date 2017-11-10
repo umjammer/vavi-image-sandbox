@@ -31,7 +31,7 @@ public class RotationOpTest extends TestCase {
     BufferedImage image;
 
     public RotationOpTest() throws IOException {
-        this.image = ImageIO.read(RotationOpTest.class.getResourceAsStream("klab.gif"));
+        this.image = ImageIO.read(RotationOpTest.class.getResourceAsStream("/namacha02.jpg"));
     }
 
     @Test

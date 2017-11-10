@@ -81,7 +81,7 @@ public class ArevaloRectanglePackerTest extends RectanglePackerTest {
     }
 
     /** Tests the packer's stability by running a complete benchmark */
-    @Test
+//    @Test
     public void testStability() {
         float score = benchmark(new ArevaloRectanglePacker(1024, 1024));
         System.out.println("score: " + score);

@@ -3,7 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.junit.Ignore;
 
+
+@Ignore
 class BinPackerTest {
 
     public static void main(String[] args) {

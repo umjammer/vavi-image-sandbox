@@ -1,4 +1,3 @@
-package vavi.util.pack.arevalo;
 /*
  * Nuclex Framework
  * Copyright (C) 2002-2009 Nuclex Development Labs
@@ -17,13 +16,18 @@ package vavi.util.pack.arevalo;
  * License along with this library
  */
 
+package vavi.util.pack.arevalo;
+
 import java.awt.Point;
 import java.util.Random;
+
+import org.junit.Ignore;
 
 import vavi.util.pack.arevalo.RectanglePacker;
 
 
 /** Base class for unit testing the rectangle packers */
+@Ignore
 public abstract class RectanglePackerTest {
 
     /**

@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
+import org.junit.Ignore;
 
 import vavi.awt.image.AbstractBufferedImageOp;
 import vavi.swing.JImageComponent;
@@ -43,6 +44,7 @@ import vavi.swing.binding.Updater;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 061013 nsano initial version <br>
  */
+@Ignore
 public class t146_11 {
 
     static t146_11 app;

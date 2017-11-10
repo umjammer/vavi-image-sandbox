@@ -66,7 +66,7 @@ public class BinPackerTest {
         BufferedImage image = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
-int l = 0;
+//int l = 0;
         int c = 0;
         for (List<BinPacker.Rect> pack : packs) {
 
@@ -86,12 +86,12 @@ int l = 0;
                 g2.drawRect(rect.x, rect.y, rect.width - 1, rect.height - 1);
             }
 
-System.err.printf("out %d\n", c);
+//System.err.printf("out %d\n", c);
             ImageIO.write(image, "PNG", new File("tmp", "out_" + c++ + ".png"));
-l += pack.size();
+//l += pack.size();
         }
 
-System.err.println("packed: " + l + "/" + rects.size());
+//System.err.println("packed: " + l + "/" + rects.size());
     }
 }
 

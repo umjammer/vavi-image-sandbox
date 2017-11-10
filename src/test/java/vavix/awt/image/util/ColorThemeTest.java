@@ -23,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import org.junit.Ignore;
+
 
 /**
  * ColorThemeTest.
@@ -31,6 +33,7 @@ import javax.swing.border.LineBorder;
  * @version 0.00 2010/09/07 nsano initial version <br>
  * @see "http://www.slideshare.net/marippe/ss-9003317"
  */
+@Ignore
 public class ColorThemeTest {
 
     Hsv hsv = new Hsv();

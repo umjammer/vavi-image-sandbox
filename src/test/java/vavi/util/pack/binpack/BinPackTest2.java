@@ -16,6 +16,8 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.junit.Ignore;
+
 
 /**
  * t4
@@ -23,6 +25,7 @@ import javax.swing.JPanel;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (vavi)
  * @version 0.00 020427 vavi initial version <br>
  */
+@Ignore
 public class BinPackTest2 {
 
     public static void main(String[] args) throws Exception {

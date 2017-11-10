@@ -28,6 +28,8 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.junit.Ignore;
+
 
 /**
  * AwtResampleOpTest.
@@ -35,6 +37,7 @@ import javax.swing.event.ChangeListener;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/15 nsano initial version <br>
  */
+@Ignore
 public class AwtResampleOpTest {
 
     class JImageComponent extends JComponent {

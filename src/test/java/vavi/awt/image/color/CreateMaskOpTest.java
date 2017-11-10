@@ -66,7 +66,7 @@ public class CreateMaskOpTest {
     BufferedImage image;
 
     public CreateMaskOpTest() throws IOException {
-        this.image = ImageIO.read(CreateMaskOpTest.class.getResourceAsStream("mask.gif"));
+        this.image = ImageIO.read(CreateMaskOpTest.class.getResourceAsStream("/sample.gif"));
     }
 
 //    @Test
@@ -90,7 +90,7 @@ public class CreateMaskOpTest {
         List<IIOMetadataNode> metadataNodes = new ArrayList<>();
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
-        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/vavi/awt/image/color/sendMail.gif"));
+        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/sample.gif"));
         reader.setInput(iis, true);
         for (int i = 0;; i++) {
             try {
@@ -166,7 +166,7 @@ public class CreateMaskOpTest {
         List<IIOMetadataNode> metadataNodes = new ArrayList<>();
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
-        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/vavi/awt/image/color/sendMail.gif"));
+        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/sample.gif"));
         reader.setInput(iis, true);
 
         BufferedImage image1 = null;
@@ -322,7 +322,7 @@ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOpt
         List<IIOMetadataNode> metadataNodes = new ArrayList<>();
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
-        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/vavi/awt/image/color/sendMail.gif"));
+        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/sample.gif"));
         reader.setInput(iis, true);
 
         for (int i = 0;; i++) {

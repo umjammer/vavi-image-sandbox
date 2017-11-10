@@ -36,6 +36,7 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -45,6 +46,7 @@ import org.junit.Test;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/10 nsano initial version <br>
  */
+@Ignore
 public class Java2DResampleOpTest {
 
     class JImageComponent extends JComponent {

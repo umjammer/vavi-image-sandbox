@@ -22,7 +22,7 @@ import org.junit.Test;
 
 
 /**
- * GifRendererTest. 
+ * GifRendererTest.
  *
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/20 nsano initial version <br>
@@ -33,7 +33,7 @@ public class GifRendererTest {
     public void test01() throws Exception {
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
-        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/vavi/awt/image/color/sendMail.gif"));
+        ImageInputStream iis = new FileImageInputStream(new File("src/test/resources/sample.gif"));
         reader.setInput(iis, true);
 
         GifRenderer renderer = new GifRenderer();

@@ -20,6 +20,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.junit.Ignore;
+
 
 /**
  * ColorMatcherTest.
@@ -27,6 +29,7 @@ import javax.swing.event.ChangeListener;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/07 nsano initial version <br>
  */
+@Ignore
 public class ColorMatcherTest {
 
     /**

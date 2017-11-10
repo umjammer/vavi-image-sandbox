@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
+
 import vavi.util.StringUtil;
 
 import junit.framework.TestCase;
@@ -28,6 +30,7 @@ import junit.framework.TestCase;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 060322 nsano initial version <br>
  */
+@Ignore
 public class DumpJpeg extends TestCase {
 
     /** */

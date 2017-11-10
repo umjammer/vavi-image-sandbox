@@ -14,6 +14,8 @@ import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 
+import org.junit.Ignore;
+
 import vavi.xml.util.XmlUtil;
 
 
@@ -23,6 +25,7 @@ import vavi.xml.util.XmlUtil;
  * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
+@Ignore
 public class Test5 {
 
     /**
