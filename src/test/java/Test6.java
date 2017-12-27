@@ -17,7 +17,7 @@ import vavi.awt.image.resample.FfmpegResampleOp;
 /**
  * Test6. (JPEG 2000 scale)
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
 @Ignore

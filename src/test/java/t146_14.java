@@ -34,8 +34,6 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.junit.Ignore;
-
 import vavi.awt.image.resample.AwtResampleOp;
 import vavi.swing.JImageComponent;
 
@@ -45,10 +43,9 @@ import vavi.swing.JImageComponent;
  *
  * j2k reader は ImageConverter#convert のイメージをうまく扱えない
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 07xxxx nsano initial version <br>
  */
-@Ignore
 public class t146_14 {
 
     public static void main(String[] args) throws Exception {

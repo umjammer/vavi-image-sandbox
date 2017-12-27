@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Ignore;
 
 import vavi.imageio.ImageConverter;
 import vavi.util.qr.QrcodeImageSource;
@@ -22,10 +21,9 @@ import vavi.util.qr.QrcodeImageSource;
 /**
  * ImageIO.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021117 nsano initial version <br>
  */
-@Ignore
 public class t146_4 {
 
     /** */

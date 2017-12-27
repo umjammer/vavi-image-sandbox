@@ -26,7 +26,7 @@ import vavi.util.Debug;
 /**
  * 2-dim. float-array and direction-array
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/14 nsano initial version <br>
  */
 class MyArray extends BasicArray<PFloat> {

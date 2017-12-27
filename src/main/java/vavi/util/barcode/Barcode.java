@@ -1,15 +1,12 @@
 package vavi.util.barcode;
 
 
-import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -24,13 +21,11 @@ import org.krysalis.barcode4j.cli.AdvancedConsoleLogger;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.MimeTypes;
 
-import vavi.swing.JImageComponent;
-
 
 /**
  * 1D Barcode Image.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 041017 nsano initial version <br>
  */
 public class Barcode {
@@ -101,38 +96,6 @@ logger.debug(value);
         DefaultConfiguration child = new DefaultConfiguration(symbol);
         config.addChild(child);
         return config;
-    }
-
-    //----
-
-    /** */
-    public static void main(String[] args) throws Exception {
-        String value = args[0];
-        String symbol = args[1];
-        int dpi = Integer.parseInt(args[2]);
-        boolean bw = Boolean.parseBoolean(args[3]);
-
-        Barcode barcode = new Barcode(value, symbol, dpi, bw);
-
-        BufferedImage image = barcode.getBufferedImage();
-        int h = image.getHeight();
-        int w = image.getWidth();
-
-        BufferedImage newImage = new BufferedImage(h, w, image.getType());
-        Graphics2D g2d = newImage.createGraphics();
-        g2d.rotate(Math.toRadians(90));
-        g2d.drawImage(image, 0, -h, null);
-
-logger.debug(image.toString());
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JImageComponent component = new JImageComponent();
-        component.setImage(newImage);
-        component.setPreferredSize(new Dimension(newImage.getWidth(), newImage.getHeight()));
-        frame.getContentPane().add(component);
-        frame.pack();
-        frame.setVisible(true);
     }
 }
 

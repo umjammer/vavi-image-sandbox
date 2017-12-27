@@ -16,12 +16,14 @@ import vavi.awt.image.resample.AwtResampleOp;
 /**
  * Test1. filters x3
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @see "https://github.com/mortennobel/java-image-scaling"
+ *
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
 public class Test3 {
 
-    File file = new File("tmp/P.jpg");
+    File file = new File("tmp/erika.jpg");
 
     @Test
     public void test01() throws Exception {

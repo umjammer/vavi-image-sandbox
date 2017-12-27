@@ -25,7 +25,7 @@ import java.awt.image.ColorModel;
  * <li> ImageCropFilter は Toolkit で Image にして draw すると、やっぱり Graphics#draw がカラー変換かけやがる</li>
  * </ul>
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
 public class SimpleCropOp implements BufferedImageOp {

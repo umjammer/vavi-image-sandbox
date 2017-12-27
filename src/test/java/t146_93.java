@@ -23,20 +23,18 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.junit.Ignore;
-
 import vavi.awt.image.resample.AwtResampleOp;
 import vavi.swing.JImageComponent;
+
 import vavix.awt.image.resample.ZhoumxLanczosResample2Op;
 
 
 /**
  * Scaling. (awt, lanczos)
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 061012 nsano initial version <br>
  */
-@Ignore
 public class t146_93 {
 
     /**

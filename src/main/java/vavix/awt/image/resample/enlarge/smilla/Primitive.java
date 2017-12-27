@@ -10,7 +10,7 @@ package vavix.awt.image.resample.enlarge.smilla;
 /**
  * float-vector-operations  plus scalar product
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/13 nsano initial version <br>
  */
 interface Primitive<T extends Primitive<T>> {

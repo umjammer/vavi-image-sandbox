@@ -16,12 +16,14 @@ import vavix.awt.image.pixel.SimpleDrawOp;
 /**
  * Test1. Ranczos3
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @see "https://github.com/mortennobel/java-image-scaling"
+ *
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
 public class Test4 {
 
-    File file = new File("src/test/resources/sample.gif");
+    File file = new File("src/test/resources/resample/erika.jpg");
 
     @Test
     public void test01() throws Exception {

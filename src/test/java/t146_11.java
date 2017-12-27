@@ -29,7 +29,6 @@ import javax.swing.UIManager;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
-import org.junit.Ignore;
 
 import vavi.awt.image.AbstractBufferedImageOp;
 import vavi.swing.JImageComponent;
@@ -41,11 +40,17 @@ import vavi.swing.binding.Updater;
 /**
  * ImageMagick filter.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 061013 nsano initial version <br>
  */
-@Ignore
 public class t146_11 {
+
+    static {
+        UIManager.getDefaults().put("SplitPane.border", BorderFactory.createEmptyBorder());
+        UIManager.getDefaults().put("TextField.background", UIManager.getColor("Panel.background"));
+        UIManager.getDefaults().put("TextField.border", BorderFactory.createLineBorder(UIManager.getColor("Panel.background"), 4));
+        UIManager.getDefaults().put("ScrollPane.border", BorderFactory.createEmptyBorder());
+    }
 
     static t146_11 app;
 
@@ -75,11 +80,6 @@ public class t146_11 {
 System.err.println(args[0]);
         leftImage = ImageIO.read(new File(args[0]));
         rightImage = ImageIO.read(new File(args[0]));
-
-        UIManager.getDefaults().put("SplitPane.border", BorderFactory.createEmptyBorder());
-        UIManager.getDefaults().put("TextField.background", UIManager.getColor("Panel.background"));
-        UIManager.getDefaults().put("TextField.border", BorderFactory.createLineBorder(UIManager.getColor("Panel.background"), 4));
-        UIManager.getDefaults().put("ScrollPane.border", BorderFactory.createEmptyBorder());
 
         channelRedSeparateCheckBox = new JCheckBox("channel red separate");
         normalizeCheckBox = new JCheckBox("normalize");

@@ -17,21 +17,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Ignore;
-
 import vavi.util.StringUtil;
-
-import junit.framework.TestCase;
 
 
 /**
  * DumpJpeg. jpeg analyzer.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 060322 nsano initial version <br>
  */
-@Ignore
-public class DumpJpeg extends TestCase {
+public class DumpJpeg {
 
     /** */
     public static void main(String[] args) throws Exception {

@@ -1,17 +1,17 @@
 /*
  * Nuclex Framework
  * Copyright (C) 2002-2009 Nuclex Development Labs
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the IBM Common Public License as
  * published by the IBM Corporation; either version 1.0 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * IBM Common Public License for more details.
- * 
+ *
  * You should have received a copy of the IBM Common Public
  * License along with this library
  */
@@ -32,7 +32,7 @@ public abstract class RectanglePackerTest {
 
     /**
      * Delegate for a Rectangle Packer factory method
-     * 
+     *
      * @return A new rectangle packer
      */
     protected RectanglePacker rectanglePackerBuilder;
@@ -70,10 +70,10 @@ public abstract class RectanglePackerTest {
 
     /**
      * Benchmarks the provided rectangle packer using random data
-     * 
+     *
      * @param buildPacker Rectangle packer build method returning new rectangle
      *            packers with an area of 1024 x 1024
-     * 
+     *
      * @return The achieved benchmark score
      */
     protected float benchmark(RectanglePacker buildPacker) {

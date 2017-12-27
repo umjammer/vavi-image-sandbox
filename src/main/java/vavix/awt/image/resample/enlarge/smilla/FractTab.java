@@ -30,7 +30,7 @@ import javax.imageio.ImageIO;
 /**
  * an array for fractal deformation of the enlarge-kernels
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/14 nsano initial version <br>
  */
 class FractTab {

@@ -6,6 +6,8 @@
 
 package vavi.awt.image.pixel;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -13,8 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
 import org.junit.Test;
 
 import vavix.awt.image.pixel.RotationOp;
@@ -23,10 +24,10 @@ import vavix.awt.image.pixel.RotationOp;
 /**
  * RotationOpTest.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/04/14 nsano initial version <br>
  */
-public class RotationOpTest extends TestCase {
+public class RotationOpTest {
 
     BufferedImage image;
 
@@ -50,6 +51,11 @@ JOptionPane.showMessageDialog(null, new ImageIcon(image), "R90", JOptionPane.INF
     public void test180() {
         BufferedImage filteredImage = new RotationOp(RotationOp.ROTATE_180).filter(image, null);
 JOptionPane.showMessageDialog(null, new ImageIcon(image), "180", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        new Robot().keyPress(KeyEvent.VK_SPACE);
     }
 }
 

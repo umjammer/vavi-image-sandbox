@@ -20,7 +20,7 @@ import org.apache.commons.collections.bidimap.TreeBidiMap;
  * Some functions are not supported.<BR>
  *
  * @author Y.Swetake
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.50b8 original version <br>
  *          0.60 040903 nsano refactor <br>
  */

@@ -97,25 +97,24 @@ public class QueueLinearFloodFiller {
         linearFill(x, y);
 
         // Call floodfill routine while floodfill ranges still exist on the queue
-        FloodFillRange range;
         while (ranges.size() > 0) {
             // Get Next Range Off the Queue
-            range = ranges.remove();
+            FloodFillRange range = ranges.remove();
 
             // Check Above and Below Each Pixel in the Floodfill Range
             int downPxIdx = (width * (range.y + 1)) + range.startX;
             int upPxIdx = (width * (range.y - 1)) + range.startX;
-            int upY = range.y - 1;//so we can pass the y coord by ref
+            int upY = range.y - 1; // so we can pass the y coord by ref
             int downY = range.y + 1;
             for (int i = range.startX; i <= range.endX; i++) {
                 // Start Fill Upwards
                 // if we're not above the top of the bitmap and the pixel above this one is within the color tolerance
-                if (range.y > 0 && (!pixelsChecked[upPxIdx]) && checkPixel(image.getRGB(range.startX, range.y - 1)))
+                if (range.y > 0 && !pixelsChecked[upPxIdx] && checkPixel(image.getRGB(range.startX, range.y - 1)))
                     linearFill(i, upY);
 
                 // Start Fill Downwards
                 // if we're not below the bottom of the bitmap and the pixel below this one is within the color tolerance
-                if (range.y < (height - 1) && (!pixelsChecked[downPxIdx]) && checkPixel(image.getRGB(range.startX, range.y + 1)))
+                if (range.y < (height - 1) && !pixelsChecked[downPxIdx] && checkPixel(image.getRGB(range.startX, range.y + 1)))
                     linearFill(i, downY);
                 downPxIdx++;
                 upPxIdx++;
@@ -146,7 +145,7 @@ public class QueueLinearFloodFiller {
             lFillLoc--; // de-increment counter
             pxIdx--; // de-increment pixel index
             // exit loop if we're at edge of bitmap or color area
-            if (lFillLoc < 0 || (pixelsChecked[pxIdx]) || !checkPixel(image.getRGB(x, y)))
+            if (lFillLoc <= 0 || pixelsChecked[pxIdx] || !checkPixel(image.getRGB(x, y)))
                 break;
         }
         lFillLoc++;

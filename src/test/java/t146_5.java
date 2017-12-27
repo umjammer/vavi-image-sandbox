@@ -16,7 +16,6 @@ import javax.swing.JFrame;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.Logger;
-import org.junit.Ignore;
 import org.krysalis.barcode4j.BarcodeClassResolver;
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.BarcodeUtil;
@@ -31,10 +30,9 @@ import vavi.swing.JImageComponent;
 /**
  * 1d barcode display.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 041017 nsano initial version <br>
  */
-@Ignore
 public class t146_5 {
 
     /** */

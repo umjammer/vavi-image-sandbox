@@ -1,21 +1,22 @@
-package vavi.util.pack.arevalo;
 /*
-Nuclex Framework
-Copyright (C) 2002-2009 Nuclex Development Labs
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the IBM Common Public License as
-published by the IBM Corporation; either version 1.0 of the
-License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-IBM Common Public License for more details.
-
-You should have received a copy of the IBM Common Public
-License along with this library
+ * Nuclex Framework
+ * Copyright (C) 2002-2009 Nuclex Development Labs
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the IBM Common Public License as
+ * published by the IBM Corporation; either version 1.0 of the
+ * License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * IBM Common Public License for more details.
+ *
+ * You should have received a copy of the IBM Common Public
+ * License along with this library
  */
+
+package vavi.util.pack.arevalo;
 
 import java.awt.Point;
 
@@ -43,7 +44,7 @@ public class ArevaloRectanglePackerTest extends RectanglePackerTest {
     /**
      * Tests whether the packer throws the appropriate exception if a rectangle
      * is too large to fit in the packing area
-     * */
+     */
     @Test
     public void testTooLargeRectangle() {
         ArevaloRectanglePacker packer = new ArevaloRectanglePacker(128, 128);

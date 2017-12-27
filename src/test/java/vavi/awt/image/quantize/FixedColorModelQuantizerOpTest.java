@@ -40,7 +40,7 @@ import vavi.xml.util.XmlUtil;
 /**
  * FixedColorModelQuantizerOPTest.
  *
- * @author <a href="mailto:vavivavi@yahoo.co.jp">Naohide Sano</a> (nsano)
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/06/02 nsano initial version <br>
  */
 public class FixedColorModelQuantizerOpTest {
