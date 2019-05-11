@@ -48,6 +48,14 @@ public class AwtCropOp implements BufferedImageOp {
         this.sh = sh;
     }
 
+    /** */
+    public AwtCropOp(Rectangle rectangle) {
+        this.sx = rectangle.x;
+        this.sy = rectangle.y;
+        this.sw = rectangle.width;
+        this.sh = rectangle.height;
+    }
+
     /**
      * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */

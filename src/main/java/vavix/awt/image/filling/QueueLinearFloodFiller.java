@@ -17,40 +17,55 @@ import java.util.Queue;
  */
 public class QueueLinearFloodFiller {
 
-    //Image to fill, colour to fill, colour tolerance R,G,B
-    protected BufferedImage image = null;
-    protected int[] tolerance = new int[] {
+    // color tolerance R,G,B
+    private int[] tolerance = new int[] {
         0, 0, 0
     };
-    //cached image properties
-    protected int width = 0;
-    protected int height = 0;
-    //internal, initialized per fill
-    protected boolean[] pixelsChecked;
-    protected int fillColour = 0;
-    protected int[] startColour = new int[] {
-        0, 0, 0
-    };
+    // cached image properties
+    private int width = 0;
+    private int height = 0;
+    // internal, initialized per fill
+    private boolean[] pixelsChecked;
+    private int fillColor = 0;
+    private int[] startColor;
+    private int[] pixels;
 
     //Queue of floodfill ranges
     protected Queue<FloodFillRange> ranges;
+    private int imageType;
 
     public QueueLinearFloodFiller(BufferedImage image) {
         this.width = image.getWidth();
         this.height = image.getHeight();
-        this.image = image;
+
+        ranges = new LinkedList<>();
+        pixelsChecked = new boolean[width * height];
+
+        pixels = new int[width * height];
+        image.getRGB(0, 0, width, height, pixels, 0, width);
+
+        imageType = image.getType();
     }
 
     public int getFillColor() {
-        return fillColour;
+        return fillColor;
     }
 
-    public void setFillColour(Color value) {
-        fillColour = value.getRGB();
+    public void setTargetColor(Color value) {
+        if (startColor == null) {
+            startColor = new int[3];
+        }
+        startColor[0] = value.getRed();
+        startColor[1] = value.getGreen();
+        startColor[2] = value.getBlue();
     }
 
-    public void setFillColour(int value) {
-        fillColour = value;
+    public void setFillColor(Color value) {
+        fillColor = value.getRGB();
+    }
+
+    public void setFillColor(int value) {
+        fillColor = value;
     }
 
     public int[] getTolerance() {
@@ -68,13 +83,9 @@ public class QueueLinearFloodFiller {
     }
 
     public BufferedImage getImage() {
+        BufferedImage image = new BufferedImage(width, height, imageType == 0 ? BufferedImage.TYPE_INT_RGB : imageType);
+        image.setRGB(0, 0, width, height, pixels, 0, width);
         return image;
-    }
-
-    /** Called before starting flood-fill */
-    protected void prepare() {
-        pixelsChecked = new boolean[width * height];
-        ranges = new LinkedList<>();
     }
 
     /**
@@ -84,14 +95,12 @@ public class QueueLinearFloodFiller {
      * @param y The starting coords for the fill
      */
     public void floodFill(int x, int y) {
-        // Setup
-        prepare();
 
         // Get starting color.
-        int startPixel = image.getRGB(x, y);
-        startColour[0] = (startPixel >> 16) & 0xff;
-        startColour[1] = (startPixel >> 8) & 0xff;
-        startColour[2] = startPixel & 0xff;
+        if (startColor == null) {
+            int startPixel = pixels[(width * y) + x];
+            setTargetColor(new Color(startPixel));
+        }
 
         // Do first call to floodfill.
         linearFill(x, y);
@@ -102,24 +111,24 @@ public class QueueLinearFloodFiller {
             FloodFillRange range = ranges.remove();
 
             // Check Above and Below Each Pixel in the Floodfill Range
-            int downPxIdx = (width * (range.y + 1)) + range.startX;
-            int upPxIdx = (width * (range.y - 1)) + range.startX;
-            int upY = range.y - 1; // so we can pass the y coord by ref
+            int downPixelIndex = (width * (range.y + 1)) + range.startX;
+            int upPixelIndex   = (width * (range.y - 1)) + range.startX;
+            int upY   = range.y - 1; // so we can pass the y coord by ref
             int downY = range.y + 1;
             for (int i = range.startX; i <= range.endX; i++) {
                 // Start Fill Upwards
                 // if we're not above the top of the bitmap and the pixel above this one is within the color tolerance
-                if (range.y > 0 && !pixelsChecked[upPxIdx] && checkPixel(image.getRGB(range.startX, range.y - 1)))
+                if (range.y > 0 && !pixelsChecked[upPixelIndex] && checkPixel(upPixelIndex))
                     linearFill(i, upY);
 
                 // Start Fill Downwards
                 // if we're not below the bottom of the bitmap and the pixel below this one is within the color tolerance
-                if (range.y < (height - 1) && !pixelsChecked[downPxIdx] && checkPixel(image.getRGB(range.startX, range.y + 1)))
+                if (range.y < (height - 1) && !pixelsChecked[downPixelIndex] && checkPixel(downPixelIndex))
                     linearFill(i, downY);
-                downPxIdx++;
-                upPxIdx++;
-            }
 
+                downPixelIndex++;
+                upPixelIndex++;
+            }
         }
     }
 
@@ -134,36 +143,38 @@ public class QueueLinearFloodFiller {
      */
     protected void linearFill(int x, int y) {
         // Find Left Edge of Color Area
-        int lFillLoc = x; //the location to check/fill on the left
-        int pxIdx = (width * y) + x;
+        int lFillLoc = x; // the location to check/fill on the left
+        int pixelIndex = (width * y) + x;
         while (true) {
             // fill with the color
-            image.setRGB(x, y, fillColour);
+            pixels[pixelIndex] = fillColor;
             // indicate that this pixel has already been checked and filled
-            pixelsChecked[pxIdx] = true;
+            pixelsChecked[pixelIndex] = true;
             // de-increment
             lFillLoc--; // de-increment counter
-            pxIdx--; // de-increment pixel index
+            pixelIndex--; // de-increment pixel index
             // exit loop if we're at edge of bitmap or color area
-            if (lFillLoc <= 0 || pixelsChecked[pxIdx] || !checkPixel(image.getRGB(x, y)))
+            if (lFillLoc < 0 || pixelsChecked[pixelIndex] || !checkPixel(pixelIndex)) {
                 break;
+            }
         }
         lFillLoc++;
 
         // Find Right Edge of Color Area
         int rFillLoc = x; // the location to check/fill on the left
-        pxIdx = (width * y) + x;
+        pixelIndex = (width * y) + x;
         while (true) {
             // fill with the color
-            image.setRGB(x, y, fillColour);
+            pixels[pixelIndex] = fillColor;
             // indicate that this pixel has already been checked and filled
-            pixelsChecked[pxIdx] = true;
+            pixelsChecked[pixelIndex] = true;
             // increment
             rFillLoc++; // increment counter
-            pxIdx++; // increment pixel index
+            pixelIndex++; // increment pixel index
             // exit loop if we're at edge of bitmap or color area
-            if (rFillLoc >= width || pixelsChecked[pxIdx] || !checkPixel(image.getRGB(x, y)))
+            if (rFillLoc >= width || pixelsChecked[pixelIndex] || !checkPixel(pixelIndex)) {
                 break;
+            }
         }
         rFillLoc--;
 
@@ -173,14 +184,14 @@ public class QueueLinearFloodFiller {
     }
 
     /** Sees if a pixel is within the color tolerance range. */
-    protected boolean checkPixel(int px) {
-        int red = (px >>> 16) & 0xff;
-        int green = (px >>> 8) & 0xff;
-        int blue = px & 0xff;
+    protected boolean checkPixel(int pixelIndex) {
+        int red   = (pixels[pixelIndex] >>> 16) & 0xff;
+        int green = (pixels[pixelIndex] >>> 8) & 0xff;
+        int blue  =  pixels[pixelIndex] & 0xff;
 
-        return (red >= (startColour[0] - tolerance[0]) && red <= (startColour[0] + tolerance[0])
-                && green >= (startColour[1] - tolerance[1]) && green <= (startColour[1] + tolerance[1])
-                && blue >= (startColour[2] - tolerance[2]) && blue <= (startColour[2] + tolerance[2]));
+        return (red   >= (startColor[0] - tolerance[0]) && red   <= (startColor[0] + tolerance[0]) &&
+                green >= (startColor[1] - tolerance[1]) && green <= (startColor[1] + tolerance[1]) &&
+                blue  >= (startColor[2] - tolerance[2]) && blue  <= (startColor[2] + tolerance[2]));
     }
 
     /** Represents a linear range to be filled and branched from. */
