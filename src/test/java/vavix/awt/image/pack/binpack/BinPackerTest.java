@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.imageio.spi.ImageReaderSpi;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import vavix.imageio.IIOUtil;
 import vavix.util.grep.FileDigger;

@@ -6,6 +6,11 @@
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
@@ -30,11 +35,14 @@ import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
 
+import vavi.awt.dnd.BasicDTListener;
 import vavi.awt.image.AbstractBufferedImageOp;
 import vavi.swing.JImageComponent;
 import vavi.swing.binding.Component;
 import vavi.swing.binding.Components;
 import vavi.swing.binding.Updater;
+
+import vavix.awt.image.util.ImageUtil;
 
 
 /**
@@ -58,17 +66,23 @@ public class t146_11 {
         app = new t146_11(args);
     }
 
-    BufferedImage rightImage;
+    double scale;
+
+    BufferedImage image;
     BufferedImage leftImage;
+    BufferedImage rightImage;
 
     JSlider contrastSlider;
     JSlider modulationSlider;
     JSlider thresholdSlider;
+    JSlider gammaSlider;
 
     JCheckBox channelRedSeparateCheckBox;
     JCheckBox normalizeCheckBox;
     JCheckBox modulationCheckBox;
     JCheckBox thresholdCheckBox;
+    JCheckBox gammaCheckBox;
+    JCheckBox autoLevelCheckBox;
     JCheckBox typeGrayscaleCheckBox;
 
     JImageComponent rightImageComponent;
@@ -76,22 +90,40 @@ public class t146_11 {
 
     JTextField statusLabel;
 
+    /** */
+    void updateModel(String file) throws IOException {
+System.err.println(file);
+        image = ImageIO.read(new File(file));
+        scale = ImageUtil.scale(image, 0.8);
+        leftImage = ImageUtil.fit(image, scale);
+        rightImage = ImageUtil.clone(leftImage);
+    }
+
+    /** */
+    void updateView() {
+        leftImageComponent.setImage(leftImage);
+        rightImageComponent.setImage(rightImage);
+        leftImageComponent.getParent().getParent().repaint();
+    }
+
     t146_11(String[] args) throws Exception {
-System.err.println(args[0]);
-        leftImage = ImageIO.read(new File(args[0]));
-        rightImage = ImageIO.read(new File(args[0]));
+        updateModel(args[0]);
 
         channelRedSeparateCheckBox = new JCheckBox("channel red separate");
         normalizeCheckBox = new JCheckBox("normalize");
         modulationCheckBox = new JCheckBox("modulation");
         thresholdCheckBox = new JCheckBox("threshold");
+        gammaCheckBox = new JCheckBox("gamma");
+        autoLevelCheckBox = new JCheckBox("auto level");
         typeGrayscaleCheckBox = new JCheckBox("type grayscale");
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(channelRedSeparateCheckBox);
         buttonPanel.add(normalizeCheckBox);
         buttonPanel.add(modulationCheckBox);
         buttonPanel.add(thresholdCheckBox);
+        buttonPanel.add(autoLevelCheckBox);
         buttonPanel.add(typeGrayscaleCheckBox);
+        buttonPanel.add(gammaCheckBox);
 
         JPanel upperPanel = new JPanel();
         upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.Y_AXIS));
@@ -110,6 +142,12 @@ System.err.println(args[0]);
         thresholdSlider.setMinimum(0);
         thresholdSlider.setToolTipText("threshold");
 
+        gammaSlider = new JSlider();
+        gammaSlider.setMaximum(100);
+        gammaSlider.setMinimum(0);
+        gammaSlider.setToolTipText("gamma");
+
+        upperPanel.add(gammaSlider);
         upperPanel.add(thresholdSlider);
         upperPanel.add(contrastSlider);
         upperPanel.add(modulationSlider);
@@ -126,7 +164,47 @@ System.err.println(args[0]);
         leftPanel.add(leftImageComponent, BorderLayout.CENTER);
         leftPanel.setPreferredSize(new Dimension(leftImage.getWidth(), leftImage.getHeight()));
 
-        rightImageComponent = new JImageComponent();
+        rightImageComponent = new JImageComponent() {
+            {
+                // this is the DnD target sample for a file name from external applications
+                new DropTarget(
+                    this, 
+                    DnDConstants.ACTION_COPY_OR_MOVE,
+                    new BasicDTListener() {
+
+                        @Override
+                        protected boolean isDragFlavorSupported(DropTargetDragEvent ev) {
+                            return ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
+                        }
+
+                        @Override
+                        protected DataFlavor chooseDropFlavor(DropTargetDropEvent ev) {
+                            if (ev.isLocalTransfer() == true && ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                                return DataFlavor.javaFileListFlavor;
+                            }
+                            DataFlavor chosen = null;
+                            if (ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                                chosen = DataFlavor.javaFileListFlavor;
+                            }
+                            return chosen;
+                        }
+
+                        @SuppressWarnings("unchecked")
+                        @Override
+                        protected boolean dropImpl(DropTargetDropEvent ev, Object data) {
+                            try {
+                                updateModel(((List<File>) data).get(0).getPath());
+                                updateView();
+                                return true;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                return false;
+                            }
+                        }
+                    },
+                    true);
+            }
+        };
         rightImageComponent.setImage(rightImage);
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
@@ -190,17 +268,24 @@ System.err.println(args[0]);
         boolean modulationFlag;
         @Component(name = "thresholdSlider")
         int threshold;
+        @Component(name = "gammaSlider")
+        int gamma = 100;
         @Component(name = "thresholdCheckBox")
         boolean thresholdFlag;
+        @Component(name = "autoLevelCheckBox")
+        boolean autoLevel;
         @Component(name = "typeGrayscaleCheckBox")
         boolean typeGrayscale;
+        @Component(name = "gammaCheckBox")
+        boolean gammaFlag;
+        /** generated ImageMagick options */
         String command;
     }
 
     void updateRightImage(MagickParams params) {
         //
         BufferedImageOp filter = new ImageMagickOp(params);
-        BufferedImage filteredImage = filter.filter(rightImage, null);
+        BufferedImage filteredImage = ImageUtil.fit(filter.filter(image, null), scale);
 
         //
         rightImageComponent.setImage(filteredImage);
@@ -242,12 +327,20 @@ System.err.println(args[0]);
                     op.type("Grayscale");
                 }
 
+                if (params.autoLevel) {
+                    op.autoLevel();
+                }
+
                 if (params.modulationFlag) {
                     op.modulate((double) params.modulation);
                 }
 
                 if (params.thresholdFlag) {
                     op.blackThreshold((double) params.threshold, true);
+                }
+
+                if (params.gammaFlag) {
+                    op.gamma(params.gamma / 100d);
                 }
 
                 if (params.normalizationFlag) {

@@ -20,14 +20,14 @@ package vavi.util.pack.arevalo;
 
 import java.awt.Point;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import vavi.util.pack.arevalo.ArevaloRectanglePacker;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 /** Unit test for the arevalo rectangle packer class */

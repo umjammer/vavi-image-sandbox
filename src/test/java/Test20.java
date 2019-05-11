@@ -15,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import vavi.imageio.ImageConverter;
 
@@ -55,7 +55,7 @@ public class Test20 {
 
         for (int y = 0; y < expectedImage.getHeight(); y++) {
             for (int x = 0; x < expectedImage.getWidth(); x++) {
-                Assert.assertEquals(expectedImage.getRGB(x, y), actualImage.getRGB(x, y));
+                Assertions.assertEquals(expectedImage.getRGB(x, y), actualImage.getRGB(x, y));
             }
         }
     }

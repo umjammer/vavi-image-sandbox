@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
 
 /**
@@ -33,7 +33,7 @@ import org.junit.Ignore;
  * @version 0.00 2010/09/07 nsano initial version <br>
  * @see "http://www.slideshare.net/marippe/ss-9003317"
  */
-@Ignore
+@Disabled
 public class ColorThemeTest {
 
     Hsv hsv = new Hsv();

@@ -7,7 +7,6 @@
 package vavi.awt.image.jpeg;
 
 
-
 /**
  * Segment.
  *

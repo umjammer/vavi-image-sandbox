@@ -25,7 +25,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import vavix.awt.image.color.FillTransparentIndexOp;
 import vavix.awt.image.pixel.SimpleDrawOp;

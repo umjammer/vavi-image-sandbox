@@ -17,7 +17,7 @@ import javax.imageio.spi.ImageReaderSpi;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
 import vavix.imageio.IIOUtil;
 
@@ -28,7 +28,7 @@ import vavix.imageio.IIOUtil;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/10/29 umjammer initial version <br>
  */
-@Ignore
+@Disabled
 public class QueueLinearFloodFillerTest {
 
     static {
@@ -38,19 +38,21 @@ public class QueueLinearFloodFillerTest {
 
     public static void main(String[] args) throws Exception {
 
-        final BufferedImage image = ImageIO.read(new File(args[0]));
+        BufferedImage image = ImageIO.read(new File(args[0]));
 
         QueueLinearFloodFiller filler = new QueueLinearFloodFiller(image);
-        filler.setFillColour(Color.red);
-        filler.setTolerance(new int[] { 0xf0, 0xf0, 0xf0 });
+        filler.setFillColor(Color.red);
+        filler.setTolerance(25);
         filler.floodFill(400, 400);
+
+        BufferedImage newImage = filler.getImage();
 
         JPanel panel = new JPanel() {
             public void paint(Graphics g) {
-                g.drawImage(image, 0, 0, this);
+                g.drawImage(newImage, 0, 0, this);
             }
         };
-        panel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+        panel.setPreferredSize(new Dimension(newImage.getWidth(), newImage.getHeight()));
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

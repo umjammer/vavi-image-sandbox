@@ -13,7 +13,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import vavi.imageio.ImageConverter;
 

@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import vavi.util.Debug;
 import vavi.util.StringUtil;
 
 
@@ -325,6 +326,10 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
                         sb.append('\n');
                         c += l[i];
                     }
+                } else if (type.equals("APP1")) {
+                    DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
+                    sb.append(StringUtil.getDump(dis));
+                    sb.append('\n');
                 } else {
                 }
                 return sb.toString();

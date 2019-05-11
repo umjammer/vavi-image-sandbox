@@ -26,7 +26,7 @@ import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import vavi.awt.image.gif.GifRenderer;
 import vavi.awt.image.resample.AwtResampleOp;

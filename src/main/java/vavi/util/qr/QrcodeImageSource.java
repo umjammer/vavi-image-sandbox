@@ -8,9 +8,6 @@ package vavi.util.qr;
 
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.image.ColorModel;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageConsumer;
@@ -22,12 +19,6 @@ import java.awt.image.RGBImageFilter;
 import java.awt.image.ReplicateScaleFilter;
 import java.io.UnsupportedEncodingException;
 
-import javax.swing.JFrame;
-import javax.swing.border.LineBorder;
-
-import vavi.swing.JImageComponent;
-//import vavi.util.StringUtil;
-
 
 /**
  * QrcodeImageSource.
@@ -36,18 +27,18 @@ import vavi.swing.JImageComponent;
  * @version 0.00 040912 nsano initial version <br>
  */
 public class QrcodeImageSource implements ImageProducer {
-    
+
     /** size x size QRcode bitmap */
     private ImageProducer ip;
 
     /** QRcode square size */
     private int width;
-    
+
     /** */
     private Color fg = Color.black;
     /** */
     private Color bg = Color.white;
-    
+
     /** Converts QRcode boolean structure to bitmap byte array. */
     private static byte[] convert(boolean[][] qr) {
 
@@ -62,7 +53,7 @@ public class QrcodeImageSource implements ImageProducer {
                 }
             }
         }
-    
+
         return result;
     }
 
@@ -100,7 +91,7 @@ public class QrcodeImageSource implements ImageProducer {
         // 1 x 1 QRcode bitmap
         this.width = qr.length;
         this.ip = new MemoryImageSource(width, width, cm, convert(qr), 0, width);
-        
+
         setSize(size);
     }
 
@@ -109,7 +100,7 @@ public class QrcodeImageSource implements ImageProducer {
         ImageFilter filter = new ReplicateScaleFilter(width * size, width * size);
         this.ip = new FilteredImageSource(ip, filter);
     }
-    
+
     /** */
     private class ColorSwapFilter extends RGBImageFilter {
         Color oldColor;
@@ -162,53 +153,6 @@ public class QrcodeImageSource implements ImageProducer {
     /** @see java.awt.image.ImageProducer#requestTopDownLeftRightResend(java.awt.image.ImageConsumer) */
     public void requestTopDownLeftRightResend(ImageConsumer ic) {
         ip.requestTopDownLeftRightResend(ic);
-    }
-
-    //----
-    
-    /**
-     * Tests this class.
-     * 
-     * usage: java QrcodeImageSource string size
-     */
-    public static void main(String[] args) throws Exception {
-        int times = Integer.parseInt(args[1]);
-        final Toolkit t = Toolkit.getDefaultToolkit();
-        final QrcodeImageSource ip = new QrcodeImageSource(args[0], times, "Windows-31J");
-        ip.setForeground(Color.pink);
-        Image image = t.createImage(ip);
-        
-        final JImageComponent component = new JImageComponent();
-        component.setImage(image);
-        int width = image.getWidth(null);
-        component.setBorder(new LineBorder(Color.white, times / 2));
-//System.err.println("size: " + width);
-        component.setPreferredSize(new Dimension(width + times, width + times));
-
-        JFrame frame = new JFrame();
-        frame.setTitle(args[0] +  " x " + times);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.addComponentListener(new ComponentAdapter() {
-//            /** */
-//            public void componentResized(ComponentEvent e) {
-//                Component c = e.getComponent();
-//                System.err.println("c: " + c);
-//                ip.setSize(Math.min(c.getWidth(), c.getHeight()));
-//                final Image image = t.createImage(ip);
-//                SwingUtilities.invokeLater(new Runnable() {
-//                    /** */
-//                    public void run() {
-//                        component.setImage(image);
-//                        int width = image.getWidth(null);
-//                        System.err.println("size: " + width);
-//                        component.setPreferredSize(new Dimension(width, width));
-//                    }
-//                });
-//            }
-//        });
-        frame.getContentPane().add(component);
-        frame.pack();
-        frame.setVisible(true);
     }
 }
 

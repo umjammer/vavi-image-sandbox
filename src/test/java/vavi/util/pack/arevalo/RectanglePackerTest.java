@@ -21,13 +21,13 @@ package vavi.util.pack.arevalo;
 import java.awt.Point;
 import java.util.Random;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
 import vavi.util.pack.arevalo.RectanglePacker;
 
 
 /** Base class for unit testing the rectangle packers */
-@Ignore
+@Disabled
 public abstract class RectanglePackerTest {
 
     /**

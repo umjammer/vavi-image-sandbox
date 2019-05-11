@@ -42,7 +42,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import vavi.awt.image.gif.GifRenderer;
 import vavi.awt.image.quantize.NeuralNetQuantizeOp;

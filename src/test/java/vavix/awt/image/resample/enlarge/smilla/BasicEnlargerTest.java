@@ -19,7 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
 import vavix.awt.image.resample.enlarge.smilla.BasicArray.Factory;
 import vavix.awt.image.resample.enlarge.smilla.BasicEnlarger;
@@ -35,7 +35,7 @@ import vavix.awt.image.resample.enlarge.smilla.PFloat;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/14 nsano initial version <br>
  */
-@Ignore
+@Disabled
 public class BasicEnlargerTest {
 
     /**

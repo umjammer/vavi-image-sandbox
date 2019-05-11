@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
 
-@Ignore
+@Disabled
 class BinPackerTest {
 
     public static void main(String[] args) {

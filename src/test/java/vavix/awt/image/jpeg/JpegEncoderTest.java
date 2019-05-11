@@ -6,7 +6,7 @@
 
 package vavix.awt.image.jpeg;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 
 
 /**
@@ -15,7 +15,7 @@ import org.junit.Ignore;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/16 umjammer initial version <br>
  */
-@Ignore
+@Disabled
 public class JpegEncoderTest {
 
     /**

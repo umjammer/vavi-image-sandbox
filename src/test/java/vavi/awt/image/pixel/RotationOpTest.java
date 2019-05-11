@@ -15,8 +15,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 
 import vavix.awt.image.pixel.RotationOp;
 
@@ -53,7 +53,7 @@ JOptionPane.showMessageDialog(null, new ImageIcon(image), "R90", JOptionPane.INF
 JOptionPane.showMessageDialog(null, new ImageIcon(image), "180", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 
-    @After
+    @AfterAll
     public void tearDown() throws Exception {
         new Robot().keyPress(KeyEvent.VK_SPACE);
     }

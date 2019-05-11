@@ -966,28 +966,6 @@ public class Qrcode {
         }
         return res;
     }
-
-    //----
-
-    /** java Qrcode string */
-    public static void main(String[] args) throws Exception {
-        Qrcode qr = new Qrcode();
-        qr.setErrorCorrectionLevel(Qrcode.ERROR_CORRECTION_LEVEL_M);
-        qr.setEncoding(Qrcode.ENCODING_BYTE);
-System.err.println(args[0]);
-        boolean[][] matrix = qr.toQrcode(args[0].getBytes("Windows-31J"));
-
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                if (matrix[j][i]) {
-                    System.out.print("##");
-                } else {
-                    System.out.print("  ");
-                }
-            }
-            System.out.print("\n");
-        }
-    }
 }
 
 /* */
