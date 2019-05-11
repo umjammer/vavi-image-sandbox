@@ -11,12 +11,28 @@
   <organization>
     <name></name>
   </organization>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <url>httpa://github.com/umjammer/vavi-image-sandbox</url>
-  <description>TODO
+  <description>1.0.1
 
-    https://github.com/jai-imageio/jai-imageio-core/issues/23
-    ffmpeg swscale jnr-ize</description>
+    jna conflicts another version of asm, so we abandon jnr
+    steganography
+
+TODO
+
+    maven
+        https://github.com/jai-imageio/jai-imageio-core/issues/23
+        jni
+            bcel 5 on java8 ???
+    heif
+        rococoa
+    webp
+        http://jcodec.org/
+        https://github.com/chrisoei/vpx4j
+        https://sourceforge.net/projects/javavp8decoder/
+
+    jpeg cimd?
+    smilla enlarge</description>
   <build>
     <plugins>
       <plugin>
@@ -26,11 +42,33 @@
           <source>1.8</source>
           <target>1.8</target>
           <encoding>UTF-8</encoding>
+<!--
           <compilerArgs>
             <arg>-XDignore.symbol.file</arg>
           </compilerArgs>
-          </configuration>
+-->
+        </configuration>
       </plugin>
+<!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>local.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+-->
     </plugins>
   </build>
   <repositories>
@@ -41,6 +79,13 @@
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>opencv</groupId>
+      <artifactId>opencv-401</artifactId>
+      <version>4.0.1</version>
+      <scope>system</scope>
+      <systemPath>/usr/local/Cellar/opencv/4.0.1/share/java/opencv4/opencv-401.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-commons</artifactId>
       <version>1.0.6</version>
@@ -50,35 +95,43 @@
       <artifactId>vavi-commons-sandbox</artifactId>
       <version>0.3.3</version>
     </dependency>
+<!--
     <dependency>
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-awt</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.5</version>
+    </dependency>
+-->
+    <dependency>
+      <groupId>vavi</groupId>
+      <artifactId>vavi-awt</artifactId>
+      <version>1.0.5</version>
     </dependency>
     <dependency>
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-image</artifactId>
       <version>1.0.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.github.umjammer</groupId>
+          <artifactId>vavi-awt</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.rococoa</groupId>
+      <artifactId>rococoa-core</artifactId>
+      <version>0.5</version>
     </dependency>
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna</artifactId>
-      <version>3.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.jnr</groupId>
-      <artifactId>jnr-ffi</artifactId>
-      <version>2.1.6</version>
+      <version>3.4.0</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
       <version>4.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.im4java</groupId>
-      <artifactId>im4java</artifactId>
-      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>net.sf.barcode4j</groupId>
@@ -97,9 +150,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.5</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.3.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.3.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -112,7 +171,6 @@
       <groupId>com.mortennobel</groupId>
       <artifactId>java-image-scaling</artifactId>
       <version>0.8.5</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.github.umjammer</groupId>
@@ -121,9 +179,28 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.im4java</groupId>
+      <artifactId>im4java</artifactId>
+      <version>1.4.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- proposal -->
       <groupId>org.mp4parser</groupId>
       <artifactId>isoparser</artifactId>
       <version>1.9.31</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.umjammer</groupId>
+      <artifactId>javavp8decoder</artifactId>
+      <version>0.2.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.drewnoakes</groupId>
+      <artifactId>metadata-extractor</artifactId>
+      <version>2.4.0-beta-1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

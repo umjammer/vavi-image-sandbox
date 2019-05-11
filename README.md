@@ -1,26 +1,24 @@
+[![Release](https://jitpack.io/v/umjammer/vavi-image-sandbox.svg)](https://jitpack.io/#umjammer/vavi-image-sandbox)
+
 vavi-image-sandbox
 ----
 
-https://github.com/mortennobel/java-image-scaling
+# Vavi Image API
 
-# Vavi Image API #
-
-## formats ##
-  * artmaster 88 (old japanese pc pc-88,98 image format)
-  * windows bitmap
-  * gif (non lzw)
-  * windows icon
-  * ppm
-  * qrcode
+## formats
+  * gif
   * jpeg (simd)
-  * svg
-  * wmf
-  * susie (windows)
+  * barcode
+  * heif
+  * webp
 
-## filter ##
-  * blob detection
-  * face detection
-  * quantize
+## filter
+  * pixel operation
+    * cropping
+    * rotation
+    * draw
+  * quantizing
+    * fixed color model
     * oct tree
     * image magik
     * neural net
@@ -28,3 +26,10 @@ https://github.com/mortennobel/java-image-scaling
   * resample
     * ffmpeg
   * pseudo colorization ([android version](https://github.com/umjammer/vavi-apps-pseudocolorization))
+  * image magick
+  * flood filling
+
+## Others
+  * paking
+    * arevalo
+    * binpack

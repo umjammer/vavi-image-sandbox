@@ -16,15 +16,14 @@
   xmlns:artifact="urn:maven-artifact-ant">
 
   <path id="maven-ant-tasks.classpath">
-    <fileset dir="${user.home}/lib/java/">
-      <include name="maven-ant-tasks-*.jar" />
+    <fileset dir="${user.home}/lib/java">
+      <include name="maven-ant-tasks*.jar" />
     </fileset>
   </path>
-  <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
-           uri="urn:maven-artifact-ant"
-           classpathref="maven-ant-tasks.classpath" />
+  <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+           classpathref="maven-ant-tasks.classpath" /> 
 
-  <property environment="env" />
+  <property environment="env"/>
   <property file="local.properties" />
   <xmlproperty file="pom.xml" />
 
@@ -33,6 +32,7 @@
     <pathelement location="${javac.dest.test}" />
     <pathelement location="${javac.dest}" />
     <fileset refid="maven-ant-tasks.dependency.fileset" />
+    <pathelement location="${opencv3.dir}/opencv-340.jar" />
   </path>
 
   <!-- prepare -->
@@ -42,10 +42,10 @@
       <pom refid="maven.project" />
     </artifact:dependencies>
     <artifact:mvn pom="pom.xml">
-      <arg value="-q"/>
-      <arg value="clean"/>
-      <arg value="compiler:compile"/>
-      <arg value="compiler:testCompile"/>
+      <arg value="-q" />
+      <arg value="clean" />
+      <arg value="package" />
+      <arg value="-DskipTests=true" />
     </artifact:mvn>
   </target>
 
@@ -101,10 +101,8 @@
       <targetfile />
       <srcfile />
       <fileset dir="${dir.src}/vavix/imageio/jpeg" includes="*.o" excludes="${dir.src}/vavix/imageio/jpeg/jni_util.o"/>
-      <mapper type="glob" from="imageio*.o" to="libimageio*.jnilib"/>
+      <mapper type="glob" from="imageio*.o" to="libimageio*.dylib"/>
     </apply>
-    <!-- for Mac OpenJDK -->
-    <copy file="lib/libimageioJPEG_simd.jnilib" tofile="lib/libimageioJPEG_simd.dylib" />
   </target>
 
   <!-- run -->
@@ -156,7 +154,7 @@
   </target>
 
   <!-- image magick -->
-  <target name="magick" depends="prepare" description="image magick filter">
+  <target name="magick" depends="prepare" description="image magick filter -Dmagick.in=file">
     <java classname="t146_11" fork="yes">
       <classpath>
         <path refid="project.class.path" />
