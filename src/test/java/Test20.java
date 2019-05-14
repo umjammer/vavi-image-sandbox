@@ -18,10 +18,10 @@ import javax.swing.JScrollPane;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import vavi.imageio.IIOUtil;
 import vavi.imageio.ImageConverter;
 
 import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
-import vavix.imageio.IIOUtil;
 
 
 /**

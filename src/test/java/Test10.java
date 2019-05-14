@@ -18,7 +18,8 @@ import javax.swing.JPanel;
 
 import org.junit.jupiter.api.Disabled;
 
-import vavix.imageio.IIOUtil;
+import vavi.imageio.IIOUtil;
+
 import vavix.util.grep.FileDigger;
 import vavix.util.grep.RegexFileDigger;
 

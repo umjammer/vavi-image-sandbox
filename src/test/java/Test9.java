@@ -19,9 +19,8 @@ import javax.swing.JFrame;
 
 import org.junit.jupiter.api.Disabled;
 
+import vavi.imageio.IIOUtil;
 import vavi.swing.JImageComponent;
-
-import vavix.imageio.IIOUtil;
 
 
 /**

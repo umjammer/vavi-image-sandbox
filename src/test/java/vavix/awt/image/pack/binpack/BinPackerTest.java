@@ -22,7 +22,8 @@ import javax.imageio.spi.ImageReaderSpi;
 
 import org.junit.jupiter.api.Test;
 
-import vavix.imageio.IIOUtil;
+import vavi.imageio.IIOUtil;
+
 import vavix.util.grep.FileDigger;
 import vavix.util.grep.RegexFileDigger;
 
