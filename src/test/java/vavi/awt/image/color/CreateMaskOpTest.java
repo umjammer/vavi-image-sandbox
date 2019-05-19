@@ -335,7 +335,7 @@ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOpt
 
             IIOMetadata imageMetaData = reader.getImageMetadata(i);
 
-            BufferedImage renderedImage = renderer.render(image, imageMetaData);
+            BufferedImage renderedImage = renderer.addFrame(image, imageMetaData);
 
             BufferedImage tempImage1 = new AwtResampleOp(scale, scale).filter(renderedImage, null);
             BufferedImage tempImage2 = new NeuralNetQuantizeOp(256).filter(tempImage1, null);

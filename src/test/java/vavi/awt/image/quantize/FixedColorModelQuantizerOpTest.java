@@ -74,7 +74,7 @@ public class FixedColorModelQuantizerOpTest {
             }
 
             IIOMetadata imageMetaData = reader.getImageMetadata(i);
-            BufferedImage renderedImage = renderer.render(image, imageMetaData);
+            BufferedImage renderedImage = renderer.addFrame(image, imageMetaData);
             BufferedImage tempImage1 = new AwtResampleOp(scale, scale).filter(renderedImage, null);
             BufferedImage tempImage2 = new FixedColorModelQuantizeOp(colorModel).filter(tempImage1, null);
             tempImage1.flush();
@@ -154,8 +154,6 @@ System.err.println("image does not have palette");
 
         ios.flush();
         ios.close();
-
-        renderer.dispose();
     }
 
     String output2 = "/tmp/vavi.awt.image.resample.FixedColorModelQuantizerOpTest_2.gif";
@@ -184,7 +182,7 @@ System.err.println("image does not have palette");
 
             IIOMetadata imageMetaData = reader.getImageMetadata(i);
 
-            BufferedImage renderedImage = renderer.render(image, imageMetaData);
+            BufferedImage renderedImage = renderer.addFrame(image, imageMetaData);
 
             BufferedImage tempImage1 = new AwtResampleOp(scale, scale).filter(renderedImage, null);
             BufferedImage tempImage2 = new NeuralNetQuantizeOp(255).filter(tempImage1, null);
@@ -243,8 +241,6 @@ System.err.println("image does not have palette");
 
         ios.flush();
         ios.close();
-
-        renderer.dispose();
     }
 
     @Test
