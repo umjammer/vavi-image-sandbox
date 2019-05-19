@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-import javax.imageio.spi.ImageReaderSpi;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +17,6 @@ import javax.swing.JScrollPane;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import vavi.imageio.IIOUtil;
 import vavi.imageio.ImageConverter;
 
 import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
@@ -33,7 +31,7 @@ import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
 public class Test20 {
 
     static {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+//        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
     }
 
     /**

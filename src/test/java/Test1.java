@@ -13,13 +13,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-import javax.imageio.spi.ImageReaderSpi;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.junit.jupiter.api.Disabled;
-
-import vavi.imageio.IIOUtil;
 
 
 /**
@@ -32,7 +29,7 @@ import vavi.imageio.IIOUtil;
 public class Test1 {
 
     static {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+//        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
     }
 
     /**

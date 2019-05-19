@@ -23,19 +23,19 @@ import vavi.awt.image.resample.AwtResampleOp;
  */
 public class Test3 {
 
-    File file = new File("tmp/erika.jpg");
+    String name = "erika.jpg";
 
     @Test
     public void test01() throws Exception {
-        BufferedImage image = ImageIO.read(file);
+        BufferedImage image = ImageIO.read(Test3.class.getResourceAsStream(name));
         BufferedImage image2 = new AwtResampleOp(.5f, .5f).filter(image, null);
-        ImageIO.write(image2, "JPG", new File("tmp", file.getName().substring(0, file.getName().lastIndexOf('.')) + "_" + "AreaAverage" + ".jpg"));
+        ImageIO.write(image2, "JPG", new File("tmp", name.substring(0, name.lastIndexOf('.')) + "_" + "AreaAverage" + ".jpg"));
         BufferedImage image3 = new AwtResampleOp(.5f, .5f, Image.SCALE_REPLICATE).filter(image, null);
-        ImageIO.write(image3, "JPG", new File("tmp", file.getName().substring(0, file.getName().lastIndexOf('.')) + "_" + "Replicate" + ".jpg"));
+        ImageIO.write(image3, "JPG", new File("tmp", name.substring(0, name.lastIndexOf('.')) + "_" + "Replicate" + ".jpg"));
         ResampleOp filter = new ResampleOp(image.getWidth() / 2, image.getHeight() / 2);
         filter.setFilter(ResampleFilters.getLanczos3Filter());
         BufferedImage image4 = filter.filter(image, null);
-        ImageIO.write(image4, "JPG", new File("tmp", file.getName().substring(0, file.getName().lastIndexOf('.')) + "_" + "Lanczos3" + ".jpg"));
+        ImageIO.write(image4, "JPG", new File("tmp", name.substring(0, name.lastIndexOf('.')) + "_" + "Lanczos3" + ".jpg"));
     }
 }
 

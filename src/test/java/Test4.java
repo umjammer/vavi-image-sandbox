@@ -1,7 +1,6 @@
 
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
-import java.io.File;
 
 import javax.imageio.ImageIO;
 
@@ -23,11 +22,11 @@ import vavix.awt.image.pixel.SimpleDrawOp;
  */
 public class Test4 {
 
-    File file = new File("src/test/resources/resample/erika.jpg");
+    String file = "erika.jpg";
 
     @Test
     public void test01() throws Exception {
-        BufferedImage image = ImageIO.read(file);
+        BufferedImage image = ImageIO.read(Test4.class.getResourceAsStream(file));
         int w = image.getWidth();
         int h = image.getHeight();
         BufferedImageOp filter1 = new SimpleDrawOp(0, 0, w, h);

@@ -93,8 +93,8 @@ public class Test31 {
 
     public static void main(String[] args) throws Exception {
         BufferedImage wm1 = ImageIO.read(new File("tmp/mgm1.png"));
-        BufferedImage wm2 = ImageIO.read(new File("tmp/mgm2.png"));
-        Files.list(Paths.get("/Users/nsano/Downloads/JDownloader/(一般コミック) [涼川りん] あそびあそばせ 第05巻"))
+//        BufferedImage wm2 = ImageIO.read(new File("tmp/mgm2.png"));
+        Files.list(Paths.get(args[0]))
         .filter(p -> p.toString().endsWith("0002.jpg"))
         .forEach(p -> {
             try {

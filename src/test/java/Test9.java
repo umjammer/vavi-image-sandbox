@@ -78,28 +78,7 @@ public class Test9 {
         showOrder(ImageReaderSpi.class);
 
         //
-        ImageReader ir = null;
-        String className = "com.sixlegs.png.iio.PngImageReader";
-        Class<?> clazz;
-        try {
-            clazz = Class.forName(className);
-System.err.println("class: " + clazz.getName());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("no such ImageReader: " + className);
-        }
-        irs = ImageIO.getImageReadersByFormatName("PNG");
-        while (irs.hasNext()) {
-            ImageReader tmpIr = irs.next();
-System.err.println("readers: " + tmpIr.getClass().getName());
-            if (clazz.isInstance(tmpIr)) {
-                ir = tmpIr;
-System.err.println("ImageReader: " + ir.getClass());
-                break;
-            }
-        }
-        if (ir == null) {
-            throw new IllegalStateException("no suitable ImageReader");
-        }
+        ImageReader ir = IIOUtil.getImageReader("PNG", "com.sixlegs.png.iio.PngImageReader");
         ImageInputStream iis = ImageIO.createImageInputStream(new FileInputStream(file));
         ir.setInput(iis);
         BufferedImage image = ir.read(0);
@@ -123,6 +102,10 @@ System.err.println("ImageReader: " + ir.getClass());
         frame.setVisible(true);
     }
 
+    /**
+     * already in the library.
+     * @see {@link IIOUtil#setOrder(Class, String, String)}
+     */
     static <T> void setOrder(Class<T> pt, String p1, String p2) {
 System.err.println("--- set order " + pt.getName() + " ---");
         IIORegistry iioRegistry = IIORegistry.getDefaultInstance();
@@ -145,6 +128,10 @@ System.err.println("--- set order " + pt.getName() + " ---");
         iioRegistry.setOrdering(pt, sp1, sp2);
     }
 
+    /**
+     * already in the library.
+     * @see {@link IIOUtil#setOrder(Class, String, String)}
+     */
     static <T> void showOrder(Class<T> pt) {
         System.err.println("--- after order " + pt.getName() + " ---");
         int c = 1;

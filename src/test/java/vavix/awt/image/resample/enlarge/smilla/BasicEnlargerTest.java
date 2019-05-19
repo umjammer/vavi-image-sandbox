@@ -10,7 +10,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
-import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -21,12 +20,9 @@ import javax.swing.JScrollPane;
 
 import org.junit.jupiter.api.Disabled;
 
+import vavi.imageio.IIOUtil;
+
 import vavix.awt.image.resample.enlarge.smilla.BasicArray.Factory;
-import vavix.awt.image.resample.enlarge.smilla.BasicEnlarger;
-import vavix.awt.image.resample.enlarge.smilla.EnlargeFormat;
-import vavix.awt.image.resample.enlarge.smilla.EnlargeParamInt;
-import vavix.awt.image.resample.enlarge.smilla.EnlargeParameter;
-import vavix.awt.image.resample.enlarge.smilla.PFloat;
 
 
 /**
@@ -42,27 +38,7 @@ public class BasicEnlargerTest {
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        ImageReader ir = null;
-        String className = "com.sun.imageio.plugins.jpeg.JPEGImageReader";
-        Class<?> clazz;
-        try {
-            clazz = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("no such ImageReader: " + className);
-        }
-        Iterator<ImageReader> irs = ImageIO.getImageReadersByFormatName("JPEG");
-        while (irs.hasNext()) {
-            ImageReader tmpIr = irs.next();
-            if (clazz.isInstance(tmpIr)) {
-                ir = tmpIr;
-System.err.println("ImageReader: " + ir.getClass());
-                break;
-            }
-        }
-        if (ir == null) {
-            throw new IllegalStateException("no suitable ImageReader");
-        }
-
+        ImageReader ir = IIOUtil.getImageReader("JPEG", "com.sun.imageio.plugins.jpeg.JPEGImageReader");
         ImageInputStream iis = ImageIO.createImageInputStream(new FileInputStream(args[0]));
         ir.setInput(iis);
         final BufferedImage source = ir.read(0);

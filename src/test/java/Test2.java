@@ -24,7 +24,7 @@ import vavix.util.grep.RegexFileDigger;
 
 /**
  * Test2.
- * 
+ *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/09 umjammer initial version <br>
  */

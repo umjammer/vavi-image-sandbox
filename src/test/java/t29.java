@@ -20,6 +20,7 @@ import com.sun.media.jai.codec.PNGEncodeParam;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (vavi)
  * @version 0.00 030905 nsano initial version <br>
  */
+@SuppressWarnings("restriction")
 public class t29 {
 
     /**
