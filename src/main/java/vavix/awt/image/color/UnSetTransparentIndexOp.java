@@ -41,7 +41,7 @@ public class UnSetTransparentIndexOp implements BufferedImageOp {
         if (dst != null) { // TODO implement
             throw new IllegalArgumentException("not implemented yet");
         }
-        
+
         IndexColorModel srcICM = (IndexColorModel) src.getColorModel();
         WritableRaster raster = src.getRaster();
         int size = srcICM.getMapSize();

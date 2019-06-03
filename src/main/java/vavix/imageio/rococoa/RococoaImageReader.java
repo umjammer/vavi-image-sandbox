@@ -91,7 +91,7 @@ public class RococoaImageReader extends ImageReader {
             // stream not found で null が返る...orz
             NSImage nsImage = NSImage.imageWithContentsOfFile(file.getPath());
             if (nsImage == null) {
-System.err.print(file.getPath());
+//System.err.print(file.getPath());
                 throw new FileNotFoundException("problem in reading temporary file: " + file.getPath());
             }
             NSData data = nsImage.TIFFRepresentation();

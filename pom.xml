@@ -5,13 +5,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>vavi</groupId>
   <artifactId>vavi-image-sandbox</artifactId>
+  <version>1.0.2</version>
+
   <name>Vavi Imaging Sandbox API</name>
   <organization>
     <name></name>
   </organization>
-  <version>1.0.1-SNAPSHOT</version>
   <url>httpa://github.com/umjammer/vavi-image-sandbox</url>
   <description>1.0.2
 
@@ -37,6 +39,83 @@ TODO
     <url>httpa://github.com/umjammer/vavi-image-sandbox/issues</url>
   </issueManagement>
 
+  <profiles>
+    <profile>
+      <id>local (not on jitpack)</id>
+      <activation>
+        <property>
+          <name>env.JITPACK</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>native-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <!-- trigger javah execution -->
+              <javahClassNames>
+                <javahClassName>org.rococoa.Rococoa</javahClassName>
+              </javahClassNames>
+              <!-- enable additional javah interface in dependencies list -->
+              <javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
+              <!-- | Add jdk include directories to system include path | Override 
+                ${jkdIncludePath} If your jdk does not conform to Sun JDK layout -->
+              <javahOS>darwin</javahOS>
+              <compilerProvider>generic-classic</compilerProvider>
+              <compilerStartOptions>
+                <compilerStartOption>-g -Wall -O2 -fomit-frame-pointer -fPIC</compilerStartOption>
+                <compilerStartOption>-arch x86_64</compilerStartOption>
+              </compilerStartOptions>
+              <sources>
+                <source>
+                  <!-- relative to your project directory -->
+                  <directory>src/main/native/rococoa</directory>
+                  <fileNames>
+                    <fileName>Rococoa.m</fileName>
+                    <fileName>ProxyForJava.m</fileName>
+                  </fileNames>
+                </source>
+              </sources>
+              <!-- deploy the accompany .lib file as well -->
+              <linkerSecondaryOutputExtensions>lib</linkerSecondaryOutputExtensions>
+              <linkerStartOptions>
+                <linkerStartOption>-dynamiclib -arch x86_64
+                        -framework QTKit -framework Foundation
+                </linkerStartOption>
+              </linkerStartOptions>
+              <linkerFinalName></linkerFinalName>
+              <linkerEndOptions>
+                <linkerEndOption>-o ${project.build.directory}/librococoa.dylib</linkerEndOption>
+              </linkerEndOptions>
+            </configuration>
+            <executions>
+              <execution>
+                <id>javah</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>javah</goal>
+                  <goal>compile</goal>
+                  <goal>link</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <forkMode>once</forkMode>
+              <argLine>-Djava.library.path=${project.build.directory}</argLine>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
@@ -52,59 +131,6 @@ TODO
           </compilerArgs>
 -->
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>native-maven-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <!-- trigger javah execution -->
-          <javahClassNames>
-            <javahClassName>org.rococoa.Rococoa</javahClassName>
-          </javahClassNames>
-          <!-- enable additional javah interface in dependencies list -->
-          <javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
-          <!-- | Add jdk include directories to system include path | Override 
-            ${jkdIncludePath} If your jdk does not conform to Sun JDK layout -->
-          <javahOS>darwin</javahOS>
-          <compilerProvider>generic-classic</compilerProvider>
-          <compilerStartOptions>
-            <compilerStartOption>-g -Wall -O2 -fomit-frame-pointer -fPIC</compilerStartOption>
-            <compilerStartOption>-arch x86_64</compilerStartOption>
-          </compilerStartOptions>
-          <sources>
-            <source>
-              <!-- relative to your project directory -->
-              <directory>src/main/native/rococoa</directory>
-              <fileNames>
-                <fileName>Rococoa.m</fileName>
-                <fileName>ProxyForJava.m</fileName>
-              </fileNames>
-            </source>
-          </sources>
-          <!-- deploy the accompany .lib file as well -->
-          <linkerSecondaryOutputExtensions>lib</linkerSecondaryOutputExtensions>
-          <linkerStartOptions>
-            <linkerStartOption> -dynamiclib -arch x86_64
-                    -framework QTKit -framework Foundation
-            </linkerStartOption>
-          </linkerStartOptions>
-          <linkerFinalName></linkerFinalName>
-          <linkerEndOptions>
-            <linkerEndOption>-o ${project.build.directory}/librococoa.dylib</linkerEndOption>
-          </linkerEndOptions>
-        </configuration>
-        <executions>
-          <execution>
-            <id>javah</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>javah</goal>
-              <goal>compile</goal>
-              <goal>link</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
 <!--
       <plugin>
@@ -134,18 +160,26 @@ TODO
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
+    <repository>
+      <id>umjammer-mvn-repo</id>
+      <url>https://raw.github.com/umjammer/umjammer/mvn-repo/</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
   </repositories>
 
   <dependencies>
     <dependency>
-      <groupId>vavi</groupId>
+      <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-commons</artifactId>
       <version>1.0.8</version>
     </dependency>
     <dependency>
-      <groupId>vavi</groupId>
+      <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-image</artifactId>
-      <version>1.0.6</version>
+      <version>1.0.8</version>
     </dependency>
     <dependency>
       <groupId>com.github.umjammer</groupId>
@@ -158,11 +192,9 @@ TODO
       <version>1.0.5</version>
     </dependency>
     <dependency>
-      <groupId>opencv</groupId>
-      <artifactId>opencv-410</artifactId>
+      <groupId>org.opencv</groupId>
+      <artifactId>opencv</artifactId>
       <version>4.1.0</version>
-      <scope>system</scope>
-      <systemPath>/usr/local/Cellar/opencv/4.1.0_2/share/java/opencv4/opencv-410.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.rococoa</groupId>

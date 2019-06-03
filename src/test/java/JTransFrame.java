@@ -74,7 +74,7 @@ public class JTransFrame extends JFrame {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedImage image = ImageIO.read(JTransFrame.class.getResourceAsStream("panel.png"));
+        BufferedImage image = ImageIO.read(JTransFrame.class.getResourceAsStream(args[0]));
         JFrame frame = new JTransFrame(image);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(100, 100);

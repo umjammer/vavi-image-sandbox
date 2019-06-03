@@ -41,7 +41,7 @@ public class SetTransparentOp implements BufferedImageOp {
         if (dst == null) {
             dst = createCompatibleDestImage(src, src.getColorModel());
         }
-        
+
         int sw = src.getWidth();
         int sh = src.getHeight();
         int[] srcRgbs = src.getRGB(0, 0, sw, sh, null, 0, sw);
