@@ -4,11 +4,13 @@
  * Programmed by Naohide Sano
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -18,11 +20,14 @@ import javax.imageio.metadata.IIOMetadataNode;
 
 import org.w3c.dom.NodeList;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.lang.Rational;
+import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
-import com.drew.metadata.exif.ExifReader;
+import com.drew.metadata.Tag;
 import com.drew.metadata.exif.GpsDirectory;
 
 import vavix.util.grep.FileDigger;
@@ -78,7 +83,7 @@ public class t64 {
         return getGpsInfo2_2(meta);
     }
 
-    static double[] getGpsInfo2_2(IIOMetadata meta) throws MetadataException {
+    static double[] getGpsInfo2_2(IIOMetadata meta) throws MetadataException, ImageProcessingException, IOException {
 
         IIOMetadataNode root = (IIOMetadataNode) meta.getAsTree(meta.getNativeMetadataFormatName());
 
@@ -95,9 +100,8 @@ public class t64 {
         return null;
     }
 
-    static double[] getGpsInfo2_3(byte[] bytes) throws MetadataException {
-        Metadata meta = new Metadata();
-        new ExifReader(bytes).extract(meta);
+    static double[] getGpsInfo2_3(byte[] bytes) throws MetadataException, IOException, ImageProcessingException {
+        Metadata meta = ImageMetadataReader.readMetadata(new ByteArrayInputStream(bytes));
 
         return getGpsInfo3(meta);
     }
@@ -105,44 +109,45 @@ public class t64 {
     static double[] getGpsInfo3(Metadata meta) throws MetadataException {
 
 System.err.println("---- dirs ----");
-Iterator<?> i = meta.getDirectoryIterator();
-while (i.hasNext()) {
- System.err.println(i.next());
+for (Directory d : meta.getDirectories()) {
+ System.err.println(d);
 }
-        GpsDirectory dir = (GpsDirectory) meta.getDirectory(GpsDirectory.class);
-        if (dir == null) {
+        List<GpsDirectory> dirs = (List<GpsDirectory>) meta.getDirectoriesOfType(GpsDirectory.class);
+        if (dirs == null) {
 System.out.println("meta exists");
             return null;
         }
-System.err.println("---- tags ----: " + dir.getClass().getName());
-i = dir.getTagIterator();
-while (i.hasNext()) {
- System.err.println(i.next());
-}
 
         double lat = 0;
         double lon = 0;
-        Rational[] rs;
-        String s;
+        for (GpsDirectory dir : dirs) {
+System.err.println("---- tags ----: " + dir.getClass().getName());
+for (Tag t : dir.getTags()) {
+ System.err.println(t);
+}
 
-        if (dir.containsTag(GpsDirectory.TAG_GPS_LATITUDE)) {
-            rs = dir.getRationalArray(GpsDirectory.TAG_GPS_LATITUDE);
-            lat = rs[0].doubleValue() + (rs[1].doubleValue() / 60) + (rs[2].doubleValue() / 3600);
-        }
-        if (dir.containsTag(GpsDirectory.TAG_GPS_LONGITUDE)) {
-            rs = dir.getRationalArray(GpsDirectory.TAG_GPS_LONGITUDE);
-            lon = rs[0].doubleValue() + (rs[1].doubleValue() / 60) + (rs[2].doubleValue() / 3600);
-        }
-        if (dir.containsTag(GpsDirectory.TAG_GPS_LATITUDE_REF)) {
-            s = dir.getString(GpsDirectory.TAG_GPS_LATITUDE_REF);
-            if (s.equals("S")) {
-                lat *= -1;
+            Rational[] rs;
+            String s;
+
+            if (dir.containsTag(GpsDirectory.TAG_LATITUDE)) {
+                rs = dir.getRationalArray(GpsDirectory.TAG_LATITUDE);
+                lat = rs[0].doubleValue() + (rs[1].doubleValue() / 60) + (rs[2].doubleValue() / 3600);
             }
-        }
-        if (dir.containsTag(GpsDirectory.TAG_GPS_LONGITUDE_REF)) {
-            s = dir.getString(GpsDirectory.TAG_GPS_LONGITUDE_REF);
-            if (s.equals("W")) {
-                lon *= -1;
+            if (dir.containsTag(GpsDirectory.TAG_LONGITUDE)) {
+                rs = dir.getRationalArray(GpsDirectory.TAG_LONGITUDE);
+                lon = rs[0].doubleValue() + (rs[1].doubleValue() / 60) + (rs[2].doubleValue() / 3600);
+            }
+            if (dir.containsTag(GpsDirectory.TAG_LATITUDE_REF)) {
+                s = dir.getString(GpsDirectory.TAG_LATITUDE_REF);
+                if (s.equals("S")) {
+                    lat *= -1;
+                }
+            }
+            if (dir.containsTag(GpsDirectory.TAG_LONGITUDE_REF)) {
+                s = dir.getString(GpsDirectory.TAG_LONGITUDE_REF);
+                if (s.equals("W")) {
+                    lon *= -1;
+                }
             }
         }
         return new double[] {

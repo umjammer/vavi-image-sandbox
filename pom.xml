@@ -8,14 +8,18 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-image-sandbox</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.4</version>
 
   <name>Vavi Imaging Sandbox API</name>
   <organization>
     <name></name>
   </organization>
   <url>httpa://github.com/umjammer/vavi-image-sandbox</url>
-  <description>1.0.3
+  <description>1.0.4
+
+    maintenance version
+
+1.0.3
 
     maintenance version
 
@@ -83,8 +87,6 @@ TODO
                   </fileNames>
                 </source>
               </sources>
-              <!-- deploy the accompany .lib file as well -->
-              <linkerSecondaryOutputExtensions>lib</linkerSecondaryOutputExtensions>
               <linkerStartOptions>
                 <linkerStartOption>-dynamiclib -arch x86_64
                         -framework QTKit -framework Foundation
@@ -118,6 +120,26 @@ TODO
         </plugins>
       </build>
     </profile>
+<!--
+    <profile>
+      <id>not on eclipse</id>
+      <activation>
+        <property>
+          <name>org.osgi.framework.vendor</name>
+          <value>!Eclipse</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>com.sun</groupId>
+          <artifactId>rt</artifactId>
+          <version>1.8.0</version>
+          <scope>system</scope>
+          <systemPath>${java.home}/lib/rt.jar</systemPath>
+         </dependency>
+      </dependencies>
+    </profile>
+-->
   </profiles>
 
   <build>
@@ -287,7 +309,7 @@ TODO
     <dependency>
       <groupId>com.drewnoakes</groupId>
       <artifactId>metadata-extractor</artifactId>
-      <version>2.4.0-beta-1</version>
+      <version>2.11.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
