@@ -23,7 +23,6 @@ import javax.media.opengl.GLJPanel;
 import javax.swing.JFrame;
 
 
-@SuppressWarnings("restriction")
 class Imaging {
 
     //////////////// Variables /////////////////////////

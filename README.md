@@ -7,9 +7,9 @@ Vavi Image API Sandbox
 ## formats
 
   * jpeg (simd) (WIP)
+  * qrcode
   * barcode
   * heif
-  * webp
 
 ## filter
 
@@ -22,9 +22,9 @@ Vavi Image API Sandbox
   * quantizing
 
     * fixed color model
-    * oct tree
+    * oct tree ([vs neural net](https://github.com/umjammer/vavi-image-sandbox/wiki/OctTree_vs_NeuralNet))
     * Imagemagick
-    * neural net
+    * neural net ([vs oct tree](https://github.com/umjammer/vavi-image-sandbox/wiki/OctTree_vs_NeuralNet))
 
   * resampling
 
@@ -44,11 +44,13 @@ Vavi Image API Sandbox
 
   * gif animation renderer
 
-    * JAnimationWindow
+    * [JAnimationFrame](https://github.com/umjammer/vavi-image-sandbox/blob/master/src/test/java/JAnimationFrame.java)
 
 as a desktop mascot
 
 ![JAnimationWindow](https://lh3.googleusercontent.com/d3wp6hzuILHq6MT7Ud_gUi_TpqYIK1UiT-m9C03rndcpPzFLwmPXpUkaEjLobQpb-vnXLR1l8eKdwHNUF0xJUjLXnEP5Fc9oOM1NoElCZ5u2AJoOKWLqsAoNEzHWBIPaSffQM1X11w=w2400)
+
+  * [watermark removing](https://github.com/umjammer/vavi-image-sandbox/wiki/WatermarkRemoval)
 
   * jpeg analysis
 

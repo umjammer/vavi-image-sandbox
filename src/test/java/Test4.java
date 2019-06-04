@@ -13,7 +13,7 @@ import vavix.awt.image.pixel.SimpleDrawOp;
 
 
 /**
- * Test1. Ranczos3
+ * Test1. Ranczos3 (com.mortennobel.imagescaling)
  *
  * @see "https://github.com/mortennobel/java-image-scaling"
  *

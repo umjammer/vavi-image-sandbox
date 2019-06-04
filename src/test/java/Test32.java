@@ -77,7 +77,7 @@ public class Test32 {
      * @see "http://autolab-minoya.hatenablog.com/entry/2017/11/04/224627"
      */
     static {
-        System.loadLibrary("opencv_java343");
+        System.loadLibrary("opencv_java410");
     }
 
     static Rectangle findSubimage(Mat img, Mat tmpl, double threshold) {

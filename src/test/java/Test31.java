@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 
 
 /**
- * Test31.
+ * Test31. (find sub image)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2018/02/03 umjammer initial version <br>

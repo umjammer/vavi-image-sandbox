@@ -19,7 +19,7 @@ import vavi.util.qr.QrcodeImageSource;
 
 
 /**
- * ImageIO.
+ * ImageIO. QRCode
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021117 nsano initial version <br>
