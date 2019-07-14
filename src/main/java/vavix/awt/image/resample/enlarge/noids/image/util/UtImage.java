@@ -33,7 +33,7 @@ public class UtImage {
 
     /**
      * @return alpha value
-     * @throws
+     * @throws Exception
      */
     public int getA(int x, int y) throws Exception {
         if (checkBounds)
@@ -43,7 +43,7 @@ public class UtImage {
 
     /**
      * @return red value
-     * @throws
+     * @throws Exception
      */
     public int getR(int x, int y) throws Exception {
         if (checkBounds)
@@ -53,7 +53,7 @@ public class UtImage {
 
     /**
      * @return green value
-     * @throws
+     * @throws Exception
      */
     public int getG(int x, int y) throws Exception {
         if (checkBounds)
@@ -63,7 +63,7 @@ public class UtImage {
 
     /**
      * @return blue value
-     * @throws
+     * @throws Exception
      */
     public int getB(int x, int y) throws Exception {
         if (checkBounds)

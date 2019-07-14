@@ -17,7 +17,6 @@ class Model {
      * @param ext1 The extension type of the image to modify (jpg, png)
      * @param stegan The output name of the file
      * @param message The text to hide in the image
-     * @param type integer representing either basic or advanced encoding
      */
     public boolean encode(String path, String original, String ext1, String stegan, String message) {
         String file_name = image_path(path, original, ext1);
@@ -40,7 +39,6 @@ class Model {
      * @param path The path (folder) containing the image to extract the message
      *            from
      * @param name The name of the image to extract the message from
-     * @param type integer representing either basic or advanced encoding
      */
     public String decode(String path, String name) {
         try {
@@ -72,7 +70,7 @@ class Model {
      * 
      * @param f The complete path name of the image.
      * @return A BufferedImage of the supplied file path
-     * @see Steganography.image_path
+     * @see Steganography#userSpace
      */
     private BufferedImage getImage(String f) {
         BufferedImage image = null;

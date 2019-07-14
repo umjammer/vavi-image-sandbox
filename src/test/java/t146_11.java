@@ -302,7 +302,6 @@ System.err.println(file);
             this.params = params;
         }
         /**
-         * {@link #size} will be set.
          * @param dst not used
          */
         public BufferedImage filter(BufferedImage src, BufferedImage dst) {

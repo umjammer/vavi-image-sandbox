@@ -25,7 +25,7 @@ import java.awt.image.IndexColorModel;
 public class CreateMaskIndexOp implements BufferedImageOp {
 
     /**
-     * マスクは今のところ {@link #argb} が #ffffff で、そうでないところが #000000 固定
+     * マスクは今のところ {@link IndexColorModel#getTransparentPixel()} が #ffffff で、そうでないところが #000000 固定
      * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {

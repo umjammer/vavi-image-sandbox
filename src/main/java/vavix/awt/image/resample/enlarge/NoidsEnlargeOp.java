@@ -31,7 +31,7 @@ import vavix.awt.image.resample.enlarge.noids.image.scaling.view.ScalerFactory;
 
 
 /**
- * NoidsEnlargeOp. 
+ * NoidsEnlargeOp.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/09/06 umjammer initial version <br>
@@ -52,7 +52,6 @@ public class NoidsEnlargeOp implements BufferedImageOp {
     int destMargin;
 
     /**
-     * hint is {@link Hint#FAST_BILINEAR}
      * @param sx x scaling
      * @param sy y scaling
      */

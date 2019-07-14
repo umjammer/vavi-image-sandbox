@@ -32,8 +32,6 @@ public abstract class RectanglePackerTest {
 
     /**
      * Delegate for a Rectangle Packer factory method
-     *
-     * @return A new rectangle packer
      */
     protected RectanglePacker rectanglePackerBuilder;
 

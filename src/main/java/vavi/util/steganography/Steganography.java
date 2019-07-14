@@ -13,7 +13,7 @@ import java.awt.image.WritableRaster;
 
 /**
  * Class Steganography
- * 
+ *
  * @author William_Wilson
  * @version 1.6 May 8, 2007
  */

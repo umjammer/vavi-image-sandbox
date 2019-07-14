@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import com.sun.opengl.util.GLUT;
 
 
-@SuppressWarnings("restriction")
 public class MyFrame2  extends JFrame implements GLEventListener {
     GLU glu;
     GLUT glut;

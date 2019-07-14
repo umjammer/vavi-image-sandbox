@@ -26,7 +26,6 @@ import javax.media.opengl.GLJPanel;
 import javax.swing.JFrame;
 
 
-@SuppressWarnings("restriction")
 public class MyFrame3  extends JFrame implements GLEventListener {
 
     int width, height;

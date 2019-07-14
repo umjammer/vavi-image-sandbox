@@ -104,7 +104,7 @@ public class Test9 {
 
     /**
      * already in the library.
-     * @see {@link IIOUtil#setOrder(Class, String, String)}
+     * @see IIOUtil#setOrder(Class, String, String)
      */
     static <T> void setOrder(Class<T> pt, String p1, String p2) {
 System.err.println("--- set order " + pt.getName() + " ---");
@@ -130,7 +130,7 @@ System.err.println("--- set order " + pt.getName() + " ---");
 
     /**
      * already in the library.
-     * @see {@link IIOUtil#setOrder(Class, String, String)}
+     * @see IIOUtil#setOrder(Class, String, String)
      */
     static <T> void showOrder(Class<T> pt) {
         System.err.println("--- after order " + pt.getName() + " ---");
