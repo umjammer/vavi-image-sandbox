@@ -290,6 +290,7 @@ public class Test32 {
         void setMarkSelected(int index);
         int getMarkSelected();
         double getScale();
+        void requestFocus();
     }
 
     static class Model {
@@ -462,6 +463,7 @@ System.err.println("saving done.");
 //System.err.println(app.model.isXor() + ", " + app.model.getThreshold());
             app.thresholdJSlider.setToolTipText(String.valueOf(app.model.getThreshold())); // to be gathered
             app.model.erase();
+            app.model.view.requestFocus();
         }
     }
 
@@ -520,6 +522,7 @@ System.err.println("saving done.");
                     Mark mark = marksComboBox.getItemAt(model.view.getMarkSelected());
                     if (mark != null) {
                         model.removeMark(mark);
+                        model.view.requestFocus();
                     }
                 }
             }
@@ -675,6 +678,9 @@ System.err.println(image.getWidth() + ", " + image.getHeight());
             }
             public double getScale() {
                 return scale;
+            }
+            public void requestFocus() {
+                frame.requestFocus();
             }
         });
         model.load(args[0], ".jpg");
