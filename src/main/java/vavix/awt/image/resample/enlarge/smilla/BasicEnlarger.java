@@ -210,7 +210,24 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
 
     private float[] bigPixelFractCVal = new float[5 * 5];
 
-    public BasicEnlarger(final EnlargeFormat format, final EnlargeParameter param) {
+    private static class InternalArray<X extends Primitive<X>> extends BasicArray<X> {
+        static Class primitiveClass;
+        public InternalArray(BasicArray<X> aSrc) {
+            super(primitiveClass, aSrc);
+        }
+
+        public InternalArray(int sx, int sy) {
+            super(primitiveClass, sx, sy);
+        }
+
+        public InternalArray() {
+            super(primitiveClass);
+        }
+    }
+
+    public BasicEnlarger(Class<T> clazz, final EnlargeFormat format, final EnlargeParameter param) {
+        InternalArray.primitiveClass = clazz;
+
         // int srcSizeX, int srcSizeY, float scaleF) {
         sizeX = format.srcWidth;
         sizeY = format.srcHeight;
@@ -252,8 +269,8 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
         sizeDstBlock = Constants.blockLen;
         sizeSrcBlockX = (int) (invScaleFaktX * (sizeDstBlock) + 0.5) + 2 * Constants.srcBlockMargin;
         sizeSrcBlockY = (int) (invScaleFaktY * (sizeDstBlock) + 0.5) + 2 * Constants.srcBlockMargin;
-        srcBlock = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
-        dstBlock = new BasicArray<>(sizeDstBlock, sizeDstBlock);
+        srcBlock = new InternalArray(sizeSrcBlockX, sizeSrcBlockY);
+        dstBlock = new InternalArray(sizeDstBlock, sizeDstBlock);
 
         baseWeights = new MyArray(sizeSrcBlockX, sizeSrcBlockY);
         workMask = new MyArray(sizeSrcBlockX, sizeSrcBlockY);
@@ -261,12 +278,12 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
         baseIntensity = new MyArray(sizeSrcBlockX, sizeSrcBlockY);
         workMaskDst = new MyArray(sizeDstBlock, sizeDstBlock);
 
-        dX = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
-        dY = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
-        d2X = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
-        d2Y = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
-        dXY = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
-        d2L = new BasicArray<>(sizeSrcBlockX, sizeSrcBlockY);
+        dX = new InternalArray(sizeSrcBlockX, sizeSrcBlockY);
+        dY = new InternalArray(sizeSrcBlockX, sizeSrcBlockY);
+        d2X = new InternalArray(sizeSrcBlockX, sizeSrcBlockY);
+        d2Y = new InternalArray(sizeSrcBlockX, sizeSrcBlockY);
+        dXY = new InternalArray(sizeSrcBlockX, sizeSrcBlockY);
+        d2L = new InternalArray(sizeSrcBlockX, sizeSrcBlockY);
 
         selectDiffTab = new float[Constants.diffTabLen];
         centerWeightTab = new float[Constants.diffTabLen];
@@ -468,8 +485,6 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
     public float fractNoise() {
         return fractNoiseF;
     }
-
-    protected abstract BasicArray.Factory<T> getFactory();
 
     // the methods for Enlarge, protected for use in class with calc-thread-design
     // the read & write methods,
@@ -1195,7 +1210,6 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
     }
 
     protected void srcBlockReduceNoise() {
-        srcBlock.setFactory(getFactory()); // TODO vavi
         srcBlock.reduceNoise(deNoiseF);
     }
 

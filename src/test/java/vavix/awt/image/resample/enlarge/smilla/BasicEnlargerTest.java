@@ -22,8 +22,6 @@ import org.junit.jupiter.api.Disabled;
 
 import vavi.imageio.IIOUtil;
 
-import vavix.awt.image.resample.enlarge.smilla.BasicArray.Factory;
-
 
 /**
  * BasicEnlargerTest.
@@ -59,24 +57,15 @@ public class BasicEnlargerTest {
         final BufferedImage dest = new BufferedImage(format.clipX1,
                                                      format.clipY1,
                                                      source.getType());
-        BasicEnlarger<?> be = new BasicEnlarger<PFloat>(format, param) {
+        BasicEnlarger<?> be = new BasicEnlarger<PFloat>(PFloat.class, format, param) {
             @Override
             protected PFloat readSrcPixel(int srcX, int srcY) {
-System.err.println(srcX + ", " + srcY + ": " + source.getRGB(srcX, srcY));
+//System.err.println(srcX + ", " + srcY + ": " + source.getRGB(srcX, srcY));
                 return new PFloat(source.getRGB(srcX, srcY));
             }
             @Override
             protected void writeDstPixel(PFloat p, int dstCX, int dstCY) {
                 dest.setRGB(dstCX, dstCY, (int) p.toF());
-            }
-            @Override
-            protected Factory<PFloat> getFactory() {
-                return new Factory<PFloat>() {
-                    @Override
-                    public PFloat newInstance() {
-                        return new PFloat();
-                    }
-                };
             }
         };
         be.enlarge();

@@ -43,7 +43,7 @@ class FractTab {
     private static final int RandTabLen = (1 << RandTabExp);
     private static final int RandTabMask = (1 << RandTabExp) - 1;
 
-    private BasicArray<PFloat> fTab;
+    private MyArray fTab;
     private RandGen randG;
     private int[] randTab;
     private float scaleF, invScaleF;
@@ -67,15 +67,15 @@ class FractTab {
 
     public void createTab() {
         final long startExp = 2;
-        BasicArray<PFloat> a0;
+        MyArray a0;
 
         int aLen = (1 << startExp);
         float rFakt;
         float fRatio = scaleF / (1 << (FRACTTABEXP - startExp));
 
-        a0 = new BasicArray<>(aLen, aLen);
+        a0 = new MyArray(aLen, aLen);
         for (int s = 0; s < FRACTTABEXP - startExp; s++) {
-            BasicArray<PFloat> hh;
+            MyArray hh;
             hh = a0.smoothDoubleTorus();
             a0 = hh;
             fRatio *= 2.0;

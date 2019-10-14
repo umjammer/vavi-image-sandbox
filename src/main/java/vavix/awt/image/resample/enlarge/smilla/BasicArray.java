@@ -20,47 +20,50 @@
 
 package vavix.awt.image.resample.enlarge.smilla;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+
+
 /**
  * basic template for 2-dim. arrays
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/14 nsano initial version <br>
  */
-class BasicArray<T extends Primitive<T>> {
+abstract class BasicArray<T extends Primitive<T>> {
 
     private int sizeX, sizeY;
 
     private T[] buf;
 
-    interface Factory<T> {
-        T newInstance();
+    private Class<T> primitiveClass;
+
+    public T newContent() {
+        try {
+            return primitiveClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
-    Factory<T> factory;
-
-    T newContent() {
-        return factory.newInstance();
-    }
-
-    public void setFactory(Factory<T> factory) {
-        this.factory = factory;
-    }
-
-    public BasicArray() {
+    public BasicArray(Class<T> clazz) {
+        this.primitiveClass = clazz;
         sizeX = 0;
         sizeY = 0;
         buf = null;
     }
 
     @SuppressWarnings("unchecked")
-    public BasicArray(int sx, int sy) {
+    public BasicArray(Class<T> clazz, int sx, int sy) {
+        this.primitiveClass = clazz;
         sizeX = sx;
         sizeY = sy;
         buf = (T[]) new Primitive[sizeX * sizeY];
     }
 
     @SuppressWarnings("unchecked")
-    public BasicArray(BasicArray<T> aSrc) {
+    public BasicArray(Class<T> clazz, BasicArray<T> aSrc) {
+        this.primitiveClass = clazz;
         sizeX = aSrc.sizeX;
         sizeY = aSrc.sizeY;
         buf = (T[]) new Primitive[sizeX * sizeY];
@@ -68,14 +71,19 @@ class BasicArray<T extends Primitive<T>> {
         System.arraycopy(aSrc.buf, 0, buf, 0, sizeX * sizeY);
     }
 
-    public BasicArray<T> operatorEqual(BasicArray<T> aSrc) {
+    public BasicArray<T> operatorEqual(Class<T> clazz, BasicArray<T> aSrc) {
+        this.primitiveClass = clazz;
         changeSize(aSrc.sizeX, aSrc.sizeY);
         System.arraycopy(aSrc.buf, 0, buf, 0, sizeX * sizeY);
         return this;
     }
 
     public T get(int x, int y) {
-        return buf[x + y * sizeX];
+        if (buf[x + y * sizeX] == null) {
+            return newContent();
+        } else {
+            return buf[x + y * sizeX];
+        }
     }
 
     public void set(int x, int y, T p) {
@@ -244,15 +252,36 @@ class BasicArray<T extends Primitive<T>> {
         }
     }
 
-    public BasicArray<T> clip(int leftX, int topY, int sizeXNew, int sizeYNew) {
-        BasicArray<T> clipArr = new BasicArray<>(sizeXNew, sizeYNew);
+    public <X extends BasicArray<T>> X clip(int leftX, int topY, int sizeXNew, int sizeYNew) {
+        X clipArr = newInstance(new TnA<>(Integer.TYPE, sizeXNew), new TnA<>(Integer.TYPE, sizeYNew));
         clipArr.copyFromArray(this, leftX, topY);
         return clipArr;
     }
 
+    private class TnA<Y> {
+        Class<Y> type;
+        Y arg;
+        TnA(Class<Y> type, Y arg) {
+            this.type = type;
+            this.arg = arg;
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    public BasicArray<T> smoothDouble() {
-        BasicArray<T> newArray = new BasicArray<>(sizeX * 2, sizeY * 2);
+    @SafeVarargs
+    private final <X extends BasicArray<T>> X newInstance(TnA<?>... tna) {
+        try {
+            return ((Class<X>) getClass()).getConstructor(Arrays.stream(tna).map(a -> a.type).toArray(Class[]::new))
+                    .newInstance(Arrays.stream(tna).map(a -> a.arg).toArray(Object[]::new));
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <X extends BasicArray<T>> X smoothDouble() {
+        X newArray = newInstance(new TnA<>(Integer.TYPE, sizeX * 2), new TnA<>(Integer.TYPE, sizeY * 2));
 
         T[] line0 = (T[]) new Primitive[2 * sizeX];
         T[] line1 = (T[]) new Primitive[2 * sizeX];
@@ -284,8 +313,8 @@ class BasicArray<T extends Primitive<T>> {
     }
 
     @SuppressWarnings("unchecked")
-    public BasicArray<T> smoothDoubleTorus() {
-        BasicArray<T> newArray = new BasicArray<>(sizeX * 2, sizeY * 2);
+    public <X extends BasicArray<T>> X smoothDoubleTorus() {
+        X newArray = newInstance(new TnA<>(Integer.TYPE, sizeX * 2), new TnA<>(Integer.TYPE, sizeY * 2));
 
         T[] line0 = (T[]) new Primitive[2 * sizeX];
         T[] line1 = (T[]) new Primitive[2 * sizeX];
@@ -316,9 +345,9 @@ class BasicArray<T extends Primitive<T>> {
         return newArray;
     }
 
-    public BasicArray<T> shrinkHalf() {
+    public <X extends BasicArray<T>> X shrinkHalf() {
         int x, y;
-        BasicArray<T> halfArr = new BasicArray<>((sizeX + 1) >> 1, (sizeY + 1) >> 1);
+        X halfArr = newInstance(new TnA<>(Integer.TYPE, (sizeX + 1) >> 1), new TnA<>(Integer.TYPE, (sizeY + 1) >> 1));
 
         for (y = 0; y < halfArr.sizeY(); y++) {
             for (x = 0; x < halfArr.sizeX(); x++) {
@@ -341,7 +370,7 @@ class BasicArray<T extends Primitive<T>> {
         return halfArr;
     }
 
-    public BasicArray<T> shrink(int sizeXNew, int sizeYNew) {
+    public <X extends BasicArray<T>> X shrink(int sizeXNew, int sizeYNew) {
         if (sizeXNew <= 0)
             sizeXNew = 1;
         if (sizeYNew <= 0)
@@ -352,7 +381,7 @@ class BasicArray<T extends Primitive<T>> {
         int y, xBig;
         float ff;
 
-        BasicArray<T> dst = new BasicArray<>(sizeXNew, sizeYNew);
+        X dst = newInstance(new TnA<>(Integer.TYPE, sizeXNew), new TnA<>(Integer.TYPE, sizeYNew));
         @SuppressWarnings("unchecked")
         T[] line = (T[]) new Primitive[sizeXNew];
 
@@ -380,7 +409,7 @@ class BasicArray<T extends Primitive<T>> {
         return dst;
     }
 
-    public BasicArray<T> blockyPixEnlarge(int sizeXNew, int sizeYNew) {
+    public <X extends BasicArray<T>> X blockyPixEnlarge(int sizeXNew, int sizeYNew) {
         if (sizeXNew <= 0)
             sizeXNew = 1;
         if (sizeYNew <= 0)
@@ -388,11 +417,11 @@ class BasicArray<T extends Primitive<T>> {
 
         float scaleX = (sizeX) / (sizeXNew);
         float scaleY = (sizeY) / (sizeYNew);
-System.err.println(" < " + scaleX + " " + scaleY + " > ");
+//System.err.println(" < " + scaleX + " " + scaleY + " > ");
         int x, y, xSrc;
         float floorX, ffx, ffy;
 
-        BasicArray<T> dst = new BasicArray<>(sizeXNew, sizeYNew);
+        X dst = newInstance(new TnA<>(Integer.TYPE, sizeXNew), new TnA<>(Integer.TYPE, sizeYNew));
 
         int ySrc = 0;
         float floorY = 0.0f;
@@ -435,9 +464,8 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
         return dst;
     }
 
-    public BasicArray<T> splitLowFreq(int lenExp) {
-        BasicArray<T> loArr = new BasicArray<>((sizeX + (1 << lenExp)) >> lenExp, (sizeY + (1 << lenExp)) >> lenExp);
-        loArr.setFactory(factory); // TODO vavi
+    public <X extends BasicArray<T>> X splitLowFreq(int lenExp) {
+        X loArr = newInstance(new TnA<>(Integer.TYPE, (sizeX + (1 << lenExp)) >> lenExp), new TnA<>(Integer.TYPE, (sizeY + (1 << lenExp)) >> lenExp));
 
         for (int y = 0; y < loArr.sizeY(); y++) {
             for (int x = 0; x < loArr.sizeX(); x++) {
@@ -456,14 +484,14 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
                 loArr.set(x, y, loArr.get(x, y).operatorMultiply(fFakt));
             }
         }
-        BasicArray<T> a3;
-        BasicArray<T> a2 = loArr.smoothDouble();
+        X a3;
+        X a2 = loArr.smoothDouble();
         for (int a = 0; a < lenExp - 1; a++) {
             a3 = a2.smoothDouble();
             a2 = a3;
         }
 
-        a3 = new BasicArray<>(sizeX, sizeY);
+        a3 = newInstance(new TnA<>(Integer.TYPE, sizeX), new TnA<>(Integer.TYPE, sizeY));
 
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
@@ -477,8 +505,8 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
         return a3;
     }
 
-    public BasicArray<T> smooth() {
-        BasicArray<T> a4 = new BasicArray<>(sizeX, sizeY);
+    public <X extends BasicArray<T>> X smooth() {
+        X a4 = newInstance(new TnA<>(Integer.TYPE, sizeX), new TnA<>(Integer.TYPE, sizeY));
 
         for (int y = 1; y < sizeY - 1; y++) {
             for (int x = 1; x < sizeX - 1; x++) {
@@ -518,8 +546,8 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
         }
     }
 
-    public void sharpen(float f) {
-        BasicArray<T> src = new BasicArray<>(this);
+    public <X extends BasicArray<T>> void sharpen(float f) {
+        X src = newInstance(new TnA<>(BasicArray.class, this));
 
         if (f == 0.0)
             return;
@@ -539,8 +567,8 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
         }
     }
 
-    public void smoothen() {
-        BasicArray<T> src = new BasicArray<>(this);
+    public <X extends BasicArray<T>> void smoothen() {
+        X src = newInstance(new TnA<>(BasicArray.class, this));
 
         for (int y = 1; y < sizeY - 1; y++) {
             for (int x = 1; x < sizeX - 1; x++) {
@@ -570,17 +598,16 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
         }
     }
 
-    public void reduceNoise(float reduceF) {
+    public <X extends BasicArray<T>> void reduceNoise(float reduceF) {
         int sizeX = sizeX(), sizeY = sizeY();
 
         if (reduceF <= 0.0)
             return;
         reduceF = 1.0f / reduceF;
 
-        BasicArray<T> hiF = new BasicArray<>(this);
-        hiF.setFactory(factory);
+        X hiF = newInstance(new TnA<>(BasicArray.class, this));
         @SuppressWarnings("unused")
-        BasicArray<T> loF = hiF.splitLowFreq(1);
+        X loF = hiF.splitLowFreq(1);
 
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
@@ -606,8 +633,8 @@ System.err.println(" < " + scaleX + " " + scaleY + " > ");
         }
     }
 
-    public void hiSharpen(float f) {
-        BasicArray<T> src = new BasicArray<>(this);
+    public <X extends BasicArray<T>> void hiSharpen(float f) {
+        X src = newInstance(new TnA<>(BasicArray.class, this));
         int sizeX = sizeX(), sizeY = sizeY();
 
         for (int y = 1; y < sizeY - 1; y++) {

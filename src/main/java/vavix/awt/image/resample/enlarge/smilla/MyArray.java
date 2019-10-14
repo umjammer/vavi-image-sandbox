@@ -20,9 +20,6 @@
 
 package vavix.awt.image.resample.enlarge.smilla;
 
-import vavi.util.Debug;
-
-
 /**
  * 2-dim. float-array and direction-array
  *
@@ -31,31 +28,19 @@ import vavi.util.Debug;
  */
 class MyArray extends BasicArray<PFloat> {
 
-    Factory<PFloat> factory_ = new Factory<PFloat>() {
-        @Override
-        public PFloat newInstance() {
-            return new PFloat();
-        }
-    };
-
     public MyArray() {
-        setFactory(factory_);
+        super(PFloat.class);
     }
 
     public MyArray(int sx, int sy) {
-        super(sx, sy);
-        setFactory(factory_);
+        super(PFloat.class, sx, sy);
     }
 
-    public MyArray(MyArray aSrc) {
-        super(aSrc);
-        setFactory(factory_);
+    public MyArray(BasicArray<PFloat> aSrc) {
+        super(PFloat.class, aSrc);
     }
 
     public float getF(int x, int y) {
-if (get(x, y) == null) {
-    Debug.println(x + ", " + y);
-}
         return get(x, y).toF();
     }
 
@@ -83,24 +68,29 @@ if (get(x, y) == null) {
         sub(x, y, new PFloat(p));
     }
 
+    @SuppressWarnings("unchecked")
     public MyArray smoothDouble() {
-        return smoothDouble();
+        return super.smoothDouble();
     }
 
+    @SuppressWarnings("unchecked")
     public MyArray shrinkHalf() {
-        return shrinkHalf();
+        return super.shrinkHalf();
     }
 
+    @SuppressWarnings("unchecked")
     public MyArray shrink(int sizeXNew, int sizeYNew) {
-        return shrink(sizeXNew, sizeYNew);
+        return super.shrink(sizeXNew, sizeYNew);
     }
 
+    @SuppressWarnings("unchecked")
     public MyArray splitLowFreq(int lenExp) {
-        return splitLowFreq(lenExp);
+        return super.splitLowFreq(lenExp);
     }
 
+    @SuppressWarnings("unchecked")
     public MyArray smooth() {
-        return smooth();
+        return super.smooth();
     }
 
     public DirArray gradient() {

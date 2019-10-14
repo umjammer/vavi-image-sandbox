@@ -22,47 +22,44 @@ package vavix.awt.image.resample.enlarge.smilla;
 
 
 /**
- * DirArray. 
+ * DirArray.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/14 nsano initial version <br>
  */
 class DirArray extends BasicArray<Point2> {
 
-    Factory<Point2> factory_ = new Factory<Point2>() {
-        @Override
-        public Point2 newInstance() {
-            return new Point2();
-        }
-    };
-
     public DirArray() {
-        setFactory(factory_);
+        super(Point2.class);
     }
 
     public DirArray(int sx, int sy) {
-        super(sx, sy);
-        setFactory(factory_);
+        super(Point2.class, sx, sy);
     }
 
+    @SuppressWarnings("unchecked")
     public DirArray smoothDouble() {
-        return smoothDouble();
+        return super.smoothDouble();
     }
 
+    @SuppressWarnings("unchecked")
     public DirArray shrinkHalf() {
-        return shrinkHalf();
+        return super.shrinkHalf();
     }
 
+    @SuppressWarnings("unchecked")
     public DirArray shrink(int sizeXNew, int sizeYNew) {
-        return shrink(sizeXNew, sizeYNew);
+        return super.shrink(sizeXNew, sizeYNew);
     }
 
+    @SuppressWarnings("unchecked")
     public DirArray splitLowFreq(int lenExp) {
-        return splitLowFreq(lenExp);
+        return super.splitLowFreq(lenExp);
     }
 
+    @SuppressWarnings("unchecked")
     public DirArray smooth() {
-        return smooth();
+        return super.smooth();
     }
 
     public DirArray func0() {
@@ -162,7 +159,8 @@ class DirArray extends BasicArray<Point2> {
                 d = d00.operatorMultiply(nFunc(n00, n11))
                         .operatorPlus(d10.operatorMultiply(2.0f * nFunc(n10, n11)))
                         .operatorPlus(d20.operatorMultiply(nFunc(n20, n11)));
-                d = d.operatorPlusEqual((d01.operatorMultiply(nFunc(n01, n11)).operatorPlus(d21.operatorMultiply(nFunc(n21, n11)))).operatorMultiply(2.0f));
+                d = d.operatorPlusEqual((d01.operatorMultiply(nFunc(n01, n11))
+                        .operatorPlus(d21.operatorMultiply(nFunc(n21, n11)))).operatorMultiply(2.0f));
                 d = d.operatorPlusEqual(d02.operatorMultiply(nFunc(n02, n11))
                         .operatorPlus(d12.operatorMultiply(2.0f * nFunc(n12, n11)))
                         .operatorPlus(d22.operatorMultiply(nFunc(n22, n11))));
@@ -256,7 +254,7 @@ class DirArray extends BasicArray<Point2> {
         w = 1.0f - (n1.operatorMinus(n2)).norm() * 10.0f;
         if (w < 0.0)
             w = 0.0f;
-        //w=w*w*(3.0 - 2.0*w);
+        // w=w*w*(3.0 - 2.0*w);
         w *= w;
         w *= w;
         return w;
@@ -273,4 +271,5 @@ class DirArray extends BasicArray<Point2> {
         return w;
     }
 }
+
 /* */

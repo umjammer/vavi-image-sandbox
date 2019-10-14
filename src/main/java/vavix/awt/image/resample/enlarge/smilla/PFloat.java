@@ -123,6 +123,10 @@ class PFloat implements Primitive<PFloat> {
         p.operatorMultiplyEqual(a);
         return p;
     }
+
+    public String toString() {
+        return "pfloat: " + x;
+    }
 }
 
 /* */
