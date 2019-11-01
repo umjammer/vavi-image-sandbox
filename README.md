@@ -58,3 +58,12 @@ as a desktop mascot
 
     * arevalo
     * binpack
+
+### openvc
+
+ * `export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk_version.jdk/Contents/Home/'` (works???)
+ * `brew install ant`
+ * `brew edit opencv`
+  `-DBUILD_opencv_java=ON`
+
+ * `brew install --build-from-source opencv`

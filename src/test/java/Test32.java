@@ -77,7 +77,7 @@ public class Test32 {
      * @see "http://autolab-minoya.hatenablog.com/entry/2017/11/04/224627"
      */
     static {
-        System.loadLibrary("opencv_java410");
+        System.loadLibrary("opencv_java411");
     }
 
     static Rectangle findSubimage(Mat img, Mat tmpl, double threshold) {
@@ -392,6 +392,11 @@ public class Test32 {
         }
 
         /** target is current page */
+        boolean isBlack() {
+            return pages.get(index).method.equals(Page.Method.black);
+        }
+
+        /** target is current page */
         double getThreshold() {
             return pages.get(index).threshold;
         }
@@ -467,6 +472,7 @@ System.err.println("saving done.");
         }
     }
 
+    /** TODO inside model ??? */
     @Components(updater = MyUpdater.class)
     public static class Params {
         @Component(name = "thresholdJSlider")
@@ -626,9 +632,10 @@ System.err.println(rect + ", " + scale);
             double scale;
             int markIndex;
             public void update(BufferedImage image) {
-                //
+                // TODO Components.Util.copy(model, params); ???
                 params.xor = model.isXor();
                 params.threshold = (int) (model.getThreshold() * 100);
+                params.isBlack = model.isBlack();
                 Components.Util.rebind(params, Test32.this);
                 //
                 this.scale = ImageUtil.scale(image, 0.8);
