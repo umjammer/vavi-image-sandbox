@@ -49,6 +49,7 @@ Vavi Image API Sandbox
 as a desktop mascot
 
 ![JAnimationWindow](https://lh3.googleusercontent.com/d3wp6hzuILHq6MT7Ud_gUi_TpqYIK1UiT-m9C03rndcpPzFLwmPXpUkaEjLobQpb-vnXLR1l8eKdwHNUF0xJUjLXnEP5Fc9oOM1NoElCZ5u2AJoOKWLqsAoNEzHWBIPaSffQM1X11w=w2400)
+[© oscd.jp](https://www.oscd.jp/)
 
   * [watermark removing](https://github.com/umjammer/vavi-image-sandbox/wiki/WatermarkRemoval)
 
@@ -61,9 +62,10 @@ as a desktop mascot
 
 ### openvc
 
- * `export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk_version.jdk/Contents/Home/'` (works???)
- * `brew install ant`
- * `brew edit opencv`
-  `-DBUILD_opencv_java=ON`
-
- * `brew install --build-from-source opencv`
+```shell
+ $ export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk_version.jdk/Contents/Home/' # works???
+ $ brew install ant
+ $ brew edit opencv
+ -DBUILD_opencv_java=ON
+ $ brew install --build-from-source opencv
+```
