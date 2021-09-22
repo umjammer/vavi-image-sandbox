@@ -153,7 +153,7 @@ TODO
         <plugins>
           <plugin>
             <!-- exec:exec -->
-            <!-- $ mvn -P magick exec:java -Dexec.args=file -->
+            <!-- $ mvn -P magick exec:java -Dexec.args='"file"' -->
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
             <version>1.6.0</version>
@@ -167,6 +167,41 @@ TODO
             <configuration>
               <mainClass>t146_11</mainClass>
               <classpathScope>test</classpathScope>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>wmr</id>
+      <activation>
+        <property>
+          <name>wmr</name>
+          <value></value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- exec:exec -->
+            <!-- $ mvn -P wmr exec:java -Dexec.args='"dir1" "dir2"' -->
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <mainClass>Test32</mainClass>
+              <classpathScope>test</classpathScope>
+              <arguments>
+                <argument>-Xmx3G</argument>
+              </arguments>
             </configuration>
           </plugin>
         </plugins>
@@ -254,9 +289,9 @@ TODO
       <version>1.0.5</version>
     </dependency>
     <dependency>
-      <groupId>org.opencv</groupId>
+      <groupId>org.openpnp</groupId>
       <artifactId>opencv</artifactId>
-      <version>4.1.0</version>
+      <version>[4.3.0,)</version>
     </dependency>
     <dependency>
       <groupId>org.rococoa</groupId>
