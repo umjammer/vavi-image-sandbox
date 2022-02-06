@@ -9,11 +9,13 @@ package vavix.imageio.rococoa;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.logging.Level;
 
 import javax.imageio.ImageReader;
 import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
+
+import vavi.util.Debug;
 
 
 public class RococoaImageReaderSpi extends ImageReaderSpi {
@@ -23,7 +25,7 @@ public class RococoaImageReaderSpi extends ImageReaderSpi {
     private static final String ReaderClassName =
         "vavix.imageio.rocococa.RococoaImageReader";
     private static final String[] Names = {
-        "heif"
+        "heif", "heic", "HEIF", "HEIC"
     };
     private static final String[] Suffixes = {
         "heif", "heic"
@@ -71,17 +73,18 @@ public class RococoaImageReaderSpi extends ImageReaderSpi {
     }
 
     /* */
-    public boolean canDecodeInput(Object obj)
-        throws IOException {
-        if (obj instanceof FileImageInputStream) {
-            FileImageInputStream fiis = FileImageInputStream.class.cast(obj);
+    public boolean canDecodeInput(Object obj) throws IOException {
+Debug.println(Level.FINE, "HERE 0: " + obj);
+        if (obj instanceof ImageInputStream) {
+            ImageInputStream fiis = ImageInputStream.class.cast(obj);
             fiis.mark();
             // we currently accept heif only
-            byte[] buf = new byte[12];
-            fiis.read(buf, 0, 12);
+            byte[] buf = new byte[8];
+            fiis.skipBytes(4);
+            fiis.readFully(buf);
             fiis.reset();
-            final byte[] magic = { 00, 00, 00, 0x1c, 0x66, 0x74, 0x79, 0x70, 0x6d, 0x69, 0x66, 0x31 };
-//System.err.println("HERE; " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
+            final byte[] magic = { 0x66, 0x74, 0x79, 0x70, 0x6d, 0x69, 0x66, 0x31 };
+Debug.println(Level.FINE, "HERE 1: " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
             return Arrays.equals(buf, magic);
         } else {
             return false;

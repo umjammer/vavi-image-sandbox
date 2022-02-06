@@ -8,12 +8,11 @@ package vavix.imageio.rococoa;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -82,17 +81,15 @@ public class RococoaImageReader extends ImageReader {
 
         try {
 
-            File file = File.createTempFile("vavix.imageio.rococoa", ".heic");
-            //file.deleteOnExit();
-            FileChannel fc = new FileOutputStream(file).getChannel();
-            fc.transferFrom(Channels.newChannel(new WrappedImageInputStream(stream)), 0, stream.length());
-            fc.close();
+            Path file = Files.createTempFile("vavix.imageio.rococoa", ".heic");
+            // TODO StandardOpenOption.DELETE_ON_CLOSE
+            Files.copy(new WrappedImageInputStream(stream), file, StandardCopyOption.REPLACE_EXISTING);
 
             // stream not found で null が返る...orz
-            NSImage nsImage = NSImage.imageWithContentsOfFile(file.getPath());
+            NSImage nsImage = NSImage.imageWithContentsOfFile(file.toString());
             if (nsImage == null) {
 //System.err.print(file.getPath());
-                throw new FileNotFoundException("problem in reading temporary file: " + file.getPath());
+                throw new FileNotFoundException("problem in reading temporary file: " + file);
             }
             NSData data = nsImage.TIFFRepresentation();
             com.sun.jna.Pointer pointer = data.bytes();
