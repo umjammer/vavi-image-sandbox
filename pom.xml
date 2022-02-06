@@ -32,6 +32,31 @@ TODO
   </properties>
 
   <profiles>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+              <execution>
+                <id>copy</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.rococoa</groupId>
+                      <artifactId>rococoa-core</artifactId>
+                      <type>dylib</type>
+                      <overWrite>false</overWrite>
+                      <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                      <destFileName>librococoa.dylib</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
 <!--
     <profile>
       <id>not on eclipse</id>
@@ -156,31 +181,6 @@ TODO
         </executions>
       </plugin>
 -->
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.10</version>
-        <executions>
-          <execution>
-            <id>copy</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.rococoa</groupId>
-                  <artifactId>rococoa-core</artifactId>
-                  <type>dylib</type>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-                  <destFileName>librococoa.dylib</destFileName>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
@@ -327,7 +327,7 @@ TODO
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
+      <artifactId>slf4j-jdk14</artifactId>
       <version>1.7.2</version>
       <scope>test</scope>
     </dependency>

@@ -25,16 +25,20 @@ import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import org.junit.jupiter.api.Test;
 
 import vavi.awt.image.gif.GifRenderer;
 import vavi.awt.image.resample.AwtResampleOp;
+import vavi.xml.util.PrettyPrinter;
+import vavi.xml.util.XmlUtil;
+
 import vavix.awt.image.color.FillTransparentDiffIndexOp;
 import vavix.awt.image.color.PalettizeOp;
 import vavix.awt.image.pixel.CropTransparentIndexOp;
 import vavix.awt.image.quantize.FixedColorModelQuantizeOp;
-import vavi.xml.util.XmlUtil;
 
 
 /**
@@ -47,7 +51,7 @@ public class FixedColorModelQuantizerOpTest {
 
     String input = "src/test/resources/sample.gif";
 
-    String output = "/tmp/vavi.awt.image.resample.FixedColorModelQuantizerOpTest.gif";
+    String output = "tmp/vavi.awt.image.resample.FixedColorModelQuantizerOpTest.gif";
 
     @Test
     public void test01() throws Exception {
@@ -110,6 +114,7 @@ System.err.println("image does not have palette");
 
         //
         ImageWriter writer = ImageIO.getImageWritersByFormatName("gif").next();
+System.err.println("writer: " + writer);
         ImageOutputStream ios = new FileImageOutputStream(new File(output));
 
         ImageWriteParam imageWriteParam = writer.getDefaultWriteParam();
@@ -128,7 +133,7 @@ System.err.println("image does not have palette");
             imageDescriptorNode.setAttribute("imageTopPosition", String.valueOf(0));
             imageDescriptorNode.setAttribute("imageWidth", String.valueOf((int) (images.get(i).getWidth() * scale)));
             imageDescriptorNode.setAttribute("imageHeight", String.valueOf((int) (images.get(i).getHeight() * scale)));
-            imageDescriptorNode.setAttribute("interlaceFlag", "false");
+            imageDescriptorNode.setAttribute("interlaceFlag", String.valueOf(false));
             metadataNode.appendChild(imageDescriptorNode);
 
             IIOMetadataNode commentExtensionsNode = new IIOMetadataNode("CommentExtensions");
@@ -137,15 +142,17 @@ System.err.println("image does not have palette");
 
             IIOMetadataNode graphicControlExtensionNode = new IIOMetadataNode("GraphicControlExtension");
             graphicControlExtensionNode.setAttribute("disposalMethod", "restoreToBackgroundColor");
-            graphicControlExtensionNode.setAttribute("transparentColorFlag", "FALSE");
+            graphicControlExtensionNode.setAttribute("transparentColorFlag", String.valueOf(false));
+            graphicControlExtensionNode.setAttribute("transparentColorIndex", String.valueOf(0));
+            graphicControlExtensionNode.setAttribute("userInputFlag", String.valueOf(false));
 
             commentExtensionsNode.appendChild(commentExtensionNode);
             metadataNode.appendChild(commentExtensionsNode);
 
             imageMetaData.setFromTree(metaFormatName, metadataNode);
 
-            // JOptionPane.showMessageDialog(null, null, "01",
-            // JOptionPane.INFORMATION_MESSAGE, new ImageIcon(images.get(i)));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, null, "01", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(images.get(i)));
             writer.writeToSequence(new IIOImage(images.get(i), null, imageMetaData), imageWriteParam);
             images.get(i).flush();
         }
@@ -156,7 +163,7 @@ System.err.println("image does not have palette");
         ios.close();
     }
 
-    String output2 = "/tmp/vavi.awt.image.resample.FixedColorModelQuantizerOpTest_2.gif";
+    String output2 = "tmp/vavi.awt.image.resample.FixedColorModelQuantizerOpTest_2.gif";
 
     @Test
     public void test02() throws Exception {
@@ -198,11 +205,13 @@ System.err.println("image does not have palette");
                 processedImage = new CropTransparentIndexOp(bounds).filter(tempImage4, null);
                 tempImage4.flush();
             }
-// System.err.println(processedImage);
-// JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(processedImage));
+System.err.println(processedImage);
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(processedImage));
             backupImages.add(tempImage3);
             images.add(processedImage);
 
+            // see "https://docs.oracle.com/javase/8/docs/api/javax/imageio/metadata/doc-files/gif_metadata.html"
             String metaFormatName = imageMetaData.getNativeMetadataFormatName();
             IIOMetadataNode metadataNode = (IIOMetadataNode) imageMetaData.getAsTree(metaFormatName);
             IIOMetadataNode imageDescriptorNode = XmlUtil.getNode(metadataNode, "ImageDescriptor");
@@ -210,8 +219,12 @@ System.err.println("image does not have palette");
             imageDescriptorNode.setAttribute("imageTopPosition", String.valueOf(bounds.y));
             imageDescriptorNode.setAttribute("imageWidth", String.valueOf((int) (processedImage.getWidth() * scale)));
             imageDescriptorNode.setAttribute("imageHeight", String.valueOf((int) (processedImage.getHeight() * scale)));
+            imageDescriptorNode.setAttribute("interlaceFlag", String.valueOf(false));
             IIOMetadataNode graphicControlExtensionNode = XmlUtil.getNode(metadataNode, "GraphicControlExtension");
             graphicControlExtensionNode.setAttribute("disposalMethod", "doNotDispose");
+            graphicControlExtensionNode.setAttribute("userInputFlag", String.valueOf(false));
+            graphicControlExtensionNode.setAttribute("transparentColorFlag", String.valueOf(false));
+            graphicControlExtensionNode.setAttribute("transparentColorIndex", String.valueOf(0));
             metadataNodes.add(metadataNode);
         }
 
@@ -230,9 +243,11 @@ System.err.println("image does not have palette");
             ImageTypeSpecifier imageTypeSpecifier = new ImageTypeSpecifier(images.get(i));
             IIOMetadata imageMetaData = writer.getDefaultImageMetadata(imageTypeSpecifier, imageWriteParam);
             String metaFormatName = imageMetaData.getNativeMetadataFormatName();
+new PrettyPrinter(System.err).print(metadataNodes.get(i));
             imageMetaData.setFromTree(metaFormatName, metadataNodes.get(i));
 
-// JOptionPane.showMessageDialog(null, null, "02", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(images.get(i)));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, null, "02", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(images.get(i)));
             writer.writeToSequence(new IIOImage(images.get(i), null, imageMetaData), imageWriteParam);
             images.get(i).flush();
         }

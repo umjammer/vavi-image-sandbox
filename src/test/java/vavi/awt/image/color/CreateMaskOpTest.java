@@ -52,6 +52,8 @@ import vavix.awt.image.color.CreateMaskIndexOp;
 import vavix.awt.image.color.FillTransparentDiffIndexOp;
 import vavix.awt.image.color.MaskAsTransparentIndexOp;
 import vavix.awt.image.color.PalettizeOp;
+
+import vavi.xml.util.PrettyPrinter;
 import vavi.xml.util.XmlUtil;
 
 
@@ -82,7 +84,7 @@ public class CreateMaskOpTest {
         }
     }
 
-    String output = "/tmp/vavi.awt.image.color.CreateMaskOpTest.gif";
+    String output = "tmp/vavi.awt.image.color.CreateMaskOpTest.gif";
 
 //    @Test
     public void test01() throws Exception {
@@ -102,13 +104,15 @@ public class CreateMaskOpTest {
 
                 BufferedImage maskImage = new CreateMaskIndexOp().filter(image, null);
                 BufferedImage tempImage = new ResampleMaskOp(.5f, .5f).filter(maskImage, null);
-//JOptionPane.showMessageDialog(null, new ImageIcon(maskImage), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(maskImage), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
                 maskImage.flush();
                 maskImage = tempImage;
 
                 BufferedImage halfImage = new AwtResampleOp(.5, .5).filter(image, null);
                 tempImage = new MaskAsTransparentIndexOp(maskImage).filter(halfImage, null);
-//JOptionPane.showMessageDialog(null, new ImageIcon(halfImage), "half", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(halfImage), "half", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
                 halfImage.flush();
                 halfImage = tempImage;
 
@@ -154,10 +158,12 @@ public class CreateMaskOpTest {
         int imageTopPosition = Integer.parseInt(imageDescriptorNode.getAttribute("imageTopPosition"));
         int imageWidth = Integer.parseInt(imageDescriptorNode.getAttribute("imageWidth"));
         int imageHeight = Integer.parseInt(imageDescriptorNode.getAttribute("imageHeight"));
+        boolean interlaceFlag = Boolean.parseBoolean(imageDescriptorNode.getAttribute("interlaceFlag"));
         imageDescriptorNode.setAttribute("imageLeftPosition", String.valueOf((int) (imageLeftPosition * scaleX)));
         imageDescriptorNode.setAttribute("imageTopPosition", String.valueOf((int) (imageTopPosition * scaleY)));
         imageDescriptorNode.setAttribute("imageWidth", String.valueOf((int) (imageWidth * scaleX)));
         imageDescriptorNode.setAttribute("imageHeight", String.valueOf((int) (imageHeight * scaleY)));
+        imageDescriptorNode.setAttribute("interlaceFlag", String.valueOf(interlaceFlag));
     }
 
 //    @Test
@@ -265,13 +271,15 @@ System.err.println("disposalMethod: " + disposalMethod);
                     tempImage3.flush();
                 }
 System.err.println(resampledImage);
-JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(resampledImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(resampledImage));
                 images.add(resampledImage);
 
                 imageDescriptorNode.setAttribute("imageLeftPosition", String.valueOf(0));
                 imageDescriptorNode.setAttribute("imageTopPosition", String.valueOf(0));
                 imageDescriptorNode.setAttribute("imageWidth", String.valueOf((int) (imageWidth * .5)));
                 imageDescriptorNode.setAttribute("imageHeight", String.valueOf((int) (imageHeight * .5)));
+                imageDescriptorNode.setAttribute("interlaceFlag", String.valueOf(false));
                 graphicControlExtensionNode.setAttribute("disposalMethod", "doNotDispose");
                 metadataNodes.add(metadataNode);
             } catch (IndexOutOfBoundsException e) {
@@ -349,7 +357,8 @@ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOpt
                 processedImage = new FillTransparentDiffIndexOp(backupImages.get(i - 1)).filter(tempImage3, null);
             }
 System.err.println(processedImage);
-JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(processedImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(processedImage));
             backupImages.add(tempImage3);
             images.add(processedImage);
 
@@ -360,8 +369,12 @@ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOpt
             imageDescriptorNode.setAttribute("imageTopPosition", String.valueOf(0));
             imageDescriptorNode.setAttribute("imageWidth", String.valueOf((int) (processedImage.getWidth() * scale)));
             imageDescriptorNode.setAttribute("imageHeight", String.valueOf((int) (processedImage.getHeight() * scale)));
+            imageDescriptorNode.setAttribute("interlaceFlag", String.valueOf(false));
             IIOMetadataNode graphicControlExtensionNode = XmlUtil.getNode(metadataNode, "GraphicControlExtension");
             graphicControlExtensionNode.setAttribute("disposalMethod", "doNotDispose");
+            graphicControlExtensionNode.setAttribute("transparentColorFlag", String.valueOf(false));
+            graphicControlExtensionNode.setAttribute("transparentColorIndex", String.valueOf(0));
+            graphicControlExtensionNode.setAttribute("userInputFlag", String.valueOf(false));
             metadataNodes.add(metadataNode);
         }
 
@@ -380,6 +393,7 @@ JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOpt
             ImageTypeSpecifier imageTypeSpecifier = new ImageTypeSpecifier(images.get(i));
             IIOMetadata imageMetaData = writer.getDefaultImageMetadata(imageTypeSpecifier, imageWriteParam);
             String metaFormatName = imageMetaData.getNativeMetadataFormatName();
+new PrettyPrinter(System.err).print(metadataNodes.get(i));
             imageMetaData.setFromTree(metaFormatName, metadataNodes.get(i));
 
             writer.writeToSequence(new IIOImage(images.get(i), null, imageMetaData), imageWriteParam);

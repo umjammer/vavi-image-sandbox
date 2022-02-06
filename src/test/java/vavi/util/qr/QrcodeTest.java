@@ -6,6 +6,7 @@
 
 package vavi.util.qr;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QrcodeTest {
 
     @Test
+    @Disabled
     public void test() {
         fail("Not yet implemented");
     }

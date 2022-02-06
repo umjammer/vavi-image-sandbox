@@ -18,11 +18,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
-import javax.imageio.spi.ImageReaderSpi;
 
 import org.junit.jupiter.api.Test;
-
-import vavi.imageio.IIOUtil;
 
 import vavix.util.grep.FileDigger;
 import vavix.util.grep.RegexFileDigger;
@@ -37,7 +34,7 @@ import vavix.util.grep.RegexFileDigger;
 public class BinPackerTest {
 
     static {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+//        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
     }
 
     @Test
@@ -59,7 +56,7 @@ public class BinPackerTest {
                     e.printStackTrace();
                 }
             }
-        }, Pattern.compile(".+\\.(png|PNG)")).dig(new File("tmp/textures"));
+        }, Pattern.compile(".+\\.(png|PNG)")).dig(new File("src/test/resources"));
 
         BinPacker packer = new BinPacker();
         List<List<BinPacker.Rect>> packs = packer.pack(rects, 1024, true);

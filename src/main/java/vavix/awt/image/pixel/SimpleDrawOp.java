@@ -13,6 +13,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
+import java.util.logging.Level;
+
+import vavi.util.Debug;
 
 
 /**
@@ -59,6 +62,7 @@ public class SimpleDrawOp implements BufferedImageOp {
         int h = Math.min(sh, dh);
         int x = Math.max(0, dx);
         int y = Math.max(0, dy);
+Debug.printf(Level.FINE, "%dx%d of %dx%d on %d,%d of %dx%d%n", dw, dh, w, h, x, y, sw, sh);
         int[] pixels = src.getRaster().getPixels(dx < 0 ? Math.abs(dx) : 0, dy < 0 ? Math.abs(dy) : 0, w, h, (int[]) null);
         dst.getRaster().setPixels(x, y, w, h, pixels);
 

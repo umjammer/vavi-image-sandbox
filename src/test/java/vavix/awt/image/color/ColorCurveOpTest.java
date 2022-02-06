@@ -5,10 +5,9 @@
  */
 
 package vavix.awt.image.color;
-
+  
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
@@ -23,6 +22,7 @@ import vavi.imageio.ImageConverter;
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2012/02/07 umjammer initial version <br>
+ * @see "http://poolytooth.blog.fc2.com/blog-entry-2.html"
  */
 public class ColorCurveOpTest {
 
@@ -32,20 +32,20 @@ public class ColorCurveOpTest {
      */
     @Test
     public void test() throws Exception {
-        BufferedImage image = ImageIO.read(new File("tmp/inputBW3.jpg"));
+        BufferedImage image = ImageIO.read(ColorCurveOpTest.class.getResourceAsStream("/bw.jpg"));
         ImageConverter ic = ImageConverter.getInstance();
         ic.setColorModelType(BufferedImage.TYPE_INT_RGB);
         BufferedImage src = ic.toBufferedImage(image);
 //        ImageIO.write(src, "JPG", new File("tmp/outRGB.jpg"));
 
-        InputStream is = new FileInputStream(new File("tmp/疑似四色刷り/疑似四色刷り旧形式アルファ補正付き.cur"));
+        InputStream is = ColorCurveOpTest.class.getResourceAsStream("/c4.cur");
         ColorCurveOp.Curves curves = new ColorCurveOp.GimpCurvesFactory().getCurves(is);
         is.close();
 
         ColorCurveOp filter = new ColorCurveOp(curves);
         BufferedImage dst = filter.filter(src, null);
 
-        ImageIO.write(dst, "JPG", new File("tmp/out4color3.jpg"));
+        ImageIO.write(dst, "JPG", new File("tmp/out4color.jpg"));
     }
 }
 

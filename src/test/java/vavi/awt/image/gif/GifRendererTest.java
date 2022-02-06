@@ -66,7 +66,8 @@ public class GifRendererTest {
             IIOMetadata imageMetaData = reader.getImageMetadata(i);
 
             BufferedImage renderedImage = renderer.addFrame(image, imageMetaData);
-JOptionPane.showMessageDialog(null, new ImageIcon(image), "gif renderer", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(renderedImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(image), "gif renderer", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(renderedImage));
         }
 
         iis.close();

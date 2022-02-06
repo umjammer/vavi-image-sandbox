@@ -23,7 +23,7 @@ import vavi.awt.image.resample.AwtResampleOp;
  */
 public class Test3 {
 
-    String name = "erika.jpg";
+    String name = "/erika.jpg";
 
     @Test
     public void test01() throws Exception {

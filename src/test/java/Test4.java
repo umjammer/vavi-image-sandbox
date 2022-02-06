@@ -22,7 +22,7 @@ import vavix.awt.image.pixel.SimpleDrawOp;
  */
 public class Test4 {
 
-    String file = "erika.jpg";
+    String file = "/erika.jpg";
 
     @Test
     public void test01() throws Exception {
@@ -30,12 +30,11 @@ public class Test4 {
         int w = image.getWidth();
         int h = image.getHeight();
         BufferedImageOp filter1 = new SimpleDrawOp(0, 0, w, h);
-        BufferedImage image2 = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        image2 = filter1.filter(image, image2);
+        BufferedImage image2 = filter1.filter(image, null);
         ResampleOp filter2 = new ResampleOp(w / 2, h / 2);
         filter2.setFilter(ResampleFilters.getLanczos3Filter());
         BufferedImage filteredImage = filter2.filter(image2, null);
-        System.err.println(filteredImage);
+System.err.println(filteredImage);
     }
 }
 

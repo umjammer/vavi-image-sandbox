@@ -14,6 +14,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.border.LineBorder;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import vavi.swing.JImageComponent;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QrcodeImageSourceTest {
 
     @Test
+    @Disabled
     public void test() {
         fail("Not yet implemented");
     }

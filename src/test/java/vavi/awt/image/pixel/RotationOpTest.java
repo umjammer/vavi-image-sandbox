@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import vavix.awt.image.pixel.RotationOp;
@@ -38,22 +38,25 @@ public class RotationOpTest {
     @Test
     public void testL90() {
         BufferedImage filteredImage = new RotationOp(RotationOp.ROTATE_LEFT_90).filter(image, null);
-JOptionPane.showMessageDialog(null, new ImageIcon(image), "L90", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(image), "L90", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 
     @Test
     public void testR90() {
         BufferedImage filteredImage = new RotationOp(RotationOp.ROTATE_RIGHT_90).filter(image, null);
-JOptionPane.showMessageDialog(null, new ImageIcon(image), "R90", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(image), "R90", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 
     @Test
     public void test180() {
         BufferedImage filteredImage = new RotationOp(RotationOp.ROTATE_180).filter(image, null);
-JOptionPane.showMessageDialog(null, new ImageIcon(image), "180", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
+if (System.getProperty("vavi.test") == null)
+ JOptionPane.showMessageDialog(null, new ImageIcon(image), "180", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 
-    @AfterAll
+    @AfterEach
     public void tearDown() throws Exception {
         new Robot().keyPress(KeyEvent.VK_SPACE);
     }

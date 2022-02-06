@@ -25,7 +25,7 @@ import vavi.swing.JImageComponent;
 
 
 /**
- * Scaling. (awt, lanczos)
+ * Scaling. (awt, lanczos (com.mortennobel))
  *
  * @see "https://github.com/mortennobel/java-image-scaling"
  * 

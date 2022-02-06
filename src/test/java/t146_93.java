@@ -27,7 +27,7 @@ import vavix.awt.image.resample.ZhoumxLanczosResample2Op;
 
 
 /**
- * Scaling. (awt, lanczos)
+ * Scaling. (awt, lanczos (Zhoumx))
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 061012 nsano initial version <br>
