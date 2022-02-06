@@ -94,8 +94,8 @@ public class t146_11 {
     void updateModel(String file) throws IOException {
 System.err.println(file);
         image = ImageIO.read(new File(file));
-        scale = ImageUtil.scale(image, 0.8);
-        leftImage = ImageUtil.fit(image, scale);
+        scale = ImageUtil.fit(image, 0.8);
+        leftImage = ImageUtil.scale(image, scale);
         rightImage = ImageUtil.clone(leftImage);
     }
 
@@ -285,7 +285,7 @@ System.err.println(file);
     void updateRightImage(MagickParams params) {
         //
         BufferedImageOp filter = new ImageMagickOp(params);
-        BufferedImage filteredImage = ImageUtil.fit(filter.filter(image, null), scale);
+        BufferedImage filteredImage = ImageUtil.scale(filter.filter(image, null), scale);
 
         //
         rightImageComponent.setImage(filteredImage);

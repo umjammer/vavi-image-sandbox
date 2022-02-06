@@ -561,6 +561,7 @@ System.err.println("saving done.");
                 int w = Math.min(glassPane.getWidth(), model.pages.get(model.index).image.getWidth());
                 int h = Math.min(glassPane.getHeight(), model.pages.get(model.index).image.getHeight());
                 if (rect.width - rect.x < 4 || rect.height - rect.y < 4) {
+System.err.println("selected rectangle should be larger equal 4x4");
                     return;
                 }
                 if (rect.x < 0) {
@@ -639,8 +640,8 @@ System.err.println(rect + ", " + scale);
                 params.isBlack = model.isBlack();
                 Components.Util.rebind(params, Test32.this);
                 //
-                this.scale = ImageUtil.scale(image, 0.8);
-                this.image = scale != 1 ? ImageUtil.fit(image, scale) : image;
+                this.scale = ImageUtil.fit(image, 0.8);
+                this.image = scale != 1 ? ImageUtil.scale(image, scale) : image;
                 if (!initialized) {
                     Dimension dimension = new Dimension(this.image.getWidth(), this.image.getHeight());
                     layeredPane.setPreferredSize(dimension);
@@ -674,7 +675,7 @@ System.err.println(rect + ", " + scale);
                     int h = buttonPanel.getHeight();
                     double scale = (double) h / image.getHeight();
 System.err.println(image.getWidth() + ", " + image.getHeight());
-                    markImages.put(mark, ImageUtil.fit(image, scale));
+                    markImages.put(mark, ImageUtil.scale(image, scale));
                 }
                 return markImages.get(mark);
             }

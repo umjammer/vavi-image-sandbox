@@ -32,7 +32,7 @@ public final class ImageUtil {
      *
      * @param threshold staring to scale.
      */
-    public static double scale(BufferedImage image, double threshold) {
+    public static double fit(BufferedImage image, double threshold) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         if (image.getHeight() > screenSize.getHeight() * threshold) {
             return screenSize.getHeight() * threshold / image.getHeight();
@@ -45,7 +45,7 @@ public final class ImageUtil {
     /**
      * Scales a image.
      */
-    public static BufferedImage fit(BufferedImage image, double scale) {
+    public static BufferedImage scale(BufferedImage image, double scale) {
 //System.err.println(scale);
         if (scale == 1) {
             return clone(image);
