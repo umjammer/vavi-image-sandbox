@@ -28,7 +28,7 @@ TODO
   </issueManagement>
 
   <properties>
-    <rococoa.version>0.8.3</rococoa.version>
+    <rococoa.version>0.8.4-SNAPSHOT</rococoa.version>
   </properties>
 
   <profiles>
@@ -326,7 +326,7 @@ TODO
     </dependency>
     <dependency>
       <groupId>org.rococoa</groupId>
-      <artifactId>rococoa-core</artifactId>
+      <artifactId>rococoa-cocoa</artifactId>
       <version>${rococoa.version}</version>
     </dependency>
     <dependency>

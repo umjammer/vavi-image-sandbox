@@ -14,10 +14,10 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import vavi.swing.JImageComponent;
+import org.rococoa.cocoa.appkit.NSImage;
+import org.rococoa.cocoa.foundation.NSData;
 
-import vavix.rococoa.foundation.NSData;
-import vavix.rococoa.foundation.NSImage;
+import vavi.swing.JImageComponent;
 
 
 /**
@@ -28,15 +28,17 @@ import vavix.rococoa.foundation.NSImage;
  */
 public class Test21 {
 
+    static {
+        // !!! JNA は -Djava.library.path を見なくて、以下 !!!
+        com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
+    }
+
     /**
      * @param args
      */
     public static void main(String[] args) throws IOException {
         Random random = new Random(System.currentTimeMillis());
         String filename = args[random.nextInt(args.length)];
-
-        // !!! JNA は -Djava.library.path を見なくて、以下 !!!
-        com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
 
         // file not found で null が返る...orz
         NSImage nsImage = NSImage.imageWithContentsOfFile(filename);
@@ -47,9 +49,7 @@ System.err.println(nsImage);
         //com.sun.jna.Pointer imageRep = image.TIFFRepresentation();
         NSData data = nsImage.TIFFRepresentation();
 System.err.println(data.length());
-        com.sun.jna.Pointer pointer = data.bytes();
-        byte[] bytes = pointer.getByteArray(0, data.length().intValue());
-        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
         BufferedImage image = ImageIO.read(bais);
 
         //

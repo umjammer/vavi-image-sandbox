@@ -26,10 +26,10 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
 
-import vavi.imageio.WrappedImageInputStream;
+import org.rococoa.cocoa.appkit.NSImage;
+import org.rococoa.cocoa.foundation.NSData;
 
-import vavix.rococoa.foundation.NSData;
-import vavix.rococoa.foundation.NSImage;
+import vavi.imageio.WrappedImageInputStream;
 
 
 /**
@@ -92,9 +92,7 @@ public class RococoaImageReader extends ImageReader {
                 throw new FileNotFoundException("problem in reading temporary file: " + file);
             }
             NSData data = nsImage.TIFFRepresentation();
-            com.sun.jna.Pointer pointer = data.bytes();
-            byte[] bytes = pointer.getByteArray(0, data.length().intValue());
-            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+            ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
 
             return ImageIO.read(bais);
 

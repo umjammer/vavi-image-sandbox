@@ -8,6 +8,7 @@ package vavix.imageio.rococoa;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -15,12 +16,13 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.FileCacheImageInputStream;
 
 import org.junit.jupiter.api.Test;
+import org.rococoa.cocoa.appkit.NSImage;
+import org.rococoa.cocoa.foundation.NSData;
 
 import vavi.imageio.IIOUtil;
+import vavi.util.Debug;
 
-import vavix.rococoa.foundation.NSData;
-import vavix.rococoa.foundation.NSImage;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -45,10 +47,21 @@ public class RococoaImageReaderSpiTest {
     }
 
     @Test
+    public void test11() throws Exception {
+        BufferedImage image = ImageIO.read(new File("src/test/resources/sample1.heic"));
+Debug.println(image);
+        assertNotNull(image);
+        assertEquals(1440, image.getWidth());
+        assertEquals(960, image.getHeight());
+    }
+
+    @Test
     public void test() throws Exception {
         BufferedImage image = ImageIO.read(RococoaImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"));
-//        BufferedImage image = ImageIO.read(new File("src/tet/resources/sample1.heic"));
+Debug.println(image);
         assertNotNull(image);
+        assertEquals(1440, image.getWidth());
+        assertEquals(960, image.getHeight());
     }
 
     @Test
@@ -56,7 +69,10 @@ public class RococoaImageReaderSpiTest {
         ImageReader ir = IIOUtil.getImageReader("HEIF", ImageReader.class.getName());
         ir.setInput(new FileCacheImageInputStream(RococoaImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"), null));
         BufferedImage image = ir.read(0);
+Debug.println(image);
         assertNotNull(image);
+        assertEquals(1440, image.getWidth());
+        assertEquals(960, image.getHeight());
     }
 
 
@@ -64,12 +80,13 @@ public class RococoaImageReaderSpiTest {
     public void test3() throws Exception {
         NSImage nsImage = NSImage.imageWithContentsOfFile("src/test/resources/sample1.heic");
         NSData data = nsImage.TIFFRepresentation();
-        com.sun.jna.Pointer pointer = data.bytes();
-        byte[] bytes = pointer.getByteArray(0, data.length().intValue());
-        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
 
         BufferedImage image = ImageIO.read(bais);
+Debug.println(image);
         assertNotNull(image);
+        assertEquals(1440, image.getWidth());
+        assertEquals(960, image.getHeight());
     }
 }
 
