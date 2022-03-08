@@ -24,12 +24,13 @@ import javax.swing.JPanel;
 public class Test11 {
 
     /**
+     * TODO 2022-02-25 not work
      * @param args
      */
     public static void main(String[] args) throws Exception {
 
         String ext = ".jpg";
-        String base = "http://ec2.images-amazon.com/images/I/3141BgH-BkL._SL500_AA400";
+        String base = "https://ec2.images-amazon.com/images/I/3141BgH-BkL._SL500_AA400";
 
         BufferedImage image = ImageIO.read(new URL(base + ext));
 
