@@ -20,7 +20,7 @@ import vavi.util.Debug;
 
 public class RococoaImageReaderSpi extends ImageReaderSpi {
 
-    private static final String VendorName = "http://www.vavisoft.com";
+    private static final String VendorName = "https://github.com/umjammer/vavi-image-sandbox";
     private static final String Version = "0.00";
     private static final String ReaderClassName =
         "vavix.imageio.rocococa.RococoaImageReader";
@@ -67,14 +67,14 @@ public class RococoaImageReaderSpi extends ImageReaderSpi {
               ExtraImageMetadataFormatClassNames);
     }
 
-    /* */
+    @Override
     public String getDescription(Locale locale) {
         return "HEIF Image";
     }
 
-    /* */
+    @Override
     public boolean canDecodeInput(Object obj) throws IOException {
-Debug.println(Level.FINE, "HERE 0: " + obj);
+Debug.println(Level.FINE, "input: " + obj);
         if (obj instanceof ImageInputStream) {
             ImageInputStream fiis = ImageInputStream.class.cast(obj);
             fiis.mark();
@@ -83,15 +83,16 @@ Debug.println(Level.FINE, "HERE 0: " + obj);
             fiis.skipBytes(4);
             fiis.readFully(buf);
             fiis.reset();
+            // "ftyp" "mif1"
             final byte[] magic = { 0x66, 0x74, 0x79, 0x70, 0x6d, 0x69, 0x66, 0x31 };
-Debug.println(Level.FINE, "HERE 1: " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
+Debug.println(Level.FINE, "magic: " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
             return Arrays.equals(buf, magic);
         } else {
             return false;
         }
     }
 
-    /* */
+    @Override
     public ImageReader createReaderInstance(Object obj) {
         return new RococoaImageReader(this);
     }

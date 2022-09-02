@@ -25,7 +25,6 @@ public class Test11 {
 
     /**
      * TODO 2022-02-25 not work
-     * @param args
      */
     public static void main(String[] args) throws Exception {
 

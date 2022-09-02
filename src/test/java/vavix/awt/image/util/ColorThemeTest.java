@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Disabled;
  * @version 0.00 2010/09/07 nsano initial version <br>
  * @see "http://www.slideshare.net/marippe/ss-9003317"
  */
-@Disabled
 public class ColorThemeTest {
 
     Hsv hsv = new Hsv();

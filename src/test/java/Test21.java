@@ -34,7 +34,7 @@ public class Test21 {
     }
 
     /**
-     * @param args
+     * @param args 0: int
      */
     public static void main(String[] args) throws IOException {
         Random random = new Random(System.currentTimeMillis());

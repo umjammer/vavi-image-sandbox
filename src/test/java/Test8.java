@@ -3,6 +3,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -33,7 +35,7 @@ public class Test8 {
 
         ImageWriter iw = IIOUtil.getImageWriter("JPEG", "vavix.imageio.jpeg.JPEGImageWriter");
 
-        OutputStream os = new FileOutputStream(args[1]);
+        OutputStream os = Files.newOutputStream(Paths.get(args[1]));
         ImageOutputStream ios = ImageIO.createImageOutputStream(os);
         iw.setOutput(ios);
 

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -43,21 +44,19 @@ import vavix.util.grep.RegexFileDigger;
 public class t64 {
 
     public static void main(String[] args) throws Exception {
-        FileDigger fileDigger = new RegexFileDigger(new FileDigger.FileDredger() {
-            public void dredge(File file) throws IOException {
-                try {
-                    double[] gps = getGpsInfo1(file);
-                    if (gps != null) {
-                        System.out.println(file);
-                        System.out.printf("latitude=%.2f longitude=%.2f\n", gps[0], gps[1]);
-                    } else {
-                        System.out.println(file);
-                        System.out.println("null");
-                    }
-                } catch (Exception e) {
-                    System.err.println(file);
-                    e.printStackTrace(System.err);
+        FileDigger fileDigger = new RegexFileDigger(file -> {
+            try {
+                double[] gps = getGpsInfo1(file);
+                if (gps != null) {
+                    System.out.println(file);
+                    System.out.printf("latitude=%.2f longitude=%.2f\n", gps[0], gps[1]);
+                } else {
+                    System.out.println(file);
+                    System.out.println("null");
                 }
+            } catch (Exception e) {
+                System.err.println(file);
+                e.printStackTrace(System.err);
             }
         }, Pattern.compile(".+\\.jpg"));
         fileDigger.dig(new File(args[0]));
@@ -75,7 +74,7 @@ public class t64 {
     }
 
     static double[] getGpsInfo2(File file) throws Exception {
-        InputStream is = new FileInputStream(file);
+        InputStream is = Files.newInputStream(file.toPath());
 
         ir.setInput(ImageIO.createImageInputStream(is), true, false);
         IIOMetadata meta = ir.getImageMetadata(0);

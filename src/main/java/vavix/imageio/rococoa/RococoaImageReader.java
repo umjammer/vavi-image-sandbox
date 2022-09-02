@@ -45,7 +45,7 @@ public class RococoaImageReader extends ImageReader {
         super(originatingProvider);
     }
 
-    /** @see ImageReader */
+    @Override
     public int getNumImages(boolean allowSearch) throws IIOException {
         return 1;
     }
@@ -59,19 +59,19 @@ public class RococoaImageReader extends ImageReader {
         }
     }
 
-    /** @see ImageReader */
+    @Override
     public int getWidth(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
         return getWidth(1);
     }
 
-    /** @see ImageReader */
+    @Override
     public int getHeight(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
         return getHeight(2);
     }
 
-    /** @see ImageReader */
+    @Override
     public BufferedImage read(int imageIndex, ImageReadParam param)
         throws IIOException {
 
@@ -101,18 +101,18 @@ public class RococoaImageReader extends ImageReader {
         }
     }
 
-    /** @see ImageReader */
+    @Override
     public IIOMetadata getStreamMetadata() throws IIOException {
         return null;
     }
 
-    /** @see ImageReader */
+    @Override
     public IIOMetadata getImageMetadata(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
         return null;
     }
 
-    /** */
+    @Override
     public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
         ImageTypeSpecifier specifier = null;

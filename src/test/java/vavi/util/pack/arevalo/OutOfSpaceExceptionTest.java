@@ -25,8 +25,6 @@ import java.io.ObjectOutputStream;
 
 import org.junit.jupiter.api.Test;
 
-import vavi.util.pack.arevalo.OutOfSpaceException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

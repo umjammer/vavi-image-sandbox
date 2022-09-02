@@ -73,9 +73,7 @@ import vavix.awt.image.util.ImageUtil;
  */
 public class Test32 {
 
-    /**
-     * @see "http://autolab-minoya.hatenablog.com/entry/2017/11/04/224627"
-     */
+    // @see "http://autolab-minoya.hatenablog.com/entry/2017/11/04/224627"
     static {
 //        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
          nu.pattern.OpenCV.loadLocally();
@@ -313,8 +311,8 @@ public class Test32 {
 
         Model(View view) throws IOException {
             this.view = view;
-            for (int i = 0; i < markFiles.length; i++) {
-                addMark(new Mark(markFiles[i], new Color(random.nextInt(0xffffff))));
+            for (String markFile : markFiles) {
+                addMark(new Mark(markFile, new Color(random.nextInt(0xffffff))));
             }
         }
 

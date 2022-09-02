@@ -17,9 +17,12 @@ import javax.swing.JScrollPane;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import vavi.imageio.ImageConverter;
 
 import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
+
+import static vavix.util.DelayedWorker.later;
 
 
 /**
@@ -30,8 +33,11 @@ import vavix.awt.image.resample.enlarge.NoidsEnlargeOp;
  */
 public class Test20 {
 
+    static long time;
+
     static {
 //        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
+        time = Boolean.parseBoolean(System.getProperty("vavi.test", "false")) ? 10 * 1000 : 1000 * 1000;
     }
 
     /**
@@ -58,8 +64,15 @@ public class Test20 {
         }
     }
 
+    @Test
+    @EnabledIfSystemProperty(named = "vavi.test", matches = ".*")
+    public void test0() throws Exception {
+        main(new String[] {"src/test/resources/namacha02.jpg"});
+        while (!later(time).come()) Thread.yield();
+    }
+
     /**
-     * @param args
+     * @param args 0: input
      */
     public static void main(String[] args) throws Exception {
         String file = args[0];

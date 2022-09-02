@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 public class Test31 {
 
     /**
-     * Finds the a region in one image that best matches another, smaller,
+     * Finds a region in one image that best matches another, smaller,
      * image.
      */
     public static int[] findSubimage(BufferedImage im1, BufferedImage im2) {

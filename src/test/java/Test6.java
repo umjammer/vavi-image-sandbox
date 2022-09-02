@@ -2,6 +2,7 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -35,7 +36,7 @@ public class Test6 {
         BufferedImage filteredImage = new FfmpegResampleOp(.5f, .5f, FfmpegResampleOp.Hint.LANCZOS).filter(image, null);
 
         ImageWriter writer = ImageIO.getImageWritersByFormatName("JPEG2000").next();
-        ImageOutputStream ios = ImageIO.createImageOutputStream(new FileOutputStream(j2k));
+        ImageOutputStream ios = ImageIO.createImageOutputStream(Files.newOutputStream(j2k.toPath()));
         writer.setOutput(ios);
         ImageWriteParam iwp = writer.getDefaultWriteParam();
         writer.write(null, new IIOImage(filteredImage, null, null), iwp);

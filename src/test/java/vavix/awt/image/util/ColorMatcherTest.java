@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Disabled;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/09/07 nsano initial version <br>
  */
-@Disabled
 public class ColorMatcherTest {
 
     /**
@@ -74,14 +73,12 @@ public class ColorMatcherTest {
         sliderB.setOpaque(true);
         sliderB.setBackground(Color.blue);
 
-        ChangeListener changeListener = new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                Color color = new Color(sliderR.getValue(), sliderG.getValue(), sliderB.getValue());
-                colorPanel.setBackground(color);
-                Color[] colors = cm.getMatchedColors(color);
-                for (int i = 0; i < 6; i++) {
-                    samples[i].setBackground(colors[i]);
-                }
+        ChangeListener changeListener = e -> {
+            Color color = new Color(sliderR.getValue(), sliderG.getValue(), sliderB.getValue());
+            colorPanel.setBackground(color);
+            Color[] colors = cm.getMatchedColors(color);
+            for (int i = 0; i < 6; i++) {
+                samples[i].setBackground(colors[i]);
             }
         };
         sliderR.addChangeListener(changeListener);

@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import vavi.awt.image.resample.AwtResampleOp;
 import vavi.swing.JImageComponent;
@@ -59,35 +56,33 @@ System.err.println(w + ", " + h);
         slider.setMaximum(100);
         slider.setMinimum(1);
         slider.setValue(100);
-        slider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent event) {
-                JSlider source = (JSlider) event.getSource();
-                if (source.getValueIsAdjusting()) {
-                    return;
-                }
-                float scale = source.getValue() / 100f;
+        slider.addChangeListener(event -> {
+            JSlider source = (JSlider) event.getSource();
+            if (source.getValueIsAdjusting()) {
+                return;
+            }
+            float scale = source.getValue() / 100f;
 
-                // left
-                BufferedImage image = leftImage;
-                BufferedImageOp filter = new AwtResampleOp(scale, scale);
+            // left
+            BufferedImage image1 = leftImage;
+            BufferedImageOp filter = new AwtResampleOp(scale, scale);
 long t = System.currentTimeMillis();
-                BufferedImage filteredImage = filter.filter(image, null);
+            BufferedImage filteredImage = filter.filter(image1, null);
 System.err.println("left: " + (System.currentTimeMillis() - t) + "ms");
-                leftImageComponent.setImage(filteredImage);
-                leftImageComponent.repaint();
+            leftImageComponent.setImage(filteredImage);
+            leftImageComponent.repaint();
 
-                // right
-                image = rightImage;
-                filter = new vavix.awt.image.resample.HexeReinLanczosResampleOp(3, scale);
+            // right
+            image1 = rightImage;
+            filter = new vavix.awt.image.resample.HexeReinLanczosResampleOp(3, scale);
 t = System.currentTimeMillis();
-                filteredImage = filter.filter(image, null); 
+            filteredImage = filter.filter(image1, null);
 System.err.println("right: " + (System.currentTimeMillis() - t) + "ms");
-                rightImageComponent.setImage(filteredImage);
-                rightImageComponent.repaint();
+            rightImageComponent.setImage(filteredImage);
+            rightImageComponent.repaint();
 
 System.err.println("scale: " + scale);
-                statusLabel.setText("scale: " + scale);
-            }
+            statusLabel.setText("scale: " + scale);
         });
 
         JPanel basePanel = new JPanel();

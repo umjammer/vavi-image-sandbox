@@ -1,9 +1,6 @@
-
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-
+import java.nio.file.Files;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -15,7 +12,6 @@ import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.junit.jupiter.api.Disabled;
-
 import vavi.xml.util.XmlUtil;
 
 
@@ -41,7 +37,7 @@ public class Test5 {
         ImageIO.write(image, "JPEG2000", j2k_1);
 
         ImageWriter writer = ImageIO.getImageWritersByFormatName("JPEG2000").next();
-        ImageOutputStream ios = ImageIO.createImageOutputStream(new FileOutputStream(j2k_2));
+        ImageOutputStream ios = ImageIO.createImageOutputStream(Files.newOutputStream(j2k_2.toPath()));
         writer.setOutput(ios);
         ImageWriteParam iwp = writer.getDefaultWriteParam();
         writer.write(null, new IIOImage(image, null, null), iwp);
@@ -49,7 +45,7 @@ public class Test5 {
         ios.close();
 
         ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG2000").next();
-        ImageInputStream iis = ImageIO.createImageInputStream(new FileInputStream(j2k_2));
+        ImageInputStream iis = ImageIO.createImageInputStream(Files.newInputStream(j2k_2.toPath()));
         reader.setInput(iis);
         reader.read(0);
         IIOMetadata metaData = reader.getImageMetadata(0);

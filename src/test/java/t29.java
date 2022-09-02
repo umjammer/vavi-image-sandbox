@@ -7,6 +7,8 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 
@@ -23,12 +25,12 @@ import com.sun.media.jai.codec.PNGEncodeParam;
 public class t29 {
 
     /**
-     * The program entry.
+     * @param args 0: in image, 1: out png
      */
     public static void main(String[] args) throws Exception {
         BufferedImage image = ImageIO.read(new File(args[0]));
         PNGEncodeParam encodeParam = PNGEncodeParam.getDefaultEncodeParam(image);
-        ImageEncoderImpl encoder = new com.sun.media.jai.codecimpl.PNGImageEncoder(new FileOutputStream(args[1]), encodeParam);
+        ImageEncoderImpl encoder = new com.sun.media.jai.codecimpl.PNGImageEncoder(Files.newOutputStream(Paths.get(args[1])), encodeParam);
         encoder.encode(image);
     }
 }

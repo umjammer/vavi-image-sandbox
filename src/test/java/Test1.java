@@ -51,8 +51,7 @@ public class Test1 {
 
             Graphics2D g2d = resultImages[i].createGraphics();
 
-            RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 //            g2d.setColor(new Color(0xff, 0xff, 0xff, 0xff));
 //            g2d.fillRect(0, 0, w, h);

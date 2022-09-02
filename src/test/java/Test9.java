@@ -7,6 +7,8 @@
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -33,7 +35,7 @@ import vavi.swing.JImageComponent;
 public class Test9 {
 
     /**
-     * @param args
+     * @param args 0: input
      */
     public static void main(String[] args) throws Exception {
         String file = args[0];
@@ -79,7 +81,7 @@ public class Test9 {
 
         //
         ImageReader ir = IIOUtil.getImageReader("PNG", "com.sixlegs.png.iio.PngImageReader");
-        ImageInputStream iis = ImageIO.createImageInputStream(new FileInputStream(file));
+        ImageInputStream iis = ImageIO.createImageInputStream(Files.newInputStream(Paths.get(file)));
         ir.setInput(iis);
         BufferedImage image = ir.read(0);
         iis.close();
@@ -87,7 +89,7 @@ public class Test9 {
         //
         IIOUtil.deregister(ImageReaderSpi.class, "vavi.imageio.ico.WindowsIconImageReaderSpi");
         showOrder(ImageReaderSpi.class);
-        image = ImageIO.read(new FileInputStream(file));
+        image = ImageIO.read(Files.newInputStream(Paths.get(file)));
 
         //
         JFrame frame = new JFrame();

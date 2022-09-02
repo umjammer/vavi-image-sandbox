@@ -37,7 +37,7 @@ public class Test2 {
     static BufferedImage image;
 
     /**
-     * @param args
+     * @param args 0: dir
      */
     public static void main(String[] args) throws Exception {
         final JPanel panel = new JPanel() {
@@ -53,20 +53,18 @@ public class Test2 {
         frame.pack();
         frame.setVisible(true);
 
-        new RegexFileDigger(new FileDigger.FileDredger() {
-            public void dredge(File file) throws IOException {
-                try {
+        new RegexFileDigger(file -> {
+            try {
 //System.err.println("--- order  ---");
 //Iterator<ImageReaderSpi> i = IIORegistry.getDefaultInstance().getServiceProviders(ImageReaderSpi.class, true);
 //while (i.hasNext()) {
 //    System.err.println(i.next());
 //}
-                    image = ImageIO.read(file);
-                    panel.repaint();
-                } catch (IOException e) {
+                image = ImageIO.read(file);
+                panel.repaint();
+            } catch (IOException e) {
 System.err.println(file);
-                    e.printStackTrace();
-                }
+                e.printStackTrace();
             }
         }, Pattern.compile(".+\\.(png|PNG)")).dig(new File(args[0]));
     }

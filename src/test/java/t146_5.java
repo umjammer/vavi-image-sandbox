@@ -36,7 +36,7 @@ import vavi.swing.JImageComponent;
 public class t146_5 {
 
     /** */
-    private static Logger logger = new AdvancedConsoleLogger(AdvancedConsoleLogger.LEVEL_DEBUG, false, System.out, System.err);
+    private static final Logger logger = new AdvancedConsoleLogger(AdvancedConsoleLogger.LEVEL_DEBUG, false, System.out, System.err);
 
     /** */
     public static void main(String[] args) throws Exception {
