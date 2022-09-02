@@ -15,7 +15,7 @@ public class PixDraw_edgeEnd implements vavix.awt.image.resample.enlarge.noids.i
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
+    private static final boolean debug = false;
     protected Point.Double endPoint = new Point.Double();
     protected Point.Double startPoint = new Point.Double();
     protected int direction;
@@ -72,7 +72,7 @@ public class PixDraw_edgeEnd implements vavix.awt.image.resample.enlarge.noids.i
         else if (isN)
             direction = 3;
         else
-            throw new RuntimeException("おかしな状態!!");
+            throw new IllegalStateException("impossible");
         switch (direction) {
         case 3:
             setCornerColor(p.x, p.y, 0, rgb2);
@@ -177,7 +177,7 @@ public class PixDraw_edgeEnd implements vavix.awt.image.resample.enlarge.noids.i
             break;
 
         default:
-            throw new RuntimeException("未実装 : " + direction);
+            throw new UnsupportedOperationException("impossible");
         }
         if (rateY < 0.0d)
             rateY = 0.0d;
@@ -218,7 +218,7 @@ public class PixDraw_edgeEnd implements vavix.awt.image.resample.enlarge.noids.i
             b3 = (byte) (rgb & 0xff);
             break;
         default:
-            throw new RuntimeException("おかしな状態");
+            throw new UnsupportedOperationException("impossible");
         }
     }
 
@@ -250,15 +250,15 @@ public class PixDraw_edgeEnd implements vavix.awt.image.resample.enlarge.noids.i
             b = 0;
         else if (b > 255)
             b = 255;
-        return 0xff000000 | r << 16 | g << 8 | b;
+        return 0xff00_0000 | r << 16 | g << 8 | b;
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
-        throw new RuntimeException("未修正");
+        throw new UnsupportedOperationException("not implemented yet");
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        throw new RuntimeException("未修正");
+        throw new UnsupportedOperationException("not implemented yet");
     }
 
     static {

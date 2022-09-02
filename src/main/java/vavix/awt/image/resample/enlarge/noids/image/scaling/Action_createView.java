@@ -8,7 +8,7 @@ import java.util.List;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge_g;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge_h;
-import vavix.awt.image.resample.enlarge.noids.image.scaling.line.Class_b;
+import vavix.awt.image.resample.enlarge.noids.image.scaling.line.Corner;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.line.Line;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.pixDraw.PixDraw_edge3P;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.pixDraw.PixDraw_edge3P_2;
@@ -24,7 +24,7 @@ import vavix.awt.image.resample.enlarge.noids.image.util.UtImage;
 
 
 /** f */
-public abstract class Action_createView implements DirectionConstants, Constants {
+public abstract class Action_createView {
 
     /** j */
     static class PixelData {
@@ -48,9 +48,9 @@ public abstract class Action_createView implements DirectionConstants, Constants
         UtImage util = new UtImage(edgeData.getImage());
         List<PixelData> pixelData = new ArrayList<>();
         Line[] lines = edgeData.getLines();
-        for (int i = 0; i < lines.length; i++)
-            if (lines[i] != null && lines[i].getLength() > 4 && lines[i].isLineLenOver() && lines[i].get_color_value2() >= 0.15d) {
-                Class_b b1 = new Class_b(lines[i]);
+        for (Line line : lines)
+            if (line != null && line.getLength() > 4 && line.isLineLenOver() && line.get_color_value2() >= 0.15d) {
+                Corner b1 = new Corner(line);
                 Edge edge;
                 while ((edge = b1.get_edge2()) != null) {
                     boolean flag = b1.get_flag();
@@ -76,14 +76,14 @@ public abstract class Action_createView implements DirectionConstants, Constants
                         Point.Double p7 = a(p, p6, p3);
                         PixDraw_edge3P pixdraw_edge3p2 = a(false, p, p0, p5, p7, rgb1, rgb2, 1.0d, 1.0d);
                         PixDraw_edgeMulti_3 pixDraw_edgeMulti_2 = new PixDraw_edgeMulti_3(p,
-                                                                                          pixdraw_edge3p,
-                                                                                          pixdraw_edge3p2,
-                                                                                          1.0d,
-                                                                                          1.0d);
+                                pixdraw_edge3p,
+                                pixdraw_edge3p2,
+                                1.0d,
+                                1.0d);
                         if (pixels[y][x] == null) {
                             pixels[y][x] = pixDraw_edgeMulti_2;
                         } else {
-                            throw new RuntimeException("未実装");
+                            throw new UnsupportedOperationException("not implemented yet");
                         }
                     } else if (ScalingUtil.isValid(edge1) && ScalingUtil.isValid(edge2)) {
                         Point.Double p1 = a(p, edge1.get_point1(), edge.get_point1());
@@ -124,7 +124,7 @@ public abstract class Action_createView implements DirectionConstants, Constants
                                 byte0 = ((byte) (edge.isConnected(edge7) ? 0 : 2));
                             }
                         } else {
-                            throw new RuntimeException("未実装 : 準備しにゃ");
+                            throw new UnsupportedOperationException("not implemented yet");
                         }
                         PixDraw_edgeEnd a7 = new PixDraw_edgeEnd(p, p0, p1, (byte0), rgb11, rgb22, 1.0d, 1.0d);
                         if (pixels[y][x] == null)
@@ -135,10 +135,10 @@ public abstract class Action_createView implements DirectionConstants, Constants
                     if (ScalingUtil.isValid(edge2)) {
                         Point p1 = edge.get_point2();
                         Point p2 = edge2.get_point2();
-                        int x1 = p1.x >= p2.x ? p2.x : p1.x;
-                        int y1 = p1.y >= p2.y ? p2.y : p1.y;
-                        int x2 = p1.x <= p2.x ? p2.x : p1.x;
-                        int y2 = p1.y <= p2.y ? p2.y : p1.y;
+                        int x1 = Math.min(p1.x, p2.x);
+                        int y1 = Math.min(p1.y, p2.y);
+                        int x2 = Math.max(p1.x, p2.x);
+                        int y2 = Math.max(p1.y, p2.y);
                         for (int y3 = y1; y3 <= y2; y3++) {
                             for (int x3 = x1; x3 <= x2; x3++)
                                 if ((x3 != p1.x || y3 != p1.y) && (x3 != p2.x || y3 != p2.y)) {
@@ -152,19 +152,19 @@ public abstract class Action_createView implements DirectionConstants, Constants
                                         if (pixels[y3][x3] != null) {
                                             if (pixels[y3][x3] instanceof PixDraw_edge3P) {
                                                 PixDraw_edgeMulti pixel = new PixDraw_edgeMulti(p3,
-                                                                                             pixels[y3][x3],
-                                                                                             pixdraw_edge3p3,
-                                                                                             0.5d,
-                                                                                             0.5d);
+                                                        pixels[y3][x3],
+                                                        pixdraw_edge3p3,
+                                                        0.5d,
+                                                        0.5d);
                                                 if (pixel.isDirectionOf(Direction.ANY))
                                                     pixelData.add(new PixelData(x3, y3, pixel));
                                                 pixels[y3][x3] = (pixel);
                                             } else if (pixels[y3][x3] instanceof PixDraw_edgeEnd)
                                                 pixels[y3][x3] = (new PixDraw_edgeMulti_2(p3,
-                                                                                          pixdraw_edge3p3,
-                                                                                          (PixDraw_edgeEnd) pixels[y3][x3],
-                                                                                          0.5d,
-                                                                                          0.5d));
+                                                        pixdraw_edge3p3,
+                                                        (PixDraw_edgeEnd) pixels[y3][x3],
+                                                        0.5d,
+                                                        0.5d));
                                         } else {
                                             pixels[y3][x3] = (pixdraw_edge3p3);
                                         }
@@ -190,16 +190,16 @@ public abstract class Action_createView implements DirectionConstants, Constants
         for (PixelData pix : pixelData) {
             PixDraw_edgeMulti pixel = pix.pixel;
             Direction[] dirs = pixel.getDirections();
-            for (int i = 0; i < dirs.length; i++) {
+            for (Direction dir : dirs) {
                 try {
-                    if (dirs[i] == Direction.SOUTH && (pixels[pix.y + 1][pix.x] instanceof PixDraw_edgeMulti)) {
+                    if (dir == Direction.SOUTH && (pixels[pix.y + 1][pix.x] instanceof PixDraw_edgeMulti)) {
                         PixDraw_edgeMulti e2 = (PixDraw_edgeMulti) pixels[pix.y + 1][pix.x];
                         int c1 = pixel.a(pix.x, pix.y, Direction.SOUTH);
                         int c2 = e2.a(pix.x, pix.y + 1, Direction.NORTH);
                         int c = ScalingUtil.average(c1, c2);
                         pixel.a(pix.x, pix.y, Direction.SOUTH, c);
                         e2.a(pix.x, pix.y + 1, Direction.NORTH, c);
-                    } else if (dirs[i] == Direction.EAST && (pixels[pix.y][pix.x + 1] instanceof PixDraw_edgeMulti)) {
+                    } else if (dir == Direction.EAST && (pixels[pix.y][pix.x + 1] instanceof PixDraw_edgeMulti)) {
                         PixDraw_edgeMulti e3 = (PixDraw_edgeMulti) pixels[pix.y][pix.x + 1];
                         int c1 = pixel.a(pix.x, pix.y, Direction.EAST);
                         int c2 = e3.a(pix.x + 1, pix.y, Direction.WEST);
@@ -207,7 +207,7 @@ public abstract class Action_createView implements DirectionConstants, Constants
                         pixel.a(pix.x, pix.y, Direction.EAST, c);
                         e3.a(pix.x + 1, pix.y, Direction.WEST, c);
                     }
-                } catch (ArrayIndexOutOfBoundsException e) {
+                } catch (ArrayIndexOutOfBoundsException ignored) {
                 }
             }
         }
@@ -363,12 +363,12 @@ public abstract class Action_createView implements DirectionConstants, Constants
                                     int c2,
                                     double sx,
                                     double sy) {
-        Object obj;
+        PixDraw_edge3P edge;
         if (flag)
-            obj = new PixDraw_edge3P_2(p, p1, sp, ep, c1, c2, sx, sy);
+            edge = new PixDraw_edge3P_2(p, p1, sp, ep, c1, c2, sx, sy);
         else
-            obj = new PixDraw_edge3P(p, p1, sp, ep, c1, c2, sx, sy);
-        return (PixDraw_edge3P) obj;
+            edge = new PixDraw_edge3P(p, p1, sp, ep, c1, c2, sx, sy);
+        return edge;
     }
 
     static Point.Double[] b(Point p, Point.Double p1, Point.Double p2) {
@@ -420,7 +420,7 @@ public abstract class Action_createView implements DirectionConstants, Constants
         double y4 = r * ((p.x + 1) - x2) + y2;
         double x3 = u * (p.y - y2) + x2;
         double x4 = u * ((p.y + 1) - y2) + x2;
-        Point.Double points[] = new Point.Double[2];
+        Point.Double[] points = new Point.Double[2];
         int i = 0;
         if (p.y <= y3 && y3 <= (p.y + 1))
             points[i++] = new Point.Double(p.x, y3);
@@ -440,7 +440,7 @@ public abstract class Action_createView implements DirectionConstants, Constants
             }
             return points;
         } else {
-            throw new RuntimeException("おかしな状態");
+            throw new IllegalStateException("impossible");
         }
     }
 }

@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 
 import vavix.awt.image.resample.enlarge.noids.image.scaling.Constants;
 import vavix.awt.image.resample.enlarge.noids.util.UtMath;
@@ -15,10 +16,10 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
-    Pixel pixel1;
-    Pixel pixel2;
-    boolean flag;
+    private static final boolean debug = false;
+    private Pixel pixel1;
+    private Pixel pixel2;
+    private boolean flag;
     protected byte scaleX;
     protected byte scaleY;
 
@@ -28,7 +29,7 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
         scaleX = UtMath.limit8bit(sx);
         scaleY = UtMath.limit8bit(sy);
         if (!(px1 instanceof PixDraw_edge3P) || !(px2 instanceof PixDraw_edge3P)) {
-            throw new RuntimeException("PixDraw_edge3P以外の重複描画は未実装 !!");
+            throw new IllegalArgumentException("only PixDraw_edge3P is supported for px1, px2");
         }
         PixDraw_edge3P pix1 = (PixDraw_edge3P) px1;
         PixDraw_edge3P pix2 = (PixDraw_edge3P) px2;
@@ -64,7 +65,7 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
         g /= sq;
         b /= sq;
         if (r > 255 || g > 255 || b > 255)
-            throw new RuntimeException("おかしい！！！");
+            throw new IllegalStateException("wrong rgb");
         else
             return 0xff000000 | r << 16 | g << 8 | b;
     }
@@ -102,7 +103,7 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
             y1 = y + 1;
             break;
         default:
-            throw new RuntimeException("おかしな状態");
+            throw new IllegalStateException("impossible");
         }
         PixDraw_edge3P pix1 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pix2 = (PixDraw_edge3P) pixel2;
@@ -122,13 +123,13 @@ public class PixDraw_edgeMulti_3 implements Constants, Pixel {
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeByte(scaleX);
         oos.writeByte(scaleY);
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         scaleX = ois.readByte();
         scaleY = ois.readByte();
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     static {

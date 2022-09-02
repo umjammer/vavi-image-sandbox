@@ -18,7 +18,7 @@ public class EdgeViewDrawer implements Scaler {
     /**
      * detects thread interruption.
      */
-    public void scale(Rectangle.Double rect1, BufferedImage image, Rectangle rect2) throws Exception {
+    public void scale(Rectangle.Double rect1, BufferedImage image, Rectangle rect2) {
         Rectangle rect1_ = toRectangle(rect1);
         double scaleX = rect1.width / rect2.width;
         double scaleY = rect1.height / rect2.height;

@@ -8,11 +8,11 @@ import java.awt.image.DataBufferInt;
 /** c */
 public class UtImage {
 
-    BufferedImage image;
-    int[] data;
-    int width;
-    int height;
-    boolean checkBounds = true;
+    private BufferedImage image;
+    private int[] data;
+    private int width;
+    private int height;
+    private boolean checkBounds;
 
     public UtImage(BufferedImage image) {
         this(image, false);
@@ -33,9 +33,8 @@ public class UtImage {
 
     /**
      * @return alpha value
-     * @throws Exception
      */
-    public int getA(int x, int y) throws Exception {
+    public int getA(int x, int y) {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width] >> 24 & 0xff;
@@ -43,9 +42,8 @@ public class UtImage {
 
     /**
      * @return red value
-     * @throws Exception
      */
-    public int getR(int x, int y) throws Exception {
+    public int getR(int x, int y) {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width] >> 16 & 0xff;
@@ -53,9 +51,8 @@ public class UtImage {
 
     /**
      * @return green value
-     * @throws Exception
      */
-    public int getG(int x, int y) throws Exception {
+    public int getG(int x, int y) {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width] >> 8 & 0xff;
@@ -63,34 +60,33 @@ public class UtImage {
 
     /**
      * @return blue value
-     * @throws Exception
      */
-    public int getB(int x, int y) throws Exception {
+    public int getB(int x, int y) {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width] & 0xff;
     }
 
-    public int getARGB(int x, int y) throws Exception {
+    public int getARGB(int x, int y) {
         if (checkBounds)
             checkBounds(x, y);
         return data[x + y * width];
     }
 
-    public void setARGB(int x, int y, double a, double r, double g, double b) throws Exception {
+    public void setARGB(int x, int y, double a, double r, double g, double b) {
         if (checkBounds)
             checkBounds(x, y);
         int argb = toARGB(a, r, g, b);
         data[x + y * width] = argb;
     }
 
-    public void setARGB(int x, int y, int argb) throws Exception {
+    public void setARGB(int x, int y, int argb) {
         if (checkBounds)
             checkBounds(x, y);
         data[x + y * width] = argb;
     }
 
-    public void fillARGB(int x, int y, int width, int height, int argb) throws Exception {
+    public void fillARGB(int x, int y, int width, int height, int argb) {
         if (checkBounds) {
             checkBounds(x, y);
             checkBounds(x + width, y + height);
@@ -104,12 +100,12 @@ public class UtImage {
         }
     }
 
-    private void checkBounds(int x, int y) throws Exception {
+    private void checkBounds(int x, int y) throws IllegalArgumentException {
         if (x < 0 || width <= x || y < 0 || height <= y) {
-            System.out.println("画像外のサイズが指定されています : ");
-            System.out.println("    画像サイズ ( " + width + " , " + height + " )");
-            System.out.println("    指定画素   ( " + x + " , " + y + " )");
-            throw new Exception();
+            System.err.println("size is out ob bounds: ");
+            System.err.println("    image size     ( " + width + " , " + height + " )");
+            System.err.println("    specified size ( " + x + " , " + y + " )");
+            throw new IllegalArgumentException(x + " , " + y);
         }
     }
 

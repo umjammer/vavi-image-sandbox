@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
+    private static final boolean debug = false;
     Pixel pixel1;
     Pixel pixel2;
     boolean f1;
@@ -38,7 +39,7 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
         scaleX = UtMath.limit8bit(sx);
         scaleY = UtMath.limit8bit(sy);
         if (!(pixel1 instanceof PixDraw_edge3P) || !(pixel2 instanceof PixDraw_edge3P))
-            throw new RuntimeException("PixDraw_edge3P以外の重複描画は未実装 !!");
+            throw new IllegalArgumentException("only PixDraw_edge3P is supported at pixel1, pixel2");
         PixDraw_edge3P pixel11 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixel22 = (PixDraw_edge3P) pixel2;
         Point.Double sp1 = pixel22.startPoint;
@@ -82,7 +83,7 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
         if (direction == Direction.EAST)
             return hasEast;
         else
-            throw new RuntimeException("未実装");
+            throw new IllegalStateException("impossible");
     }
 
     public Direction[] getDirections() {
@@ -219,7 +220,7 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
             y1 = y + 1;
             break;
         default:
-            throw new RuntimeException("おかしな状態");
+            throw new IllegalStateException("impossible");
         }
         PixDraw_edge3P pixel11 = (PixDraw_edge3P) pixel1;
         PixDraw_edge3P pixel22 = (PixDraw_edge3P) pixel2;
@@ -255,13 +256,13 @@ public class PixDraw_edgeMulti implements Constants, Pixel {
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeByte(scaleX);
         oos.writeByte(scaleY);
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         scaleX = ois.readByte();
         scaleY = ois.readByte();
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     static {

@@ -23,7 +23,7 @@ public abstract class UtMath {
         }
     }
 
-    public static double[] mathod_a(double[] rgb1, double[] rgb2, double[] ret) {
+    public static double[] method_a(double[] rgb1, double[] rgb2, double[] ret) {
         return method_a(rgb1, rgb2, Double.MAX_VALUE, Double.MAX_VALUE, ret);
     }
 
@@ -78,7 +78,7 @@ public abstract class UtMath {
 
         double x = xa[-1 + i] - xa[-1 + s];
         if (x == 0.0d) {
-            throw new RuntimeException("Bad xa value , xa[] must be different ");
+            throw new IllegalArgumentException("Wrong xa value , xa must be different");
         } else {
             double x1 = (xa[-1 + i] - d1) / x;
             double x2 = (d1 - xa[-1 + s]) / x;
@@ -110,16 +110,14 @@ public abstract class UtMath {
 
     private static double sum(double[] values) {
         double sum = 0.0d;
-        for (int i = 0; i < values.length; i++)
-            sum += values[i];
+        for (double value : values) sum += value;
 
         return sum;
     }
 
     private static double sumOfTheSquares(double[] values) {
         double sum = 0.0d;
-        for (int i = 0; i < values.length; i++)
-            sum += values[i] * values[i];
+        for (double value : values) sum += value * value;
 
         return sum;
     }

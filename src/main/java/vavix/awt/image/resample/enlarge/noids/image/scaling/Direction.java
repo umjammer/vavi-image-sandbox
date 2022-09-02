@@ -11,9 +11,9 @@ public enum Direction {
     EAST("E"),
     ANY("ANY");
 
-    String text;
+    final String text;
 
-    private Direction(String text) {
+    Direction(String text) {
         this.text = text;
     }
 

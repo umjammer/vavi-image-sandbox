@@ -7,7 +7,7 @@ import vavix.awt.image.resample.enlarge.noids.image.scaling.DirectionConstants;
 
 
 /** d */
-public interface Pixel extends Serializable, DirectionConstants {
+public interface Pixel extends Serializable {
 
     int getRgb(int x, int y, double x1, double y1, double scaleX, double scaleY);
 

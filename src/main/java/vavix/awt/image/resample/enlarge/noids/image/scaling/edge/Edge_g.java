@@ -8,7 +8,7 @@ import vavix.awt.image.resample.enlarge.noids.image.scaling.DirectionConstants;
 
 
 /** g */
-public interface Edge_g extends Edge, DirectionConstants, Constants {
+public interface Edge_g extends Edge {
 
     int getStartColor();
 

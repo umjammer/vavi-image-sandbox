@@ -26,10 +26,10 @@ public class InteriorDivision {
         double v1 = UtColor.method3(rgb21, rgb23);
         double v2 = UtColor.distance(rgb23);
         if (v2 == 0.0d) {
-            throw new RuntimeException("０デバイド");
+            throw new ArithmeticException("division by 0");
         }
         double v3 = v1 / v2;
-        double[] rgb = UtColor.f(rgb21, rgb23);
+        double[] rgb = UtColor.method4(rgb21, rgb23);
         double v4 = UtColor.distance(rgb) / v2;
         value2 = v3;
         value1 = v4;
@@ -37,23 +37,23 @@ public class InteriorDivision {
 
     public boolean is_InRange1(double v1, double v2) {
         if (notAvailable)
-            throw new RuntimeException("内分のC1、C2が同じであるため、内分値が取り出せませんでした .\n   isAvailable()で内分が使用可能かチェックしてから使ってください");
+            throw new IllegalStateException("couldn't resolve interior division value because of comparing same colors.\n use #isAvailable()");
         return value1 <= v2 && 0.0d - v1 <= value2 && value2 <= 1.0d + v1;
     }
 
     public boolean is_InRange2(double v) {
         if (notAvailable)
-            throw new RuntimeException("内分のC1、C2が同じであるため、内分値が取り出せませんでした .\n   isAvailable()で内分が使用可能かチェックしてから使ってください");
+            throw new IllegalStateException("couldn't resolve interior division value because of comparing same colors.\n use #isAvailable()");
         return 0.0d - v <= value2 && value2 <= 1.0d + v;
     }
 
     public boolean is_InRange3(double v1, double v2) {
         if (notAvailable)
-            throw new RuntimeException("内分のC1、C2が同じであるため、内分値が取り出せませんでした .\n   isAvailable()で内分が使用可能かチェックしてから使ってください");
+            throw new IllegalStateException("couldn't resolve interior division value because of comparing same colors.\n use #isAvailable()");
         return value1 <= v2 && 1.0d + v1 < value2;
     }
 
-    public boolean isAbailable() {
+    public boolean isAvailable() {
         return !notAvailable;
     }
 

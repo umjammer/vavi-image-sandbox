@@ -14,6 +14,8 @@ import vavix.awt.image.resample.enlarge.noids.math.UtAngle;
 
 public class ScalingUtil implements DirectionConstants, Constants {
 
+    private static final double deg30 = 0.52359877559829882d;
+
     /** @return argb */
     public static int blend(int argb1, int argb2, double rate) {
         int a1 = argb1 >>> 24 & 0xff;
@@ -166,13 +168,13 @@ public class ScalingUtil implements DirectionConstants, Constants {
     }
 
     public static boolean is_a(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
-        boolean flag = is_c(x, y, p1, p2, p3);
-        boolean flag1 = contains(x, y, p1, p2, p3);
-        if (flag != flag1) {
+        boolean flag = is_angle_c(x, y, p1, p2, p3);
+        boolean contains = contains(x, y, p1, p2, p3);
+        if (flag != contains) {
             contains(x, y, p1, p2, p3);
-            throw new RuntimeException("未実装");
+            throw new UnsupportedOperationException("not implemented yet");
         } else {
-            return flag1;
+            return contains;
         }
     }
 
@@ -184,62 +186,62 @@ public class ScalingUtil implements DirectionConstants, Constants {
         return util.contains(x, y);
     }
 
-    public static boolean is_c(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
+    public static boolean is_angle_c(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
         double a1 = getAngle(p1, p2);
         double a2 = getAngle(p1, p3);
-        double min = a1 >= a2 ? a2 : a1;
-        double max = a1 >= a2 ? a1 : a2;
+        double min = Math.min(a1, a2);
+        double max = Math.max(a1, a2);
         boolean f1 = a1 > a2;
         double a = getAngle(p1, x, y);
         boolean f2 = min < a && a < max;
         return f1 ^ f2;
     }
 
-    public static boolean is_d(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
+    public static boolean contains_d(double x, double y, Point.Double p1, Point.Double p2, Point.Double p3) {
         double x1 = (p2.x - 2d * p1.x) + p3.x;
         double x2 = -2d * (p2.x - p1.x);
         double x3 = p2.x - x;
-        boolean flag;
+        boolean inside;
         if (x1 == 0.0d) {
             if (x2 == 0.0d) {
                 if (p2.y < p3.y)
-                    flag = p2.x < x;
+                    inside = p2.x < x;
                 else
-                    flag = x < p2.x;
+                    inside = x < p2.x;
             } else {
                 double x4 = -x3 / x2;
                 if (0.0d <= x4 && x4 <= 1.0d) {
                     double d9 = (1.0d - x4) * (1.0d - x4) * p2.y + 2d * (1.0d - x4) * x4 * p1.y + x4 * x4 * p3.y;
                     if (p2.x < p3.x)
-                        flag = y < d9;
+                        inside = y < d9;
                     else
-                        flag = y > d9;
+                        inside = y > d9;
                 } else {
-                    int j = 0;
-                    double d10 = (p2.x - x) / (p2.x - p1.x);
-                    if (d10 < 0.0d) {
-                        double d13 = (1.0d - d10) * p2.y + d10 * p1.y;
-                        if (d13 < y)
-                            j++;
+                    int r = 0;
+                    double x21 = (p2.x - x) / (p2.x - p1.x);
+                    if (x21 < 0.0d) {
+                        double y21 = (1.0d - x21) * p2.y + x21 * p1.y;
+                        if (y21 < y)
+                            r++;
                     }
-                    double d14 = (p3.x - x) / (p3.x - p1.x);
-                    if (d14 < 0.0d) {
-                        double d16 = (1.0d - d14) * p3.y + d14 * p1.y;
-                        if (d16 < y)
-                            j++;
+                    double x31 = (p3.x - x) / (p3.x - p1.x);
+                    if (x31 < 0.0d) {
+                        double y31 = (1.0d - x31) * p3.y + x31 * p1.y;
+                        if (y31 < y)
+                            r++;
                     }
                     if (p2.x < p3.x)
-                        return j % 2 == 0;
-                    return j % 2 != 0;
+                        return r % 2 == 0;
+                    return r % 2 != 0;
                 }
             }
         } else if (p2.y == p3.y && p2.y == p1.y) {
             if (p2.x < p3.x)
-                flag = y < p2.y;
+                inside = y < p2.y;
             else
-                flag = y > p2.y;
+                inside = y > p2.y;
         } else {
-            int i = 0;
+            int r = 0;
             if (p3.x == p1.x) {
                 if (p2.x < p3.x) {
                     if (p3.x < x)
@@ -253,84 +255,84 @@ public class ScalingUtil implements DirectionConstants, Constants {
                 } else if (p2.x < x)
                     return p2.y < p3.y;
             } else {
-                double d7 = (p3.x - p2.x) / (p3.x - p1.x);
-                if (d7 < 0.0d) {
-                    double d11 = (1.0d - d7) * p3.y + d7 * p1.y;
-                    if (d11 < p2.y)
-                        i++;
+                double x32 = (p3.x - p2.x) / (p3.x - p1.x);
+                if (x32 < 0.0d) {
+                    double y32 = (1.0d - x32) * p3.y + x32 * p1.y;
+                    if (y32 < p2.y)
+                        r++;
                 }
             }
             if (p1.x < p2.x)
-                i++;
-            double d8 = -x2 / x1;
-            double d12 = (1.0d - d8) * (1.0d - d8) * p2.y + 2d * (1.0d - d8) * d8 * p1.y + d8 * d8 * p3.y;
-            if (d8 == 0.0d) {
+                r++;
+            double x21 = -x2 / x1;
+            double d12 = (1.0d - x21) * (1.0d - x21) * p2.y + 2d * (1.0d - x21) * x21 * p1.y + x21 * x21 * p3.y;
+            if (x21 == 0.0d) {
                 if (p3.x < p2.x)
-                    i++;
-            } else if (0.0d < d8 && d8 <= 1.0d && d12 < p2.y)
-                i++;
-            boolean flag1 = i % 2 == 0;
-            double d15 = x2 * x2 - 4d * x1 * x3;
-            if (d15 == 0.0d) {
-                int l = 0;
-                double d18 = (p2.x - x) / (p2.x - p1.x);
-                if (d18 < 0.0D) {
-                    double d21 = (1.0d - d18) * p2.y + d18 * p1.y;
-                    if (d21 < y)
-                        l++;
+                    r++;
+            } else if (0.0d < x21 && x21 <= 1.0d && d12 < p2.y)
+                r++;
+            boolean result1 = r % 2 == 0;
+            double x13 = x2 * x2 - 4d * x1 * x3;
+            if (x13 == 0.0d) {
+                int r_ = 0;
+                double x21_ = (p2.x - x) / (p2.x - p1.x);
+                if (x21_ < 0.0D) {
+                    double y21 = (1.0d - x21_) * p2.y + x21_ * p1.y;
+                    if (y21 < y)
+                        r_++;
                 }
-                double d22 = (p3.x - x) / (p3.x - p1.x);
-                if (d22 < 0.0d) {
-                    double d26 = (1.0d - d22) * p3.y + d22 * p1.y;
-                    if (d26 < y)
-                        l++;
+                double x31 = (p3.x - x) / (p3.x - p1.x);
+                if (x31 < 0.0d) {
+                    double y31 = (1.0d - x31) * p3.y + x31 * p1.y;
+                    if (y31 < y)
+                        r_++;
                 }
-                boolean flag2 = l % 2 == 0;
-                flag = flag2 == flag1;
-            } else if (d15 > 0.0d) {
-                double d17 = Math.sqrt(d15);
-                double d20 = (-x2 + d17) / (2d * x1);
-                double d25 = (-x2 - d17) / (2d * x1);
-                double d28 = (1.0d - d20) * (1.0d - d20) * p2.y + 2D * (1.0d - d20) * d20 * p1.y + d20 * d20 * p3.y;
-                double d29 = (1.0d - d25) * (1.0d - d25) * p2.y + 2D * (1.0d - d25) * d25 * p1.y + d25 * d25 * p3.y;
-                int j1 = 0;
-                double d30 = (p2.x - x) / (p2.x - p1.x);
-                if (d30 <= 0.0d) {
-                    double d31 = (1.0d - d30) * p2.y + d30 * p1.y;
-                    if (d31 < y)
-                        j1++;
+                boolean result2 = r_ % 2 == 0;
+                inside = result2 == result1;
+            } else if (x13 > 0.0d) {
+                double x17 = Math.sqrt(x13);
+                double x20 = (-x2 + x17) / (2d * x1);
+                double x25 = (-x2 - x17) / (2d * x1);
+                double y28 = (1.0d - x20) * (1.0d - x20) * p2.y + 2D * (1.0d - x20) * x20 * p1.y + x20 * x20 * p3.y;
+                double y29 = (1.0d - x25) * (1.0d - x25) * p2.y + 2D * (1.0d - x25) * x25 * p1.y + x25 * x25 * p3.y;
+                int r_ = 0;
+                double x21_ = (p2.x - x) / (p2.x - p1.x);
+                if (x21_ <= 0.0d) {
+                    double y21 = (1.0d - x21_) * p2.y + x21_ * p1.y;
+                    if (y21 < y)
+                        r_++;
                 }
-                double d32 = (p3.x - x) / (p3.x - p1.x);
-                if (d32 <= 0.0d) {
-                    double d33 = (1.0d - d32) * p3.y + d32 * p1.y;
-                    if (d33 < y)
-                        j1++;
+                double x31 = (p3.x - x) / (p3.x - p1.x);
+                if (x31 <= 0.0d) {
+                    double y31 = (1.0d - x31) * p3.y + x31 * p1.y;
+                    if (y31 < y)
+                        r_++;
                 }
-                if (0.0d < d20 && d20 < 1.0d && d28 < y)
-                    j1++;
-                if (0.0d < d25 && d25 < 1.0d && d29 < y)
-                    j1++;
-                boolean flag4 = j1 % 2 == 0;
-                flag = flag4 == flag1;
+                if (0.0d < x20 && x20 < 1.0d && y28 < y)
+                    r_++;
+                if (0.0d < x25 && x25 < 1.0d && y29 < y)
+                    r_++;
+                boolean result4 = r_ % 2 == 0;
+                inside = result4 == result1;
             } else {
-                int i1 = 0;
-                double d19 = (p2.x - x) / (p2.x - p1.x);
-                if (d19 < 0.0d) {
-                    double d23 = (1.0d - d19) * p2.y + d19 * p1.y;
-                    if (d23 < y)
-                        i1++;
+                int r_ = 0;
+                double x21_ = (p2.x - x) / (p2.x - p1.x);
+                if (x21_ < 0.0d) {
+                    double y21 = (1.0d - x21_) * p2.y + x21_ * p1.y;
+                    if (y21 < y)
+                        r_++;
                 }
-                double d24 = (p3.x - x) / (p3.x - p1.x);
-                if (d24 < 0.0d) {
-                    double d27 = (1.0d - d24) * p3.y + d24 * p1.y;
-                    if (d27 < y)
-                        i1++;
+                double x31 = (p3.x - x) / (p3.x - p1.x);
+                if (x31 < 0.0d) {
+                    double y31 = (1.0d - x31) * p3.y + x31 * p1.y;
+                    if (y31 < y)
+                        r_++;
                 }
-                boolean flag3 = i1 % 2 == 0;
-                flag = flag3 == flag1;
+                boolean result3 = r_ % 2 == 0;
+                inside = result3 == result1;
             }
         }
-        return flag;
+        return inside;
     }
 
     static double getAngle(Point.Double p, double x, double y) {
@@ -351,20 +353,20 @@ public class ScalingUtil implements DirectionConstants, Constants {
         return edge != null && edge != Edge.dummyEdge;
     }
 
-    public static boolean is_b(Edge edge, int len, double smoothLevel) {
+    public static boolean isSmoothable(Edge edge, int len, double smoothLevel) {
         if (!isValid(edge))
             return false;
         Line line = edge.getLine();
-        boolean flag = true;
-        boolean flag1 = line.is_b(edge, flag, len);
-        boolean flag2 = line.is_b(edge, !flag, len);
-        if (flag1 && flag2) {
-            double angle1 = line.get_angle_a(edge, !flag);
-            double smoothLevel1 = line.getSmoothLevel(edge, flag, len);
-            double angle2 = line.get_angle_a(edge, flag);
-            double smoothLevel2 = line.getSmoothLevel(edge, !flag, len);
-            double angle = UtAngle.absDiff(angle1, angle2 + Math.PI);
-            if ((smoothLevel1 > smoothLevel || smoothLevel2 > smoothLevel) && angle > 0.52359877559829882d) // 30 [radian]
+        boolean asc = true;
+        boolean connectedNext = line.isConnectedTo(edge, asc, len);
+        boolean connectedPrev = line.isConnectedTo(edge, !asc, len);
+        if (connectedNext && connectedPrev) {
+            double angleNext = line.get_angle_a(edge, !asc);
+            double smoothLevelNext = line.getSmoothLevel(edge, asc, len);
+            double anglePrev = line.get_angle_a(edge, asc);
+            double smoothLevelPrev = line.getSmoothLevel(edge, !asc, len);
+            double angle = UtAngle.absDiff(angleNext, anglePrev + Math.PI);
+            if ((smoothLevelNext > smoothLevel || smoothLevelPrev > smoothLevel) && angle > deg30)
                 return true;
         }
         return false;

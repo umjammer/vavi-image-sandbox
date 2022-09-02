@@ -4,8 +4,6 @@ package vavix.awt.image.resample.enlarge.noids.image.scaling.line;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import vavix.awt.image.resample.enlarge.noids.image.scaling.Constants;
-import vavix.awt.image.resample.enlarge.noids.image.scaling.DirectionConstants;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.ScalingUtil;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge_g;
@@ -15,12 +13,12 @@ import vavix.awt.image.resample.enlarge.noids.util.UtToString;
 
 
 /** a */
-public class Line implements DirectionConstants, Constants {
+public class Line {
 
     Edge edge1;
     Edge edge2;
-    boolean _connected1;
-    boolean _connected2;
+    boolean connected1;
+    boolean connected2;
     Rectangle.Double rect;
     int count = -1;
     int index;
@@ -31,9 +29,9 @@ public class Line implements DirectionConstants, Constants {
 
     public Line(Edge edge1, boolean connected1, Edge edge2, boolean connected2) {
         this.edge1 = edge1;
-        this._connected1 = connected1;
+        this.connected1 = connected1;
         this.edge2 = edge2;
-        this._connected2 = connected2;
+        this.connected2 = connected2;
         index = counter++;
     }
 
@@ -43,15 +41,15 @@ public class Line implements DirectionConstants, Constants {
 
     public Edge get_nextEdge() {
         if (isOpen()) {
-            throw new RuntimeException("Openな線では呼び出せません");
+            throw new IllegalStateException("this line is opened");
         } else {
-            Edge edge = edge1.nextEdge(!_connected1);
+            Edge edge = edge1.nextEdge(!connected1);
             return edge;
         }
     }
 
-    public boolean is_connected1() {
-        return _connected1;
+    public boolean isConnected1() {
+        return connected1;
     }
 
     public boolean isOpen() {
@@ -65,17 +63,17 @@ public class Line implements DirectionConstants, Constants {
     }
 
     private void init() {
-        double x1 = 1.0d / 0.0d;
-        double y1 = 1.0d / 0.0d;
-        double x2 = -1.0d / 0.0d;
-        double y2 = -1.0d / 0.0d;
+        double x1 = Double.POSITIVE_INFINITY;
+        double y1 = Double.POSITIVE_INFINITY;
+        double x2 = Double.NEGATIVE_INFINITY;
+        double y2 = Double.NEGATIVE_INFINITY;
         int i = 0;
         double color1 = 0.0d;
         double color2 = 0.0d;
         double l = 0.0d;
-        Class_b b1 = new Class_b(this);
+        Corner corner = new Corner(this);
         Edge_g edge;
-        while ((edge = (Edge_g) b1.get_edge2()) != null) {
+        while ((edge = (Edge_g) corner.get_edge2()) != null) {
             edge.setLine(this);
             i++;
             Point.Double p = edge.get_point1();
@@ -108,46 +106,49 @@ public class Line implements DirectionConstants, Constants {
         return count;
     }
 
-    public boolean is_b(Edge edge, boolean flag, int v) {
+    /**
+     * @return false: looped or not connected
+     */
+    public boolean isConnectedTo(Edge startEdge, boolean asc, int len) {
         int c = 0;
-        Edge edge1 = edge;
-        boolean notConnected = flag;
+        Edge edge = startEdge;
+        boolean asc_ = asc;
         for (int i = 0; i < 10000000; i++) {
-            Edge edge2 = edge1.nextEdge(notConnected);
-            if (!ScalingUtil.isValid(edge2) || edge2 == edge)
+            Edge nextEdge = edge.nextEdge(asc_);
+            if (!ScalingUtil.isValid(nextEdge) || nextEdge == startEdge)
                 return false;
-            if (c++ >= v)
+            if (c++ >= len)
                 return true;
-            notConnected = !edge2.isConnected(edge1);
-            edge1 = edge2;
+            asc_ = !nextEdge.isConnected(edge);
+            edge = nextEdge;
         }
 
-        throw new RuntimeException("無限ループ");
+        throw new IllegalStateException("infinit loop");
     }
 
     /** @return angle */
-    public double get_angle_a(Edge edge, boolean flag) {
-        Edge edge1 = edge;
-        boolean flag1 = !flag;
-        double rad30 = 0.52359877559829882d;
+    public double get_angle_a(Edge startEdge, boolean asc) {
+        Edge edge = startEdge;
+        boolean asc_ = !asc;
+        final double rad30 = 0.52359877559829882d;
         int c1 = 1;
         Point.Double[] points = new Point.Double[3];
         double[] angles1 = new double[3];
-        Point.Double p = edge1.get_point1();
+        Point.Double p = edge.get_point1();
         points[0] = p;
-        for (int i = 0; i < (byte) 3; i++) {
-            Edge edge2 = edge1.nextEdge(flag1);
-            if (!ScalingUtil.isValid(edge2) || edge2 == edge)
+        for (int i = 0; i < 3; i++) {
+            Edge nextEdge = edge.nextEdge(asc_);
+            if (!ScalingUtil.isValid(nextEdge) || nextEdge == startEdge)
                 break;
-            Point.Double p2 = edge2.get_point1();
+            Point.Double p2 = nextEdge.get_point1();
             if (c1 < 3)
                 points[c1] = p2;
             double dy = p.y - p2.y;
             double dx = p.x - p2.x;
             double angle = FMath.getAngle(dy, dx);
             angles1[i] = angle;
-            flag1 = !edge2.isConnected(edge1);
-            edge1 = edge2;
+            asc_ = !nextEdge.isConnected(edge);
+            edge = nextEdge;
             p = p2;
             c1++;
         }
@@ -169,7 +170,7 @@ public class Line implements DirectionConstants, Constants {
 
         sumOfAngle /= c2;
         if (c1 < 2)
-            throw new RuntimeException("長さが１(自身を入れると2)では、方向を決定できません\n  isLineLenOver()を使って、指定の向きに十分な長さがあるか事前に確認してください");
+            throw new IllegalStateException("cannot define direction when length is 1 (2, when including self)\n  using #isLineLenOver(), check specified direction has enough length");
         double dx;
         double dy;
         if (c1 == 2) {
@@ -199,55 +200,54 @@ public class Line implements DirectionConstants, Constants {
         return smoothLevel1 > smoothLevel || smoothLevel2 > smoothLevel;
     }
 
-    public double getSmoothLevel(Edge edge, boolean flag, int len) {
+    public double getSmoothLevel(Edge startEdge, boolean asc, int len) {
         if (len < 3)
-            throw new RuntimeException("smoothレベルを見るには3以上の長さが必要です");
-        Edge edge1 = edge;
-        boolean flag1 = flag;
+            throw new IllegalArgumentException("len should be larger equal 3");
+        Edge edge = startEdge;
+        boolean asc_ = asc;
         int c = 0;
         double[] angles = new double[len];
         for (int i = 0; i < len; i++) {
-            Edge edge2 = edge1.nextEdge(flag1);
-            if (!ScalingUtil.isValid(edge2) || edge2 == edge)
+            Edge nextEdge = edge.nextEdge(asc_);
+            if (!ScalingUtil.isValid(nextEdge) || nextEdge == startEdge)
                 break;
-            Point.Double p1 = edge1.get_point1();
-            Point.Double p2 = edge2.get_point1();
+            Point.Double p1 = edge.get_point1();
+            Point.Double p2 = nextEdge.get_point1();
             double y = p1.y - p2.y;
             double x = p1.x - p2.x;
             double a = FMath.getAngle(y, x);
             angles[i] = a;
-            flag1 = !edge2.isConnected(edge1);
-            edge1 = edge2;
+            asc_ = !nextEdge.isConnected(edge);
+            edge = nextEdge;
             c++;
         }
 
         if (c < 3)
             return 0.0d;
         double diff = UtAngle.diff(angles[0], angles[1]);
-        double min = -1.0d / 0.0d;
-        double size = Math.abs(diff);
+        double min = Double.NEGATIVE_INFINITY;
+        double angle = Math.abs(diff);
         for (int i = 1; i < c - 1; i++) {
             double diff2 = UtAngle.diff(angles[i], angles[i + 1]);
             double size2 = Math.abs(diff2);
-            if (size2 > size)
-                size = size2;
+            if (size2 > angle)
+                angle = size2;
             double diff3 = Math.abs(diff - diff2);
             if (diff3 > min)
                 min = diff3;
         }
 
         double level = 1.0d;
-        double a1 = 0.78539816339744828d; // 45 degrees
-        if (size > a1) {
+        final double deg45 = 0.78539816339744828d; // 45 degrees
+        if (angle > deg45) {
             double v1 = 0.3d;
-            level = v1 - (v1 * (size - a1)) / 0.78539816339744828d;
+            level = v1 - (v1 * (angle - deg45)) / 0.78539816339744828d;
             if (level <= 0.0d)
                 return 0.0d;
         }
-        double a2 = 0.3490658503988659d; // 20 degrees
-        double a3 = 0.78539816339744828d;
-        if (min > a2) {
-            double v2 = 1.0d - (min - a2) / a3;
+        final double deg20 = 0.3490658503988659d; // 20 degrees
+        if (min > deg20) {
+            double v2 = 1.0d - (min - deg20) / deg45;
             if (v2 <= 0.0d)
                 return 0.0d;
             if (v2 < level)
@@ -256,100 +256,100 @@ public class Line implements DirectionConstants, Constants {
         return level;
     }
 
-    public void debug() {
-        System.out.println("[" + index + "] " + (isOpen() ? "Open " : "Close") + " 長さ " + getLength() + " \t" + UtToString.toString(getBounds(), 2));
+    public String toString() {
+        return "LINE: [" + index + "] " + (isOpen() ? "Open " : "Close") + " len: " + getLength() + " \t" + UtToString.toString(getBounds(), 2);
     }
 
     public boolean isLineLenOver() {
         Edge edge = edge1;
-        boolean flag = _connected1;
+        boolean asc = connected1;
 label0: do {
-            boolean flag11;
-            Edge edge1;
+            boolean connectedNext;
+            Edge nextEdge;
             while (true) {
-                edge1 = edge.nextEdge(flag);
-                if (!ScalingUtil.isValid(edge1))
+                nextEdge = edge.nextEdge(asc);
+                if (!ScalingUtil.isValid(nextEdge))
                     break label0;
-                flag11 = edge1.isConnected(edge);
-                if (!edge1.get_point2().equals(edge.get_point2()))
+                connectedNext = nextEdge.isConnected(edge);
+                if (!nextEdge.get_point2().equals(edge.get_point2()))
                     break;
-                boolean flag22 = !edge1.isConnected(edge);
-                Edge edge2 = edge1.nextEdge(flag22);
+                boolean flag22 = !nextEdge.isConnected(edge);
+                Edge edge2 = nextEdge.nextEdge(flag22);
                 if (!ScalingUtil.isValid(edge2))
                     break;
                 Point.Double p1 = edge.get_point1();
-                Point.Double p2 = edge1.get_point1();
+                Point.Double p2 = nextEdge.get_point1();
                 edge.moveBit((p1.x + p2.x) / 2d, (p1.y + p2.y) / 2d);
-                setEdge_b(edge1);
+                setEdge_b(nextEdge);
                 if (count <= 4)
                     return false;
             }
-            flag = !flag11;
-            edge = edge1;
+            asc = !connectedNext;
+            edge = nextEdge;
         } while (edge != edge1);
         return true;
     }
 
     public void setEdge_b(Edge edge) {
         if (edge.getLine() != this)
-            throw new RuntimeException("おかしな状態");
-        Edge nextEdge1 = edge.nextEdge(true);
-        Edge nextEdge2 = edge.nextEdge(false);
-        boolean valid1 = ScalingUtil.isValid(nextEdge1);
-        boolean valid2 = ScalingUtil.isValid(nextEdge2);
+            throw new IllegalStateException("#getLine() is self");
+        Edge nextEdge = edge.nextEdge(true);
+        Edge prevEdge = edge.nextEdge(false);
+        boolean valid1 = ScalingUtil.isValid(nextEdge);
+        boolean valid2 = ScalingUtil.isValid(prevEdge);
         if (valid1 && valid2) {
-            boolean connected1 = nextEdge1.isConnected(edge);
-            boolean connected2 = nextEdge2.isConnected(edge);
-            UtLine.connect(nextEdge1, connected1, nextEdge2, connected2, 1, true);
+            boolean connected1 = nextEdge.isConnected(edge);
+            boolean connected2 = prevEdge.isConnected(edge);
+            UtLine.connect(nextEdge, connected1, prevEdge, connected2, 1, true);
             if (edge == edge1) {
-                if (_connected1) {
-                    edge1 = nextEdge1;
-                    _connected1 = !connected1;
+                if (this.connected1) {
+                    edge1 = nextEdge;
+                    this.connected1 = !connected1;
                 } else {
-                    edge1 = nextEdge2;
-                    _connected1 = !connected2;
+                    edge1 = prevEdge;
+                    this.connected1 = !connected2;
                 }
             } else if (edge == edge2)
-                if (_connected2) {
-                    edge2 = nextEdge1;
-                    _connected2 = !connected1;
+                if (this.connected2) {
+                    edge2 = nextEdge;
+                    this.connected2 = !connected1;
                 } else {
-                    edge2 = nextEdge2;
-                    _connected2 = !connected2;
+                    edge2 = prevEdge;
+                    this.connected2 = !connected2;
                 }
         } else if (valid1) {
-            boolean flag3 = nextEdge1.isConnected(edge);
-            UtLine.connect(nextEdge1, flag3, (Edge) null, true, 1, true);
+            boolean connectedNext = nextEdge.isConnected(edge);
+            UtLine.connect(nextEdge, connectedNext, null, true, 1, true);
             if (edge == edge1) {
-                if (_connected1) {
-                    edge1 = nextEdge1;
-                    _connected1 = !flag3;
+                if (connected1) {
+                    edge1 = nextEdge;
+                    connected1 = !connectedNext;
                 } else {
-                    throw new RuntimeException("未実装");
+                    throw new IllegalStateException("edge1 is not connected");
                 }
             } else if (edge == edge2)
-                if (_connected2) {
-                    edge2 = nextEdge1;
-                    _connected2 = !flag3;
+                if (connected2) {
+                    edge2 = nextEdge;
+                    connected2 = !connectedNext;
                 } else {
-                    throw new RuntimeException("未実装");
+                    throw new IllegalStateException("edge2 is not connected");
                 }
         } else if (valid2) {
-            boolean flag4 = nextEdge2.isConnected(edge);
-            UtLine.connect((Edge) null, true, nextEdge2, flag4, 1, true);
+            boolean connectedPrev = prevEdge.isConnected(edge);
+            UtLine.connect(null, true, prevEdge, connectedPrev, 1, true);
             if (edge == edge1) {
-                if (_connected1)
-                    throw new RuntimeException("未実装");
-                edge1 = nextEdge2;
-                _connected1 = !flag4;
+                if (connected1)
+                    throw new IllegalStateException("edge1 is not connected");
+                edge1 = prevEdge;
+                connected1 = !connectedPrev;
             } else if (edge == edge2) {
-                if (_connected2)
-                    throw new RuntimeException("未実装");
-                edge2 = nextEdge2;
-                _connected2 = !flag4;
+                if (connected2)
+                    throw new IllegalStateException("edge2 is not connected");
+                edge2 = prevEdge;
+                connected2 = !connectedPrev;
             }
         } else {
-            throw new RuntimeException("おかしいな状態");
+            throw new IllegalStateException("both edges are not valid");
         }
         count--;
     }

@@ -9,9 +9,9 @@ import vavix.awt.image.resample.enlarge.noids.image.scaling.line.Line;
 
 
 /** a */
-public interface Edge extends DirectionConstants, Constants {
+public interface Edge {
 
-    final Edge dummyEdge = new DummyEdge();
+    Edge dummyEdge = new DummyEdge();
 
     Point.Double get_point1();
 
@@ -19,19 +19,19 @@ public interface Edge extends DirectionConstants, Constants {
 
     void moveBit(double x, double y);
 
-    int get_color_a(boolean flag, boolean flag1);
+    int get_color_a(boolean asc, boolean flag1);
 
-    void set_color_a(boolean flag, boolean flag1, int argb);
+    void set_color_a(boolean asc, boolean flag1, int argb);
 
-    Point get_point_b(boolean flag, boolean flag1);
+    Point get_point_b(boolean asc, boolean flag1);
 
-    void connect(boolean flag, Edge edge, int i);
+    void connect(boolean asc, Edge edge, int i);
 
     void disconnect(Edge edge);
 
     Edge nextEdge(boolean asc);
 
-    int next_value(boolean flag);
+    int next_value(boolean asc);
 
     boolean isConnected(Edge edge);
 

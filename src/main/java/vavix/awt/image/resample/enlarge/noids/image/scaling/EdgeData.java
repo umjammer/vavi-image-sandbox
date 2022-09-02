@@ -17,10 +17,10 @@ import vavix.awt.image.resample.enlarge.noids.image.util.UtImage;
 /** d */
 public class EdgeData implements DirectionConstants, Constants {
 
-    List<EdgeX>[] edgeXs = null;
-    List<EdgeY>[] edgeYs = null;
+    List<EdgeX>[] edgeXs;
+    List<EdgeY>[] edgeYs;
     BufferedImage image;
-    int margin = 0;
+    int margin;
     UtImage util;
     int width;
     int height;
@@ -56,7 +56,7 @@ public class EdgeData implements DirectionConstants, Constants {
         return image;
     }
 
-    public int getMergin() {
+    public int getMargin() {
         return margin;
     }
 
@@ -132,7 +132,7 @@ public class EdgeData implements DirectionConstants, Constants {
             };
     }
 
-    public List<EdgeX> getEgdeXs(int y) {
+    public List<EdgeX> getEdgeXs(int y) {
         return edgeXs[y];
     }
 
@@ -143,25 +143,25 @@ public class EdgeData implements DirectionConstants, Constants {
     public void remove(int x, EdgeY edgeY) {
         List<EdgeY> ys = edgeYs[x];
         if (ys == null)
-            throw new RuntimeException("未実装");
+            throw new IllegalStateException("edgeYs[x] is null");
         boolean flag = ys.remove(edgeY);
         if (!flag)
-            throw new RuntimeException("削除に失敗 : " + edgeY);
+            throw new IllegalStateException("failed to remove: " + edgeY);
     }
 
     public Edge getEdgeAt(int x, int y) {
         Object[] edges = getEdgeYs(x, y);
-        for (int i = 0; i < edges.length; i++) {
-            Point.Double p = ((EdgeY) edges[i]).get_point1();
+        for (Object o : edges) {
+            Point.Double p = ((EdgeY) o).get_point1();
             if (x == (int) p.x && y == (int) p.y)
-                return (Edge) edges[i];
+                return (Edge) o;
         }
 
         edges = getEdgeXs(x, y);
-        for (int i = 0; i < edges.length; i++) {
-            Point.Double p = ((EdgeX) edges[i]).get_point1();
+        for (Object edge : edges) {
+            Point.Double p = ((EdgeX) edge).get_point1();
             if (x == (int) p.x && y == (int) p.y)
-                return (Edge) edges[i];
+                return (Edge) edge;
         }
 
         return null;
@@ -170,19 +170,19 @@ public class EdgeData implements DirectionConstants, Constants {
     public Edge[] getEdgesAt(int x, int y) {
         List<Edge> edges = null;
         EdgeX[] edgeXs = getEdgeXs(x, y);
-        for (int i = 0; i < edgeXs.length; i++)
-            if ((int) edgeXs[i].getX() == x) {
+        for (EdgeX edgeX : edgeXs)
+            if ((int) edgeX.getX() == x) {
                 if (edges == null)
                     edges = new ArrayList<>();
-                edges.add(edgeXs[i]);
+                edges.add(edgeX);
             }
 
         EdgeY[] edgeYs = getEdgeYs(x, y);
-        for (int i = 0; i < edgeYs.length; i++)
-            if ((int) edgeYs[i].getY() == y) {
+        for (EdgeY edgeY : edgeYs)
+            if ((int) edgeY.getY() == y) {
                 if (edges == null)
                     edges = new ArrayList<>();
-                edges.add(edgeYs[i]);
+                edges.add(edgeY);
             }
 
         if (edges != null)
@@ -244,7 +244,7 @@ label0: for (int i = 0; i < 2; i++) {
                         edge2 = edge3;
                         connected2 = !notConnected3;
                     } else {
-                        throw new RuntimeException("未実装");
+                        throw new UnsupportedOperationException("loop counter: " + i);
                     }
                     break;
                 }

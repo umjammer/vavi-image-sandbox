@@ -18,11 +18,11 @@ public class DataBufferPixel {
     }
 
     /**
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException x, y is not valid
      */
     public Pixel getPixel(int x, int y) {
         if (x < 0 || pixels[0].length <= x || y < 0 || pixels.length <= y)
-            throw new IllegalArgumentException("不正な範囲です (x,y) = " + x + " , " + y);
+            throw new IllegalArgumentException("wrong range (x,y) = " + x + " , " + y);
         else
             return pixels[y][x];
     }

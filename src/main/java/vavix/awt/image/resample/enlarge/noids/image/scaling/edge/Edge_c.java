@@ -21,20 +21,20 @@ public abstract class Edge_c implements Edge {
         this.flag1 = flag;
     }
 
-    public int get_color_a(boolean flag, boolean flag1) {
-        return edge.get_color_a(flag, flag1);
+    public int get_color_a(boolean asc, boolean flag1) {
+        return edge.get_color_a(asc, flag1);
     }
 
-    public void set_color_a(boolean flag, boolean flag1, int argb) {
-        edge.set_color_a(flag, flag1, argb);
+    public void set_color_a(boolean asc, boolean flag1, int argb) {
+        edge.set_color_a(asc, flag1, argb);
     }
 
     public Edge nextEdge(boolean flag) {
         return edge.nextEdge(flag);
     }
 
-    public int next_value(boolean flag) {
-        return edge.next_value(flag);
+    public int next_value(boolean asc) {
+        return edge.next_value(asc);
     }
 
     public Line getLine() {
@@ -61,8 +61,8 @@ public abstract class Edge_c implements Edge {
         this.edge.disconnect(edge);
     }
 
-    public void connect(boolean flag, Edge edge, int i) {
-        this.edge.connect(flag, edge, i);
+    public void connect(boolean asc, Edge edge, int i) {
+        this.edge.connect(asc, edge, i);
     }
 
     public void setLine(Line line) {
@@ -73,7 +73,7 @@ public abstract class Edge_c implements Edge {
         edge.moveBit(x, y);
     }
 
-    public Point get_point_b(boolean flag, boolean flag1) {
-        return edge.get_point_b(flag, flag1);
+    public Point get_point_b(boolean asc, boolean flag1) {
+        return edge.get_point_b(asc, flag1);
     }
 }

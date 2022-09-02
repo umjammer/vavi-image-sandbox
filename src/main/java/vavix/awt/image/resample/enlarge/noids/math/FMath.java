@@ -7,8 +7,8 @@ public abstract class FMath {
 
     private static final double INVERSE_PI = 0.31830988618379069d;
 
-    static final double[] cosins;
-    static final double[] atans;
+    private static final double[] cosins;
+    private static final double[] atans;
 
     public static void main(String[] args) {
         long l = System.currentTimeMillis();
@@ -17,7 +17,7 @@ public abstract class FMath {
         System.out.println("aa " + getAngle(1.0d, -1d));
         System.out.println("aa " + getAngle(-1d, -1d));
         double q = 0.0d;
-        int m = 5000000; // 0x4c4b40
+        final int m = 5000000; // 0x4c4b40
         double d1 = -0.33414340999999997d;
         double d2 = -0.91080432d;
         double d = 0.0d;
@@ -82,7 +82,7 @@ public abstract class FMath {
             angle_ = -angle_;
         if (angle_ > Math.PI * 2) {
             long a1 = (long) (180d * angle_ * INVERSE_PI);
-            a1 /= 360l;
+            a1 /= 360L;
             angle_ -= a1 * Math.PI * 2;
             if (angle_ < 0.0d)
                 angle_ = 0.0d;
@@ -114,7 +114,7 @@ public abstract class FMath {
             angle_ = -angle_;
         if (angle_ > Math.PI * 2) {
             long a1 = (long) (180d * angle_ * INVERSE_PI);
-            a1 /= 360l;
+            a1 /= 360L;
             angle_ -= a1 * Math.PI * 2;
             if (angle_ < 0.0d)
                 angle_ = 0.0d;
@@ -141,12 +141,12 @@ public abstract class FMath {
 
     static {
         cosins = new double[1000];
-        double d = 0.0015707963267948967d;
+        final double d = 0.0015707963267948967d;
         for (int i = 0; i < 1000; i++)
             cosins[i] = Math.cos(i * d);
 
         atans = new double[1000];
-        double d1 = 0.001001001001001001d;
+        final double d1 = 0.001001001001001001d;
         for (int i = 0; i < 1000; i++)
             atans[i] = Math.atan(i * d1);
     }

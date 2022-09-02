@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
@@ -21,7 +22,7 @@ public abstract class UtString {
     }
 
     public static String replace(String s, String from, String to) {
-        StringBuffer sb = new StringBuffer(s);
+        StringBuilder sb = new StringBuilder(s);
         int l1 = from.length();
         int l2 = to.length();
         int n = 0;
@@ -53,13 +54,13 @@ public abstract class UtString {
     public static String fillSpaces(double v, int n) {
         if (Double.isNaN(v))
             return "NaN";
-        if (v == Double.MAX_VALUE) // 1.7976931348623157E+308D
+        if (v == Double.MAX_VALUE)
             return "MAX_VALUE";
-        if (v == Double.MIN_VALUE) // 4.9406564584124654E-324D
+        if (v == Double.MIN_VALUE)
             return "MIN_VALUE";
-        if (v == (1.0d / 0.0d))
+        if (v == Double.POSITIVE_INFINITY)
             return "POSITIVE_INFINITY";
-        if (v == (-1.0d / 0.0d))
+        if (v == Double.NEGATIVE_INFINITY)
             return "NEGATIVE_INFINITY";
         String s = fillZeros(v, n - 3);
         if (v < 0.0d)
@@ -101,8 +102,8 @@ public abstract class UtString {
         try {
             char[] cs1 = s.toCharArray();
             int j = 0;
-            for (int k = 0; k < cs1.length; k++)
-                if (cs1[k] < '\177')
+            for (char c : cs1)
+                if (c < '\177')
                     j++;
                 else
                     j += 2;
@@ -121,26 +122,26 @@ public abstract class UtString {
     }
 
     public static String read(URL url) throws IOException {
-        return read(url.openStream(), (String) null);
+        return read(url.openStream(), null);
     }
 
     public static String read(File file) throws IOException {
-        return read(new FileInputStream(file), (String) null);
+        return read(Files.newInputStream(file.toPath()), null);
     }
 
     public static String read(File file, String s) throws IOException {
-        return read(new FileInputStream(file), s);
+        return read(Files.newInputStream(file.toPath()), s);
     }
 
     public static String read(InputStream is, String s) throws IOException {
-        return read(s != null ? (Reader) new InputStreamReader(is, s) : (Reader) new InputStreamReader(is));
+        return read(s != null ? new InputStreamReader(is, s) : new InputStreamReader(is));
     }
 
     public static String read(Reader reader) throws IOException {
         BufferedReader reader_ = null;
         try {
             reader_ = (reader instanceof BufferedReader) ? (BufferedReader) reader : new BufferedReader(reader);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             boolean flag = true;
             String line;
             while ((line = reader_.readLine()) != null) {

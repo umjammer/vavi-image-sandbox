@@ -11,7 +11,7 @@ public class PixDraw_notEdge4C implements Pixel {
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
+    private static final boolean debug = false;
     protected byte r0;
     protected byte g0;
     protected byte b0;

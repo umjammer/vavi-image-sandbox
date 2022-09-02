@@ -6,7 +6,7 @@ package vavix.awt.image.resample.enlarge.noids.image.scaling;
 public interface DirectionConstants {
 
     /** W, S, E, N */
-    public static final String[] arrows = {
+    String[] arrows = {
         "←", "↓", "→", "↑"
     };
 }

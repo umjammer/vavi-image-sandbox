@@ -12,9 +12,13 @@ import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge_g;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.line.UtLine;
 import vavix.awt.image.resample.enlarge.noids.util.UtString;
 
+import static vavix.awt.image.resample.enlarge.noids.image.scaling.Constants.point_table_a;
+import static vavix.awt.image.resample.enlarge.noids.image.scaling.Constants.table_i;
+import static vavix.awt.image.resample.enlarge.noids.image.scaling.DirectionConstants.arrows;
+
 
 /** m */
-public abstract class Action_connectEdges implements DirectionConstants, Constants {
+public abstract class Action_connectEdges {
 
     public static void connectEdges(EdgeData edgeData) throws InterruptedException {
         BufferedImage image = edgeData.getImage();
@@ -24,9 +28,9 @@ public abstract class Action_connectEdges implements DirectionConstants, Constan
             for (int x = 0; x < w; x++) {
                 Edge_g edge = (Edge_g) edgeData.getEdgeAt(x, y);
                 if (edge != null) {
-                    /* Point.Double p = */ edge.get_point1();
-                    /* g g2 = */ a(edgeData, edge, x, y, true);
-                    /* g g3 = */ a(edgeData, edge, x, y, false);
+                    Point.Double p = edge.get_point1();
+                    Edge_g g2 = is_color_a(edgeData, edge, x, y, true);
+                    Edge_g g3 = is_color_a(edgeData, edge, x, y, false);
                 }
             }
 
@@ -35,7 +39,10 @@ public abstract class Action_connectEdges implements DirectionConstants, Constan
         }
     }
 
-    public static Edge_g a(EdgeData edgeData, Edge_g edge, int x, int y, boolean asc) {
+    /**
+     * @return nullable
+     */
+    public static Edge_g is_color_a(EdgeData edgeData, Edge_g edge, int x, int y, boolean asc) {
         Edge_g edge1 = (Edge_g) edge.nextEdge(asc);
         if (edge1 != null)
             if (!ScalingUtil.isValid(edge1))
@@ -48,30 +55,30 @@ public abstract class Action_connectEdges implements DirectionConstants, Constan
         else if (edge instanceof EdgeY)
             direction = asc ? 2 : 0;
         else
-            throw new RuntimeException("不正な値");
+            throw new IllegalArgumentException("edge class should be EdgeX, EdgeY: " + edge.getClass().getName());
         int l = 0;
-        Object obj = null;
+        Edge_g edge_g = null;
         boolean flag1 = false;
-label0: for (int i = 0; i < table_a.length; i++) {
-            Class_a a1 = table_a[i];
+label0:
+        for (Point_a a1 : point_table_a) {
             Point p = getPoint_a(x, y, direction, a1);
             if (p.x < 0 || edgeData.getImage().getWidth() <= p.x || p.y < 0 || edgeData.getImage().getHeight() <= p.y)
                 continue;
             Edge[] edges = edgeData.getEdgesAt(p.x, p.y);
-            for (int j = 0; j < edges.length; j++) {
-                Edge_g edge2 = (Edge_g) edges[j];
+            for (Edge value : edges) {
+                Edge_g edge2 = (Edge_g) value;
                 if (edge2 == edge || edge.contains((edge2)))
                     continue;
-                int r = a(edgeData, edge, edge2, direction, x, y, a1);
+                int r = is_color_a(edgeData, edge, edge2, direction, x, y, a1);
                 if (r <= 0)
                     continue;
-                boolean flag2 = a(direction, a1, edge2);
-                if (obj == null) {
-                    obj = (edge2);
+                boolean flag2 = is_color_a(direction, a1, edge2);
+                if (edge_g == null) {
+                    edge_g = (edge2);
                     l = r;
                     flag1 = flag2;
                 } else if (l < r) {
-                    obj = (edge2);
+                    edge_g = (edge2);
                     l = r;
                     flag1 = flag2;
                 }
@@ -82,19 +89,19 @@ label0: for (int i = 0; i < table_a.length; i++) {
 
         if (l < 8)
             return null;
-        if (UtLine.connect((Edge) edge, asc, (Edge) obj, flag1, l)) {
-            return ((Edge_g) obj);
+        if (UtLine.connect(edge, asc, edge_g, flag1, l)) {
+            return edge_g;
         } else {
             edge.connect(asc, Edge.dummyEdge, 0);
             return null;
         }
     }
 
-    public static int a(EdgeData edgeData, Edge_g edge1, Edge_g edge2, int direction, int x, int y, Class_a a1) {
+    public static int is_color_a(EdgeData edgeData, Edge_g edge1, Edge_g edge2, int direction, int x, int y, Point_a a1) {
         boolean flag = edge1.isHorizontal() == edge2.isHorizontal();
         if (flag != a1.get_flag1())
             return 0;
-        boolean flag1 = a(direction, edge1, edge2);
+        boolean flag1 = is_color_a(direction, edge1, edge2);
         if (flag1 != a1.get_flag2())
             return 0;
         int xc1 = edge1.getXColor(direction);
@@ -110,15 +117,15 @@ label0: for (int i = 0; i < table_a.length; i++) {
             c1 = HSL.get_value_c(xc1, xc2);
             c2 = HSL.get_value_c(yc1, yc2);
         }
-        int i2 = a1.get_value() + b(c1) + b(c2);
-        int j2 = connect(edgeData, edge1, edge2, direction, x, y, flag1);
-        i2 -= j2;
-        if (i2 < 0)
-            i2 = 0;
-        return i2;
+        int v = a1.get_value() + get_table_i(c1) + get_table_i(c2);
+        int w = connect(edgeData, edge1, edge2, direction, x, y, flag1);
+        v -= w;
+        if (v < 0)
+            v = 0;
+        return v;
     }
 
-    private static boolean a(int direction, Class_a a1, Edge_g edge) {
+    private static boolean is_color_a(int direction, Point_a a1, Edge_g edge) {
         boolean flag1 = a1.get_flag3();
         boolean flag;
         switch (direction) {
@@ -141,11 +148,14 @@ label0: for (int i = 0; i < table_a.length; i++) {
                 flag = flag1;
             break;
         default:
-            throw new RuntimeException("未実装");
+            throw new UnsupportedOperationException("not implemented yet");
         }
         return flag;
     }
 
+    /**
+     * @return wight?
+     */
     public static int connect(EdgeData edgeData, Edge_g edge1, Edge_g edge2, int direction, int x, int y, boolean flag) {
         boolean debug = false;
         Point sp1 = edge1.getStartPoint(direction);
@@ -161,7 +171,7 @@ label0: for (int i = 0; i < table_a.length; i++) {
         int[][] weights = new int[dh][dw];
         int ox = minX - 1;
         int oy = minY - 1;
-//        boolean flag2 = false;
+//        boolean flagE = false;
         int xc1;
         int yc1;
         int ex;
@@ -203,12 +213,12 @@ label0: for (int i = 0; i < table_a.length; i++) {
                         weights[y3][x3] = -10;
                     } else {
                         int rgb = edgeData.getImage().getRGB(x4, y4);
-                        double d6 = HSL.get_value_c(xc1, rgb);
-                        double d7 = HSL.get_value_c(yc1, rgb);
-                        double d8 = d6 >= d7 ? d7 : d6;
-                        if (d8 > 0.5D)
+                        double cx = HSL.get_value_c(xc1, rgb);
+                        double cy = HSL.get_value_c(yc1, rgb);
+                        double min = Math.min(cx, cy);
+                        if (min > 0.5D)
                             weights[y3][x3] = -6;
-                        else if (d6 < d7)
+                        else if (cx < cy)
                             weights[y3][x3] = -7;
                         else
                             weights[y3][x3] = -8;
@@ -217,7 +227,7 @@ label0: for (int i = 0; i < table_a.length; i++) {
             }
         }
 
-        int[][] ai1 = {
+        final int[][] table = {
             { -1,  0, 1 },
             {  1,  0, 1 },
             {  0, -1, 1 },
@@ -227,59 +237,59 @@ label0: for (int i = 0; i < table_a.length; i++) {
             {  1, -1, 3 },
             { -1, -1, 3 }
         };
-        boolean flag3;
+        boolean loop;
         do {
-            flag3 = false;
+            loop = false;
             for (int y5 = 0; y5 < dh; y5++) {
                 for (int x5 = 0; x5 < dw; x5++) {
                     if (weights[y5][x5] == -7) {
-                        int j7 = 0x7fffffff;
-                        for (int i8 = 0; i8 < ai1.length; i8++) {
-                            int l8 = x5 + ai1[i8][0];
-                            int j9 = y5 + ai1[i8][1];
-                            int l9 = ai1[i8][2];
-                            if (l8 >= 0 && l8 < dw && j9 >= 0 && j9 < dh) {
-                                int j10 = weights[j9][l8] - 1000;
-                                if (j10 >= 0 && j10 < 1000 && j10 + l9 < j7)
-                                    j7 = j10 + l9;
+                        int v = 0x7fff_ffff;
+                        for (int[] ints : table) {
+                            int x6 = x5 + ints[0];
+                            int y6 = y5 + ints[1];
+                            int a = ints[2];
+                            if (x6 >= 0 && x6 < dw && y6 >= 0 && y6 < dh) {
+                                int w = weights[y6][x6] - 1000;
+                                if (w >= 0 && w < 1000 && w + a < v)
+                                    v = w + a;
                             }
                         }
 
-                        if (j7 != 0x7fffffff) {
-                            weights[y5][x5] = 1000 + j7;
-                            flag3 = true;
+                        if (v != 0x7fff_ffff) {
+                            weights[y5][x5] = 1000 + v;
+                            loop = true;
                         }
                     }
                 }
             }
 
-        } while (flag3);
+        } while (loop);
         do {
-            flag3 = false;
+            loop = false;
             for (int y5 = 0; y5 < dh; y5++) {
                 for (int x5 = 0; x5 < dw; x5++) {
                     if (weights[y5][x5] == -8) {
-                        int k7 = 0x7fffffff;
-                        for (int j8 = 0; j8 < ai1.length; j8++) {
-                            int i9 = x5 + ai1[j8][0];
-                            int k9 = y5 + ai1[j8][1];
-                            int i10 = ai1[j8][2];
-                            if (i9 >= 0 && i9 < dw && k9 >= 0 && k9 < dh) {
-                                int k10 = weights[k9][i9] - 2000;
-                                if (k10 >= 0 && k10 < 1000 && k10 + i10 < k7)
-                                    k7 = k10 + i10;
+                        int v = 0x7fff_ffff;
+                        for (int[] ints : table) {
+                            int x6 = x5 + ints[0];
+                            int y6 = y5 + ints[1];
+                            int a = ints[2];
+                            if (x6 >= 0 && x6 < dw && y6 >= 0 && y6 < dh) {
+                                int k10 = weights[y6][x6] - 2000;
+                                if (k10 >= 0 && k10 < 1000 && k10 + a < v)
+                                    v = k10 + a;
                             }
                         }
 
-                        if (k7 != 0x7fffffff) {
-                            weights[y5][x5] = 2000 + k7;
-                            flag3 = true;
+                        if (v != 0x7fff_ffff) {
+                            weights[y5][x5] = 2000 + v;
+                            loop = true;
                         }
                     }
                 }
             }
 
-        } while (flag3);
+        } while (loop);
         int w1;
         int w2;
         if (!flag) {
@@ -374,22 +384,22 @@ label0: for (int i = 0; i < table_a.length; i++) {
             }
         }
 
-        System.out.println("");
+        System.out.println();
     }
 
-    private static boolean a(int direction, Edge_g edge1, Edge_g edge2) {
+    private static boolean is_color_a(int direction, Edge_g edge1, Edge_g edge2) {
         int xc1 = edge1.getXColor(direction);
         int yc1 = edge1.getYColor(direction);
         int xc2 = edge2.getXColor(direction);
         int yc2 = edge2.getYColor(direction);
-        double d1 = HSL.get_value_c(xc1, xc2);
-        double d2 = HSL.get_value_c(yc1, yc2);
-        double d3 = HSL.get_value_c(xc1, yc2);
-        double d4 = HSL.get_value_c(yc1, xc2);
-        return d3 + d4 < d1 + d2;
+        double c1 = HSL.get_value_c(xc1, xc2);
+        double c2 = HSL.get_value_c(yc1, yc2);
+        double c3 = HSL.get_value_c(xc1, yc2);
+        double c4 = HSL.get_value_c(yc1, xc2);
+        return c3 + c4 < c1 + c2;
     }
 
-    private static Point getPoint_a(int x, int y, int direction, Class_a a1) {
+    private static Point getPoint_a(int x, int y, int direction, Point_a a1) {
         int x1;
         int y1;
         switch (direction) {
@@ -410,12 +420,12 @@ label0: for (int i = 0; i < table_a.length; i++) {
             y1 = y + a1.getX();
             break;
         default:
-            throw new RuntimeException("未実装");
+            throw new UnsupportedOperationException("impossible");
         }
         return new Point(x1, y1);
     }
 
-    private static int b(double d1) {
+    private static int get_table_i(double d1) {
         int i = (int) (d1 * (table_i.length - 1));
         return table_i[i];
     }

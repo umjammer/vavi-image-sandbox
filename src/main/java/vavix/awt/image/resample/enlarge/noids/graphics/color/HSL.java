@@ -5,37 +5,24 @@ import java.awt.Color;
 
 import vavix.awt.image.resample.enlarge.noids.math.FMath;
 import vavix.awt.image.resample.enlarge.noids.util.UtMath;
-import vavix.awt.image.resample.enlarge.noids.util.UtString;
 
 
 public abstract class HSL {
 
-    private static double[] table1 = {
+    private static final double[] table1 = {
         0.0, 0.1, 0.2, 0.4, 0.5, 1.0
     };
 
-    private static double[] table2 = {
+    private static final double[] table2 = {
         1.0, 0.9, 0.5, 0.2, 0.0, 0.0
     };
 
     @SuppressWarnings("unused")
-    private static double[] table3 = UtMath.mathod_a(table1, table2, (double[]) null);
-
-    public static void main(String[] args) {
-        int[] colors = UtColor.getDefaultColorTable();
-        for (int i = 0; i < colors.length; i++) {
-            int c = colors[i];
-            double[] hsl = toHsl(c, (double[]) null);
-            System.out.print("0x" + UtString.toHex(c) + " : ");
-            UtColor.debug(hsl);
-            int rgb = toRgb(hsl[0], hsl[1], hsl[2]);
-            System.out.println("    RGB : " + UtString.toHexString_(rgb));
-        }
-    }
+    private static final double[] table3 = UtMath.method_a(table1, table2, null);
 
     public static double get_value_c(int rgb1, int rgb2) {
-        double[] hsl1 = toHsl(rgb1, (double[]) null);
-        double[] hsl2 = toHsl(rgb2, (double[]) null);
+        double[] hsl1 = toHsl(rgb1, null);
+        double[] hsl2 = toHsl(rgb2, null);
         return get_value_a(hsl1, hsl2);
     }
 
@@ -72,8 +59,8 @@ public abstract class HSL {
     public static double[] toHsl(double r, double g, double b, double[] ret) {
         if (ret == null)
             ret = new double[3];
-        double max = r < g ? g <= b ? b : g : r <= b ? b : r;
-        double min = r > g ? g >= b ? b : g : r >= b ? b : r;
+        double max = r < g ? Math.max(g, b) : Math.max(r, b);
+        double min = r > g ? Math.min(g, b) : Math.min(r, b);
         ret[2] = (max + min) - 1.0d;
         double delta = max - min;
         if (delta == 0.0d) {
@@ -101,7 +88,7 @@ public abstract class HSL {
     }
 
     public static int toRgb(double h, double s, double l) {
-        double[] ret = toRgb(h, s, l, (double[]) null);
+        double[] ret = toRgb(h, s, l, null);
         int r = (int) (0.5d + ret[0] * 255d);
         int g = (int) (0.5d + ret[1] * 255d);
         int b = (int) (0.5d + ret[2] * 255d);
@@ -151,7 +138,7 @@ public abstract class HSL {
         return ret;
     }
 
-    static double getRgbValue(double h, double n1, double n2) {
+    private static double getRgbValue(double h, double n1, double n2) {
         h = limit(h, 360d);
         if (h < 0.0d)
             h += 360d;
@@ -165,7 +152,7 @@ public abstract class HSL {
             return n1;
     }
 
-    static double limit(double value, double limit) {
+    private static double limit(double value, double limit) {
         return value % limit;
     }
 }

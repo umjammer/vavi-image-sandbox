@@ -4,6 +4,7 @@ package vavix.awt.image.resample.enlarge.noids.ui.toneCurve;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -36,16 +37,13 @@ public class ToneLine extends ToneBase {
     public ToneLine(ToneLine toneLine) {
         super(toneLine);
         points = new ArrayList<>();
-        points.clear();
-        for (Point.Double point : toneLine.points)
-            points.add(point);
+        points.addAll(toneLine.points);
 
         update();
     }
 
     public void init(Point.Double[] points) {
-        for (int i = 0; i < points.length; i++)
-            this.points.add(points[i]);
+        Collections.addAll(this.points, points);
 
         update();
     }
@@ -62,7 +60,7 @@ public class ToneLine extends ToneBase {
         double tone = 0.0d;
         for (int i = 1; i < xs.length; i++) {
             if (xs[i - 1] == xs[i])
-                throw new RuntimeException("未実装");
+                throw new IllegalStateException("consecutive same number detected");
             if (xs[i - 1] > color || color > xs[i])
                 continue;
             tone = ((ys[i - 1] - ys[i]) / (xs[i - 1] - xs[i])) * (color - xs[i]) + ys[i];

@@ -18,6 +18,9 @@ public class UtPoint {
         });
     }
 
+    /**
+     * @throws IllegalArgumentException <code>ps</code> length is wrong
+     */
     public UtPoint(Point.Double[] ps) {
         stat1 = -1;
         this.points = new Point.Double[ps.length];
@@ -26,22 +29,22 @@ public class UtPoint {
 
         int l = points.length;
         if (l < 2)
-            throw new RuntimeException("おかしな状態");
+            throw new IllegalArgumentException("ps.length < 2: " + l);
         if (l == 2)
-            throw new RuntimeException("未実装");
+            throw new UnsupportedOperationException("not implemented yet");
         double y0 = points[0].y;
         double y1 = points[1].y;
         double y2 = points[l - 1].y;
         double y3 = points[l - 2].y;
         boolean flag = y0 < y1 || y2 < y3;
         boolean flag1 = y0 > y1 || y2 > y3;
-        double y5 = flag ? (1.0d / 0.0d) : (-1.0d / 0.0d);
-        double y4 = flag1 ? (-1.0d / 0.0d) : (1.0d / 0.0d);
-        for (int i = 0; i < points.length; i++) {
-            if (points[i].y < y4)
-                y4 = points[i].y;
-            if (points[i].y > y5)
-                y5 = points[i].y;
+        double y5 = flag ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+        double y4 = flag1 ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
+        for (Point.Double point : points) {
+            if (point.y < y4)
+                y4 = point.y;
+            if (point.y > y5)
+                y5 = point.y;
         }
 
         int q = -1;
@@ -99,7 +102,7 @@ public class UtPoint {
                                 stat2++;
                         }
                     } else {
-                        throw new RuntimeException("未実装");
+                        throw new UnsupportedOperationException("not implemented yet");
                     }
                     s = s_;
                 }
@@ -148,7 +151,7 @@ public class UtPoint {
                             c++;
                     }
                 } else {
-                    throw new RuntimeException("未実装");
+                    throw new UnsupportedOperationException("not implemented yet");
                 }
                 s = s_;
             }

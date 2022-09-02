@@ -5,19 +5,19 @@ import vavix.awt.image.resample.enlarge.noids.image.scaling.ScalingUtil;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge;
 
 
-public class Class_b {
+public class Corner {
 
-    Line line;
-    Edge edge1;
-    Edge edge2;
-    boolean notValid;
-    Edge edge3;
-    boolean flag;
+    private Line line;
+    private Edge edge1;
+    private Edge edge2;
+    private boolean notValid;
+    private Edge edge3;
+    private boolean flag;
 
-    public Class_b(Line line) {
+    public Corner(Line line) {
         this.line = line;
         edge1 = edge2 = line.get_edge1();
-        notValid = line.is_connected1();
+        notValid = line.isConnected1();
     }
 
     public Edge get_edge2() {

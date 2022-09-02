@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 
 import vavix.awt.image.resample.enlarge.noids.image.scaling.Constants;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.ScalingUtil;
@@ -16,7 +17,7 @@ public class PixDraw_edgeMulti_2 implements Constants, vavix.awt.image.resample.
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
+    private static final boolean debug = false;
     PixDraw_edge3P pixel1;
     PixDraw_edgeEnd pixel2;
     protected byte scaleX;
@@ -31,7 +32,7 @@ public class PixDraw_edgeMulti_2 implements Constants, vavix.awt.image.resample.
         scaleX = UtMath.limit8bit(sx);
         scaleY = UtMath.limit8bit(sy);
         if (!(pixel1 instanceof PixDraw_edge3P) || !(pixel2 instanceof PixDraw_edgeEnd))
-            throw new RuntimeException("PixDraw_edge3P+PixDraw_edgeEnd以外の重複描画は未実装 !!");
+            throw new IllegalArgumentException("only PixDraw_edge3P and PixDraw_edgeEnd are supported at pixel1, pixel2");
         PixDraw_edge3P pixel11 = pixel1;
         PixDraw_edgeEnd pixel22 = pixel2;
         Point.Double ep = pixel22.endPoint;
@@ -40,7 +41,7 @@ public class PixDraw_edgeMulti_2 implements Constants, vavix.awt.image.resample.
         boolean flag1 = pixel11.get_flag_a((int) sp.x, (int) sp.y, sp.x, sp.y);
         if (flag != flag1) {
             if (needToShow) {
-                System.err.println("クロスしている重複境界線の描画は未対応です\n  vavix.awt.image.resample.enlarge.noids.image.scaling.pixDraw.PixDraw_edgeMulti#PixDraw_edgeMulti( ) ");
+                System.err.println("drawing crossing duplicated edge line is not supported\n  vavix.awt.image.resample.enlarge.noids.image.scaling.pixDraw.PixDraw_edgeMulti#PixDraw_edgeMulti()");
                 needToShow = false;
             }
         } else {
@@ -82,7 +83,7 @@ public class PixDraw_edgeMulti_2 implements Constants, vavix.awt.image.resample.
             y1 = y + 1;
             break;
         default:
-            throw new RuntimeException("おかしな状態");
+            throw new IllegalStateException("impossible");
         }
         boolean flag = pixel1.get_flag_a(x, y, x1, y1);
         if (flag != this.flag) {
@@ -100,13 +101,13 @@ public class PixDraw_edgeMulti_2 implements Constants, vavix.awt.image.resample.
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeByte(scaleX);
         oos.writeByte(scaleY);
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         scaleX = ois.readByte();
         scaleY = ois.readByte();
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     static {

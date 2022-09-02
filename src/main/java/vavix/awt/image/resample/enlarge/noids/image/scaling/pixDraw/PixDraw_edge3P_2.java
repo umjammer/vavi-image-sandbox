@@ -11,7 +11,7 @@ public class PixDraw_edge3P_2 extends PixDraw_edge3P {
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
+    private static final boolean debug = false;
 
     static UtPoint util;
     static Object object;
@@ -66,7 +66,7 @@ public class PixDraw_edge3P_2 extends PixDraw_edge3P {
         g /= sq;
         b /= sq;
         if (r > 255 || g > 255 || b > 255) {
-            throw new RuntimeException("おかしい！！！");
+            throw new IllegalStateException("wrong rgb");
         } else {
             return 0xff000000 | r << 16 | g << 8 | b;
         }

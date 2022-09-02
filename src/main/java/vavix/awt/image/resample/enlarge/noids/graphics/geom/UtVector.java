@@ -27,11 +27,17 @@ public class UtVector {
         return ret;
     }
 
-    public static double[] a(Point.Double p1, Point.Double p2, Vector2d v1, Vector2d v2) {
-        return a(p1.x, p1.y, p2, v1, v2);
+    /**
+     * @return double(x, y), nullable
+     */
+    public static double[] method1(Point.Double p1, Point.Double p2, Vector2d v1, Vector2d v2) {
+        return method1(p1.x, p1.y, p2, v1, v2);
     }
 
-    public static double[] a(double x, double y, Point.Double p2, Vector2d v1, Vector2d v2) {
+    /**
+     * @return double(x, y), nullable
+     */
+    public static double[] method1(double x, double y, Point.Double p2, Vector2d v1, Vector2d v2) {
         double d2 = v2.x * v1.y - v2.y * v1.x;
         if (d2 == 0.0d)
             return null;
@@ -44,15 +50,5 @@ public class UtVector {
         return new double[] {
             d4, d3
         };
-    }
-
-    public static void main(String[] args) {
-        Point.Double p1 = new Point.Double(10d, 10d);
-        Point.Double p2 = new Point.Double(20d, 20d);
-        Vector2d v1 = new Vector2d(10f, 10f);
-        Vector2d v2 = new Vector2d(0.0f, 10f);
-        double[] r = a(p1, p2, v1, v2);
-        System.out.println("r[0] : " + r[0]);
-        System.out.println("r[1] : " + r[1]);
     }
 }

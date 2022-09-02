@@ -10,7 +10,9 @@ import java.awt.image.DataBufferUShort;
 import java.util.Arrays;
 
 
-public abstract class UtBufferedImage {
+public class UtBufferedImage {
+
+    private UtBufferedImage() {}
 
     public static void fill(BufferedImage image, int color) {
         DataBuffer buffer = image.getRaster().getDataBuffer();
@@ -42,7 +44,7 @@ public abstract class UtBufferedImage {
             short[] d = ((DataBufferUShort) dst.getRaster().getDataBuffer()).getData();
             System.arraycopy(s, 0, d, 0, s.length);
         } else {
-            throw new RuntimeException("未実装 _" + buffer.getClass());
+            throw new IllegalArgumentException("unsupported: " + buffer.getClass().getName());
         }
     }
 

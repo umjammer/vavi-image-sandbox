@@ -15,8 +15,8 @@ public abstract class EdgeBase implements Edge {
     int value1;
     int value2;
     Line line;
-    static int X = 248;
-    static int Y = 340;
+    static final int X = 248;
+    static final int Y = 340;
 
     public void connect(boolean asc, Edge edge, int value) {
         if (asc) {
@@ -36,7 +36,7 @@ public abstract class EdgeBase implements Edge {
             edge2 = null;
             value2 = 0;
         } else {
-            throw new RuntimeException("来ないはず");
+            throw new IllegalStateException("impossible");
         }
     }
 
@@ -56,13 +56,13 @@ public abstract class EdgeBase implements Edge {
 
     public boolean isConnected(Edge edge) {
         if (edge == edge1 && edge == edge2)
-            throw new RuntimeException("おかしな状態 : 両側に同じ接続（長さ２の閉ループ） : " + this);
+            throw new IllegalStateException("connected same edges both terminals（closed loop length 2): " + this);
         if (edge == edge1)
             return true;
         if (edge == edge2)
             return false;
         else
-            throw new RuntimeException("おかしな状態 : ScalingUtil.isEdge()で比較していますか？ : " + this);
+            throw new IllegalStateException("comparing by ScalingUtil#isEdge()? : " + this);
     }
 
     public boolean contains(Edge edge) {

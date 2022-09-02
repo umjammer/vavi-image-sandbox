@@ -11,7 +11,7 @@ public class PixDraw_notEdgeFlat implements Pixel {
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
+    private static final boolean debug = false;
 
     protected int argb;
 

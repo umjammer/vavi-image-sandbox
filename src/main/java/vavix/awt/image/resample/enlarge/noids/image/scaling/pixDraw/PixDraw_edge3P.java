@@ -5,7 +5,9 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 
+import vavi.util.Debug;
 import vavix.awt.image.resample.enlarge.noids.image.scaling.ScalingUtil;
 import vavix.awt.image.resample.enlarge.noids.util.UtMath;
 import vavix.awt.image.resample.enlarge.noids.util.UtToString;
@@ -15,7 +17,7 @@ public class PixDraw_edge3P implements PixDraw {
 
     private static final long serialVersionUID = 1L;
 
-    private static boolean debug = false;
+    private static final boolean debug = false;
 
     protected Point.Double startPoint = new Point.Double();
     protected Point.Double endPoint = new Point.Double();
@@ -25,17 +27,17 @@ public class PixDraw_edge3P implements PixDraw {
     protected int rgb3;
     protected int rgb4;
     protected int rgb;
-    protected boolean flag1;
-    protected boolean flag2;
-    protected boolean flag3;
-    protected boolean flag4;
+    protected boolean contains00;
+    protected boolean contains10;
+    protected boolean contains01;
+    protected boolean contains11;
     protected byte count1;
     protected byte scaleX;
     protected byte scaleY;
 
     public PixDraw_edge3P(Point p, Point.Double p1, Point.Double sp, Point.Double ep, int rgb1_, int rgb2_, double sx, double sy) {
         if (sp.equals(ep))
-            System.err.println("start , end の座標が同じです " + sp + " : vavix.awt.image.resample.enlarge.noids.image.scaling.point.ViewPoint_edge3P#ViewPoint_edge3P( ) ");
+            System.err.println("start, end points are same. " + sp + " : vavix.awt.image.resample.enlarge.noids.image.scaling.point.ViewPoint_edge3P#ViewPoint_edge3P()");
         if (sp.equals(point) || ep.equals(p1)) {
             p1.x = (sp.x + ep.x) * 0.5d;
             p1.y = (sp.y + ep.y) * 0.5d;
@@ -46,15 +48,15 @@ public class PixDraw_edge3P implements PixDraw {
         endPoint.y = (float) ep.y;
         point.x = (float) p1.x;
         point.y = (float) p1.y;
-        float f = 0.0001f;
+        final float MIN = 0.0001f;
         if (point.x == p.x)
-            point.x += f;
+            point.x += MIN;
         else if (point.x == (p.x + 1))
-            point.x -= f;
+            point.x -= MIN;
         if (point.y == p.y)
-            point.y += f;
+            point.y += MIN;
         else if (point.y == (p.y + 1))
-            point.y -= f;
+            point.y -= MIN;
         double dx = endPoint.x - startPoint.x;
         if (dx < 0.0d)
             dx = -dx;
@@ -62,83 +64,83 @@ public class PixDraw_edge3P implements PixDraw {
         if (dy < 0.0d)
             dy = -dy;
         boolean isPortrait = dx < dy;
-        boolean flag1_ = startPoint.x == p.x;
-        boolean flag2_ = startPoint.x == (p.x + 1);
-        boolean flag3_ = startPoint.y == p.y;
-        boolean flag4_ = startPoint.y == (p.y + 1);
-        if (flag1_ && flag3_) {
+        boolean flagX0 = startPoint.x == p.x;
+        boolean flagX1 = startPoint.x == (p.x + 1);
+        boolean flagY0 = startPoint.y == p.y;
+        boolean flagY1 = startPoint.y == (p.y + 1);
+        if (flagX0 && flagY0) {
             if (isPortrait)
-                startPoint.x += f;
+                startPoint.x += MIN;
             else
-                startPoint.y += f;
-        } else if (flag1_ && flag4_) {
+                startPoint.y += MIN;
+        } else if (flagX0 && flagY1) {
             if (isPortrait)
-                startPoint.x += f;
+                startPoint.x += MIN;
             else
-                startPoint.y -= f;
-        } else if (flag2_ && flag3_) {
+                startPoint.y -= MIN;
+        } else if (flagX1 && flagY0) {
             if (isPortrait)
-                startPoint.x -= f;
+                startPoint.x -= MIN;
             else
-                startPoint.y += f;
-        } else if (flag2_ && flag4_)
+                startPoint.y += MIN;
+        } else if (flagX1 && flagY1)
             if (isPortrait)
-                startPoint.x -= f;
+                startPoint.x -= MIN;
             else
-                startPoint.y -= f;
-        flag1_ = endPoint.x == p.x;
-        flag2_ = endPoint.x == (p.x + 1);
-        flag3_ = endPoint.y == p.y;
-        flag4_ = endPoint.y == (p.y + 1);
-        if (flag1_ && flag3_) {
+                startPoint.y -= MIN;
+        flagX0 = endPoint.x == p.x;
+        flagX1 = endPoint.x == (p.x + 1);
+        flagY0 = endPoint.y == p.y;
+        flagY1 = endPoint.y == (p.y + 1);
+        if (flagX0 && flagY0) {
             if (isPortrait)
-                endPoint.x += f;
+                endPoint.x += MIN;
             else
-                endPoint.y += f;
-        } else if (flag1_ && flag4_) {
+                endPoint.y += MIN;
+        } else if (flagX0 && flagY1) {
             if (isPortrait)
-                endPoint.x += f;
+                endPoint.x += MIN;
             else
-                endPoint.y -= f;
-        } else if (flag2_ && flag3_) {
+                endPoint.y -= MIN;
+        } else if (flagX1 && flagY0) {
             if (isPortrait)
-                endPoint.x -= f;
+                endPoint.x -= MIN;
             else
-                endPoint.y += f;
-        } else if (flag2_ && flag4_)
+                endPoint.y += MIN;
+        } else if (flagX1 && flagY1)
             if (isPortrait)
-                endPoint.x -= f;
+                endPoint.x -= MIN;
             else
-                endPoint.y -= f;
-        flag1 = get_flag_a(p.x, p.y, p.x, p.y);
-        flag2 = get_flag_a(p.x, p.y, p.x + 1, p.y);
-        flag3 = get_flag_a(p.x, p.y, p.x, p.y + 1);
-        flag4 = get_flag_a(p.x, p.y, p.x + 1, p.y + 1);
-        rgb1 = flag1 ? rgb1_ : rgb2_;
-        rgb2 = flag2 ? rgb1_ : rgb2_;
-        rgb3 = flag3 ? rgb1_ : rgb2_;
-        rgb4 = flag4 ? rgb1_ : rgb2_;
+                endPoint.y -= MIN;
+        contains00 = get_flag_a(p.x, p.y, p.x, p.y);
+        contains10 = get_flag_a(p.x, p.y, p.x + 1, p.y);
+        contains01 = get_flag_a(p.x, p.y, p.x, p.y + 1);
+        contains11 = get_flag_a(p.x, p.y, p.x + 1, p.y + 1);
+        rgb1 = contains00 ? rgb1_ : rgb2_;
+        rgb2 = contains10 ? rgb1_ : rgb2_;
+        rgb3 = contains01 ? rgb1_ : rgb2_;
+        rgb4 = contains11 ? rgb1_ : rgb2_;
         count1 = 0;
-        if (flag1)
+        if (contains00)
             count1++;
-        if (flag2)
+        if (contains10)
             count1++;
-        if (flag3)
+        if (contains01)
             count1++;
-        if (flag4)
+        if (contains11)
             count1++;
         if (count1 == 0 || count1 == 4)
-            rgb = flag1 ? rgb2_ : rgb1_;
+            rgb = contains00 ? rgb2_ : rgb1_;
         this.scaleX = UtMath.limit8bit(sx);
         this.scaleY = UtMath.limit8bit(sy);
     }
 
     public int getRgb(int x, int y, double x1, double y1, double scaleX, double scaleY) {
-        return a(x, y, x1, y1, scaleX, scaleY, point, startPoint, endPoint, 3);
+        return getRgb_a(x, y, x1, y1, scaleX, scaleY, point, startPoint, endPoint, 3);
     }
 
     public boolean get_flag_a(int x1, int y1, double x2, double y2) {
-        return ScalingUtil.is_d(x2, y2, point, startPoint, endPoint);
+        return ScalingUtil.contains_d(x2, y2, point, startPoint, endPoint);
     }
 
     public boolean isValid() {
@@ -146,23 +148,23 @@ public class PixDraw_edge3P implements PixDraw {
     }
 
     /** @return argb */
-    private int a(int x, int y, double x1, double y1, double scaleX, double scaleY, Point.Double p1, Point.Double p2, Point.Double p3, int l) {
+    private int getRgb_a(int x, int y, double x1, double y1, double scaleX, double scaleY, Point.Double p1, Point.Double p2, Point.Double p3, int l) {
         int sq = l * l;
         int r = 0;
         int g = 0;
         int b = 0;
         if (l == 1 || scaleX == 0.0d || scaleY == 0.0d) {
-            double d5 = x1 + scaleX / 2d;
-            double d6 = y1 + scaleY / 2d;
-            boolean flag = ScalingUtil.is_d(d5, d6, p1, p2, p3);
-            int argb = getRgb_a(x, y, d5, d6, flag);
+            double x2 = x1 + scaleX / 2d;
+            double y2 = y1 + scaleY / 2d;
+            boolean flag = ScalingUtil.contains_d(x2, y2, p1, p2, p3);
+            int argb = getRgb_a(x, y, x2, y2, flag);
             return argb;
         }
         for (int xi = 0; xi < l; xi++) {
             for (int yi = 0; yi < l; yi++) {
                 double x2 = x1 + (scaleX * yi) / (l - 1);
                 double y2 = y1 + (scaleY * xi) / (l - 1);
-                boolean flag1 = ScalingUtil.is_d(x2, y2, p1, p2, p3);
+                boolean flag1 = ScalingUtil.contains_d(x2, y2, p1, p2, p3);
                 int rgb = getRgb_a(x, y, x2, y2, flag1);
                 r += rgb >>> 16 & 0xff;
                 g += rgb >>> 8 & 0xff;
@@ -174,7 +176,7 @@ public class PixDraw_edge3P implements PixDraw {
         g /= sq;
         b /= sq;
         if (r > 255 || g > 255 || b > 255)
-            throw new RuntimeException("おかしい！！！");
+            throw new IllegalStateException("wrong rgb");
         else
             return 0xff000000 | r << 16 | g << 8 | b;
     }
@@ -185,8 +187,8 @@ public class PixDraw_edge3P implements PixDraw {
         if (c == 0)
             return rgb;
         if (c == 4) {
-            double d3 = x1 - x;
-            double d9 = y1 - y;
+            double x2 = x1 - x;
+            double y2 = y1 - y;
             int r1 = rgb1 >>> 16 & 0xff;
             int g1 = rgb1 >>> 8 & 0xff;
             int b1 = rgb1 & 0xff;
@@ -199,12 +201,12 @@ public class PixDraw_edge3P implements PixDraw {
             int r4 = rgb4 >>> 16 & 0xff;
             int g4 = rgb4 >>> 8 & 0xff;
             int b4 = rgb4 & 0xff;
-            int r = (int) ((1.0d - d3) * (1.0d - d9) * (r1 & 0xff) + d3 * (1.0d - d9) * (r2 & 0xff)
-                            + (1.0d - d3) * d9 * (r3 & 0xff) + d3 * d9 * (r4 & 0xff));
-            int g = (int) ((1.0d - d3) * (1.0d - d9) * (g1 & 0xff) + d3 * (1.0d - d9) * (g2 & 0xff)
-                            + (1.0d - d3) * d9 * (g3 & 0xff) + d3 * d9 * (g4 & 0xff));
-            int b = (int) ((1.0d - d3) * (1.0d - d9) * (b1 & 0xff) + d3 * (1.0d - d9) * (b2 & 0xff)
-                            + (1.0d - d3) * d9 * (b3 & 0xff) + d3 * d9 * (b4 & 0xff));
+            int r = (int) ((1.0d - x2) * (1.0d - y2) * (r1 & 0xff) + x2 * (1.0d - y2) * (r2 & 0xff)
+                            + (1.0d - x2) * y2 * (r3 & 0xff) + x2 * y2 * (r4 & 0xff));
+            int g = (int) ((1.0d - x2) * (1.0d - y2) * (g1 & 0xff) + x2 * (1.0d - y2) * (g2 & 0xff)
+                            + (1.0d - x2) * y2 * (g3 & 0xff) + x2 * y2 * (g4 & 0xff));
+            int b = (int) ((1.0d - x2) * (1.0d - y2) * (b1 & 0xff) + x2 * (1.0d - y2) * (b2 & 0xff)
+                            + (1.0d - x2) * y2 * (b3 & 0xff) + x2 * y2 * (b4 & 0xff));
             if (r < 0)
                 r = 0;
             else if (r > 255)
@@ -220,35 +222,35 @@ public class PixDraw_edge3P implements PixDraw {
             return 0xff000000 | r << 16 | g << 8 | b;
         }
         if (c == 1) {
-            if (flag1 == contains)
+            if (contains00 == contains)
                 return rgb1;
-            if (flag2 == contains)
+            if (contains10 == contains)
                 return rgb2;
-            if (flag3 == contains)
+            if (contains01 == contains)
                 return rgb3;
-            if (flag4 == contains)
+            if (contains11 == contains)
                 return rgb4;
             else
-                throw new RuntimeException("おかしな状態3");
+                throw new IllegalStateException("state3");
         }
         if (c == 2) {
-            if (flag1 == contains && flag2 == contains) {
+            if (contains00 == contains && contains10 == contains) {
                 double rate1 = (x + 1) - x1;
                 return ScalingUtil.blend(rgb1, rgb2, rate1);
             }
-            if (flag3 == contains && flag4 == contains) {
+            if (contains01 == contains && contains11 == contains) {
                 double rate2 = (x + 1) - x1;
                 return ScalingUtil.blend(rgb3, rgb4, rate2);
             }
-            if (flag1 == contains && flag3 == contains) {
+            if (contains00 == contains && contains01 == contains) {
                 double rate3 = (y + 1) - y1;
                 return ScalingUtil.blend(rgb1, rgb3, rate3);
             }
-            if (flag2 == contains && flag4 == contains) {
+            if (contains10 == contains && contains11 == contains) {
                 double rate4 = (y + 1) - y1;
                 return ScalingUtil.blend(rgb2, rgb4, rate4);
             } else {
-                throw new RuntimeException("おかしな状態 (離れた２点？)");
+                throw new IllegalStateException("separated points?");
             }
         }
         if (c == 3) {
@@ -261,10 +263,10 @@ public class PixDraw_edge3P implements PixDraw {
             if (rate5 < 0.0d)
                 rate5 = 0.0d;
             else if (rate5 > 1.0d)
-                rate5 = 1.0D;
-            if (flag1 != contains) {
+                rate5 = 1.0d;
+            if (contains00 != contains) {
                 if (rate5 > -v1 + 1.0d)
-                    if (v1 == 1.0D) {
+                    if (v1 == 1.0d) {
                         return ScalingUtil.blend(rgb4, rgb2, rate5);
                     } else {
                         double v2 = (rate5 - 1.0d) / (v1 - 1.0d);
@@ -282,7 +284,7 @@ public class PixDraw_edge3P implements PixDraw {
                     return argb;
                 }
             }
-            if (flag2 != contains) {
+            if (contains10 != contains) {
                 if (rate5 > v1)
                     if (v1 == 0.0d) {
                         return ScalingUtil.blend(rgb1, rgb3, 1.0d - rate5);
@@ -302,7 +304,7 @@ public class PixDraw_edge3P implements PixDraw {
                     return argb;
                 }
             }
-            if (flag3 != contains) {
+            if (contains01 != contains) {
                 if (rate5 < v1)
                     if (v1 == 1.0d) {
                         return ScalingUtil.blend(rgb2, rgb4, 1.0d - rate5);
@@ -322,7 +324,7 @@ public class PixDraw_edge3P implements PixDraw {
                     return argb;
                 }
             }
-            if (flag4 != contains) {
+            if (contains11 != contains) {
                 if (rate5 < -v1 + 1.0d)
                     if (v1 == 0.0d) {
                         return ScalingUtil.blend(rgb1, rgb3, 1.0d - rate5);
@@ -342,10 +344,10 @@ public class PixDraw_edge3P implements PixDraw {
                     return argb;
                 }
             } else {
-                throw new RuntimeException("おかしな状態");
+                throw new IllegalStateException("state1");
             }
         } else {
-            throw new RuntimeException("おかしな状態２");
+            throw new IllegalStateException("state2");
         }
     }
 
@@ -364,7 +366,7 @@ public class PixDraw_edge3P implements PixDraw {
             rgb4 = rgb;
             break;
         default:
-            throw new RuntimeException("おかしな状態");
+            throw new IllegalStateException("impossible");
         }
     }
 
@@ -379,7 +381,7 @@ public class PixDraw_edge3P implements PixDraw {
         case 3:
             return rgb4;
         }
-        throw new RuntimeException("おかしな状態");
+        throw new IllegalStateException("impossible");
     }
 
     public String toString() {
@@ -392,17 +394,16 @@ public class PixDraw_edge3P implements PixDraw {
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeByte(scaleX);
         oos.writeByte(scaleY);
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         scaleX = ois.readByte();
         scaleY = ois.readByte();
-        throw new RuntimeException("未修正");
+        throw new UnsupportedEncodingException("not implemented yet");
     }
 
     static {
-        if (debug)
-            System.out.println(" < DEBUG : vavix.awt.image.resample.enlarge.noids.image.scaling.pixDraw.PixDraw_edge3P > ");
+        Debug.println("vavix.awt.image.resample.enlarge.noids.image.scaling.pixDraw.PixDraw_edge3P");
     }
 }

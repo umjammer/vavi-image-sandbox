@@ -9,17 +9,17 @@ import vavix.awt.image.resample.enlarge.noids.image.scaling.edge.Edge;
 /** c */
 public class UtLine implements DirectionConstants {
 
-    static boolean debug = false;
+    static final boolean debug = false;
 
-    public static boolean connect(Edge edge1, boolean flag, Edge edge2, boolean flag1, int i) {
-        return connect(edge1, flag, edge2, flag1, i, false);
+    public static boolean connect(Edge edge1, boolean connected1, Edge edge2, boolean connected2, int next_value) {
+        return connect(edge1, connected1, edge2, connected2, next_value, false);
     }
 
-    public static boolean connect(Edge edge1, boolean flag, Edge edge2, boolean flag1, int i, boolean flag2) {
+    public static boolean connect(Edge edge1, boolean connected1, Edge edge2, boolean connected2, int next_value, boolean flag2) {
         if (edge1 != null) {
-            Edge edge = edge1.nextEdge(flag);
+            Edge edge = edge1.nextEdge(connected1);
             if (edge != null) {
-                if (!flag2 && edge1.next_value(flag) >= i)
+                if (!flag2 && edge1.next_value(connected1) >= next_value)
                     return false;
                 if (ScalingUtil.isValid(edge)) {
                     edge.disconnect(edge1);
@@ -29,9 +29,9 @@ public class UtLine implements DirectionConstants {
             }
         }
         if (edge2 != null) {
-            Edge edge = edge2.nextEdge(flag1);
+            Edge edge = edge2.nextEdge(connected2);
             if (edge != null) {
-                if (!flag2 && edge2.next_value(flag1) >= i)
+                if (!flag2 && edge2.next_value(connected2) >= next_value)
                     return false;
                 if (ScalingUtil.isValid(edge)) {
                     edge.disconnect(edge2);
@@ -41,9 +41,9 @@ public class UtLine implements DirectionConstants {
             }
         }
         if (edge1 != null)
-            edge1.connect(flag, edge2, i);
+            edge1.connect(connected1, edge2, next_value);
         if (edge2 != null)
-            edge2.connect(flag1, edge1, i);
+            edge2.connect(connected2, edge1, next_value);
         if (debug) {
             debug(edge1);
             debug(edge2);
@@ -52,45 +52,48 @@ public class UtLine implements DirectionConstants {
     }
 
     static void debug(Edge edge) {
-        Edge edge1 = edge.nextEdge(true);
-        Edge edge2 = edge.nextEdge(false);
-        if (ScalingUtil.isValid(edge1))
+        Edge nextEdge = edge.nextEdge(true);
+        Edge prevEdge = edge.nextEdge(false);
+        if (ScalingUtil.isValid(nextEdge))
             try {
-                edge1.isConnected(edge);
+                nextEdge.isConnected(edge);
             } catch (RuntimeException e) {
-                System.err.println("次の接続が不正な状態です ");
+                System.err.println("next connection is wrong");
                 System.err.println("\t" + edge);
-                System.err.println("\t" + edge1);
-                e.printStackTrace(System.err);
+                System.err.println("\t" + nextEdge);
+                e.printStackTrace();
             }
-        if (ScalingUtil.isValid(edge2))
+        if (ScalingUtil.isValid(prevEdge))
             try {
-                edge2.isConnected(edge);
+                prevEdge.isConnected(edge);
             } catch (RuntimeException e) {
-                System.err.println("次の接続が不正な状態です ");
+                System.err.println("prev connection is wrong");
                 System.err.println("\t" + edge);
-                System.err.println("\t" + edge2);
-                e.printStackTrace(System.err);
+                System.err.println("\t" + prevEdge);
+                e.printStackTrace();
             }
     }
 
-    public static Edge getEdge_a(Edge edge, boolean flag, int v, boolean[] aflag) {
-        Edge edge1 = edge;
-        if (v < 0) {
-            flag = !flag;
-            v = -v;
+    /**
+     * @param connected OUT
+     */
+    public static Edge getEdge_a(Edge startEdge, boolean asc, int times, boolean[] connected) {
+        Edge edge = startEdge;
+        if (times < 0) {
+            asc = !asc;
+            times = -times;
         }
-        boolean flag1 = flag;
-        for (int i = 0; i < v; i++) {
-            Edge edge2 = edge1.nextEdge(flag1);
-            if (!ScalingUtil.isValid(edge2))
+        boolean notConnected = asc;
+        for (int i = 0; i < times; i++) {
+            Edge nextEdge = edge.nextEdge(notConnected);
+            if (!ScalingUtil.isValid(nextEdge))
                 return null;
-            flag1 = !edge2.isConnected(edge1);
-            edge1 = edge2;
+            notConnected = !nextEdge.isConnected(edge);
+            edge = nextEdge;
         }
 
-        if (aflag != null && aflag.length > 0)
-            aflag[0] = !flag1;
-        return edge1;
+        if (connected != null && connected.length > 0)
+            connected[0] = !notConnected;
+        return edge;
     }
 }

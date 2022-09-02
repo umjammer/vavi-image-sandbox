@@ -8,5 +8,5 @@ import java.awt.image.BufferedImage;
 /** b */
 public interface Scaler {
 
-    void scale(Rectangle.Double dstRect, BufferedImage image, Rectangle srcRect) throws Exception;
+    void scale(Rectangle.Double dstRect, BufferedImage image, Rectangle srcRect);
 }

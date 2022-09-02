@@ -3,7 +3,7 @@ package vavix.awt.image.resample.enlarge.noids.image.scaling;
 
 
 /** a */
-public class Class_a implements DirectionConstants {
+public class Point_a {
 
     private int x;
     private int y;
@@ -12,7 +12,7 @@ public class Class_a implements DirectionConstants {
     private boolean flag2;
     private boolean flag3;
 
-    public Class_a(int x, int y, int value, boolean flag1, boolean flag2, boolean flag3) {
+    public Point_a(int x, int y, int value, boolean flag1, boolean flag2, boolean flag3) {
         this.x = x;
         this.y = y;
         this.value = value;

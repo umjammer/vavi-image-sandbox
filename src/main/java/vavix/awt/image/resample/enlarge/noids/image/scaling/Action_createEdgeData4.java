@@ -12,10 +12,10 @@ import vavix.awt.image.resample.enlarge.noids.image.util.InteriorDivision;
 import vavix.awt.image.resample.enlarge.noids.image.util.UtImage;
 
 
-public abstract class Action_createEdgeData4 implements DirectionConstants, Constants {
+public abstract class Action_createEdgeData4 {
 
-    static double value1 = 0.05d;
-    static double value2 = 0.1d;
+    static final double value1 = 0.05d;
+    static final double value2 = 0.1d;
     static boolean flag1 = false;
     static double value3 = 0.01d;
 
@@ -28,7 +28,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
     public static EdgeData createEdge(BufferedImage image, int margin) throws InterruptedException {
         try {
             if (image.getType() != BufferedImage.TYPE_INT_ARGB)
-                throw new IllegalArgumentException("INT_ARGB以外の型については未実装です");
+                throw new IllegalArgumentException("only TYPE_INT_ARGB is supported for image");
             int w = image.getWidth();
             int h = image.getHeight();
             EdgeData edgeData = new EdgeData(image, margin);
@@ -47,7 +47,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                         x = ex;
                     }
                     if (c++ > h * w * 10)
-                        throw new IllegalStateException("無限ループ");
+                        throw new IllegalStateException("infinit loop");
                 }
             }
 
@@ -67,7 +67,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                         y = ey;
                     }
                     if (c++ > h * w * 10)
-                        throw new IllegalStateException("無限ループ");
+                        throw new IllegalStateException("infinit loop");
                 }
             }
 
@@ -82,11 +82,11 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                         double x1 = edgeX.getX();
                         int x2 = (int) x1;
                         EdgeY[] edgeYs = edgeData.getEdgeYs(x2, x);
-                        for (int y = 0; y < edgeYs.length; y++) {
-                            if (x != (int) edgeYs[y].getY())
+                        for (EdgeY edgeY : edgeYs) {
+                            if (x != (int) edgeY.getY())
                                 continue;
-                            if (edgeYs[y].get_color1() < edgeX.get_color1())
-                                edgeData.remove(x2, edgeYs[y]);
+                            if (edgeY.get_color1() < edgeX.get_color1())
+                                edgeData.remove(x2, edgeY);
                             else
                                 edgeXs.remove(xi);
                             break;
@@ -110,12 +110,12 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             }
 
             for (int y = 0; y < edgeData.edgeYs.length; y++) {
-                List<EdgeY> edegYs = edgeData.edgeYs[y];
-                if (edegYs != null) {
-                    for (int yi = edegYs.size() - 1; yi >= 0; yi--) {
-                        EdgeY edgeY = edegYs.get(yi);
+                List<EdgeY> edgeYs = edgeData.edgeYs[y];
+                if (edgeYs != null) {
+                    for (int yi = edgeYs.size() - 1; yi >= 0; yi--) {
+                        EdgeY edgeY = edgeYs.get(yi);
                         if ((edgeY.endY - edgeY.startY) + 1 <= 2 && edgeY.get_color2() < 0.4d && contains(edgeData, y, edgeY))
-                            edegYs.remove(yi);
+                            edgeYs.remove(yi);
                     }
                 }
             }
@@ -133,9 +133,9 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
         int w = util.getWidth();
         double d1 = 0.0D;
         int argb1 = util.getARGB(x, y);
-        double[] hsl2 = HSL.toHsl(argb1, (double[]) null);
+        double[] hsl2 = HSL.toHsl(argb1, null);
         double[] hsl1 = new double[3];
-        double[] hsl0 = HSL.getHsl_b(hsl2, (double[]) null);
+        double[] hsl0 = HSL.getHsl_b(hsl2, null);
         double[] hsl7 = null;
         double[] hsl8 = new double[3];
         double[] ad9 = new double[21];
@@ -150,8 +150,8 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             x2 = x + 2;
             ad9[c++] = d2;
             d1 = d2;
-            double[] hsl4 = HSL.getHsl_b(hsl1, (double[]) null);
-            hsl7 = UtVector.get_diff(hsl0, hsl4, (double[]) null);
+            double[] hsl4 = HSL.getHsl_b(hsl1, null);
+            hsl7 = UtVector.get_diff(hsl0, hsl4, null);
         } else if (d2 > value1 && x + 2 < w) {
             int argb3 = util.getARGB(x + 2, y);
             HSL.toHsl(argb3, hsl1);
@@ -164,8 +164,8 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                     ad9[c++] = d2;
                     ad9[c++] = d4;
                     d1 = d4;
-                    double[] hsl5 = HSL.getHsl_b(hsl1, (double[]) null);
-                    hsl7 = UtVector.get_diff(hsl0, hsl5, (double[]) null);
+                    double[] hsl5 = HSL.getHsl_b(hsl1, null);
+                    hsl7 = UtVector.get_diff(hsl0, hsl5, null);
                 }
             }
         }
@@ -176,7 +176,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             double d3 = HSL.get_value_a(hsl2, hsl1);
             if (d3 - d1 <= 0.09d)
                 break;
-            double[] hsl9 = HSL.getHsl_b(hsl1, (double[]) null);
+            double[] hsl9 = HSL.getHsl_b(hsl1, null);
             UtVector.get_diff(hsl0, hsl9, hsl8);
             double a = UtVector.getAngle(hsl7, hsl8);
             if (a > 0.69813170079773179d) { // 40 degree [radian]
@@ -211,9 +211,9 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
         int h = util.getHeight();
         double d1 = 0.0D;
         int argb1 = util.getARGB(x, y);
-        double[] hsl1 = HSL.toHsl(argb1, (double[]) null);
+        double[] hsl1 = HSL.toHsl(argb1, null);
         double[] hsl0 = new double[3];
-        double[] hsl2 = HSL.getHsl_b(hsl1, (double[]) null);
+        double[] hsl2 = HSL.getHsl_b(hsl1, null);
         double[] hsl7 = null;
         double[] hsl8 = new double[3];
         double[] result = new double[21];
@@ -228,8 +228,8 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             y1 = y + 2;
             result[i++] = d2;
             d1 = d2;
-            double[] hsl4 = HSL.getHsl_b(hsl0, (double[]) null);
-            hsl7 = UtVector.get_diff(hsl2, hsl4, (double[]) null);
+            double[] hsl4 = HSL.getHsl_b(hsl0, null);
+            hsl7 = UtVector.get_diff(hsl2, hsl4, null);
         } else if (d2 > value1 && y + 2 < h) {
             int argb3 = util.getARGB(x, y + 2);
             HSL.toHsl(argb3, hsl0);
@@ -242,8 +242,8 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
                     result[i++] = d2;
                     result[i++] = hsl5;
                     d1 = hsl5;
-                    double[] hsl6 = HSL.getHsl_b(hsl0, (double[]) null);
-                    hsl7 = UtVector.get_diff(hsl2, hsl6, (double[]) null);
+                    double[] hsl6 = HSL.getHsl_b(hsl0, null);
+                    hsl7 = UtVector.get_diff(hsl2, hsl6, null);
                 }
             }
         }
@@ -256,7 +256,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
             if (d8 - d1 <= 0.09d) {
                 break;
             }
-            double[] hsl9 = HSL.getHsl_b(hsl0, (double[]) null);
+            double[] hsl9 = HSL.getHsl_b(hsl0, null);
             UtVector.get_diff(hsl2, hsl9, hsl8);
             double a = UtVector.getAngle(hsl7, hsl8);
             if (a > 0.69813170079773179d) { // 40 degree [radian]
@@ -289,8 +289,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
     private static boolean contains(EdgeData edgeData, int y, EdgeX edgeX) {
         for (int x = edgeX.startX; x <= edgeX.endX; x++) {
             EdgeY[] edgeXs = edgeData.getEdgeYs(x, y);
-            for (int i = 0; i < edgeXs.length; i++) {
-                EdgeY edgeY = edgeXs[i];
+            for (EdgeY edgeY : edgeXs) {
                 if (edgeX.get_color2() < edgeY.get_color2() / 1.5d && ScalingUtil.isNearly(edgeX, edgeY)) {
                     return true;
                 }
@@ -304,8 +303,7 @@ public abstract class Action_createEdgeData4 implements DirectionConstants, Cons
         int y = edgeY.startY;
         for (; x <= edgeY.endY; x++) {
             EdgeX[] edgeXs = edgeData.getEdgeXs(x, y);
-            for (int i = 0; i < edgeXs.length; i++) {
-                EdgeX edgeX = edgeXs[i];
+            for (EdgeX edgeX : edgeXs) {
                 if (edgeY.get_color2() < edgeX.get_color2() / 1.5d && ScalingUtil.isNearly(edgeY, edgeX)) {
                     return true;
                 }

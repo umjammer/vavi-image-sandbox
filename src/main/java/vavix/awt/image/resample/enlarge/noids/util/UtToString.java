@@ -8,18 +8,19 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static vavix.awt.image.resample.enlarge.noids.util.UtString.fillZeros;
 
 
 /** t */
 public abstract class UtToString {
 
     public static String toString(Rectangle.Double rect, int n) {
-        return rect != null ? "[ " + UtString.fillZeros(rect.getX(), n) + " ," + UtString.fillZeros(rect.getY(), n) + " ,"
-                              + UtString.fillZeros(rect.getWidth(), n) + " ," + UtString.fillZeros(rect.getHeight(), n) + " ]"
+        return rect != null ? "[ " + fillZeros(rect.getX(), n) + " ," + fillZeros(rect.getY(), n) + " ,"
+                              + fillZeros(rect.getWidth(), n) + " ," + fillZeros(rect.getHeight(), n) + " ]"
                            : "[null rect]";
     }
 
@@ -32,7 +33,7 @@ public abstract class UtToString {
     }
 
     public static String toString(Point.Double value, int n) {
-        return value != null ? "[ " + UtString.fillZeros(value.getX(), n) + " ," + UtString.fillZeros(value.getY(), n) + " ]"
+        return value != null ? "[ " + fillZeros(value.getX(), n) + " ," + fillZeros(value.getY(), n) + " ]"
                             : "[null rect]";
     }
 
@@ -47,7 +48,7 @@ public abstract class UtToString {
     public static String toString(Object[] values, String s) {
         if (values == null)
             return "[array is null]";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
             if (i > 0)
                 sb.append(s);
@@ -60,7 +61,7 @@ public abstract class UtToString {
     public static String toString(int[] values, String s) {
         if (values == null)
             return "[array is null]";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
             if (i > 0)
                 sb.append(s);
@@ -73,7 +74,7 @@ public abstract class UtToString {
     public static String toString(double[] values, String s, int n) {
         if (values == null)
             return "[array is null]";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
             if (i > 0)
                 sb.append(s);
@@ -86,7 +87,7 @@ public abstract class UtToString {
     public static String toString(float[] values, String s, int n) {
         if (values == null)
             return "[array is null]";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < values.length; i++) {
             if (i > 0)
                 sb.append(s);
@@ -99,13 +100,12 @@ public abstract class UtToString {
     public static String toString(Map<?, ?> map) {
         if (map == null)
             return "[map is null]";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         Set<?> set = map.keySet();
         Object key;
-        Iterator<?> i = set.iterator();
-        while (i.hasNext()) {
-            key = i.next();
-            sb.append(key + ":" + map.get(key) + "\n");
+        for (Object o : set) {
+            key = o;
+            sb.append(key).append(":").append(map.get(key)).append("\n");
         }
 
         return sb.toString();
@@ -129,27 +129,25 @@ public abstract class UtToString {
         double d1 = Runtime.getRuntime().maxMemory() * d;
         double d2 = Runtime.getRuntime().totalMemory() * d;
         double d3 = Runtime.getRuntime().freeMemory() * d;
-        return "using : " + UtString.fillZeros(d2 - d3, 1) + "/" + UtString.fillZeros(d2, 1) + "MB  ( max : "
-               + UtString.fillZeros(d1, 1) + "MB )";
+        return "using : " + fillZeros(d2 - d3, 1) + "/" + fillZeros(d2, 1) + "MB  ( max : "
+               + fillZeros(d1, 1) + "MB )";
     }
 
-    public static String getFormatedDateString() {
+    public static String getFormattedDateString() {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         return dateFormat.format(date);
     }
 
     public static String toString(List<?> list) {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         int c = 0;
-        Iterator<?> i = list.iterator();
-        while (i.hasNext()) {
+        for (Object o : list) {
             if (c != 0)
-                s = s + "\n";
-            Object obj = i.next();
-            s = s + "[" + c++ + "] : " + obj;
+                s.append("\n");
+            s.append("[").append(c++).append("] : ").append(o);
         }
-        return s;
+        return s.toString();
     }
 
     public static String toString(Object value) {
@@ -157,12 +155,12 @@ public abstract class UtToString {
             return "null";
         if (value instanceof String)
             return (String) value;
+        if (value instanceof Point)
+            return toString(value);
         if (value instanceof Point.Double)
             return toString((Point.Double) value);
-        if (value instanceof Point.Double)
-            return toString((Point.Double) value);
-        if (value instanceof Rectangle.Double)
-            return toString((Rectangle.Double) value);
+        if (value instanceof Rectangle)
+            return toString(value);
         if (value instanceof Rectangle.Double)
             return toString((Rectangle.Double) value);
         if (value instanceof AffineTransform)
@@ -190,15 +188,15 @@ public abstract class UtToString {
     }
 
     public static String toString(AffineTransform tx) {
-        double[] flatmatrix = new double[6];
-        tx.getMatrix(flatmatrix);
-        return "[ " + toString(flatmatrix, " ,", 2) + " ]";
+        double[] flatMatrix = new double[6];
+        tx.getMatrix(flatMatrix);
+        return "[ " + toString(flatMatrix, " ,", 2) + " ]";
     }
 
     public static void debug(AffineTransform tx) {
-        double[] flatmatrix = new double[6];
-        tx.getMatrix(flatmatrix);
-        System.out.println("AffineTransform [ " + toString(flatmatrix, " ,", 3) + " ]");
+        double[] flatMatrix = new double[6];
+        tx.getMatrix(flatMatrix);
+        System.out.println("AffineTransform [ " + toString(flatMatrix, " ,", 3) + " ]");
     }
 
     public static void debug(Point.Double value) {

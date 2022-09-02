@@ -19,12 +19,9 @@ public class EdgeX extends AbstractEdge implements Edge {
     float x1 = -999999f;
     float y1 = -999999f;
 
-    public EdgeX() {
-    }
-
     public EdgeX(int sx, int ex, int y, int color1, int color2, double[] ad) {
         if (color1 == color2)
-            System.out.println("faefaaaaaaaaaaaaaaaaaaaaaaa");
+            System.err.println("faefaaaaaaaaaaaaaaaaaaaaaaa");
         this.startX = sx;
         this.endX = ex;
         this.y = y;
@@ -49,7 +46,7 @@ public class EdgeX extends AbstractEdge implements Edge {
                 ad2[i] = ad[i];
             }
 
-            double[] ad3 = UtMath.method_c(ad1, ad2, (double[]) null);
+            double[] ad3 = UtMath.method_c(ad1, ad2, null);
             double d2 = ad[l] / 2d;
             x = (float) ((d2 - ad3[1]) / ad3[0]);
             if (x < (startX + 1))
@@ -119,7 +116,7 @@ public class EdgeX extends AbstractEdge implements Edge {
 
     public void moveBit(double x, double y) {
         if (x < 0.0d || y < 0.0d)
-            throw new RuntimeException("未実装");
+            throw new UnsupportedOperationException("not implemented yet");
         x1 = (float) x;
         y1 = (float) y;
         if (x1 - (int) x1 == 0.0f)
@@ -132,15 +129,15 @@ public class EdgeX extends AbstractEdge implements Edge {
         return true;
     }
 
-    public int get_color_a(boolean flag, boolean flag1) {
-        if (flag)
+    public int get_color_a(boolean asc, boolean flag1) {
+        if (asc)
             return flag1 ? endColor : startColor;
         else
             return flag1 ? startColor : endColor;
     }
 
-    public void set_color_a(boolean flag, boolean flag1, int color) {
-        if (flag) {
+    public void set_color_a(boolean asc, boolean flag1, int color) {
+        if (asc) {
             if (flag1)
                 endColor = color;
             else
@@ -153,8 +150,8 @@ public class EdgeX extends AbstractEdge implements Edge {
         }
     }
 
-    public Point get_point_b(boolean flag, boolean flag1) {
-        if (flag)
+    public Point get_point_b(boolean asc, boolean flag1) {
+        if (asc)
             return flag1 ? getEndPoint() : getStartPoint();
         else
             return flag1 ? getStartPoint() : getEndPoint();
@@ -171,7 +168,7 @@ public class EdgeX extends AbstractEdge implements Edge {
         case 3:
             return startColor;
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
     public int getYColor(int direction) {
@@ -185,7 +182,7 @@ public class EdgeX extends AbstractEdge implements Edge {
         case 3:
             return endColor;
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
     public Point getStartPoint(int direction) {
@@ -199,7 +196,7 @@ public class EdgeX extends AbstractEdge implements Edge {
         case 3:
             return getStartPoint();
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
     public Point getEndPoint(int direction) {
@@ -213,7 +210,7 @@ public class EdgeX extends AbstractEdge implements Edge {
         case 3:
             return getEndPoint();
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
     public String toString() {

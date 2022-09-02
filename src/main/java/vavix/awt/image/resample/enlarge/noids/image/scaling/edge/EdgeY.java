@@ -44,7 +44,7 @@ public class EdgeY extends AbstractEdge implements Edge {
                 ad2[i] = ad[i];
             }
 
-            double[] ad3 = UtMath.method_c(ad1, ad2, (double[]) null);
+            double[] ad3 = UtMath.method_c(ad1, ad2, null);
             double d2 = ad[l] / 2d;
             y = (float) ((d2 - ad3[1]) / ad3[0]);
             if (y < (startY + 1))
@@ -114,7 +114,7 @@ public class EdgeY extends AbstractEdge implements Edge {
 
     public void moveBit(double x, double y) {
         if (x < 0.0d || y < 0.0d)
-            throw new RuntimeException("未実装");
+            throw new IllegalArgumentException("x or y is negative number");
         x1 = (float) x;
         y1 = (float) y;
         if (x1 - (int) x1 == 0.0f)
@@ -138,7 +138,7 @@ public class EdgeY extends AbstractEdge implements Edge {
         case 3:
             return endColor;
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
     public int getYColor(int direction) {
@@ -152,7 +152,7 @@ public class EdgeY extends AbstractEdge implements Edge {
         case 3:
             return startColor;
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
     public Point getStartPoint(int direction) {
@@ -166,7 +166,7 @@ public class EdgeY extends AbstractEdge implements Edge {
         case 3:
             return getEndPoint();
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
     public Point getEndPoint(int direction) {
@@ -180,25 +180,25 @@ public class EdgeY extends AbstractEdge implements Edge {
         case 3:
             return getStartPoint();
         }
-        throw new RuntimeException("未実装");
+        throw new UnsupportedOperationException("impossible");
     }
 
-    public int get_color_a(boolean flag, boolean flag1) {
-        if (flag)
+    public int get_color_a(boolean asc, boolean flag1) {
+        if (asc)
             return flag1 ? startColor : endColor;
         else
             return flag1 ? endColor : startColor;
     }
 
-    public Point get_point_b(boolean flag, boolean flag1) {
-        if (flag)
+    public Point get_point_b(boolean asc, boolean flag1) {
+        if (asc)
             return flag1 ? getStartPoint() : getEndPoint();
         else
             return flag1 ? getEndPoint() : getStartPoint();
     }
 
-    public void set_color_a(boolean flag, boolean flag1, int color) {
-        if (flag) {
+    public void set_color_a(boolean asc, boolean flag1, int color) {
+        if (asc) {
             if (flag1)
                 startColor = color;
             else
