@@ -19,21 +19,22 @@ import javax.swing.JSplitPane;
 
 import vavi.awt.image.resample.AwtResampleOp;
 import vavi.swing.JImageComponent;
+import vavix.awt.image.resample.ZhoumxLanczosResample2Op;
 
 
 /**
- * Scaling. (awt, lanczos)
+ * Scaling. (awt, lanczos (Zhoumx))
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 061012 nsano initial version <br>
  */
-public class t146_9 {
+public class Scaling_awt_zhoumx {
 
     /**
-     * @param args image
+     * @param args 0: image
      */
     public static void main(String[] args) throws Exception {
-        new t146_9(args);
+        new Scaling_awt_zhoumx(args);
     }
 
     BufferedImage rightImage;
@@ -43,7 +44,7 @@ public class t146_9 {
     JImageComponent leftImageComponent;
     JLabel statusLabel;
 
-    t146_9(String[] args) throws Exception {
+    Scaling_awt_zhoumx(String[] args) throws Exception {
 System.err.println(args[0]);
         BufferedImage image = ImageIO.read(new File(args[0]));
         int w = image.getWidth();
@@ -74,10 +75,11 @@ System.err.println("left: " + (System.currentTimeMillis() - t) + "ms");
 
             // right
             image1 = rightImage;
-            filter = new vavix.awt.image.resample.HexeReinLanczosResampleOp(3, scale);
+            filter = new ZhoumxLanczosResample2Op((int) (image1.getWidth() * scale), (int) (image1.getHeight() * scale));
 t = System.currentTimeMillis();
             filteredImage = filter.filter(image1, null);
 System.err.println("right: " + (System.currentTimeMillis() - t) + "ms");
+System.err.println("filteredImage: " + filteredImage);
             rightImageComponent.setImage(filteredImage);
             rightImageComponent.repaint();
 
@@ -117,7 +119,7 @@ System.err.println("scale: " + scale);
         basePanel.add(statusLabel, BorderLayout.SOUTH);
 
         JFrame frame = new JFrame();
-        frame.setTitle("AwtResampleOp | Lanczos3 (HexeRein)");
+        frame.setTitle("AwtResampleOp | Lanczos3 (Zhoumx)");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setContentPane(scrollPane);
         frame.pack();

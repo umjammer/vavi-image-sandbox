@@ -21,10 +21,10 @@ import vavi.util.qr.QrcodeImageSource;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021117 nsano initial version <br>
  */
-public class t146_4 {
+public class QRCode_imageio {
 
     /** */
-    private static Logger logger = Logger.getLogger(t146_3.class.getName());
+    private static Logger logger = Logger.getLogger(ImageIOTest.class.getName());
 
     /**
      * @param args 0: content, 1: size, 2: output file

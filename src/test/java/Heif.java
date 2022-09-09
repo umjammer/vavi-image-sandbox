@@ -21,12 +21,12 @@ import vavi.swing.JImageComponent;
 
 
 /**
- * Test21. (heif) using jna, rococoa
+ * Heif. (heif) using jna, rococoa
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2017/11/16 umjammer initial version <br>
  */
-public class Test21 {
+public class Heif {
 
     static {
         // !!! JNA は -Djava.library.path を見なくて、以下 !!!

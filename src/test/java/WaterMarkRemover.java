@@ -71,7 +71,7 @@ import vavix.awt.image.util.ImageUtil;
  * @see "https://github.com/johnoneil/subimage/blob/master/subimage/find_subimage.py"
  * @see "http://workpiles.com/2015/05/opencv-matchtemplate-java/"
  */
-public class Test32 {
+public class WaterMarkRemover {
 
     // @see "http://autolab-minoya.hatenablog.com/entry/2017/11/04/224627"
     static {
@@ -118,10 +118,10 @@ public class Test32 {
         }
     }
 
-    static Test32 app;
+    static WaterMarkRemover app;
 
     public static void main(String[] args) throws Exception {
-        app = new Test32(args);
+        app = new WaterMarkRemover(args);
     }
 
     static class Mark {
@@ -482,7 +482,7 @@ System.err.println("saving done.");
         boolean isBlack;
     }
 
-    public Test32(String[] args) throws Exception {
+    public WaterMarkRemover(String[] args) throws Exception {
 
         marksComboBox = new JComboBox<>();
         marksComboBox.setRenderer(new ListCellRenderer<Mark>() {
@@ -508,7 +508,7 @@ System.err.println("saving done.");
                                                                    boolean cellHasFocus) {
                 if (model != null && index >= 0) {
                     image = model.view.getMarkImage(value);
-                    color.setText(String.valueOf(index) + ": 0x" + Integer.toHexString(value.color.getRGB()));
+                    color.setText(index + ": 0x" + Integer.toHexString(value.color.getRGB()));
                     color.setBackground(value.color);
                 }
                 if (isSelected) {
@@ -636,7 +636,7 @@ System.err.println(rect + ", " + scale);
                 params.xor = model.isXor();
                 params.threshold = (int) (model.getThreshold() * 100);
                 params.isBlack = model.isBlack();
-                Components.Util.rebind(params, Test32.this);
+                Components.Util.rebind(params, WaterMarkRemover.this);
                 //
                 this.scale = ImageUtil.fit(image, 0.8);
                 this.image = scale != 1 ? ImageUtil.scale(image, scale) : image;

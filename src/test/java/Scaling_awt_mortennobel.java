@@ -29,13 +29,13 @@ import vavi.swing.JImageComponent;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 061012 nsano initial version <br>
  */
-public class t146_92 {
+public class Scaling_awt_mortennobel {
 
     /**
-     * @param args image
+     * @param args 0: image
      */
     public static void main(String[] args) throws Exception {
-        new t146_92(args);
+        new Scaling_awt_mortennobel(args);
     }
 
     BufferedImage rightImage;
@@ -45,7 +45,7 @@ public class t146_92 {
     JImageComponent leftImageComponent;
     JLabel statusLabel;
 
-    t146_92(String[] args) throws Exception {
+    Scaling_awt_mortennobel(String[] args) throws Exception {
 System.err.println(args[0]);
         BufferedImage image = ImageIO.read(new File(args[0]));
         int w = image.getWidth();

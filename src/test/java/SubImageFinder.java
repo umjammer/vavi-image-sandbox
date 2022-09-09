@@ -20,13 +20,13 @@ import javax.swing.JPanel;
 
 
 /**
- * Test31. (find sub image)
+ * SubImageFinder. (find sub image)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2018/02/03 umjammer initial version <br>
  * @see "https://stackoverflow.com/questions/12598818/finding-a-picture-in-a-picture-with-java"
  */
-public class Test31 {
+public class SubImageFinder {
 
     /**
      * Finds a region in one image that best matches another, smaller,

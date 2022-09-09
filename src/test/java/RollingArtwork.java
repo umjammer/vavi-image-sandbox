@@ -25,8 +25,7 @@ import org.junit.jupiter.api.Disabled;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/09 umjammer initial version <br>
  */
-@Disabled
-public class Test1 {
+public class RollingArtwork {
 
     static {
 //        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");

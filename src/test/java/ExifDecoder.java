@@ -6,7 +6,6 @@
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -36,12 +35,12 @@ import vavix.util.grep.RegexFileDigger;
 
 
 /**
- * t64. EXIF Decoder
+ * ExifDecoder. EXIF Decoder
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2010/11/02 nsano initial version <br>
  */
-public class t64 {
+public class ExifDecoder {
 
     public static void main(String[] args) throws Exception {
         FileDigger fileDigger = new RegexFileDigger(file -> {

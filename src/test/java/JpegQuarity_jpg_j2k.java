@@ -47,7 +47,7 @@ import vavi.util.properties.annotation.PropsEntity;
  * @version 0.00 07xxxx nsano initial version <br>
  */
 @PropsEntity(url = "file://${user.dir}/local.properties")
-public class t146_14 {
+public class JpegQuarity_jpg_j2k {
 
     @Property(name = "image.writer.class", value = "com.sun.imageio.plugins.jpeg.JPEGImageWriter")
     String classNameL;
@@ -63,7 +63,7 @@ public class t146_14 {
     }
 
     public static void main(String[] args) throws Exception {
-        new t146_14(args);
+        new JpegQuarity_jpg_j2k(args);
     }
 
     BufferedImage rightImage;
@@ -73,7 +73,7 @@ public class t146_14 {
     JImageComponent leftImageComponent;
     JLabel statusLabel;
 
-    t146_14(String[] args) throws Exception {
+    JpegQuarity_jpg_j2k(String[] args) throws Exception {
 System.err.println(args[0]);
         BufferedImage image = ImageIO.read(new File(args[0]));
         int w = image.getWidth();

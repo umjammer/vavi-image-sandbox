@@ -23,7 +23,7 @@ import javax.media.opengl.GLJPanel;
 import javax.swing.JFrame;
 
 
-class Imaging {
+class GLImaging {
 
     //////////////// Variables /////////////////////////
 
@@ -49,7 +49,7 @@ class Imaging {
 
     ///////////////// Functions /////////////////////////
 
-    public Imaging() {
+    public GLImaging() {
     }
 
     public void init(int width, int height) {
@@ -303,7 +303,7 @@ class Imaging {
     }
 
     public static void main(String[] args) throws Exception {
-        final Imaging a = new Imaging();
+        final GLImaging a = new GLImaging();
         a.init(400, 400);
         a.loadImage(args[0]);
 

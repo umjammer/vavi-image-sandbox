@@ -31,10 +31,10 @@ import vavi.util.qr.Qrcode;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 021117 nsano initial version <br>
  */
-public class t146_3 {
+public class ImageIOTest {
 
     /** */
-    private static Logger logger = Logger.getLogger(t146_3.class.getName());
+    private static Logger logger = Logger.getLogger(ImageIOTest.class.getName());
 
     /** */
     private static byte[] convert(boolean[][] qr) {

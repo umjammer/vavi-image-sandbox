@@ -11,18 +11,16 @@ import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.junit.jupiter.api.Disabled;
 import vavi.xml.util.XmlUtil;
 
 
 /**
- * Test5. (JPEG 2000) 
+ * Jpeg2K. (JPEG 2000)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
-@Disabled
-public class Test5 {
+public class Jpeg2K {
 
     /**
      * @param args image output_base_name

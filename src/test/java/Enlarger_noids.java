@@ -31,7 +31,7 @@ import static vavix.util.DelayedWorker.later;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/08/31 umjammer initial version <br>
  */
-public class Test20 {
+public class Enlarger_noids {
 
     static long time;
 

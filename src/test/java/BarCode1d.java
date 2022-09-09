@@ -33,20 +33,20 @@ import vavi.swing.JImageComponent;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 041017 nsano initial version <br>
  */
-public class t146_5 {
+public class BarCode1d {
 
     /** */
     private static final Logger logger = new AdvancedConsoleLogger(AdvancedConsoleLogger.LEVEL_DEBUG, false, System.out, System.err);
 
     /** */
     public static void main(String[] args) throws Exception {
-        new t146_5(args);
+        new BarCode1d(args);
     }
 
     /**
      * @param args message dpi bw(boolean) symbol("code128", "code39", "codabar", "ean-13", "ean-8", "intl2of5", "upc-a", "upc-e", "postnet")
      */
-    public t146_5(String[] args) throws Exception {
+    public BarCode1d(String[] args) throws Exception {
 
         int dpi = Integer.parseInt(args[1]);
         boolean bw = Boolean.parseBoolean(args[2]);

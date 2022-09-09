@@ -6,7 +6,6 @@
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
@@ -19,8 +18,6 @@ import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.JFrame;
 
-import org.junit.jupiter.api.Disabled;
-
 import vavi.imageio.IIOUtil;
 import vavi.swing.JImageComponent;
 
@@ -31,8 +28,7 @@ import vavi.swing.JImageComponent;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/09 umjammer initial version <br>
  */
-@Disabled
-public class Test9 {
+public class ImageIOProvider {
 
     /**
      * @param args 0: input

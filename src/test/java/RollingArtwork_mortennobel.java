@@ -13,20 +13,20 @@ import vavix.awt.image.pixel.SimpleDrawOp;
 
 
 /**
- * Test1. Ranczos3 (com.mortennobel.imagescaling)
+ * RollingArtwork. Ranczos3 (com.mortennobel.imagescaling)
  *
  * @see "https://github.com/mortennobel/java-image-scaling"
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
-public class Test4 {
+public class RollingArtwork_mortennobel {
 
     String file = "/erika.jpg";
 
     @Test
     public void test01() throws Exception {
-        BufferedImage image = ImageIO.read(Test4.class.getResourceAsStream(file));
+        BufferedImage image = ImageIO.read(RollingArtwork_mortennobel.class.getResourceAsStream(file));
         int w = image.getWidth();
         int h = image.getHeight();
         BufferedImageOp filter1 = new SimpleDrawOp(0, 0, w, h);

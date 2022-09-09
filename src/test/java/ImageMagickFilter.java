@@ -24,6 +24,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -51,7 +52,7 @@ import vavix.awt.image.util.ImageUtil;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 061013 nsano initial version <br>
  */
-public class t146_11 {
+public class ImageMagickFilter {
 
     static {
         UIManager.getDefaults().put("SplitPane.border", BorderFactory.createEmptyBorder());
@@ -60,13 +61,15 @@ public class t146_11 {
         UIManager.getDefaults().put("ScrollPane.border", BorderFactory.createEmptyBorder());
     }
 
-    static t146_11 app;
+    static ImageMagickFilter app;
 
     public static void main(String[] args) throws Exception {
-        app = new t146_11(args);
+        app = new ImageMagickFilter(args);
     }
 
     double scale;
+
+    MagickParams params;
 
     BufferedImage image;
     BufferedImage leftImage;
@@ -83,7 +86,9 @@ public class t146_11 {
     JCheckBox thresholdCheckBox;
     JCheckBox gammaCheckBox;
     JCheckBox autoLevelCheckBox;
+    JCheckBox equalizeCheckBox;
     JCheckBox typeGrayscaleCheckBox;
+    JTextField rawArgs;
 
     JImageComponent rightImageComponent;
     JImageComponent leftImageComponent;
@@ -93,21 +98,29 @@ public class t146_11 {
     /** */
     void updateModel(String file) throws IOException {
 System.err.println(file);
-        image = ImageIO.read(new File(file));
+        if (file != null) { // TODO ugly
+            image = ImageIO.read(new File(file));
+        } else {
+            image = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR);
+        }
         scale = ImageUtil.fit(image, 0.8);
         leftImage = ImageUtil.scale(image, scale);
         rightImage = ImageUtil.clone(leftImage);
+        if (params != null) { // TODO ugly
+            params.reset();
+        }
     }
 
     /** */
     void updateView() {
         leftImageComponent.setImage(leftImage);
         rightImageComponent.setImage(rightImage);
-        leftImageComponent.getParent().getParent().repaint();
+        leftImageComponent.repaint();
+        rightImageComponent.repaint();
     }
 
-    t146_11(String[] args) throws Exception {
-        updateModel(args[0]);
+    ImageMagickFilter(String[] args) throws Exception {
+        updateModel(args.length > 0 ? args[0] : null);
 
         channelRedSeparateCheckBox = new JCheckBox("channel red separate");
         normalizeCheckBox = new JCheckBox("normalize");
@@ -115,13 +128,18 @@ System.err.println(file);
         thresholdCheckBox = new JCheckBox("threshold");
         gammaCheckBox = new JCheckBox("gamma");
         autoLevelCheckBox = new JCheckBox("auto level");
+        equalizeCheckBox = new JCheckBox("equalize");
         typeGrayscaleCheckBox = new JCheckBox("type grayscale");
+        rawArgs = new JTextField("raw args", 16);
         JPanel buttonPanel = new JPanel();
+        buttonPanel.add(new JLabel("raw args: "));
+        buttonPanel.add(rawArgs);
         buttonPanel.add(channelRedSeparateCheckBox);
         buttonPanel.add(normalizeCheckBox);
         buttonPanel.add(modulationCheckBox);
         buttonPanel.add(thresholdCheckBox);
         buttonPanel.add(autoLevelCheckBox);
+        buttonPanel.add(equalizeCheckBox);
         buttonPanel.add(typeGrayscaleCheckBox);
         buttonPanel.add(gammaCheckBox);
 
@@ -179,7 +197,7 @@ System.err.println(file);
 
                         @Override
                         protected DataFlavor chooseDropFlavor(DropTargetDropEvent ev) {
-                            if (ev.isLocalTransfer() == true && ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                            if (ev.isLocalTransfer() && ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
                                 return DataFlavor.javaFileListFlavor;
                             }
                             DataFlavor chosen = null;
@@ -223,6 +241,13 @@ System.err.println(file);
             }
             public void componentResized(ComponentEvent event) {
                 split.setDividerLocation(0.5);
+
+                scale = (double) split.getLeftComponent().getSize().getHeight() / image.getHeight();
+System.err.printf("scale: %2.2f\n", scale);
+//                leftImage = ImageUtil.scale(leftImage, scale);
+//                leftImageComponent.setPreferredSize(split.getLeftComponent().getSize());
+//                rightImage = ImageUtil.scale(rightImage, scale);
+//                rightImageComponent.setPreferredSize(split.getRightComponent().getSize());
             }
         });
 
@@ -243,7 +268,8 @@ System.err.println(file);
         leftImageComponent.repaint();
         rightImageComponent.repaint();
 
-        Components.Util.bind(new MagickParams(), this);
+        params = new MagickParams();
+        Components.Util.bind(params, this);
     }
 
     /** */
@@ -274,12 +300,28 @@ System.err.println(file);
         boolean thresholdFlag;
         @Component(name = "autoLevelCheckBox")
         boolean autoLevel;
+        @Component(name = "equalizeCheckBox")
+        boolean equalize;
         @Component(name = "typeGrayscaleCheckBox")
         boolean typeGrayscale;
         @Component(name = "gammaCheckBox")
         boolean gammaFlag;
+        @Component(name = "rawArgs")
+        String rawArgs;
         /** generated ImageMagick options */
         String command;
+        void reset() {
+            modulation = 100;
+            gamma = 100;
+            contrast = 0;
+            channelRedSeparationFlag = false;
+            normalizationFlag = false;
+            modulationFlag = false;
+            threshold = 0;
+            autoLevel = false;
+            typeGrayscale = false;
+            gammaFlag = false;
+        }
     }
 
     void updateRightImage(MagickParams params) {
@@ -330,6 +372,10 @@ System.err.println(file);
                     op.autoLevel();
                 }
 
+                if (params.equalize) {
+                    op.equalize();
+                }
+
                 if (params.modulationFlag) {
                     op.modulate((double) params.modulation);
                 }
@@ -348,6 +394,10 @@ System.err.println(file);
 
                 for (int i = 0; i < params.contrast; i++) {
                     op.p_contrast();
+                }
+
+                if (params.rawArgs != null && !params.rawArgs.isEmpty()) {
+                    op.addRawArgs(params.rawArgs.split("\\s"));
                 }
 
                 op.strip();

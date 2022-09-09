@@ -1,7 +1,6 @@
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,19 +11,16 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.junit.jupiter.api.Disabled;
-
 import vavi.imageio.IIOUtil;
 
 
 /**
- * Test8. (JPEG SIMD)
+ * Jpeg_simd. (JPEG SIMD)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
-@Disabled
-public class Test8 {
+public class Jpeg_simd {
 
     /**
      * @param args input

@@ -8,13 +8,12 @@ import org.junit.jupiter.api.Disabled;
 
 
 /**
- * Test7. (JPEG 2000 profiling)
+ * Jpeg2K_profiling. (JPEG 2000 profiling)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
-@Disabled
-public class Test7 {
+public class Jpeg2K_profiling {
 
     /**
      * @param args image
@@ -28,7 +27,7 @@ public class Test7 {
             reader.setInput(iis);
             reader.read(0);
             iis.close();
-System.err.println(String.valueOf(i));
+System.err.println(i);
         }
     }
 }

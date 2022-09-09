@@ -1,7 +1,6 @@
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 
 import javax.imageio.IIOImage;
@@ -10,19 +9,16 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.junit.jupiter.api.Disabled;
-
 import vavi.awt.image.resample.FfmpegResampleOp;
 
 
 /**
- * Test6. (JPEG 2000 scale)
+ * Jpeg2K_scale. (JPEG 2000 scale)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
-@Disabled
-public class Test6 {
+public class Jpeg2K_scale {
 
     /**
      * @param args input output

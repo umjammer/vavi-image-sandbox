@@ -179,7 +179,7 @@ TODO
               </execution>
             </executions>
             <configuration>
-              <mainClass>t146_11</mainClass>
+              <mainClass>ImageMagickFilter</mainClass>
               <classpathScope>test</classpathScope>
             </configuration>
           </plugin>
@@ -211,7 +211,7 @@ TODO
               </execution>
             </executions>
             <configuration>
-              <mainClass>Test32</mainClass>
+              <mainClass>WaterMarkRemover</mainClass>
               <classpathScope>test</classpathScope>
               <arguments>
                 <argument>-Xmx3G</argument>

@@ -17,12 +17,12 @@ import vavi.swing.JImageComponent;
 
 
 /**
- * Test22. (heif imageio)
+ * Heif_imageio. (heif imageio)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2017/11/16 umjammer initial version <br>
  */
-public class Test22 {
+public class Heif_imageio {
 
     /**
      * @param args 0: int

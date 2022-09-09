@@ -18,17 +18,16 @@ import javax.swing.JPanel;
 
 import vavi.imageio.IIOUtil;
 
-import vavix.util.grep.FileDigger;
 import vavix.util.grep.RegexFileDigger;
 
 
 /**
- * Test2. dig dir
+ * ImageUnderDirectory. dig dir
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/09 umjammer initial version <br>
  */
-public class Test2 {
+public class ImageUnderDirectory {
 
     static {
         IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");

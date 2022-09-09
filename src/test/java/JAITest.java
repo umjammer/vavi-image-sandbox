@@ -6,7 +6,6 @@
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -22,7 +21,7 @@ import com.sun.media.jai.codec.PNGEncodeParam;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (vavi)
  * @version 0.00 030905 nsano initial version <br>
  */
-public class t29 {
+public class JAITest {
 
     /**
      * @param args 0: in image, 1: out png

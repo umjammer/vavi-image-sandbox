@@ -14,20 +14,20 @@ import vavi.awt.image.resample.AwtResampleOp;
 
 
 /**
- * Test1. filters x3
+ * RollingArtwork. filters x3
  *
  * @see "https://github.com/mortennobel/java-image-scaling"
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2009/05/26 nsano initial version <br>
  */
-public class Test3 {
+public class RollingArtwork_filter_x3 {
 
     String name = "/erika.jpg";
 
     @Test
     public void test01() throws Exception {
-        BufferedImage image = ImageIO.read(Test3.class.getResourceAsStream(name));
+        BufferedImage image = ImageIO.read(RollingArtwork_filter_x3.class.getResourceAsStream(name));
         BufferedImage image2 = new AwtResampleOp(.5f, .5f).filter(image, null);
         ImageIO.write(image2, "JPG", new File("tmp", name.substring(0, name.lastIndexOf('.')) + "_" + "AreaAverage" + ".jpg"));
         BufferedImage image3 = new AwtResampleOp(.5f, .5f, Image.SCALE_REPLICATE).filter(image, null);

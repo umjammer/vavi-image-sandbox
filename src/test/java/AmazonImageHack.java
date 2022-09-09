@@ -16,12 +16,12 @@ import javax.swing.JPanel;
 
 
 /**
- * Test11. (Amazon Image Hacks)
+ * AmazonImageHack. (Amazon Image Hacks)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/02/25 umjammer initial version <br>
  */
-public class Test11 {
+public class AmazonImageHack {
 
     /**
      * TODO 2022-02-25 not work
