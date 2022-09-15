@@ -38,21 +38,21 @@ public class RotationOpTest {
     @Test
     public void testL90() {
         BufferedImage filteredImage = new RotationOp(RotationOp.ROTATE_LEFT_90).filter(image, null);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(image), "L90", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 
     @Test
     public void testR90() {
         BufferedImage filteredImage = new RotationOp(RotationOp.ROTATE_RIGHT_90).filter(image, null);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(image), "R90", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 
     @Test
     public void test180() {
         BufferedImage filteredImage = new RotationOp(RotationOp.ROTATE_180).filter(image, null);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(image), "180", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 

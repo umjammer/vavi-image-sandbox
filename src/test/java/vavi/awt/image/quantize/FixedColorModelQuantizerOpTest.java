@@ -151,7 +151,7 @@ System.err.println("writer: " + writer);
 
             imageMetaData.setFromTree(metaFormatName, metadataNode);
 
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, null, "01", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(images.get(i)));
             writer.writeToSequence(new IIOImage(images.get(i), null, imageMetaData), imageWriteParam);
             images.get(i).flush();
@@ -206,7 +206,7 @@ if (System.getProperty("vavi.test") == null)
                 tempImage4.flush();
             }
 System.err.println(processedImage);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(processedImage));
             backupImages.add(tempImage3);
             images.add(processedImage);
@@ -246,7 +246,7 @@ if (System.getProperty("vavi.test") == null)
 new PrettyPrinter(System.err).print(metadataNodes.get(i));
             imageMetaData.setFromTree(metaFormatName, metadataNodes.get(i));
 
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, null, "02", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(images.get(i)));
             writer.writeToSequence(new IIOImage(images.get(i), null, imageMetaData), imageWriteParam);
             images.get(i).flush();

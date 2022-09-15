@@ -21,7 +21,7 @@ import vavi.swing.JImageComponent;
 
 
 /**
- * Heif. (heif) using jna, rococoa
+ * Heif prototype. (heif) using jna, rococoa
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2017/11/16 umjammer initial version <br>

@@ -227,7 +227,7 @@ public class Java2DResampleOpTest {
         g2.dispose();
 
         // Render the image untransformed
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, null, "Untransformed", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(srcImage));
 
         BufferedImage image = new BufferedImage(100, 640, BufferedImage.TYPE_INT_RGB);
@@ -241,7 +241,7 @@ if (System.getProperty("vavi.test") == null)
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         g2.drawImage(srcImage, xform, null);
 
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(srcImage), "Nearest Neighbor", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
 
         // Render the image rotated (with BILINEAR)
@@ -251,7 +251,7 @@ if (System.getProperty("vavi.test") == null)
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2.drawImage(srcImage, xform, null);
 
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(srcImage), "Bilinear", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -262,7 +262,7 @@ if (System.getProperty("vavi.test") == null)
         g2.transform(xform);
         g2.fillRect(0, 0, srcImage.getWidth(), srcImage.getHeight());
 
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(srcImage), "Bilinear, Antialiased", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
 
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -273,7 +273,7 @@ if (System.getProperty("vavi.test") == null)
         g2.transform(xform);
         g2.fillRect(0, 0, srcImage.getWidth(), srcImage.getHeight());
 
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(srcImage), "Nearest Neighbor, Antialiased", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
     }
 }

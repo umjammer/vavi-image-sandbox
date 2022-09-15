@@ -18,10 +18,16 @@ import javax.imageio.stream.ImageInputStream;
 import vavi.util.Debug;
 
 
+/**
+ * RococoaImageReaderSpi.
+ *
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
+ * @version 0.00 Nov 16, 2017 umjammer initial version <br>
+ */
 public class RococoaImageReaderSpi extends ImageReaderSpi {
 
     private static final String VendorName = "https://github.com/umjammer/vavi-image-sandbox";
-    private static final String Version = "0.00";
+    private static final String Version = "1.0.5";
     private static final String ReaderClassName =
         "vavix.imageio.rocococa.RococoaImageReader";
     private static final String[] Names = {
@@ -76,7 +82,7 @@ public class RococoaImageReaderSpi extends ImageReaderSpi {
     public boolean canDecodeInput(Object obj) throws IOException {
 Debug.println(Level.FINE, "input: " + obj);
         if (obj instanceof ImageInputStream) {
-            ImageInputStream fiis = ImageInputStream.class.cast(obj);
+            ImageInputStream fiis = (ImageInputStream) obj;
             fiis.mark();
             // we currently accept heif only
             byte[] buf = new byte[8];

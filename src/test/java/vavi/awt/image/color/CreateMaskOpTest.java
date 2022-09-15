@@ -104,14 +104,14 @@ public class CreateMaskOpTest {
 
                 BufferedImage maskImage = new CreateMaskIndexOp().filter(image, null);
                 BufferedImage tempImage = new ResampleMaskOp(.5f, .5f).filter(maskImage, null);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(maskImage), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
                 maskImage.flush();
                 maskImage = tempImage;
 
                 BufferedImage halfImage = new AwtResampleOp(.5, .5).filter(image, null);
                 tempImage = new MaskAsTransparentIndexOp(maskImage).filter(halfImage, null);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(halfImage), "half", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(tempImage));
                 halfImage.flush();
                 halfImage = tempImage;
@@ -271,7 +271,7 @@ System.err.println("disposalMethod: " + disposalMethod);
                     tempImage3.flush();
                 }
 System.err.println(resampledImage);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(resampledImage));
                 images.add(resampledImage);
 
@@ -357,7 +357,7 @@ if (System.getProperty("vavi.test") == null)
                 processedImage = new FillTransparentDiffIndexOp(backupImages.get(i - 1)).filter(tempImage3, null);
             }
 System.err.println(processedImage);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(tempImage3), "resampled", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(processedImage));
             backupImages.add(tempImage3);
             images.add(processedImage);

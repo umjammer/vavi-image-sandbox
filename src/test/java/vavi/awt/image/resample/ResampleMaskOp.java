@@ -55,7 +55,7 @@ public class ResampleMaskOp implements BufferedImageOp {
         BufferedImage tempImage = new BufferedImage(destBounds.width, destBounds.height, BufferedImage.TYPE_INT_ARGB);
         BufferedImage filteredImage = new AwtResampleOp(sx, sy).filter(src, tempImage);
         tempImage.flush();
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(filteredImage), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(src));
 //System.err.println("colorModel: " + filteredImage.getColorModel());
 
@@ -71,7 +71,7 @@ if (System.getProperty("vavi.test") == null)
             }
         }
         dst.getRaster().setPixels(0, 0, dw, dh, dstPixels);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(dst), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
         filteredImage.flush();
 

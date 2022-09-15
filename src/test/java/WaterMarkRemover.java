@@ -638,7 +638,7 @@ System.err.println(rect + ", " + scale);
                 params.isBlack = model.isBlack();
                 Components.Util.rebind(params, WaterMarkRemover.this);
                 //
-                this.scale = ImageUtil.fit(image, 0.8);
+                this.scale = ImageUtil.fitY(image, 0.8);
                 this.image = scale != 1 ? ImageUtil.scale(image, scale) : image;
                 if (!initialized) {
                     Dimension dimension = new Dimension(this.image.getWidth(), this.image.getHeight());

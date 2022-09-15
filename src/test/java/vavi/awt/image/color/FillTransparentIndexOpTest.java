@@ -73,7 +73,7 @@ icm.getBlues(bs);
 for (int i = 0; i < mapSize; i++) {
  System.err.printf("[%03d] %02x%02x%02x\n", i, rs[i], gs[i], bs[i]);   
 }
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(image3), "fillTrancerateIndex 01", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
     }
 
@@ -175,7 +175,7 @@ System.err.printf("trans last used color: %d %08x\n",  trans, getRgb(trans, rs, 
         dst.setRGB(0, 0, w, h, pixels, 0, w);
 
         g.drawRect(0, 0, w - 1, h - 1);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(dst), "fillTrancerateIndex 02 1", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
 
         pixels = dst.getRaster().getPixels(0, 0, w, h, (int[]) null);
@@ -183,7 +183,7 @@ if (System.getProperty("vavi.test") == null)
         dst.getRaster().setPixels(0, 0, w, h, pixels);
 
         g.drawRect(0, 0, w - 1, h - 1);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(dst), "fillTrancerateIndex 02 2", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
     }
 
@@ -195,12 +195,12 @@ if (System.getProperty("vavi.test") == null)
             BufferedImage temp = filter.createCompatibleDestImage(image, image.getColorModel());
 //System.err.println(image.getColorModel());
             dst = new FillTransparentIndexOp(image).filter(temp, null);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(dst), "fillTrancerateIndex 03 1 0", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
             temp.flush();
         }
         BufferedImage tempImage = filter.filter(image, dst);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(tempImage), "fillTrancerateIndex 03 1", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
 
         filter = new SimpleDrawOp(40, 40, image.getWidth() + 80, image.getHeight() + 80); 
@@ -209,12 +209,12 @@ if (System.getProperty("vavi.test") == null)
             BufferedImage temp = filter.createCompatibleDestImage(image, image.getColorModel());
 //System.err.println(image.getColorModel());
             dst = new FillTransparentIndex2Op(image).filter(temp, null);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(dst), "fillTrancerateIndex 03 2 0", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
             temp.flush();
         }
         tempImage = filter.filter(image, dst);
-if (System.getProperty("vavi.test") == null)
+if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(tempImage), "fillTrancerateIndex 03 2", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
     }
 

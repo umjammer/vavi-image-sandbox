@@ -37,7 +37,7 @@ public class Enlarger_noids {
 
     static {
 //        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
-        time = Boolean.parseBoolean(System.getProperty("vavi.test", "false")) ? 10 * 1000 : 1000 * 1000;
+        time = System.getProperty("vavi.test", "").equals("ide") ? 1000 * 1000 : 10 * 1000;
     }
 
     /**
@@ -65,7 +65,7 @@ public class Enlarger_noids {
     }
 
     @Test
-    @EnabledIfSystemProperty(named = "vavi.test", matches = ".*")
+    @EnabledIfSystemProperty(named = "vavi.test", matches = "ide")
     public void test0() throws Exception {
         main(new String[] {"src/test/resources/namacha02.jpg"});
         while (!later(time).come()) Thread.yield();

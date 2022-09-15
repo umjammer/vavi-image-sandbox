@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import vavi.swing.JImageComponent;
+import vavi.util.Debug;
 
 
 /**
@@ -25,12 +26,13 @@ import vavi.swing.JImageComponent;
 public class Heif_imageio {
 
     /**
-     * @param args 0: int
+     * @param args 0...: heif files
      */
     public static void main(String[] args) throws IOException {
         Random random = new Random(System.currentTimeMillis());
         String filename = args[random.nextInt(args.length)];
 
+Debug.println(filename);
         BufferedImage image = ImageIO.read(new File(filename));
 
         //
