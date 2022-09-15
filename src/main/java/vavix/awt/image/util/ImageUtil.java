@@ -27,19 +27,57 @@ public final class ImageUtil {
     private ImageUtil() {
     }
 
+    /** Gets suitable scale from screen width */
+    public static double fitX(BufferedImage image, double xThreshold) {
+        return fit(image, xThreshold, 1);
+    }
+
+    /** Gets suitable scale from screen height */
+    public static double fitY(BufferedImage image, double yThreshold) {
+        return fit(image, 1, yThreshold);
+    }
+
     /**
      * Gets suitable scale from screen size.
      *
-     * @param threshold staring to scale.
+     * @param xThreshold staring to scale.
+     * @param yThreshold staring to scale.
      */
-    public static double fit(BufferedImage image, double threshold) {
+    public static double fit(BufferedImage image, double xThreshold, double yThreshold) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        if (image.getHeight() > screenSize.getHeight() * threshold) {
-            return screenSize.getHeight() * threshold / image.getHeight();
+        return fit(image,
+                new Dimension(
+                        (int) (screenSize.getWidth() * xThreshold),
+                        (int) (screenSize.getHeight() * yThreshold)));
+    }
+
+    /** Gets suitable scale from size */
+    public static double fit(BufferedImage image, Dimension size) {
+        int w = size.width;
+        int h = size.height;
+        int iw = image.getWidth();
+        int ih = image.getHeight();
+        double sw = 1;
+        double sh = 1;
+        double s;
+        if (iw > w || ih > h) {
+            if (iw > w) {
+                sw = w / (double) iw;
+            }
+            if (ih * sw > h) {
+                sh = h / (double) ih;
+            }
+            s = Math.min(sw, sh);
         } else {
-            // TODO horizontal check
-            return 1;
+            if (w > iw) {
+                sw = (double) iw / w;
+            }
+            if (ih * sw < h) {
+                sh = (double) ih / h;
+            }
+            s = 1 / Math.max(sw, sh);
         }
+        return s;
     }
 
     /**
