@@ -8,15 +8,12 @@ package vavix.imageio.rococoa;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
@@ -28,7 +25,6 @@ import javax.imageio.stream.ImageInputStream;
 
 import org.rococoa.cocoa.appkit.NSImage;
 import org.rococoa.cocoa.foundation.NSData;
-
 import vavi.imageio.WrappedImageInputStream;
 
 
@@ -39,6 +35,12 @@ import vavi.imageio.WrappedImageInputStream;
  * @version 0.00 Nov 16, 2017 umjammer initial version <br>
  */
 public class RococoaImageReader extends ImageReader {
+
+    static {
+        com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
+    }
+
+    private BufferedImage image;
 
     /** */
     public RococoaImageReader(ImageReaderSpi originatingProvider) {
@@ -62,39 +64,37 @@ public class RococoaImageReader extends ImageReader {
     @Override
     public int getWidth(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
-        return getWidth(1);
+        return image.getWidth();
     }
 
     @Override
     public int getHeight(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
-        return getHeight(2);
+        return image.getHeight();
     }
 
     @Override
     public BufferedImage read(int imageIndex, ImageReadParam param)
         throws IIOException {
 
-        com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
-
-        ImageInputStream stream = ImageInputStream.class.cast(input);
+        InputStream stream = new WrappedImageInputStream((ImageInputStream) input);
 
         try {
-
-            Path file = Files.createTempFile("vavix.imageio.rococoa", ".heic");
-            // TODO StandardOpenOption.DELETE_ON_CLOSE
-            Files.copy(new WrappedImageInputStream(stream), file, StandardCopyOption.REPLACE_EXISTING);
-
-            // stream not found で null が返る...orz
-            NSImage nsImage = NSImage.imageWithContentsOfFile(file.toString());
-            if (nsImage == null) {
-//System.err.print(file.getPath());
-                throw new FileNotFoundException("problem in reading temporary file: " + file);
+//Debug.println(Level.FINE, "available: " + stream.available());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] b = new byte[8192];
+            while (true) {
+                int r = stream.read(b, 0, b.length);
+                if (r < 0) break;
+                baos.write(b, 0, r);
             }
+
+            NSImage nsImage = NSImage.imageWithData(NSData.dataWithBytes(baos.toByteArray()));
             NSData data = nsImage.TIFFRepresentation();
             ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
 
-            return ImageIO.read(bais);
+            image = ImageIO.read(bais);
+            return image;
 
         } catch (IOException e) {
             throw new IIOException(e.getMessage(), e);

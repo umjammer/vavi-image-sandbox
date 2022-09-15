@@ -39,9 +39,9 @@ public class RococoaImageReaderSpiTest {
 
     @Test
     public void test0() throws Exception {
-        assertTrue(Arrays.stream(ImageIO.getReaderFormatNames()).anyMatch(s -> s.equals("heif")));
-        assertTrue(Arrays.stream(ImageIO.getReaderFormatNames()).anyMatch(s -> s.equals("heic")));
-        assertFalse(Arrays.stream(ImageIO.getWriterFormatNames()).anyMatch(s -> s.equals("heif")));
+        assertTrue(Arrays.asList(ImageIO.getReaderFormatNames()).contains("heif"));
+        assertTrue(Arrays.asList(ImageIO.getReaderFormatNames()).contains("heic"));
+        assertFalse(Arrays.asList(ImageIO.getWriterFormatNames()).contains("heif"));
         assertInstanceOf(RococoaImageReader.class, IIOUtil.getImageReader("HEIF", ImageReader.class.getName()));
         assertInstanceOf(RococoaImageReader.class, IIOUtil.getImageReader("HEIC", ImageReader.class.getName()));
     }
