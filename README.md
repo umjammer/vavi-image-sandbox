@@ -1,4 +1,7 @@
 [![Release](https://jitpack.io/v/umjammer/vavi-image-sandbox.svg)](https://jitpack.io/#umjammer/vavi-image-sandbox)
+[![Java CI](https://github.com/umjammer/vavi-image-sandbox/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/vavi-image-sandbox/actions)
+[![CodeQL](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/codeql-analysis.yml)
+![Java](https://img.shields.io/badge/Java-8-b07219)
 
 # vavi-image-sandbox
 
@@ -59,3 +62,15 @@ as a desktop mascot
 
     * arevalo
     * binpack
+
+  * image quality
+
+    * https://github.com/google/butteraugli
+
+## TODO
+
+ * https://github.com/haraldk/TwelveMonkeys
+ * https://github.com/eug/imageio-pnm
+ * http://thorntonzone.com/manuals/Compression/Fax,%20IBM%20MMR/MMSC/mmsc/uk/co/mmscomputing/imageio/ppm/index.html
+ * https://github.com/sejda-pdf/webp-imageio
+ * [CIFilter](https://developer.apple.com/documentation/coreimage/cifilter)

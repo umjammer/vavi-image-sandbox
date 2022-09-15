@@ -12,7 +12,7 @@
 
   <name>Vavi Imaging Sandbox API</name>
   <organization>
-    <name></name>
+    <name>vavi</name>
   </organization>
   <url>httpa://github.com/umjammer/vavi-image-sandbox</url>
   <description>
@@ -28,7 +28,7 @@ TODO
   </issueManagement>
 
   <properties>
-    <rococoa.version>0.8.4-SNAPSHOT</rococoa.version>
+    <rococoa.version>0.8.5-SNAPSHOT</rococoa.version>
   </properties>
 
   <profiles>
@@ -49,6 +49,7 @@ TODO
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>native-maven-plugin</artifactId>
+            <version>1.0-alpha-11</version>
             <extensions>true</extensions>
             <configuration>
               <javahSearchJNIFromDependencies>false</javahSearchJNIFromDependencies>
@@ -76,7 +77,7 @@ TODO
                 <linkerStartOption>-dynamiclib -arch x86_64
                   -L/usr/local/lib -lc++ -lpng -ljpeg</linkerStartOption>
               </linkerStartOptions>
-              <linkerFinalName></linkerFinalName>
+              <linkerFinalName/>
               <linkerEndOptions>
                 <linkerEndOption>-o ${project.build.directory}/vavi-image-butteraugli-${project.version}.dylib</linkerEndOption>
               </linkerEndOptions>
@@ -98,9 +99,7 @@ TODO
             <version>3.0.0-M5</version>
             <configuration>
               <trimStackTrace>false</trimStackTrace>
-              <forkMode>once</forkMode>
               <argLine>
-                -Dvavi.test=true
                 -Djava.library.path=${project.build.directory}
                 -Djna.library.path=${project.build.directory}
                 -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
@@ -108,8 +107,9 @@ TODO
             </configuration>
           </plugin>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <version>2.10</version>
+            <version>3.3.0</version>
             <executions>
               <execution>
                 <id>copy</id>
@@ -160,7 +160,7 @@ TODO
       <activation>
         <property>
           <name>magick</name>
-          <value></value>
+          <value/>
         </property>
       </activation>
       <build>
@@ -192,7 +192,7 @@ TODO
       <activation>
         <property>
           <name>wmr</name>
-          <value></value>
+          <value/>
         </property>
       </activation>
       <build>
@@ -226,8 +226,9 @@ TODO
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.10.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -267,7 +268,7 @@ TODO
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.8.1</version>
+        <version>5.8.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -276,25 +277,24 @@ TODO
 
   <repositories>
     <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/umjammer/*</url>
+    </repository>
+    <repository>
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
     <repository>
-      <id>github</id>
-      <name>GitHub umjammer Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/umjammer/*</url>
-    </repository>
-    <repository>
       <id>umjammer-mvn-repo</id>
       <url>https://raw.github.com/umjammer/umjammer/mvn-repo/</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
     </repository>
     <repository>
       <id>jboss thirdparty</id>
       <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+    </repository>
+    <repository>
+      <id>clojars</id>
+      <url>https://repo.clojars.org/</url>
     </repository>
   </repositories>
 
@@ -302,27 +302,22 @@ TODO
     <dependency>
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-commons</artifactId>
-      <version>1.1.5</version>
+      <version>1.1.6</version>
     </dependency>
     <dependency>
-      <groupId>com.github.umjammer</groupId>
+      <groupId>vavi</groupId>
       <artifactId>vavi-image</artifactId>
-      <version>1.0.8</version>
+      <version>1.0.10-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.github.umjammer</groupId>
       <artifactId>vavi-commons-sandbox</artifactId>
-      <version>0.3.4</version>
+      <version>0.4.1</version>
     </dependency>
     <dependency>
-      <groupId>com.github.umjammer</groupId>
-      <artifactId>vavi-awt</artifactId>
-      <version>1.0.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openpnp</groupId>
-      <artifactId>opencv</artifactId>
-      <version>[4.3.0,)</version>
+      <groupId>org.rococoa</groupId>
+      <artifactId>rococoa-core</artifactId>
+      <version>${rococoa.version}</version>
     </dependency>
     <dependency>
       <groupId>org.rococoa</groupId>
@@ -332,22 +327,29 @@ TODO
     <dependency>
       <groupId>net.sf.barcode4j</groupId>
       <artifactId>barcode4j</artifactId>
-      <version>2.0</version>
+      <version>2.1</version>
     </dependency>
     <dependency>
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework-api</artifactId>
-      <version>4.2.0</version>
+      <version>4.3</version>
     </dependency>
     <dependency>
       <groupId>com.mortennobel</groupId>
       <artifactId>java-image-scaling</artifactId>
-      <version>0.8.5</version>
+      <version>0.8.6</version>
     </dependency>
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.formdev</groupId>
+      <artifactId>flatlaf</artifactId>
+      <version>2.4</version>
+      <scope>runtime</scope>
     </dependency>
 
     <dependency>
@@ -363,7 +365,20 @@ TODO
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>vavi</groupId> <!-- com.github.umjammer -->
+      <artifactId>vavi-awt</artifactId>
+      <version>1.0.6-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openpnp</groupId>
+      <artifactId>opencv</artifactId>
+      <version>4.5.1-2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -388,7 +403,7 @@ TODO
       <!-- proposal -->
       <groupId>org.mp4parser</groupId>
       <artifactId>isoparser</artifactId>
-      <version>1.9.31</version>
+      <version>1.9.41</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -400,19 +415,19 @@ TODO
     <dependency>
       <groupId>com.drewnoakes</groupId>
       <artifactId>metadata-extractor</artifactId>
-      <version>2.11.0</version>
+      <version>2.18.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.2</version>
+      <version>1.7.36</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>net.java.dev.jogl</groupId>
       <artifactId>jogl-macosx-universal</artifactId>
-      <version>1.1.1-rc6</version>
+      <version>1.1.1a</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -422,5 +437,4 @@ TODO
       <scope>test</scope>
     </dependency>
   </dependencies>
-
 </project>
