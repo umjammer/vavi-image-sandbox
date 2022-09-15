@@ -5,12 +5,10 @@
  */
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
@@ -18,7 +16,7 @@ import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
+import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -26,24 +24,19 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
-
-import vavi.awt.dnd.BasicDTListener;
 import vavi.awt.image.AbstractBufferedImageOp;
 import vavi.swing.JImageComponent;
 import vavi.swing.binding.Component;
 import vavi.swing.binding.Components;
 import vavi.swing.binding.Updater;
-
-import vavix.awt.image.util.ImageUtil;
+import vavi.util.Debug;
 
 
 /**
@@ -65,15 +58,23 @@ public class ImageMagickFilter {
 
     public static void main(String[] args) throws Exception {
         app = new ImageMagickFilter(args);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+System.err.println("shutdownHook");
+            app.prefs.putInt("lastX", app.frame.getX());
+            app.prefs.putInt("lastY", app.frame.getY());
+            app.prefs.putInt("lastWidth", Math.max(app.split.getWidth(), 800));
+            app.prefs.putInt("lastHeight", Math.max(app.split.getHeight(), 600));
+        }));
     }
 
-    double scale;
+    Preferences prefs = Preferences.userNodeForPackage(ImageMagickFilter.class);
 
-    MagickParams params;
+    JFrame frame;
+    JPanel split;
+
+    MagickParams params = new MagickParams();
 
     BufferedImage image;
-    BufferedImage leftImage;
-    BufferedImage rightImage;
 
     JSlider contrastSlider;
     JSlider modulationSlider;
@@ -96,31 +97,32 @@ public class ImageMagickFilter {
     JTextField statusLabel;
 
     /** */
-    void updateModel(String file) throws IOException {
-System.err.println(file);
-        if (file != null) { // TODO ugly
-            image = ImageIO.read(new File(file));
-        } else {
-            image = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR);
-        }
-        scale = ImageUtil.fit(image, 0.8);
-        leftImage = ImageUtil.scale(image, scale);
-        rightImage = ImageUtil.clone(leftImage);
-        if (params != null) { // TODO ugly
+    void updateModel(BufferedImage image) {
+        leftImageComponent.setImage(image);
+        rightImageComponent.setImage(image);
+        if (this.image != null) {
             params.reset();
         }
+        updateView();
+        this.image = image;
     }
 
     /** */
     void updateView() {
-        leftImageComponent.setImage(leftImage);
-        rightImageComponent.setImage(rightImage);
         leftImageComponent.repaint();
         rightImageComponent.repaint();
     }
 
     ImageMagickFilter(String[] args) throws Exception {
-        updateModel(args.length > 0 ? args[0] : null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = prefs.getInt("lastX", 0);
+        int y = prefs.getInt("lastY", 0);
+        int w = prefs.getInt("lastWidth", (screenSize.width / 2) * 8 / 10);
+        int h = prefs.getInt("lastHeight", screenSize.height * 8 / 10);
+
+        if (args.length > 0) {
+            updateModel(ImageIO.read(new File(args[0])));
+        }
 
         channelRedSeparateCheckBox = new JCheckBox("channel red separate");
         normalizeCheckBox = new JCheckBox("normalize");
@@ -176,106 +178,57 @@ System.err.println(file);
         basePanel.add(upperPanel, BorderLayout.NORTH);
 
         leftImageComponent = new JImageComponent();
-        leftImageComponent.setImage(leftImage);
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BorderLayout());
-        leftPanel.add(leftImageComponent, BorderLayout.CENTER);
-        leftPanel.setPreferredSize(new Dimension(leftImage.getWidth(), leftImage.getHeight()));
+        leftImageComponent.setPreferredSize(new Dimension(400, 600));
 
-        rightImageComponent = new JImageComponent() {
-            {
-                // this is the DnD target sample for a file name from external applications
-                new DropTarget(
-                    this, 
-                    DnDConstants.ACTION_COPY_OR_MOVE,
-                    new BasicDTListener() {
-
-                        @Override
-                        protected boolean isDragFlavorSupported(DropTargetDragEvent ev) {
-                            return ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
-                        }
-
-                        @Override
-                        protected DataFlavor chooseDropFlavor(DropTargetDropEvent ev) {
-                            if (ev.isLocalTransfer() && ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                                return DataFlavor.javaFileListFlavor;
-                            }
-                            DataFlavor chosen = null;
-                            if (ev.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                                chosen = DataFlavor.javaFileListFlavor;
-                            }
-                            return chosen;
-                        }
-
-                        @SuppressWarnings("unchecked")
-                        @Override
-                        protected boolean dropImpl(DropTargetDropEvent ev, Object data) {
-                            try {
-                                updateModel(((List<File>) data).get(0).getPath());
-                                updateView();
-                                return true;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                return false;
-                            }
-                        }
-                    },
-                    true);
-            }
-        };
-        rightImageComponent.setImage(rightImage);
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BorderLayout());
-        rightPanel.add(rightImageComponent, BorderLayout.CENTER);
-        rightPanel.setPreferredSize(new Dimension(leftImage.getWidth(), leftImage.getHeight()));
-
-        final JSplitPane split = new JSplitPane();
-        split.setLeftComponent(leftPanel);
-        split.setRightComponent(rightPanel);
-        split.setPreferredSize(new Dimension(leftImage.getWidth() * 2 + 16, leftImage.getHeight()));
-
-        basePanel.add(split, BorderLayout.CENTER);
-        basePanel.addComponentListener(new ComponentAdapter() {
-            public void componentShown(ComponentEvent event) {
-                split.setDividerLocation(0.5);
-            }
-            public void componentResized(ComponentEvent event) {
-                split.setDividerLocation(0.5);
-
-                scale = (double) split.getLeftComponent().getSize().getHeight() / image.getHeight();
-System.err.printf("scale: %2.2f\n", scale);
-//                leftImage = ImageUtil.scale(leftImage, scale);
-//                leftImageComponent.setPreferredSize(split.getLeftComponent().getSize());
-//                rightImage = ImageUtil.scale(rightImage, scale);
-//                rightImageComponent.setPreferredSize(split.getRightComponent().getSize());
+        rightImageComponent = new JImageComponent(true);
+        rightImageComponent.setPreferredSize(new Dimension(400, 600));
+        rightImageComponent.addPropertyChangeListener(e -> {
+            if (e.getPropertyName().equals("droppedImage")) {
+                updateModel((BufferedImage) e.getNewValue());
             }
         });
+
+        split = new JPanel();
+        split.setLayout(new GridLayout(1, 2));
+        split.add(leftImageComponent);
+        split.add(rightImageComponent);
+        split.setPreferredSize(new Dimension(w, h));
+
+        basePanel.add(split, BorderLayout.CENTER);
 
         statusLabel = new JTextField();
         statusLabel.setText("original");
         basePanel.add(statusLabel, BorderLayout.SOUTH);
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(basePanel);
+        frame = new JFrame();
+        frame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent event) {
+                updateView();
+            }
+        });
 
-        JFrame frame = new JFrame();
+        frame.setLocation(x, y);
         frame.setTitle("original | magick");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(scrollPane);
+        frame.setContentPane(basePanel);
         frame.pack();
+
         frame.setVisible(true);
 
-        leftImageComponent.repaint();
-        rightImageComponent.repaint();
+        updateView();
 
-        params = new MagickParams();
         Components.Util.bind(params, this);
     }
 
     /** */
     public static class MyUpdater implements Updater<MagickParams> {
         public void update(MagickParams params) {
-            app.updateRightImage(params);
+            if (app.image == null) {
+Debug.println("no image");
+                params.reset();
+            } else {
+                app.updateRightImage(params);
+            }
         }
     }
 
@@ -317,24 +270,30 @@ System.err.printf("scale: %2.2f\n", scale);
             channelRedSeparationFlag = false;
             normalizationFlag = false;
             modulationFlag = false;
+            thresholdFlag = false;
             threshold = 0;
             autoLevel = false;
             typeGrayscale = false;
             gammaFlag = false;
+            Components.Util.rebind(this, app);
         }
     }
 
+    /** */
     void updateRightImage(MagickParams params) {
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         //
         BufferedImageOp filter = new ImageMagickOp(params);
-        BufferedImage filteredImage = ImageUtil.scale(filter.filter(image, null), scale);
+        BufferedImage filteredImage = filter.filter(image, null);
 
         //
         rightImageComponent.setImage(filteredImage);
         rightImageComponent.repaint();
 
-        //
+        // params is not bound
         statusLabel.setText(params.command);
+
+        frame.setCursor(Cursor.getDefaultCursor());
     }
 
     /** */
@@ -405,12 +364,13 @@ System.err.printf("scale: %2.2f\n", scale);
                 op.addImage(inFile.getAbsolutePath());
 
                 List<String> args = op.getCmdArgs();
-                params.command = "";
+                StringBuilder sb = new StringBuilder();
                 for (int i = 1; i < args.size() - 1; i++) {
-                    params.command += args.get(i) + " ";
+                     sb.append(args.get(i)).append(" ");
                 }
-                ConvertCmd convert = new ConvertCmd();
+                params.command = sb.toString();
 
+                ConvertCmd convert = new ConvertCmd();
                 convert.setSearchPath(params.path);
                 convert.run(op);
 
