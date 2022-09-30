@@ -5,7 +5,7 @@
 
 # vavi-image-sandbox
 
-Vavi Image API Sandbox
+🎨 Imaging the world more!
 
 ## formats
 
@@ -74,3 +74,4 @@ as a desktop mascot
  * http://thorntonzone.com/manuals/Compression/Fax,%20IBM%20MMR/MMSC/mmsc/uk/co/mmscomputing/imageio/ppm/index.html
  * https://github.com/sejda-pdf/webp-imageio
  * [CIFilter](https://developer.apple.com/documentation/coreimage/cifilter)
+ * https://github.com/sksamuel/scrimage (filter)
