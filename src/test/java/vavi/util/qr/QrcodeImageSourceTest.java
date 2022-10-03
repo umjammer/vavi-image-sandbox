@@ -17,6 +17,7 @@ import javax.swing.border.LineBorder;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import vavi.awt.ImageComponent;
 import vavi.swing.JImageComponent;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,7 +51,7 @@ public class QrcodeImageSourceTest {
         ip.setForeground(Color.pink);
         Image image = t.createImage(ip);
 
-        final JImageComponent component = new JImageComponent();
+        final ImageComponent component = new ImageComponent();
         component.setImage(image);
         int width = image.getWidth(null);
         component.setBorder(new LineBorder(Color.white, times / 2));

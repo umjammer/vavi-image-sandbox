@@ -24,6 +24,7 @@ import org.krysalis.barcode4j.cli.AdvancedConsoleLogger;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.MimeTypes;
 
+import vavi.awt.ImageComponent;
 import vavi.swing.JImageComponent;
 
 
@@ -77,7 +78,7 @@ logger.debug(image.toString());
         JFrame frame = new JFrame();
 //      frame.setSize(320, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JImageComponent component = new JImageComponent();
+        ImageComponent component = new ImageComponent();
         component.setImage(image);
         int w = image.getWidth(component);
         int h = image.getHeight(component);
