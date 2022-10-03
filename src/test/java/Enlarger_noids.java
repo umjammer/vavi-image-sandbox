@@ -26,7 +26,7 @@ import static vavix.util.DelayedWorker.later;
 
 
 /**
- * mugen viewer.
+ * Enlarger_noids.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2011/08/31 umjammer initial version <br>
@@ -37,7 +37,7 @@ public class Enlarger_noids {
 
     static {
 //        IIOUtil.setOrder(ImageReaderSpi.class, "com.sixlegs.png.iio.PngImageReaderSpi", "com.sun.imageio.plugins.png.PNGImageReaderSpi");
-        time = System.getProperty("vavi.test", "").equals("ide") ? 1000 * 1000 : 10 * 1000;
+        time = System.getProperty("vavi.test", "").equals("ide") ? 1000 * 1000 : 5 * 1000;
     }
 
     /**

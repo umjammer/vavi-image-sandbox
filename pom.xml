@@ -344,6 +344,11 @@ TODO
       <artifactId>commons-collections</artifactId>
       <version>3.2.2</version>
     </dependency>
+    <dependency>
+      <groupId>vavi</groupId>
+      <artifactId>vavi-image-enlarge-noids</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
 
     <dependency>
       <groupId>com.formdev</groupId>
