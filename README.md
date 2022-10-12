@@ -22,12 +22,9 @@
     * rotation
     * draw
 
-  * quantizing
+  * quantization
 
     * fixed color model
-    * oct tree ([vs neural net](https://github.com/umjammer/vavi-image-sandbox/wiki/OctTree_vs_NeuralNet))
-    * Imagemagick
-    * neural net ([vs oct tree](https://github.com/umjammer/vavi-image-sandbox/wiki/OctTree_vs_NeuralNet))
 
   * resampling
 
@@ -37,7 +34,7 @@
   * enlargement
 
     * smilla
-    * noids
+    * [noids](https://gitlab.com/umjammer/vavi-image-enlarge-noids)
 
   * [Pseudo Colorization](https://github.com/umjammer/vavi-apps-pseudocolorization/wiki) ([android version](https://github.com/umjammer/vavi-apps-pseudocolorization))
   * [Imagemagick](https://github.com/umjammer/vavi-image-sandbox/wiki/ImageMagickFilter)
@@ -72,6 +69,6 @@ as a desktop mascot
  * https://github.com/haraldk/TwelveMonkeys
  * https://github.com/eug/imageio-pnm
  * http://thorntonzone.com/manuals/Compression/Fax,%20IBM%20MMR/MMSC/mmsc/uk/co/mmscomputing/imageio/ppm/index.html
- * https://github.com/sejda-pdf/webp-imageio
+ * ~~https://github.com/sejda-pdf/webp-imageio~~ (native wrapper)
  * [CIFilter](https://developer.apple.com/documentation/coreimage/cifilter)
  * https://github.com/sksamuel/scrimage (filter)
