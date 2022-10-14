@@ -7,15 +7,14 @@
 package vavix.imageio.rococoa;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import javax.imageio.IIOException;
-import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.ImageTypeSpecifier;
@@ -26,6 +25,7 @@ import javax.imageio.stream.ImageInputStream;
 import org.rococoa.cocoa.appkit.NSImage;
 import org.rococoa.cocoa.foundation.NSData;
 import vavi.imageio.WrappedImageInputStream;
+import vavi.util.Debug;
 
 
 /**
@@ -56,8 +56,6 @@ public class RococoaImageReader extends ImageReader {
     private void checkIndex(int imageIndex) {
         if (imageIndex != 0) {
             throw new IndexOutOfBoundsException("bad index");
-        } else {
-            return;
         }
     }
 
@@ -80,7 +78,7 @@ public class RococoaImageReader extends ImageReader {
         InputStream stream = new WrappedImageInputStream((ImageInputStream) input);
 
         try {
-//Debug.println(Level.FINE, "available: " + stream.available());
+Debug.println(Level.FINER, "available: " + stream.available());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] b = new byte[8192];
             while (true) {
@@ -90,10 +88,7 @@ public class RococoaImageReader extends ImageReader {
             }
 
             NSImage nsImage = NSImage.imageWithData(NSData.dataWithBytes(baos.toByteArray()));
-            NSData data = nsImage.TIFFRepresentation();
-            ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
-
-            image = ImageIO.read(bais);
+            image = nsImage.toBufferedImage();
             return image;
 
         } catch (IOException e) {
@@ -115,7 +110,7 @@ public class RococoaImageReader extends ImageReader {
     @Override
     public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
-        ImageTypeSpecifier specifier = null;
+        ImageTypeSpecifier specifier = new ImageTypeSpecifier(image);
         List<ImageTypeSpecifier> l = new ArrayList<>();
         l.add(specifier);
         return l.iterator();
