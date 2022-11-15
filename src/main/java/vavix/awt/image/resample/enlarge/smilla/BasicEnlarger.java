@@ -790,7 +790,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
             for (int dstBX = dstMinBX; dstBX < dstMaxBX; dstBX++) {
                 float w = (2.0f * randGen.randF() - 1.0f);
                 w *= randGen.randF();
-                w *= 0.5 * ditherF;
+                w *= 0.5f * ditherF;
                 w = 1.0f + w;
 
                 dstBlock.mul(dstBX, dstBY, w);
