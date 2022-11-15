@@ -1004,7 +1004,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
                             // ww = 1.0 + sd * Math.cos(10.0 * (sdx * px + sdy * py));
                             // modColor[a] *= ww;
 
-                            w += 0.000000001;
+                            w += 0.000000001f;
                             wMat[a] = w;
                             totalWeight += w;
                             a++;
