@@ -705,7 +705,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
 
                 dd = modVal2(v - bW.getF(x - 1, y - 1), v - bW.getF(x + 1, y + 1));
                 dd += modVal2(v - bW.getF(x - 1, y + 1), v - bW.getF(x + 1, y - 1));
-                dd *= 0.5;
+                dd *= 0.5f;
                 dd += modVal2(v - bW.getF(x, y + 1), v - bW.getF(x, y - 1));
                 dd += modVal2(v - bW.getF(x - 1, y), v - bW.getF(x + 1, y));
                 dd *= (1.0 / 3.0);
