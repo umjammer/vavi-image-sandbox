@@ -207,7 +207,7 @@ class MyArray extends BasicArray<PFloat> {
                 }
                 float centerV = getF(x, y);
                 val = centerV - 0.5f * (val - centerV);
-                val += 0.0001 * (rGen.randF() - 0.5);
+                val += 0.0001f * (rGen.randF() - 0.5f);
                 if (val < 0.0)
                     val = 0.0f;
                 else if (val > 1.0)
