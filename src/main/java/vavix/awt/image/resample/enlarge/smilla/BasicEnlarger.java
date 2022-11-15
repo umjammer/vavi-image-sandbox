@@ -714,7 +714,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
                 if (dd < 0.01) {
                     dd = dd * 100.0f;
                     dd = 1.0f / (2.0f - dd);
-                    dd *= 0.01;
+                    dd *= 0.01f;
                 }
                 dd = (float) Math.pow(dd, sharpExp); // Sharpness!
 
