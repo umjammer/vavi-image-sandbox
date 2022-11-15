@@ -492,7 +492,7 @@ public class Qrcode {
             maxDataBits = maxDataBitsArray[ec][version];
         }
         totalDataBits += codewordNumPlus[version];
-        dataBits[codewordNumCounterValue] += codewordNumPlus[version];
+        dataBits[codewordNumCounterValue] = (byte) (dataBits[codewordNumCounterValue] + codewordNumPlus[version]);
 
         int maxCodewords = maxCodeWordsArray[version];
 //    int maxModules1side = 17 + (version << 2);

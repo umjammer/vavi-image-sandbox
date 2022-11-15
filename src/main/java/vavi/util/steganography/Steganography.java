@@ -129,9 +129,8 @@ public class Steganography {
             throw new IllegalArgumentException("File not long enough!");
         }
         // loop through each addition byte
-        for (int i = 0; i < addition.length; ++i) {
+        for (int add : addition) {
             // loop through the 8 bits of each byte
-            int add = addition[i];
             for (int bit = 7; bit >= 0; --bit, ++offset) { // ensure the new offset value carries on through both loops
                 // assign an integer to b, shifted by bit spaces AND 1
                 // a single bit of the current byte

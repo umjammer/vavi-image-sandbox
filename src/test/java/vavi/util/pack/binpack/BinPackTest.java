@@ -6,7 +6,7 @@ import java.util.Scanner;
 import org.junit.jupiter.api.Disabled;
 
 
-@Disabled
+@Disabled("not implemented yet")
 class BinPackerTest {
 
     public static void main(String[] args) {

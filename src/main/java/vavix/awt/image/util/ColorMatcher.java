@@ -12,6 +12,7 @@ import java.awt.Color;
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 041007 nsano initial version <br>
+ * @see "http://www.knorrpage.de/colormatch.html"
  */
 public class ColorMatcher {
 

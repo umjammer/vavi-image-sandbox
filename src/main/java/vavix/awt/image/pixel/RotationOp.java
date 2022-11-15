@@ -68,7 +68,7 @@ public class RotationOp implements BufferedImageOp {
         default:
             throw new IllegalArgumentException("how: " + how);
         }
-        
+
         return dst;
     }
 

@@ -30,7 +30,7 @@ public class SteganographyTest {
     @Test
     public void test() throws IOException {
         final String string = "Copyright © 2017 by Naohide Sano, All rights reserved.";
-        BufferedImage image1 = ImageIO.read(new File("tmp/P.jpg"));
+        BufferedImage image1 = ImageIO.read(SteganographyTest.class.getResourceAsStream("/erika.jpg"));
         Steganography steganography = new Steganography(image1);
         BufferedImage steganImage = steganography.encode(string);
         File image2file = new File("tmp/stegan.png");

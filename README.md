@@ -1,8 +1,11 @@
 [![Release](https://jitpack.io/v/umjammer/vavi-image-sandbox.svg)](https://jitpack.io/#umjammer/vavi-image-sandbox)
+[![Java CI](https://github.com/umjammer/vavi-image-sandbox/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/vavi-image-sandbox/actions)
+[![CodeQL](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/codeql-analysis.yml)
+![Java](https://img.shields.io/badge/Java-8-b07219)
 
 # vavi-image-sandbox
 
-Vavi Image API Sandbox
+🎨 Imaging the world more!
 
 ## formats
 
@@ -19,12 +22,9 @@ Vavi Image API Sandbox
     * rotation
     * draw
 
-  * quantizing
+  * quantization
 
     * fixed color model
-    * oct tree ([vs neural net](https://github.com/umjammer/vavi-image-sandbox/wiki/OctTree_vs_NeuralNet))
-    * Imagemagick
-    * neural net ([vs oct tree](https://github.com/umjammer/vavi-image-sandbox/wiki/OctTree_vs_NeuralNet))
 
   * resampling
 
@@ -34,7 +34,7 @@ Vavi Image API Sandbox
   * enlargement
 
     * smilla
-    * noids
+    * [noids](https://gitlab.com/umjammer/vavi-image-enlarge-noids)
 
   * [Pseudo Colorization](https://github.com/umjammer/vavi-apps-pseudocolorization/wiki) ([android version](https://github.com/umjammer/vavi-apps-pseudocolorization))
   * [Imagemagick](https://github.com/umjammer/vavi-image-sandbox/wiki/ImageMagickFilter)
@@ -60,12 +60,15 @@ as a desktop mascot
     * arevalo
     * binpack
 
-### openvc
+  * image quality
 
-```shell
- $ export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk_version.jdk/Contents/Home/' # works???
- $ brew install ant
- $ brew edit opencv
- -DBUILD_opencv_java=ON
- $ brew install --build-from-source opencv
-```
+    * https://github.com/google/butteraugli
+
+## TODO
+
+ * https://github.com/haraldk/TwelveMonkeys
+ * https://github.com/eug/imageio-pnm
+ * http://thorntonzone.com/manuals/Compression/Fax,%20IBM%20MMR/MMSC/mmsc/uk/co/mmscomputing/imageio/ppm/index.html
+ * ~~https://github.com/sejda-pdf/webp-imageio~~ (native wrapper)
+ * [CIFilter](https://developer.apple.com/documentation/coreimage/cifilter)
+ * https://github.com/sksamuel/scrimage (filter)

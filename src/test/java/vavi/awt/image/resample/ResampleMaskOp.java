@@ -14,6 +14,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 
 /**
  * ResampleMaskOp.
@@ -52,7 +55,8 @@ public class ResampleMaskOp implements BufferedImageOp {
         BufferedImage tempImage = new BufferedImage(destBounds.width, destBounds.height, BufferedImage.TYPE_INT_ARGB);
         BufferedImage filteredImage = new AwtResampleOp(sx, sy).filter(src, tempImage);
         tempImage.flush();
-//JOptionPane.showMessageDialog(null, new ImageIcon(filteredImage), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(src));
+if (System.getProperty("vavi.test", "").equals("ide"))
+ JOptionPane.showMessageDialog(null, new ImageIcon(filteredImage), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(src));
 //System.err.println("colorModel: " + filteredImage.getColorModel());
 
         int dw = dst.getWidth();
@@ -67,7 +71,8 @@ public class ResampleMaskOp implements BufferedImageOp {
             }
         }
         dst.getRaster().setPixels(0, 0, dw, dh, dstPixels);
-//JOptionPane.showMessageDialog(null, new ImageIcon(dst), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
+if (System.getProperty("vavi.test", "").equals("ide"))
+ JOptionPane.showMessageDialog(null, new ImageIcon(dst), "mask", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
         filteredImage.flush();
 
         return dst;

@@ -9,21 +9,29 @@ package vavix.imageio.rococoa;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.logging.Level;
 
 import javax.imageio.ImageReader;
 import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 
+import vavi.util.Debug;
 
+
+/**
+ * RococoaImageReaderSpi.
+ *
+ * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
+ * @version 0.00 Nov 16, 2017 umjammer initial version <br>
+ */
 public class RococoaImageReaderSpi extends ImageReaderSpi {
 
-    private static final String VendorName = "http://www.vavisoft.com";
-    private static final String Version = "0.00";
+    private static final String VendorName = "https://github.com/umjammer/vavi-image-sandbox";
+    private static final String Version = "1.0.5";
     private static final String ReaderClassName =
         "vavix.imageio.rocococa.RococoaImageReader";
     private static final String[] Names = {
-        "heif"
+        "heif", "heic", "HEIF", "HEIC"
     };
     private static final String[] Suffixes = {
         "heif", "heic"
@@ -65,30 +73,32 @@ public class RococoaImageReaderSpi extends ImageReaderSpi {
               ExtraImageMetadataFormatClassNames);
     }
 
-    /* */
+    @Override
     public String getDescription(Locale locale) {
         return "HEIF Image";
     }
 
-    /* */
-    public boolean canDecodeInput(Object obj)
-        throws IOException {
-        if (obj instanceof FileImageInputStream) {
-            FileImageInputStream fiis = FileImageInputStream.class.cast(obj);
+    @Override
+    public boolean canDecodeInput(Object obj) throws IOException {
+Debug.println(Level.FINE, "input: " + obj);
+        if (obj instanceof ImageInputStream) {
+            ImageInputStream fiis = (ImageInputStream) obj;
             fiis.mark();
             // we currently accept heif only
-            byte[] buf = new byte[12];
-            fiis.read(buf, 0, 12);
+            byte[] buf = new byte[8];
+            fiis.skipBytes(4);
+            fiis.readFully(buf);
             fiis.reset();
-            final byte[] magic = { 00, 00, 00, 0x1c, 0x66, 0x74, 0x79, 0x70, 0x6d, 0x69, 0x66, 0x31 };
-//System.err.println("HERE; " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
+            // "ftyp" "mif1"
+            final byte[] magic = { 0x66, 0x74, 0x79, 0x70, 0x6d, 0x69, 0x66, 0x31 };
+Debug.println(Level.FINE, "magic: " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
             return Arrays.equals(buf, magic);
         } else {
             return false;
         }
     }
 
-    /* */
+    @Override
     public ImageReader createReaderInstance(Object obj) {
         return new RococoaImageReader(this);
     }

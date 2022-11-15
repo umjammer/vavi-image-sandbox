@@ -1,14 +1,3 @@
-jvm=${env.JAVA_HOME}/bin/java
-javac.source=src/main/java
-javac.source.test=src/test/java
-javac.resource=src/main/resources
-javac.resource.test=src/test/resources
-javac.dest=target/classes
-javac.dest.test=target/test-classes
-
-libjpeg.home=/usr/local/src/jpeg-6bx
-libjpeg.include=${libjpeg.home}
-
-java6_32.home=/usr/local/openjdk6-b16-24_apr_2009-r1
-
-#
+watermark1.file1=
+watermark2.file1=
+cropped.dir=

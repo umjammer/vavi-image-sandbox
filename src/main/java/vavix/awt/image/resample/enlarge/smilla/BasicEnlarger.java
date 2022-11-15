@@ -676,7 +676,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
                     dd = 0.0f;
                 else if (dd > 1.0)
                     dd = 1.0f;
-                dd += 0.0001;
+                dd += 0.0001f;
 
                 dWork = (20.0f * gradNorm) * (intensityFakt + 0.9f);
                 dWork *= dWork;
@@ -705,16 +705,16 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
 
                 dd = modVal2(v - bW.getF(x - 1, y - 1), v - bW.getF(x + 1, y + 1));
                 dd += modVal2(v - bW.getF(x - 1, y + 1), v - bW.getF(x + 1, y - 1));
-                dd *= 0.5;
+                dd *= 0.5f;
                 dd += modVal2(v - bW.getF(x, y + 1), v - bW.getF(x, y - 1));
                 dd += modVal2(v - bW.getF(x - 1, y), v - bW.getF(x + 1, y));
-                dd *= (1.0 / 3.0);
+                dd *= (1.0f / 3.0f);
 
                 dd = v - lineNegF * dd; //0.8
                 if (dd < 0.01) {
                     dd = dd * 100.0f;
                     dd = 1.0f / (2.0f - dd);
-                    dd *= 0.01;
+                    dd *= 0.01f;
                 }
                 dd = (float) Math.pow(dd, sharpExp); // Sharpness!
 
@@ -790,7 +790,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
             for (int dstBX = dstMinBX; dstBX < dstMaxBX; dstBX++) {
                 float w = (2.0f * randGen.randF() - 1.0f);
                 w *= randGen.randF();
-                w *= 0.5 * ditherF;
+                w *= 0.5f * ditherF;
                 w = 1.0f + w;
 
                 dstBlock.mul(dstBX, dstBY, w);
@@ -925,7 +925,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
 
                 wMask = workMaskDst.getF(dstBX, dstBY) - 0.01f;
                 if (wMask > 0.0) {
-                    wMask *= 1.5;
+                    wMask *= 1.5f;
                     if (wMask > 1.0)
                         wMask = 1.0f;
                     else {
@@ -1004,7 +1004,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
                             // ww = 1.0 + sd * Math.cos(10.0 * (sdx * px + sdy * py));
                             // modColor[a] *= ww;
 
-                            w += 0.000000001;
+                            w += 0.000000001f;
                             wMat[a] = w;
                             totalWeight += w;
                             a++;
@@ -1734,9 +1734,9 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
             x *= 1000.0f * (Constants.invTabLen - 1);
             return 1000.0f * invTab[(int) (x + 0.5)];
         } else if (x >= 1.0) {
-            x *= 0.01;
+            x *= 0.01f;
             if (x >= 1.0) {
-                x *= 0.01;
+                x *= 0.01f;
                 if (x > 1.0)
                     return 0.0001f / x; // we give up
                 return 0.0001f * invTab[(int) (x * (Constants.invTabLen - 1) + 0.5)];

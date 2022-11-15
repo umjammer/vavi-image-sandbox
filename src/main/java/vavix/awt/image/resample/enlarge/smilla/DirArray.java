@@ -224,9 +224,9 @@ class DirArray extends BasicArray<Point2> {
                         if (ww < 0.000001)
                             ww = 0.000001f;
                         if (ax == 1)
-                            ww *= 2.0;
+                            ww *= 2.0f;
                         if (ay == 1)
-                            ww *= 2.0;
+                            ww *= 2.0f;
                         w[a] = ww;
                         wTotal += ww;
                         a++;

@@ -136,7 +136,7 @@ System.err.printf("data: %d bytes\n", baos.size());
                 assert false : String.format("bad placed data: %02X", c);
             }
         }
-        
+
         System.err.println();
         for (Segment segment : segments) {
             System.err.println(segment);

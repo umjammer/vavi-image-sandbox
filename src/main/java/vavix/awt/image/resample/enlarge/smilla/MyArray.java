@@ -117,8 +117,8 @@ class MyArray extends BasicArray<PFloat> {
                 p22 = get(x + 1, y + 1).toF();
                 dx = p20 - p10 + 2.0f * (p21 - p11) + p22 - p12;
                 dy = p02 - p01 + 2.0f * (p12 - p11) + p22 - p21;
-                dx *= 0.25;
-                dy *= 0.25;
+                dx *= 0.25f;
+                dy *= 0.25f;
                 gradArray.set(x, y, new Point2(dx, dy));
             }
         }
@@ -207,7 +207,7 @@ class MyArray extends BasicArray<PFloat> {
                 }
                 float centerV = getF(x, y);
                 val = centerV - 0.5f * (val - centerV);
-                val += 0.0001 * (rGen.randF() - 0.5);
+                val += 0.0001f * (rGen.randF() - 0.5f);
                 if (val < 0.0)
                     val = 0.0f;
                 else if (val > 1.0)

@@ -7,19 +7,14 @@
 package vavix.imageio.rococoa;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.logging.Level;
 import javax.imageio.IIOException;
-import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.ImageTypeSpecifier;
@@ -27,10 +22,10 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
 
+import org.rococoa.cocoa.appkit.NSImage;
+import org.rococoa.cocoa.foundation.NSData;
 import vavi.imageio.WrappedImageInputStream;
-
-import vavix.rococoa.foundation.NSData;
-import vavix.rococoa.foundation.NSImage;
+import vavi.util.Debug;
 
 
 /**
@@ -41,12 +36,18 @@ import vavix.rococoa.foundation.NSImage;
  */
 public class RococoaImageReader extends ImageReader {
 
+    static {
+        com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
+    }
+
+    private BufferedImage image;
+
     /** */
     public RococoaImageReader(ImageReaderSpi originatingProvider) {
         super(originatingProvider);
     }
 
-    /** @see ImageReader */
+    @Override
     public int getNumImages(boolean allowSearch) throws IIOException {
         return 1;
     }
@@ -55,72 +56,61 @@ public class RococoaImageReader extends ImageReader {
     private void checkIndex(int imageIndex) {
         if (imageIndex != 0) {
             throw new IndexOutOfBoundsException("bad index");
-        } else {
-            return;
         }
     }
 
-    /** @see ImageReader */
+    @Override
     public int getWidth(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
-        return getWidth(1);
+        return image.getWidth();
     }
 
-    /** @see ImageReader */
+    @Override
     public int getHeight(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
-        return getHeight(2);
+        return image.getHeight();
     }
 
-    /** @see ImageReader */
+    @Override
     public BufferedImage read(int imageIndex, ImageReadParam param)
         throws IIOException {
 
-        com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
-
-        ImageInputStream stream = ImageInputStream.class.cast(input);
+        InputStream stream = new WrappedImageInputStream((ImageInputStream) input);
 
         try {
-
-            File file = File.createTempFile("vavix.imageio.rococoa", ".heic");
-            //file.deleteOnExit();
-            FileChannel fc = new FileOutputStream(file).getChannel();
-            fc.transferFrom(Channels.newChannel(new WrappedImageInputStream(stream)), 0, stream.length());
-            fc.close();
-
-            // stream not found で null が返る...orz
-            NSImage nsImage = NSImage.imageWithContentsOfFile(file.getPath());
-            if (nsImage == null) {
-//System.err.print(file.getPath());
-                throw new FileNotFoundException("problem in reading temporary file: " + file.getPath());
+Debug.println(Level.FINER, "available: " + stream.available());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] b = new byte[8192];
+            while (true) {
+                int r = stream.read(b, 0, b.length);
+                if (r < 0) break;
+                baos.write(b, 0, r);
             }
-            NSData data = nsImage.TIFFRepresentation();
-            com.sun.jna.Pointer pointer = data.bytes();
-            byte[] bytes = pointer.getByteArray(0, data.length().intValue());
-            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
 
-            return ImageIO.read(bais);
+            NSImage nsImage = NSImage.imageWithData(NSData.dataWithBytes(baos.toByteArray()));
+            image = nsImage.toBufferedImage();
+            return image;
 
         } catch (IOException e) {
             throw new IIOException(e.getMessage(), e);
         }
     }
 
-    /** @see ImageReader */
+    @Override
     public IIOMetadata getStreamMetadata() throws IIOException {
         return null;
     }
 
-    /** @see ImageReader */
+    @Override
     public IIOMetadata getImageMetadata(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
         return null;
     }
 
-    /** */
+    @Override
     public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex) throws IIOException {
         checkIndex(imageIndex);
-        ImageTypeSpecifier specifier = null;
+        ImageTypeSpecifier specifier = new ImageTypeSpecifier(image);
         List<ImageTypeSpecifier> l = new ArrayList<>();
         l.add(specifier);
         return l.iterator();

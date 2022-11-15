@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -33,11 +35,11 @@ import vavi.imageio.IIOUtil;
 public class BasicEnlargerTest {
 
     /**
-     * @param args
+     * @param args 0: jpeg
      */
     public static void main(String[] args) throws Exception {
         ImageReader ir = IIOUtil.getImageReader("JPEG", "com.sun.imageio.plugins.jpeg.JPEGImageReader");
-        ImageInputStream iis = ImageIO.createImageInputStream(new FileInputStream(args[0]));
+        ImageInputStream iis = ImageIO.createImageInputStream(Files.newInputStream(Paths.get(args[0])));
         ir.setInput(iis);
         final BufferedImage source = ir.read(0);
         iis.close();

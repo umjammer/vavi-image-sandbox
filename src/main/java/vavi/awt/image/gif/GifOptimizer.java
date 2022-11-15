@@ -153,7 +153,7 @@ public class GifOptimizer {
             if (this.left < left) {
                 int shift = left - this.left;
                 for (int y = 0; y < this.height; y++) {
-                    this.img[y] += shift;
+                    this.img[y] = (byte) (this.img[y] + shift);
                 }
                 this.left += shift;
                 new_width -= shift;

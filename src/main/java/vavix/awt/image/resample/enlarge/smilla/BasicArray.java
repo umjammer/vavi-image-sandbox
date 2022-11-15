@@ -615,9 +615,9 @@ abstract class BasicArray<T extends Primitive<T>> {
                 float dd = p.norm1() * 5.0f * reduceF;
                 if (dd < 1.0) {
                     float w = dd;
-                    w *= (2.0 - w);
-                    w *= (2.0 - w);
-                    w *= (2.0 - w);
+                    w *= (2.0f - w);
+                    w *= (2.0f - w);
+                    w *= (2.0f - w);
 
                     // create smooth ending
                     if (w < 0.2) {
@@ -649,7 +649,7 @@ abstract class BasicArray<T extends Primitive<T>> {
                 dd += l.norm1();
                 l = src.get(x, y + 1).operatorMinus(c);
                 dd += l.norm1();
-                dd *= 2.0;
+                dd *= 2.0f;
                 l = src.get(x - 1, y - 1).operatorMinus(c);
                 dd += l.norm1();
                 l = src.get(x + 1, y - 1).operatorMinus(c);
@@ -658,7 +658,7 @@ abstract class BasicArray<T extends Primitive<T>> {
                 dd += l.norm1();
                 l = src.get(x + 1, y + 1).operatorMinus(c);
                 dd += l.norm1();
-                dd *= (1.0 / 12.0);
+                dd *= (1.0f / 12.0f);
 
                 dd = 10.0f * f * dd;
                 if (dd > 1.0)

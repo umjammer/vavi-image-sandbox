@@ -35,13 +35,15 @@ public class SimpleResizeOpTest {
     @Test
     public void testHalf() {
         BufferedImage filteredImage = new SimpleResizeOp(.5f, .5f).filter(image, null);
-JOptionPane.showMessageDialog(null, new ImageIcon(image), "Half", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
+if (System.getProperty("vavi.test", "").equals("ide"))
+ JOptionPane.showMessageDialog(null, new ImageIcon(image), "Half", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 
     @Test
     public void testDouble() {
         BufferedImage filteredImage = new SimpleResizeOp(2f, 2f).filter(image, null);
-JOptionPane.showMessageDialog(null, new ImageIcon(image), "Double", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
+if (System.getProperty("vavi.test", "").equals("ide"))
+ JOptionPane.showMessageDialog(null, new ImageIcon(image), "Double", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 }
 

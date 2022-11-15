@@ -78,13 +78,13 @@ class FractTab {
             MyArray hh;
             hh = a0.smoothDoubleTorus();
             a0 = hh;
-            fRatio *= 2.0;
+            fRatio *= 2.0f;
             rFakt = 2.0f * fRatio;
             if (rFakt > 1.0)
                 rFakt = 1.0f;
             else
                 rFakt = rFakt * rFakt * (3.0f - 2.0f * rFakt); // S-Func()
-            rFakt *= 1.5 * Math.pow(2, FRACTTABEXP - s - startExp - 8); // ldexp
+            rFakt *= 1.5f * (float) Math.pow(2, FRACTTABEXP - s - startExp - 8); // ldexp
             addRand(a0, rFakt);
         }
 
@@ -129,7 +129,7 @@ class FractTab {
                 bb = vv;
                 if (bb > 1.0)
                     bb = 1.0f;
-                bb *= 255.0 * bb;
+                bb *= 255.0f * bb;
 
                 int[] c = new int[] { (int) (rr), (int) (gg), (int) (bb), 255 };
                 image.getRaster().setPixel(x, y, c);
@@ -146,9 +146,9 @@ class FractTab {
         for (int c = 0; c < 4 * RandTabLen; c++) {
             int rr = 3615232;
             int s1, s2, hh;
-            rr += (randG.randL() >> 5);
+            rr += (int) (randG.randL() >> 5);
             s1 = rr & RandTabMask;
-            rr += (randG.randL() >> 5);
+            rr += (int) (randG.randL() >> 5);
             s2 = rr & RandTabMask;
 
             hh = randTab[s1];
