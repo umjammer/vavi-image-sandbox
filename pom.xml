@@ -31,6 +31,13 @@ TODO
     <rococoa.version>0.8.5</rococoa.version>
   </properties>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/umjammer/vavi-image-sandbox</url>
+    </repository>
+  </distributionManagement>
+
   <profiles>
     <profile>
       <id>local (not on jitpack)</id>
