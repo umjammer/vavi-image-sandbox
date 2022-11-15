@@ -617,7 +617,7 @@ abstract class BasicArray<T extends Primitive<T>> {
                     float w = dd;
                     w *= (2.0f - w);
                     w *= (2.0f - w);
-                    w *= (2.0 - w);
+                    w *= (2.0f - w);
 
                     // create smooth ending
                     if (w < 0.2) {
