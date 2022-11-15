@@ -118,7 +118,7 @@ class MyArray extends BasicArray<PFloat> {
                 dx = p20 - p10 + 2.0f * (p21 - p11) + p22 - p12;
                 dy = p02 - p01 + 2.0f * (p12 - p11) + p22 - p21;
                 dx *= 0.25f;
-                dy *= 0.25;
+                dy *= 0.25f;
                 gradArray.set(x, y, new Point2(dx, dy));
             }
         }
