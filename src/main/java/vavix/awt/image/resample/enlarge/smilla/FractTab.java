@@ -84,7 +84,7 @@ class FractTab {
                 rFakt = 1.0f;
             else
                 rFakt = rFakt * rFakt * (3.0f - 2.0f * rFakt); // S-Func()
-            rFakt *= 1.5 * Math.pow(2, FRACTTABEXP - s - startExp - 8); // ldexp
+            rFakt *= 1.5f * Math.pow(2, FRACTTABEXP - s - startExp - 8); // ldexp
             addRand(a0, rFakt);
         }
 
