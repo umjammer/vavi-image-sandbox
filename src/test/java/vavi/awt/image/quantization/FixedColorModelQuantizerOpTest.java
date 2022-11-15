@@ -4,7 +4,7 @@
  * Programmed by Naohide Sano
  */
 
-package vavi.awt.image.quantize;
+package vavi.awt.image.quantization;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;

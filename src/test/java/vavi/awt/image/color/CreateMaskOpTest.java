@@ -45,7 +45,7 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.Test;
 
 import vavi.awt.image.gif.GifRenderer;
-import vavi.awt.image.quantize.NeuralNetQuantizeOp;
+import vavi.awt.image.quantization.NeuralNetQuantizeOp;
 import vavi.awt.image.resample.AwtResampleOp;
 import vavi.awt.image.resample.ResampleMaskOp;
 import vavix.awt.image.color.CreateMaskIndexOp;

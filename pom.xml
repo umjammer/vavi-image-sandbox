@@ -28,7 +28,7 @@ TODO
   </issueManagement>
 
   <properties>
-    <rococoa.version>0.8.5-SNAPSHOT</rococoa.version>
+    <rococoa.version>0.8.5</rococoa.version>
   </properties>
 
   <profiles>
