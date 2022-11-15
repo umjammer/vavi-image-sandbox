@@ -925,7 +925,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
 
                 wMask = workMaskDst.getF(dstBX, dstBY) - 0.01f;
                 if (wMask > 0.0) {
-                    wMask *= 1.5;
+                    wMask *= 1.5f;
                     if (wMask > 1.0)
                         wMask = 1.0f;
                     else {
