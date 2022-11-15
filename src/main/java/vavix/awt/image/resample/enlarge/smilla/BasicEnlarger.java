@@ -676,7 +676,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
                     dd = 0.0f;
                 else if (dd > 1.0)
                     dd = 1.0f;
-                dd += 0.0001;
+                dd += 0.0001f;
 
                 dWork = (20.0f * gradNorm) * (intensityFakt + 0.9f);
                 dWork *= dWork;
