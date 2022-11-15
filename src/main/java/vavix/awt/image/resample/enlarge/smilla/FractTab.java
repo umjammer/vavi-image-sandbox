@@ -148,7 +148,7 @@ class FractTab {
             int s1, s2, hh;
             rr += (int) (randG.randL() >> 5);
             s1 = rr & RandTabMask;
-            rr += (randG.randL() >> 5);
+            rr += (int) (randG.randL() >> 5);
             s2 = rr & RandTabMask;
 
             hh = randTab[s1];
