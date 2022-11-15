@@ -615,7 +615,7 @@ abstract class BasicArray<T extends Primitive<T>> {
                 float dd = p.norm1() * 5.0f * reduceF;
                 if (dd < 1.0) {
                     float w = dd;
-                    w *= (2.0 - w);
+                    w *= (2.0f - w);
                     w *= (2.0 - w);
                     w *= (2.0 - w);
 
