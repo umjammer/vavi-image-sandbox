@@ -1736,7 +1736,7 @@ public abstract class BasicEnlarger<T extends Primitive<T>> {
         } else if (x >= 1.0) {
             x *= 0.01f;
             if (x >= 1.0) {
-                x *= 0.01;
+                x *= 0.01f;
                 if (x > 1.0)
                     return 0.0001f / x; // we give up
                 return 0.0001f * invTab[(int) (x * (Constants.invTabLen - 1) + 0.5)];
