@@ -658,7 +658,7 @@ abstract class BasicArray<T extends Primitive<T>> {
                 dd += l.norm1();
                 l = src.get(x + 1, y + 1).operatorMinus(c);
                 dd += l.norm1();
-                dd *= (1.0 / 12.0);
+                dd *= (1.0f / 12.0f);
 
                 dd = 10.0f * f * dd;
                 if (dd > 1.0)
