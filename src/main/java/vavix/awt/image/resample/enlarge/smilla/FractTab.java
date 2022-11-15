@@ -146,7 +146,7 @@ class FractTab {
         for (int c = 0; c < 4 * RandTabLen; c++) {
             int rr = 3615232;
             int s1, s2, hh;
-            rr += (randG.randL() >> 5);
+            rr += (int) (randG.randL() >> 5);
             s1 = rr & RandTabMask;
             rr += (randG.randL() >> 5);
             s2 = rr & RandTabMask;
