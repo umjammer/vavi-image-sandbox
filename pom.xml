@@ -8,7 +8,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-image-sandbox</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.5</version>
 
   <name>Vavi Imaging Sandbox API</name>
   <organization>
