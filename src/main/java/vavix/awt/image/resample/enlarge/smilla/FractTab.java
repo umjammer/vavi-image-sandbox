@@ -129,7 +129,7 @@ class FractTab {
                 bb = vv;
                 if (bb > 1.0)
                     bb = 1.0f;
-                bb *= 255.0 * bb;
+                bb *= 255.0f * bb;
 
                 int[] c = new int[] { (int) (rr), (int) (gg), (int) (bb), 255 };
                 image.getRaster().setPixel(x, y, c);
