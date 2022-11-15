@@ -78,7 +78,7 @@ class FractTab {
             MyArray hh;
             hh = a0.smoothDoubleTorus();
             a0 = hh;
-            fRatio *= 2.0;
+            fRatio *= 2.0f;
             rFakt = 2.0f * fRatio;
             if (rFakt > 1.0)
                 rFakt = 1.0f;
