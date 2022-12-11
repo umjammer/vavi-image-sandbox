@@ -163,7 +163,7 @@ class MyArray extends BasicArray<PFloat> {
     public void operateDir(DirArray dirArr, RandGen rGen) {
         int x, y, a;
         int sizeX = sizeX(), sizeY = sizeY();
-        final float kTab[] = {
+        final float[] kTab = {
             1.0f, 4.0f, 6.0f, 4.0f, 1.0f
         };
         float[] ker = new float[25];

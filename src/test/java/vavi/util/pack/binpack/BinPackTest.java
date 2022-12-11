@@ -45,6 +45,6 @@ class BinPackerTest {
         }
         outbuf.setLength(outbuf.length() - 1);
         outbuf.append("]");
-        System.out.println(outbuf.toString());
+        System.out.println(outbuf);
     }
 }

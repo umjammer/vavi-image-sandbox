@@ -285,7 +285,7 @@ public class WaterMarkRemover {
         void paint(Graphics g);
         void addMark(Mark mark);
         void removeMark(Mark mark);
-        public BufferedImage getMarkImage(Mark mark);
+        BufferedImage getMarkImage(Mark mark);
         void setMarkSelected(int index);
         int getMarkSelected();
         double getScale();

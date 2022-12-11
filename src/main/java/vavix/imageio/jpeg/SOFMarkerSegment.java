@@ -118,8 +118,8 @@ class SOFMarkerSegment extends MarkerSegment {
                           Integer.toString(samplesPerLine));
         node.setAttribute("numFrameComponents",
                           Integer.toString(componentSpecs.length));
-        for (int i = 0; i < componentSpecs.length; i++) {
-            node.appendChild(componentSpecs[i].getNativeNode());
+        for (ComponentSpec componentSpec : componentSpecs) {
+            node.appendChild(componentSpec.getNativeNode());
         }
 
         return node;
@@ -168,41 +168,41 @@ class SOFMarkerSegment extends MarkerSegment {
         System.out.println(samplesPerLine);
         System.out.print("Number of components: ");
         System.out.println(componentSpecs.length);
-        for(int i = 0; i<componentSpecs.length; i++) {
-            componentSpecs[i].print();
+        for (ComponentSpec componentSpec : componentSpecs) {
+            componentSpec.print();
         }
     }
 
     int getIDencodedCSType () {
-        for (int i = 0; i < componentSpecs.length; i++) {
-            if (componentSpecs[i].componentId < 'A') {
+        for (ComponentSpec componentSpec : componentSpecs) {
+            if (componentSpec.componentId < 'A') {
                 return JPEG.JCS_UNKNOWN;
             }
         }
         switch(componentSpecs.length) {
         case 3:
             if ((componentSpecs[0].componentId == 'R')
-                &&(componentSpecs[0].componentId == 'G')
-                &&(componentSpecs[0].componentId == 'B')) {
+                &&(componentSpecs[1].componentId == 'G')
+                &&(componentSpecs[2].componentId == 'B')) {
                 return JPEG.JCS_RGB;
             }
             if ((componentSpecs[0].componentId == 'Y')
-                &&(componentSpecs[0].componentId == 'C')
-                &&(componentSpecs[0].componentId == 'c')) {
+                &&(componentSpecs[1].componentId == 'C')
+                &&(componentSpecs[2].componentId == 'c')) {
                 return JPEG.JCS_YCC;
             }
             break;
         case 4:
             if ((componentSpecs[0].componentId == 'R')
-                &&(componentSpecs[0].componentId == 'G')
-                &&(componentSpecs[0].componentId == 'B')
-                &&(componentSpecs[0].componentId == 'A')) {
+                &&(componentSpecs[1].componentId == 'G')
+                &&(componentSpecs[2].componentId == 'B')
+                &&(componentSpecs[3].componentId == 'A')) {
                 return JPEG.JCS_RGBA;
             }
             if ((componentSpecs[0].componentId == 'Y')
-                &&(componentSpecs[0].componentId == 'C')
-                &&(componentSpecs[0].componentId == 'c')
-                &&(componentSpecs[0].componentId == 'A')) {
+                &&(componentSpecs[1].componentId == 'C')
+                &&(componentSpecs[2].componentId == 'c')
+                &&(componentSpecs[3].componentId == 'A')) {
                 return JPEG.JCS_YCCA;
             }
         }
@@ -217,7 +217,7 @@ class SOFMarkerSegment extends MarkerSegment {
     /**
      * A component spec within an SOF marker segment.
      */
-    class ComponentSpec implements Cloneable {
+    static class ComponentSpec implements Cloneable {
         int componentId;
         int HsamplingFactor;
         int VsamplingFactor;

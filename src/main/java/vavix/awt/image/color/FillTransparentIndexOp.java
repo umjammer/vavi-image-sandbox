@@ -42,7 +42,7 @@ public class FillTransparentIndexOp implements BufferedImageOp {
      * @throws IllegalArgumentException targetImage is not indexed color model image
      */
     public FillTransparentIndexOp(BufferedImage targetImage) {
-        if (!IndexColorModel.class.isInstance(targetImage.getColorModel())) {
+        if (!(targetImage.getColorModel() instanceof IndexColorModel)) {
             throw new IllegalArgumentException("not indexed color model image");
         }
         this.targetImage = targetImage;
@@ -66,7 +66,7 @@ public class FillTransparentIndexOp implements BufferedImageOp {
 
         int w = src.getWidth();
         int h = src.getHeight();
-        IndexColorModel icm = IndexColorModel.class.cast(targetImage.getColorModel());
+        IndexColorModel icm = (IndexColorModel) targetImage.getColorModel();
         int trans = icm.getTransparentPixel();
         if (trans != -1) {
             // 1. 透明色が設定されていればそれを使用する
@@ -139,12 +139,7 @@ public class FillTransparentIndexOp implements BufferedImageOp {
         //System.err.printf("trans add unused color: %d %08x, 1/%d\n", trans, getRgb(trans, rs2, bs2, gs2), (int) Math.pow(2, icm.getPixelSize()) - colorMap.size());
             } else {
                 List<Entry<Integer, Integer>> list = new ArrayList<>(colorMap.entrySet());
-                Collections.sort(list, new Comparator<Entry<Integer, Integer>>() {
-                    @Override
-                    public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
-                        return o2.getValue() - o1.getValue();
-                    }
-                });
+                list.sort((o1, o2) -> o2.getValue() - o1.getValue());
         //System.err.printf("most used color: %d: %08x count %d\n", list.get(0).getKey(), getRgb(list.get(0).getKey(), rs, gs, bs), list.get(0).getValue());
         //System.err.printf("last used color: %d: %08x count %d\n", list.get(list.size() - 1).getKey(), getRgb(list.get(list.size() - 1).getKey(), rs, gs, bs), list.get(list.size() - 1).getValue());
 

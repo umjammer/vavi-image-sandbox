@@ -27,9 +27,9 @@ class GLImaging {
 
     //////////////// Variables /////////////////////////
 
-    final String defaultImageFilename = new String("pics/duke_wave.gif");
+    final String defaultImageFilename = "pics/duke_wave.gif";
 
-    final String defaultFrameImageFilename = new String("pics/frame.png");
+    final String defaultFrameImageFilename = "pics/frame.png";
 
     // Databuffer that holds the loaded image.
     byte[] imgRGBA = null; // This is for the old JOGL version.
@@ -111,7 +111,7 @@ class GLImaging {
         // Load image and get height and width for raster.
         //
         if (filename == null) {
-            filename = new String(defaultImageFilename);
+            filename = defaultImageFilename;
         }
         Image img = Toolkit.getDefaultToolkit().createImage(filename);
         MediaTracker tracker = new MediaTracker(new Canvas());
@@ -237,7 +237,7 @@ class GLImaging {
     public void saveFrameAsPNG(GL gl, String fileName) {
         // Open File
         if (fileName == null) {
-            fileName = new String(defaultFrameImageFilename);
+            fileName = defaultFrameImageFilename;
         }
         File outputFile = new File(fileName);
         // Do not overwrite existing image file.

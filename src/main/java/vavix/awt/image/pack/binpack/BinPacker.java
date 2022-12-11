@@ -64,15 +64,15 @@ public class BinPacker {
         }
 
         // Write out
-        for (int i = 0; i < this.roots.size(); i++) {
+        for (Integer root : this.roots) {
             List<Rect> array = new ArrayList<>();
-            addPackToArray(this.roots.get(i), array);
+            addPackToArray(root, array);
             results.add(array);
         }
 
         // Check and make sure all rects were packed
-        for (int i = 0; i < this.rects.size(); i++) {
-            if (!this.rects.get(i).packed) {
+        for (Rect rect : this.rects) {
+            if (!rect.packed) {
                 assert false : "Not all rects were packed";
             }
         }

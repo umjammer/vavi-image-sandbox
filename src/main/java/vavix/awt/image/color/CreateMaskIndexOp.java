@@ -29,7 +29,7 @@ public class CreateMaskIndexOp implements BufferedImageOp {
      * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
-        if (!IndexColorModel.class.isInstance(src.getColorModel())) {
+        if (!(src.getColorModel() instanceof IndexColorModel)) {
             throw new IllegalArgumentException("not indexed color model image");
         }
 

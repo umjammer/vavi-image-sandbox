@@ -22,7 +22,7 @@ public class GifOptimizer {
 
     int gif_write_flags = 0;
 
-    class GifColor {
+    static class GifColor {
 
         byte haspixel;
         byte red;
@@ -84,8 +84,7 @@ public class GifOptimizer {
             int screen_width = 0;
             int screen_height = 0;
 
-            for (int i = 0; i < this.images.length; i++) {
-                GifImage gfi = this.images[i];
+            for (GifImage gfi : this.images) {
                 // 17.Dec.1999 - I find this old behavior annoying.
                 // if (gfi.left != 0 || gfi.top != 0) continue;
                 if (screen_width < gfi.left + gfi.width) {
@@ -194,7 +193,7 @@ public class GifOptimizer {
         }
     }
 
-    class GifOptBounds {
+    static class GifOptBounds {
         int left;
         int top;
         int width;
@@ -389,7 +388,7 @@ found:
     }
 
     private void erase_screen(int[] dst) {
-        long screen_size = screen_width * screen_height;
+        long screen_size = (long) screen_width * screen_height;
         for (int i = 0; i < screen_size; i++) {
             dst[i] = background;
         }
@@ -1084,12 +1083,10 @@ error:
      * sort_colormap_permutation_rgb: for canonicalizing local colormaps by
      * arranging them in RGB order
      */
-    private Comparator<GifColor> colormap_rgb_permutation_sorter = new Comparator<GifColor>() {
-        public int compare(GifColor col1, GifColor col2) {
-            int value1 = (col1.getRed() << 16) | (col1.getGreen() << 8) | col1.getBlue();
-            int value2 = (col2.getRed() << 16) | (col2.getGreen() << 8) | col2.getBlue();
-            return value1 - value2;
-        }
+    private Comparator<GifColor> colormap_rgb_permutation_sorter = (col1, col2) -> {
+        int value1 = (col1.getRed() << 16) | (col1.getGreen() << 8) | col1.getBlue();
+        int value2 = (col2.getRed() << 16) | (col2.getGreen() << 8) | col2.getBlue();
+        return value1 - value2;
     };
 
     /**
@@ -1369,7 +1366,7 @@ error:
                     if (was_compressed != 0) {
                         gfs.fullCompressImage(cur_gfi, gif_write_flags);
                     } else {
-                        ; // bug fix 22.May.2001
+                        // bug fix 22.May.2001
                     }
                 }
             }

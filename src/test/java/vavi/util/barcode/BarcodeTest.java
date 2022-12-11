@@ -54,7 +54,7 @@ public class BarcodeTest {
         g2d.rotate(Math.toRadians(90));
         g2d.drawImage(image, 0, -h, null);
 
-System.err.println(image.toString());
+System.err.println(image);
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

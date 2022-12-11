@@ -40,6 +40,7 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -359,16 +360,16 @@ public class JPEGImageReader extends ImageReader {
             // Now we are at the first image if there are any, so add it
             // to the list
             if (hasNextImage()) {
-                imagePositions.add(new Long(iis.getStreamPosition()));
+                imagePositions.add(iis.getStreamPosition());
             }
         } else { // Not tables only, so add original pos to the list
-            imagePositions.add(new Long(savePos));
+            imagePositions.add(savePos);
             // And set current image since we've read it now
             currentImage = 0;
         }
         if (seekForwardOnly) {
             Long pos = imagePositions.get(imagePositions.size()-1);
-            iis.flushBefore(pos.longValue());
+            iis.flushBefore(pos);
         }
         tablesOnlyChecked = true;
     }
@@ -471,13 +472,13 @@ public class JPEGImageReader extends ImageReader {
             checkTablesOnly();
         }
         if (imageIndex < imagePositions.size()) {
-            iis.seek((imagePositions.get(imageIndex)).longValue());
+            iis.seek(imagePositions.get(imageIndex));
         } else {
             // read to start of image, saving positions
             // First seek to the last position we already have, and skip the
             // entire image
             Long pos = imagePositions.get(imagePositions.size()-1);
-            iis.seek(pos.longValue());
+            iis.seek(pos);
             skipImage();
             // Now add all intervening positions, skipping images
             for (int index = imagePositions.size();
@@ -487,10 +488,10 @@ public class JPEGImageReader extends ImageReader {
                 if (!hasNextImage()) {
                     throw new IndexOutOfBoundsException();
                 }
-                pos = new Long(iis.getStreamPosition());
+                pos = iis.getStreamPosition();
                 imagePositions.add(pos);
                 if (seekForwardOnly) {
-                    iis.flushBefore(pos.longValue());
+                    iis.flushBefore(pos);
                 }
                 if (index < imageIndex) {
                     skipImage();
@@ -983,10 +984,7 @@ public class JPEGImageReader extends ImageReader {
         try {
             try {
                 readInternal(imageIndex, param, false);
-            } catch (RuntimeException e) {
-                resetLibraryState(structPointer);
-                throw e;
-            } catch (IOException e) {
+            } catch (RuntimeException | IOException e) {
                 resetLibraryState(structPointer);
                 throw e;
             }
@@ -1128,9 +1126,8 @@ public class JPEGImageReader extends ImageReader {
         // and set knownPassCount
         if (imageIndex == imageMetadataIndex) { // We have metadata
             knownPassCount = 0;
-            for (Iterator<?> iter = imageMetadata.markerSequence.iterator();
-                 iter.hasNext();) {
-                if (iter.next() instanceof SOSMarkerSegment) {
+            for (MarkerSegment markerSegment : imageMetadata.markerSequence) {
+                if (markerSegment instanceof SOSMarkerSegment) {
                     knownPassCount++;
                 }
             }
@@ -1146,13 +1143,12 @@ public class JPEGImageReader extends ImageReader {
             System.out.println("**** Read Data *****");
             System.out.println("numRasterBands is " + numRasterBands);
             System.out.print("srcBands:");
-            for (int i = 0; i<srcBands.length;i++)
-                System.out.print(" " + srcBands[i]);
+            for (int srcBand : srcBands) System.out.print(" " + srcBand);
             System.out.println();
-            System.out.println("destination bands is " + destinationBands);
+            System.out.println("destination bands is " + Arrays.toString(destinationBands));
             if (destinationBands != null) {
-                for (int i = 0; i < destinationBands.length; i++) {
-                    System.out.print(" " + destinationBands[i]);
+                for (int destinationBand : destinationBands) {
+                    System.out.print(" " + destinationBand);
                 }
                 System.out.println();
             }
@@ -1366,10 +1362,7 @@ public class JPEGImageReader extends ImageReader {
                 target = target.createWritableTranslatedChild(saveDestOffset.x,
                                                               saveDestOffset.y);
             }
-        } catch (RuntimeException e) {
-            resetLibraryState(structPointer);
-            throw e;
-        } catch (IOException e) {
+        } catch (RuntimeException | IOException e) {
             resetLibraryState(structPointer);
             throw e;
         } finally {

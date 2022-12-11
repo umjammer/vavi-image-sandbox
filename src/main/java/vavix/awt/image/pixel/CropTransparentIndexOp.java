@@ -35,13 +35,13 @@ public class CropTransparentIndexOp implements BufferedImageOp {
      * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
-        if (!IndexColorModel.class.isInstance(src.getColorModel())) {
+        if (!(src.getColorModel() instanceof IndexColorModel)) {
             throw new IllegalArgumentException("not indexed color model image");
         }
 
         int w = src.getWidth();
         int h = src.getHeight();
-        IndexColorModel icm = IndexColorModel.class.cast(src.getColorModel());
+        IndexColorModel icm = (IndexColorModel) src.getColorModel();
         int trans = icm.getTransparentPixel();
         if (trans == -1) {
 //System.err.println("CTI: no trans");

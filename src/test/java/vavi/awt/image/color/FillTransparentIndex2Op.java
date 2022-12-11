@@ -41,7 +41,7 @@ public class FillTransparentIndex2Op implements BufferedImageOp {
      * @throws IllegalArgumentException src is not indexed color model image
      */
     public FillTransparentIndex2Op(BufferedImage targetImage) {
-        if (!IndexColorModel.class.isInstance(targetImage.getColorModel())) {
+        if (!(targetImage.getColorModel() instanceof IndexColorModel)) {
             throw new IllegalArgumentException("not indexed color model image");
         }
         this.targetImage = targetImage;
@@ -65,7 +65,7 @@ public class FillTransparentIndex2Op implements BufferedImageOp {
 
         int w = src.getWidth();
         int h = src.getHeight();
-        IndexColorModel icm = IndexColorModel.class.cast(targetImage.getColorModel());
+        IndexColorModel icm = (IndexColorModel) targetImage.getColorModel();
         int trans = icm.getTransparentPixel();
         if (trans != -1) {
             // 1. 透明色が設定されていればそれを使用する
@@ -114,12 +114,7 @@ public class FillTransparentIndex2Op implements BufferedImageOp {
                 dst = createCompatibleDestImage(src, newIcm);
             } else {
                 List<Entry<Integer, Integer>> list = new ArrayList<>(colorMap.entrySet());
-                Collections.sort(list, new Comparator<Entry<Integer, Integer>>() {
-                    @Override
-                    public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
-                        return o2.getValue() - o1.getValue();
-                    }
-                });
+                list.sort((o1, o2) -> o2.getValue() - o1.getValue());
 
                 if (list.get(list.size() - 1).getValue() < leastColor) {
                     // 3. パレットのピクセル数が #leastColor 以下の場合

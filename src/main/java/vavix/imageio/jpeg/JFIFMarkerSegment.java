@@ -40,6 +40,7 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -157,9 +158,7 @@ class JFIFMarkerSegment extends MarkerSegment {
         JFIFMarkerSegment newGuy = (JFIFMarkerSegment) super.clone();
         if (!extSegments.isEmpty()) { // Clone the list with a deep copy
             newGuy.extSegments = new ArrayList<>();
-            for (Iterator<JFIFExtensionMarkerSegment> iter = extSegments.iterator(); iter.hasNext();) {
-                JFIFExtensionMarkerSegment jfxx =
-                    iter.next();
+            for (JFIFExtensionMarkerSegment jfxx : extSegments) {
                 newGuy.extSegments.add((JFIFExtensionMarkerSegment) jfxx.clone());
             }
         }
@@ -229,9 +228,7 @@ class JFIFMarkerSegment extends MarkerSegment {
         if (!extSegments.isEmpty()) {
             IIOMetadataNode JFXXnode = new IIOMetadataNode("JFXX");
             node.appendChild(JFXXnode);
-            for (Iterator<JFIFExtensionMarkerSegment> iter = extSegments.iterator(); iter.hasNext();) {
-                JFIFExtensionMarkerSegment seg =
-                    iter.next();
+            for (JFIFExtensionMarkerSegment seg : extSegments) {
                 JFXXnode.appendChild(seg.getNativeNode());
             }
         }
@@ -623,7 +620,7 @@ class JFIFMarkerSegment extends MarkerSegment {
         System.out.print("Version ");
         System.out.print(majorVersion);
         System.out.println(".0"
-                           + Integer.toString(minorVersion));
+                           + minorVersion);
         System.out.print("Resolution units: ");
         System.out.println(resUnits);
         System.out.print("X density: ");
@@ -635,9 +632,7 @@ class JFIFMarkerSegment extends MarkerSegment {
         System.out.print("Thumbnail Height: ");
         System.out.println(thumbHeight);
         if (!extSegments.isEmpty()) {
-            for (Iterator<JFIFExtensionMarkerSegment> iter = extSegments.iterator(); iter.hasNext();) {
-                JFIFExtensionMarkerSegment extSegment =
-                    iter.next();
+            for (JFIFExtensionMarkerSegment extSegment : extSegments) {
                 extSegment.print();
             }
         }
@@ -703,24 +698,28 @@ class JFIFMarkerSegment extends MarkerSegment {
             }
             Node child = node.getFirstChild();
             String name = child.getNodeName();
-            if (name.equals("JFIFthumbJPEG")) {
+            switch (name) {
+            case "JFIFthumbJPEG":
                 if (code == THUMB_UNASSIGNED) {
                     code = THUMB_JPEG;
                 }
                 thumb = new JFIFThumbJPEG(child);
-            } else if (name.equals("JFIFthumbPalette")) {
+                break;
+            case "JFIFthumbPalette":
                 if (code == THUMB_UNASSIGNED) {
                     code = THUMB_PALETTE;
                 }
                 thumb = new JFIFThumbPalette(child);
-            } else if (name.equals("JFIFthumbRGB")) {
+                break;
+            case "JFIFthumbRGB":
                 if (code == THUMB_UNASSIGNED) {
                     code = THUMB_RGB;
                 }
                 thumb = new JFIFThumbRGB(child);
-            } else {
+                break;
+            default:
                 throw new IIOInvalidTreeException
-                    ("unrecognized app0JFXX child node", node);
+                        ("unrecognized app0JFXX child node", node);
             }
         }
 
@@ -1354,7 +1353,7 @@ class JFIFMarkerSegment extends MarkerSegment {
             ios.write(0xff);
             ios.write(JPEG.APP2);
             MarkerSegment.write2bytes(ios, segLength);
-            byte [] id = ID.getBytes("US-ASCII");
+            byte [] id = ID.getBytes(StandardCharsets.US_ASCII);
             ios.write(id);
             ios.write(0); // Null-terminate the string
             ios.write(chunkNum++);
@@ -1515,13 +1514,12 @@ class JFIFMarkerSegment extends MarkerSegment {
                 int index = 0;
                 for (int i = 1; i <= numChunks; i++) {
                     boolean foundIt = false;
-                    for (int chunk = 0; chunk < chunks.size(); chunk++) {
-                        byte [] chunkData = chunks.get(chunk);
+                    for (byte[] chunkData : chunks) {
                         if (chunkData[0] == i) { // Right one
                             System.arraycopy(chunkData, 2,
-                                             profile, index,
-                                             chunkData.length-2);
-                            index += chunkData.length-2;
+                                    profile, index,
+                                    chunkData.length - 2);
+                            index += chunkData.length - 2;
                             foundIt = true;
                         }
                     }

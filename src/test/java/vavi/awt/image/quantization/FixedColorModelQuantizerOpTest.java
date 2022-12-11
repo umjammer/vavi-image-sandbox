@@ -71,7 +71,7 @@ public class FixedColorModelQuantizerOpTest {
             try {
                 image = reader.read(i);
                 if (i == 0) {
-                    colorModel = IndexColorModel.class.cast(image.getColorModel());
+                    colorModel = (IndexColorModel) image.getColorModel();
                 }
             } catch (IndexOutOfBoundsException e) {
                 break;
@@ -122,8 +122,8 @@ System.err.println("writer: " + writer);
         writer.setOutput(ios);
         writer.prepareWriteSequence(null);
 
-        for (int i = 0; i < images.size(); i++) {
-            ImageTypeSpecifier imageTypeSpecifier = new ImageTypeSpecifier(images.get(i));
+        for (BufferedImage image : images) {
+            ImageTypeSpecifier imageTypeSpecifier = new ImageTypeSpecifier(image);
             IIOMetadata imageMetaData = writer.getDefaultImageMetadata(imageTypeSpecifier, imageWriteParam);
             String metaFormatName = imageMetaData.getNativeMetadataFormatName();
             IIOMetadataNode metadataNode = (IIOMetadataNode) imageMetaData.getAsTree(metaFormatName);
@@ -131,8 +131,8 @@ System.err.println("writer: " + writer);
             IIOMetadataNode imageDescriptorNode = XmlUtil.getNode(metadataNode, "ImageDescriptor");
             imageDescriptorNode.setAttribute("imageLeftPosition", String.valueOf(0));
             imageDescriptorNode.setAttribute("imageTopPosition", String.valueOf(0));
-            imageDescriptorNode.setAttribute("imageWidth", String.valueOf((int) (images.get(i).getWidth() * scale)));
-            imageDescriptorNode.setAttribute("imageHeight", String.valueOf((int) (images.get(i).getHeight() * scale)));
+            imageDescriptorNode.setAttribute("imageWidth", String.valueOf((int) (image.getWidth() * scale)));
+            imageDescriptorNode.setAttribute("imageHeight", String.valueOf((int) (image.getHeight() * scale)));
             imageDescriptorNode.setAttribute("interlaceFlag", String.valueOf(false));
             metadataNode.appendChild(imageDescriptorNode);
 
@@ -151,10 +151,10 @@ System.err.println("writer: " + writer);
 
             imageMetaData.setFromTree(metaFormatName, metadataNode);
 
-if (System.getProperty("vavi.test", "").equals("ide"))
- JOptionPane.showMessageDialog(null, null, "01", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(images.get(i)));
-            writer.writeToSequence(new IIOImage(images.get(i), null, imageMetaData), imageWriteParam);
-            images.get(i).flush();
+            if (System.getProperty("vavi.test", "").equals("ide"))
+                JOptionPane.showMessageDialog(null, null, "01", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
+            writer.writeToSequence(new IIOImage(image, null, imageMetaData), imageWriteParam);
+            image.flush();
         }
 
         writer.endWriteSequence();
@@ -261,7 +261,7 @@ if (System.getProperty("vavi.test", "").equals("ide"))
     @Test
     public void test03() throws Exception {
 
-        int cmap[] = {
+        int[] cmap = {
             0x00000000, 0xFF202020, 0xFF0000FF, 0xFF808080,
             0xFF00FF00, 0xFF00FFFF, 0xFFFF0000, 0xFFFF00FF,
             0xFFFFFF00, 0xFFFFFFFF, 0x00000000, 0x00000000,

@@ -109,7 +109,7 @@ public class PalettizeOp implements BufferedImageOp {
      */
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);
-        return new BufferedImage((int) destBounds.getWidth(), (int) destBounds.getHeight(), destCM.getPixelSize() < 8 ? BufferedImage.TYPE_BYTE_BINARY : BufferedImage.TYPE_BYTE_INDEXED, IndexColorModel.class.cast(destCM));
+        return new BufferedImage((int) destBounds.getWidth(), (int) destBounds.getHeight(), destCM.getPixelSize() < 8 ? BufferedImage.TYPE_BYTE_BINARY : BufferedImage.TYPE_BYTE_INDEXED, (IndexColorModel) destCM);
     }
 
     /** */

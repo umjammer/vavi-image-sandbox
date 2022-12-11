@@ -82,7 +82,7 @@ logger.debug("Grayscale image (8-bit) with anti-aliasing");
 logger.debug(value);
             return ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
         } catch (BarcodeException e) {
-            throw (IOException) new IOException().initCause(e);
+            throw (IOException) new IOException(e);
         } catch (ConfigurationException e) {
             throw new IllegalStateException(e);
         }

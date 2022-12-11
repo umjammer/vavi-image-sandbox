@@ -238,7 +238,7 @@ public class View extends JFrame {
     }
 
     /** Main Method for testing */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         new View("Steganography");
     }
 }

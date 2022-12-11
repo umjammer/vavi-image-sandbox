@@ -58,7 +58,7 @@ public class HexeReinLanczosResampleOp implements BufferedImageOp {
 
                 // ランツォシュの処理範囲
                 if (xBase >= nx && xBase < src.getWidth() - n && yBase >= nx && yBase < src.getHeight() - n) {
-                    double color_element[] = new double[3];
+                    double[] color_element = new double[3];
                     Arrays.fill(color_element, 0.0);
 
                     double w_total = 0.0;
@@ -86,7 +86,6 @@ public class HexeReinLanczosResampleOp implements BufferedImageOp {
                             }
 
                             if (distY == 0.0) {
-                                ;
                             } else if (distY < n) {
                                 double dPIy = Math.PI * distY;
                                 weight *= (Math.sin(dPIy) * Math.sin(dPIy / n)) / (dPIy * (dPIy / n));

@@ -504,8 +504,8 @@ public class JPEGImageWriter extends ImageWriter {
             System.out.println("usingBandSubset is " + usingBandSubset);
             System.out.println("fullImage is " + fullImage);
             System.out.print("Band sizes:");
-            for (int i = 0; i< bandSizes.length; i++) {
-                System.out.print(" " + bandSizes[i]);
+            for (int bandSize : bandSizes) {
+                System.out.print(" " + bandSize);
             }
             System.out.println();
         }
@@ -1343,9 +1343,7 @@ public class JPEGImageWriter extends ImageWriter {
         List<MarkerSegment> segments = new ArrayList<>();
         int SCAN_SIZE = 9;
         int MAX_COMPS_PER_SCAN = 4;
-        for (Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
-             iter.hasNext();) {
-            MarkerSegment seg = iter.next();
+        for (MarkerSegment seg : metadata.markerSequence) {
             if (seg instanceof SOSMarkerSegment) {
                 segments.add(seg);
             }
@@ -1388,12 +1386,10 @@ public class JPEGImageWriter extends ImageWriter {
     private JPEGQTable [] collectQTablesFromMetadata
         (JPEGMetadata metadata) {
         ArrayList<Qtable> tables = new ArrayList<>();
-        Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment seg = iter.next();
+        for (MarkerSegment seg : metadata.markerSequence) {
             if (seg instanceof DQTMarkerSegment) {
                 DQTMarkerSegment dqt =
-                    (DQTMarkerSegment) seg;
+                        (DQTMarkerSegment) seg;
                 tables.addAll(dqt.tables);
             }
         }
@@ -1418,15 +1414,13 @@ public class JPEGImageWriter extends ImageWriter {
     private JPEGHuffmanTable[] collectHTablesFromMetadata
         (JPEGMetadata metadata, boolean wantDC) throws IIOException {
         ArrayList<DHTMarkerSegment.Htable> tables = new ArrayList<>();
-        Iterator<MarkerSegment> iter = metadata.markerSequence.iterator();
-        while (iter.hasNext()) {
-            MarkerSegment seg = iter.next();
+        for (MarkerSegment seg : metadata.markerSequence) {
             if (seg instanceof DHTMarkerSegment) {
                 DHTMarkerSegment dht =
-                    (DHTMarkerSegment) seg;
+                        (DHTMarkerSegment) seg;
                 for (int i = 0; i < dht.tables.size(); i++) {
                     DHTMarkerSegment.Htable htable =
-                        dht.tables.get(i);
+                            dht.tables.get(i);
                     if (htable.tableClass == (wantDC ? 0 : 1)) {
                         tables.add(htable);
                     }

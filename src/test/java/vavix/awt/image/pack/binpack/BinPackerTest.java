@@ -43,18 +43,16 @@ public class BinPackerTest {
         final List<BufferedImage> images = new ArrayList<>();
         final List<Dimension> rects = new ArrayList<>();
 
-        new RegexFileDigger(new FileDigger.FileDredger() {
-            public void dredge(File file) throws IOException {
-                try {
+        new RegexFileDigger(file -> {
+            try {
 //                    if (images.size() < 30) {
-                        BufferedImage image = ImageIO.read(file);
-                        rects.add(new Dimension(image.getWidth() + 1, image.getHeight() + 1));
+                    BufferedImage image = ImageIO.read(file);
+                    rects.add(new Dimension(image.getWidth() + 1, image.getHeight() + 1));
 //System.err.println("IN: " + images.size() + ": " + image.getWidth() + ", " + image.getHeight());
-                        images.add(image);
+                    images.add(image);
 //                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }, Pattern.compile(".+\\.(png|PNG)")).dig(new File("src/test/resources"));
 
