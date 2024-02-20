@@ -30,12 +30,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
- * RococoaImageReaderSpiTest.
+ * HeifImageReaderSpiTest.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2017/11/17 umjammer initial version <br>
  */
-public class RococoaImageReaderSpiTest {
+public class HeifImageReaderSpiTest {
 
     @Test
     public void test0() throws Exception {
@@ -57,7 +57,7 @@ Debug.println(image);
 
     @Test
     public void test() throws Exception {
-        BufferedImage image = ImageIO.read(RococoaImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"));
+        BufferedImage image = ImageIO.read(HeifImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"));
 Debug.println(image);
         assertNotNull(image);
         assertEquals(1440, image.getWidth());
@@ -67,7 +67,7 @@ Debug.println(image);
     @Test
     public void test2() throws Exception {
         ImageReader ir = IIOUtil.getImageReader("HEIF", ImageReader.class.getName());
-        ir.setInput(new FileCacheImageInputStream(RococoaImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"), null));
+        ir.setInput(new FileCacheImageInputStream(HeifImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"), null));
         BufferedImage image = ir.read(0);
 Debug.println(image);
         assertNotNull(image);
