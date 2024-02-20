@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006 by Naohide Sano, All rights reserved.
+ * Copyright (c) 2024 by Naohide Sano, All rights reserved.
  *
  * Programmed by Naohide Sano
  */
@@ -18,22 +18,24 @@ import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 
 import vavi.awt.image.resample.AwtResampleOp;
+import vavi.awt.image.resample.FfmpegResampleOp;
 import vavi.swing.JImageComponent;
+import vavix.awt.image.resample.ZhoumxLanczosResample2Op;
 
 
 /**
- * Scaling. (awt, lanczos)
+ * Scaling. (awt, ffmpeg)
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
- * @version 0.00 061012 nsano initial version <br>
+ * @version 0.00 240220 nsano initial version <br>
  */
-public class Scaling_awt_hexe {
+public class Scaling_awt_ffmpeg {
 
     /**
      * @param args 0: image
      */
     public static void main(String[] args) throws Exception {
-        new Scaling_awt_hexe(args);
+        new Scaling_awt_ffmpeg(args);
     }
 
     BufferedImage rightImage;
@@ -43,7 +45,7 @@ public class Scaling_awt_hexe {
     JImageComponent leftImageComponent;
     JLabel statusLabel;
 
-    Scaling_awt_hexe(String[] args) throws Exception {
+    Scaling_awt_ffmpeg(String[] args) throws Exception {
 System.err.println(args[0]);
         BufferedImage image = ImageIO.read(new File(args[0]));
         int w = image.getWidth();
@@ -74,10 +76,11 @@ System.err.println("left: " + (System.currentTimeMillis() - t) + "ms");
 
             // right
             image1 = rightImage;
-            filter = new vavix.awt.image.resample.HexeReinLanczosResampleOp(3, scale);
+            filter = new FfmpegResampleOp(scale, scale);
 t = System.currentTimeMillis();
             filteredImage = filter.filter(image1, null);
 System.err.println("right: " + (System.currentTimeMillis() - t) + "ms");
+System.err.println("filteredImage: " + filteredImage);
             rightImageComponent.setImage(filteredImage);
             rightImageComponent.repaint();
 
@@ -117,7 +120,7 @@ System.err.println("scale: " + scale);
         basePanel.add(statusLabel, BorderLayout.SOUTH);
 
         JFrame frame = new JFrame();
-        frame.setTitle("AwtResampleOp | Lanczos3 (HexeRein)");
+        frame.setTitle("AwtResampleOp | Ffmpeg (swscale)");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(scrollPane);
         frame.pack();

@@ -123,7 +123,7 @@ System.err.println("scale: " + scale);
 
         JFrame frame = new JFrame();
         frame.setTitle("AwtResampleOp | Lanczos3 (com.mortennobel)");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(scrollPane);
         frame.pack();
         split.setDividerLocation(0.5);

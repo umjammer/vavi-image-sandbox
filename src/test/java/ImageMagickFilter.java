@@ -36,6 +36,7 @@ import vavi.swing.JImageComponent;
 import vavi.swing.binding.Component;
 import vavi.swing.binding.Components;
 import vavi.swing.binding.Updater;
+import vavi.swing.binding.binder.JTextFieldBinder;
 import vavi.util.Debug;
 
 
@@ -49,7 +50,6 @@ public class ImageMagickFilter {
 
     static {
         UIManager.getDefaults().put("SplitPane.border", BorderFactory.createEmptyBorder());
-        UIManager.getDefaults().put("TextField.background", UIManager.getColor("Panel.background"));
         UIManager.getDefaults().put("TextField.border", BorderFactory.createLineBorder(UIManager.getColor("Panel.background"), 4));
         UIManager.getDefaults().put("ScrollPane.border", BorderFactory.createEmptyBorder());
     }
@@ -59,7 +59,7 @@ public class ImageMagickFilter {
     public static void main(String[] args) throws Exception {
         app = new ImageMagickFilter(args);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-System.err.println("shutdownHook");
+Debug.println("shutdownHook");
             app.prefs.putInt("lastX", app.frame.getX());
             app.prefs.putInt("lastY", app.frame.getY());
             app.prefs.putInt("lastWidth", Math.max(app.split.getWidth(), 800));
@@ -127,8 +127,11 @@ System.err.println("shutdownHook");
         channelRedSeparateCheckBox = new JCheckBox("channel red separate");
         normalizeCheckBox = new JCheckBox("normalize");
         modulationCheckBox = new JCheckBox("modulation");
+        modulationCheckBox.addItemListener(e -> { if (modulationCheckBox.isSelected()) modulationSlider.requestFocus(); });
         thresholdCheckBox = new JCheckBox("threshold");
+        thresholdCheckBox.addItemListener(e -> { if (thresholdCheckBox.isSelected()) thresholdSlider.requestFocus(); });
         gammaCheckBox = new JCheckBox("gamma");
+        gammaCheckBox.addItemListener(e -> { if (gammaCheckBox.isSelected()) gammaSlider.requestFocus(); });
         autoLevelCheckBox = new JCheckBox("auto level");
         equalizeCheckBox = new JCheckBox("equalize");
         typeGrayscaleCheckBox = new JCheckBox("type grayscale");
@@ -146,6 +149,7 @@ System.err.println("shutdownHook");
         buttonPanel.add(gammaCheckBox);
 
         JPanel upperPanel = new JPanel();
+        upperPanel.setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
         upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.Y_AXIS));
         contrastSlider = new JSlider();
         contrastSlider.setMaximum(10);
@@ -197,6 +201,7 @@ System.err.println("shutdownHook");
         basePanel.add(split, BorderLayout.CENTER);
 
         statusLabel = new JTextField();
+        statusLabel.setBackground(UIManager.getColor("Panel.background"));
         statusLabel.setText("original");
         basePanel.add(statusLabel, BorderLayout.SOUTH);
 
@@ -234,7 +239,7 @@ Debug.println("no image");
 
     @Components(updater = MyUpdater.class)
     public static class MagickParams {
-        String path = "/usr/local/bin/";
+        String path = System.getProperty("ImageMagickFilter.path", "/usr/local/bin/");
         @Component(name = "modulationSlider")
         int modulation = 100;
         @Component(name = "contrastSlider")
@@ -259,7 +264,9 @@ Debug.println("no image");
         boolean typeGrayscale;
         @Component(name = "gammaCheckBox")
         boolean gammaFlag;
-        @Component(name = "rawArgs")
+        @Component(name = "parallelCheckBox")
+        boolean parallelFlag;
+        @Component(name = "rawArgs", args = JTextFieldBinder.DETECT_ENTER)
         String rawArgs;
         /** generated ImageMagick options */
         String command;
@@ -275,6 +282,7 @@ Debug.println("no image");
             autoLevel = false;
             typeGrayscale = false;
             gammaFlag = false;
+            rawArgs = null;
             Components.Util.rebind(this, app);
         }
     }
@@ -356,7 +364,7 @@ Debug.println("no image");
                 }
 
                 if (params.rawArgs != null && !params.rawArgs.isEmpty()) {
-                    op.addRawArgs(params.rawArgs.split("\\s"));
+                    op.addRawArgs(params.rawArgs.trim().split("[\\s+]"));
                 }
 
                 op.strip();
@@ -369,10 +377,13 @@ Debug.println("no image");
                      sb.append(args.get(i)).append(" ");
                 }
                 params.command = sb.toString();
+Debug.println(params.command);
 
+long t = System.currentTimeMillis();
                 ConvertCmd convert = new ConvertCmd();
                 convert.setSearchPath(params.path);
                 convert.run(op);
+Debug.println((System.currentTimeMillis() - t) + " ms");
 
                 //
                 dst = ImageIO.read(inFile);

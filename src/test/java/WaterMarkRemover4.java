@@ -32,7 +32,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
-
 import javax.imageio.ImageIO;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -45,28 +44,35 @@ import javax.swing.JSlider;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 
-import org.opencv.core.Core;
-import org.opencv.core.Core.MinMaxLocResult;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-
+import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.opencv.opencv_core.Mat;
+import org.bytedeco.opencv.opencv_core.Point;
 import vavi.awt.rubberband.GlassPane;
 import vavi.awt.rubberband.RubberBandAdapter;
 import vavi.awt.rubberband.RubberBandEvent;
 import vavi.swing.binding.Component;
 import vavi.swing.binding.Components;
 import vavi.swing.binding.Updater;
-
 import vavi.util.Debug;
 import vavix.awt.image.pixel.AwtCropOp;
 import vavix.awt.image.util.ImageUtil;
 
+import static org.bytedeco.opencv.global.opencv_core.CV_32FC1;
+import static org.bytedeco.opencv.global.opencv_core.CV_8UC1;
+import static org.bytedeco.opencv.global.opencv_core.minMaxLoc;
+import static org.bytedeco.opencv.global.opencv_imgcodecs.IMREAD_GRAYSCALE;
+import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
+import static org.bytedeco.opencv.global.opencv_imgproc.Canny;
+import static org.bytedeco.opencv.global.opencv_imgproc.THRESH_TOZERO;
+import static org.bytedeco.opencv.global.opencv_imgproc.TM_CCOEFF_NORMED;
+import static org.bytedeco.opencv.global.opencv_imgproc.TM_SQDIFF;
+import static org.bytedeco.opencv.global.opencv_imgproc.TM_SQDIFF_NORMED;
+import static org.bytedeco.opencv.global.opencv_imgproc.matchTemplate;
+import static org.bytedeco.opencv.global.opencv_imgproc.threshold;
+
 
 /**
- * watermark remover (openpnp.OpenCV).
+ * watermark remover (JavaCV).
  *
  * TODO
  *  cv cannot load avif
@@ -77,13 +83,7 @@ import vavix.awt.image.util.ImageUtil;
  * @see "https://github.com/johnoneil/subimage/blob/master/subimage/find_subimage.py"
  * @see "http://workpiles.com/2015/05/opencv-matchtemplate-java/"
  */
-public class WaterMarkRemover {
-
-    // @see "http://autolab-minoya.hatenablog.com/entry/2017/11/04/224627"
-    static {
-//        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
-        nu.pattern.OpenCV.loadLocally();
-    }
+public class WaterMarkRemover4 {
 
     /**
      *
@@ -93,47 +93,49 @@ public class WaterMarkRemover {
      * @return sub image's bound
      */
     static Rectangle findSubimage(Mat img, Mat tmpl, double threshold) {
-        int matchMethod = Imgproc.TM_CCOEFF_NORMED;
+        int matchMethod = TM_CCOEFF_NORMED;
 
         // Create the result matrix
         int resultCols = img.cols() - tmpl.cols() + 1;
         int resultRows = img.rows() - tmpl.rows() + 1;
 Debug.println("cols: " + img.cols() + ", " + tmpl.cols());
 Debug.println("rows: " + img.rows() + ", " + tmpl.rows());
-        Mat result = new Mat(resultRows, resultCols, CvType.CV_32FC1);
+        Mat result = new Mat(resultRows, resultCols, CV_32FC1);
 
         // Do the Matching and Normalize
-        Imgproc.matchTemplate(img, tmpl, result, matchMethod);
+        matchTemplate(img, tmpl, result, matchMethod);
 //        Core.normalize(result, result, 0, 1, Core.NORM_MINMAX, -1, new Mat());
-        Imgproc.threshold(result, result, threshold, 1.0, Imgproc.THRESH_TOZERO);
+        threshold(result, result, threshold, 1.0, THRESH_TOZERO);
 
         // Localizing the best match with minMaxLoc
-        MinMaxLocResult mmr = Core.minMaxLoc(result);
+        double[] minVal = new double[1], maxVal = new double[1];
+        Point minLoc = new Point(), maxLoc = new Point();
+        minMaxLoc(result, minVal, maxVal, minLoc, maxLoc, new Mat());
 
         Point matchLoc;
         boolean valid;
-        if (matchMethod == Imgproc.TM_SQDIFF || matchMethod == Imgproc.TM_SQDIFF_NORMED) {
-            matchLoc = mmr.minLoc;
-            valid = mmr.minVal <= threshold;
-            if (!valid && mmr.minVal != 0) {
-                System.err.println("minVal: " + mmr.minVal);
+        if (matchMethod == TM_SQDIFF || matchMethod == TM_SQDIFF_NORMED) {
+            matchLoc = minLoc;
+            valid = minVal[0] <= threshold;
+            if (!valid && minVal[0] != 0) {
+                System.err.println("minVal: " + minVal[0]);
             }
         } else {
-            matchLoc = mmr.maxLoc;
-            valid = mmr.maxVal >= threshold;
-            if (!valid && mmr.maxVal != 0) {
-                System.err.println("maxVal: " + mmr.maxVal);
+            matchLoc = maxLoc;
+            valid = maxVal[0] >= threshold;
+            if (!valid && maxVal[0] != 0) {
+                System.err.println("maxVal: " + maxVal[0]);
             }
         }
 
         if (valid) {
-            return new Rectangle ((int) matchLoc.x, (int) matchLoc.y, tmpl.cols(), tmpl.rows());
+            return new Rectangle ((int) matchLoc.x(), (int) matchLoc.y(), tmpl.cols(), tmpl.rows());
         } else {
             return null;
         }
     }
 
-    static WaterMarkRemover app;
+    static WaterMarkRemover4 app;
 
     /**
      * @param args 0: inDir, 1: outDir, 2: inExt, 3: outExt
@@ -143,7 +145,7 @@ Debug.println("inDir: " + args[0]);
 Debug.println("outDir: " + args[1]);
 Debug.println("inExt: " + args[2]);
 Debug.println("inExt: " + args[3]);
-        app = new WaterMarkRemover(args[0], args[1], args[2], args[3]);
+        app = new WaterMarkRemover4(args[0], args[1], args[2], args[3]);
     }
 
     static class Mark {
@@ -154,8 +156,8 @@ Debug.println("inExt: " + args[3]);
         Mark(String filename, Color color) throws IOException {
             this.color = color;
             this.image = ImageIO.read(new File(filename));
-            this.mat = Imgcodecs.imread(filename, Imgcodecs.IMREAD_GRAYSCALE);
-            Imgproc.Canny(mat, mat, 32, 128);
+            this.mat = imread(filename, IMREAD_GRAYSCALE);
+            Canny(mat, mat, 32, 128);
         }
 
         Mark(BufferedImage image, Color color) {
@@ -163,10 +165,9 @@ Debug.println("inExt: " + args[3]);
             ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
             ColorConvertOp op = new ColorConvertOp(cs, null);
             this.image = op.filter(image, null);
-            this.mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC1);
             byte[] data = ((DataBufferByte) this.image.getRaster().getDataBuffer()).getData();
-            mat.put(0, 0, data);
-            Imgproc.Canny(mat, mat, 32, 128);
+            this.mat = new Mat(image.getHeight(), image.getWidth(), CV_8UC1, new BytePointer(data));
+            Canny(mat, mat, 32, 128);
         }
     }
 
@@ -186,9 +187,9 @@ Debug.println("inExt: " + args[3]);
             System.err.println(path);
             this.path = path;
             this.original = ImageIO.read(path.toFile());
-            this.mat = Imgcodecs.imread(path.toString(), Imgcodecs.IMREAD_GRAYSCALE);
+            this.mat = imread(path.toString(), IMREAD_GRAYSCALE);
 Debug.println("mat: " + mat);
-            Imgproc.Canny(mat, mat, 32, 128);
+            Canny(mat, mat, 32, 128);
 Debug.println("canny mat: " + mat);
         }
 
@@ -247,7 +248,7 @@ Debug.println("canny mat: " + mat);
             }
         }
 
-        void setMethod(Page.Method method) {
+        void setMethod(Method method) {
             this.method = method;
         }
 
@@ -262,11 +263,11 @@ Debug.println("canny mat: " + mat);
                         for (int x = rect.x; x < rect.x + rect.width; x++) {
                             int c1 = image.getRGB(x, y);
                             int c2 = mark.image.getRGB(x - rect.x, y - rect.y);
-                            int r1 = c1 & 0x00ff0000 >> 16; 
-                            int g1 = c1 & 0x0000ff00 >> 8; 
-                            int b1 = c1 & 0x000000ff; 
-                            int r2 = c2 & 0x00ff0000 >> 16; 
-                            int g2 = c2 & 0x0000ff00 >> 8; 
+                            int r1 = c1 & 0x00ff0000 >> 16;
+                            int g1 = c1 & 0x0000ff00 >> 8;
+                            int b1 = c1 & 0x000000ff;
+                            int r2 = c2 & 0x00ff0000 >> 16;
+                            int g2 = c2 & 0x0000ff00 >> 8;
                             int b2 = c2 & 0x000000ff;
                             int r, g, b;
                             // xor
@@ -532,7 +533,7 @@ System.err.println("saving done.");
         boolean isBlack;
     }
 
-    public WaterMarkRemover(String inDir, String outDir, String inExt, String outExt) throws Exception {
+    public WaterMarkRemover4(String inDir, String outDir, String inExt, String outExt) throws Exception {
 
         marksComboBox = new JComboBox<>();
         marksComboBox.setRenderer(new ListCellRenderer<>() {
@@ -686,7 +687,7 @@ Debug.println("normalized bounds: " + rect + ", " + scale);
                 params.xor = model.isXor();
                 params.threshold = (int) (model.getThreshold() * 100);
                 params.isBlack = model.isBlack();
-                Components.Util.rebind(params, WaterMarkRemover.this);
+                Components.Util.rebind(params, WaterMarkRemover4.this);
                 //
                 BufferedImage target = model.pages.get(model.index).image;
                 this.scale = ImageUtil.fitY(target, 0.8);
