@@ -29,14 +29,13 @@ import java.awt.image.FilteredImageSource;
 public class AwtCropOp implements BufferedImageOp {
 
     /** */
-    private int sx;
+    private final int sx;
     /** */
-    private int sy;
+    private final int sy;
     /** */
-    private int sw;
+    private final int sw;
     /** */
-    private int sh;
-
+    private final int sh;
 
     /**
      * TODO hints
@@ -59,6 +58,7 @@ public class AwtCropOp implements BufferedImageOp {
     /**
      * @param dst when null, created by {@link #createCompatibleDestImage(BufferedImage, ColorModel)}
      */
+    @Override
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
         Image tmpImage = Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(src.getSource(), new CropImageFilter(sx, sy, sw, sh)));
 //JOptionPane.showMessageDialog(null, "tmpImage", "tmpImage", JOptionPane.PLAIN_MESSAGE, new ImageIcon(tmpImage));
@@ -75,21 +75,22 @@ public class AwtCropOp implements BufferedImageOp {
     /**
      * @param destCM when null, used src color model
      */
+    @Override
     public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel destCM) {
         Rectangle destBounds = (Rectangle) getBounds2D(src);
         if (destCM != null) {
             return new BufferedImage(destCM, destCM.createCompatibleWritableRaster(destBounds.width, destBounds.height), destCM.isAlphaPremultiplied(), null);
         } else {
-            return new BufferedImage(destBounds.width, destBounds.height, src.getType());
+            return new BufferedImage(destBounds.width, destBounds.height, src.getType() != 0 ? src.getType() : BufferedImage.TYPE_4BYTE_ABGR);
         }
     }
 
-    /** */
+    @Override
     public Rectangle2D getBounds2D(BufferedImage src) {
         return new Rectangle(sx, sy, sw, sh);
     }
 
-    /** */
+    @Override
     public Point2D getPoint2D(Point2D srcPt, Point2D dstPt) {
         if (dstPt == null) {
             dstPt = new Point2D.Double();
@@ -99,6 +100,7 @@ public class AwtCropOp implements BufferedImageOp {
     }
 
     /** TODO impl */
+    @Override
     public RenderingHints getRenderingHints() {
         return null;
     }
