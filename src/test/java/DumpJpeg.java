@@ -176,7 +176,8 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
                 sb.append(", ");
                 sb.append(size);
                 sb.append('\n');
-                if (type.equals("APP0")) {
+                switch (type) {
+                case "APP0": {
                     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
                     int c1 = dis.readUnsignedByte();
                     int c2 = dis.readUnsignedByte();
@@ -184,6 +185,7 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
                     int c4 = dis.readUnsignedByte();
                     int c5 = dis.readUnsignedByte();
                     sb.append("  ID: "); // ASCII 文字で "JFIF" とヌル終端
+
                     sb.append((char) c1);
                     sb.append((char) c2);
                     sb.append((char) c3);
@@ -193,46 +195,59 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
                     sb.append('\n');
                     int formatVersion = dis.readUnsignedShort();
                     sb.append("  Ver: "); // JFIF のバージョン
+
                     sb.append(formatVersion);
                     sb.append('\n');
                     int unit = dis.readUnsignedByte();
                     sb.append("  U: "); // 解像度単位 (0: 単位なし、アスペクト比を表す 1: dpi, 2: dpcm)
+
                     sb.append(unit);
                     sb.append('\n');
                     int horizontalDencity = dis.readUnsignedShort();
                     sb.append("  Xd: "); // 横解像度
+
                     sb.append(horizontalDencity);
                     sb.append('\n');
                     int verticalDencity = dis.readUnsignedShort();
                     sb.append("  Yd: "); // 縦解像度
+
                     sb.append(verticalDencity);
                     sb.append('\n');
                     int thambnailWidth = dis.readUnsignedByte();
                     sb.append("  Xt: "); // サムネイル横サイズ
+
                     sb.append(thambnailWidth);
                     sb.append('\n');
                     int thambnailHeight = dis.readUnsignedByte();
                     sb.append("  Yt: "); // サムネイル縦サイズ
+
                     sb.append(thambnailHeight);
                     sb.append('\n');
-                } else if (type.equals("COM")) {
+                    break;
+                }
+                case "COM":
                     sb.append(StringUtil.getDump(data, 1, data.length - 1));
-                } else if (type.equals("SOF0")) {
+                    break;
+                case "SOF0": {
                     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
                     int samplingPrecision = dis.readUnsignedByte();
                     sb.append("  P: "); // 成分数
+
                     sb.append(samplingPrecision);
                     sb.append('\n');
                     int verticalSize = dis.readUnsignedShort();
                     sb.append("  Y: "); // 画像縦サイズ
+
                     sb.append(verticalSize);
                     sb.append('\n');
                     int horizontalSize = dis.readUnsignedShort();
                     sb.append("  X: "); // 画像横サイズ
+
                     sb.append(horizontalSize);
                     sb.append('\n');
                     int samplingCount = dis.readUnsignedByte();
                     sb.append("  Nf: "); // 成分数
+
                     sb.append(samplingCount);
                     sb.append('\n');
                     for (int i = 0; i < samplingCount; i++) {
@@ -252,10 +267,13 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
                         sb.append(tableSelector);
                         sb.append('\n');
                     }
-                } else if (type.equals("SOS")) {
+                    break;
+                }
+                case "SOS": {
                     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
                     int nsCount = dis.readUnsignedByte();
                     sb.append("  Ns: "); // 成分数
+
                     sb.append(nsCount);
                     sb.append('\n');
                     for (int i = 0; i < nsCount; i++) {
@@ -273,36 +291,49 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
                     }
                     int ss = dis.readUnsignedByte();
                     sb.append("    Ss: "); // 量子化係数開始番号
+
                     sb.append(ss);
                     sb.append('\n');
                     int se = dis.readUnsignedByte();
                     sb.append("    Se: "); // 量子化係数終了番号
+
                     sb.append(se);
                     sb.append('\n');
                     int a = dis.readUnsignedByte();
                     sb.append("    Ah: "); // 前回のスキャンの係数値分割シフト量 (最初のスキャンは 0)
+
                     sb.append((a & 0xf0) >> 4);
                     sb.append('\n');
                     sb.append("    Al: "); // 係数値分割シフト量 (最後のスキャンは 0)
+
                     sb.append(a & 0x0f);
                     sb.append('\n');
-                } else if (type.equals("DQT")) {
+                    break;
+                }
+                case "DQT": {
                     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
                     int pq_tq = dis.readUnsignedByte();
                     sb.append("    Pq: "); // 量子化テーブル精度 0: 8bit, 1: 16bit 通常8bit
+
                     sb.append((pq_tq & 0xf0) >> 4);
                     sb.append('\n');
                     sb.append("    Tq: "); // 量子化テーブル番号 0 から 3 までのいずれか
+
                     sb.append(pq_tq & 0x0f);
                     sb.append('\n');
                     sb.append(StringUtil.getDump(data, 1, data.length - 1)); // 量子化テーブル 64 個の量子化係数が記録される
-                } else if (type.equals("DHT")) {
+
+                    break;
+                }
+                case "DHT": {
                     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
                     int tc_th = dis.readUnsignedByte();
                     sb.append("    Tc: "); // ハフマンテーブルクラス 0: DC 成分, 1: AC 成分
+
                     sb.append((tc_th & 0xf0) >> 4);
                     sb.append('\n');
                     sb.append("    Th: "); // ハフマンテーブル番号 0 から 3 までのいずれか
+
                     sb.append(tc_th & 0x0f);
                     sb.append('\n');
                     int[] l = new int[16];
@@ -325,11 +356,16 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
                         sb.append('\n');
                         c += l[i];
                     }
-                } else if (type.equals("APP1")) {
+                    break;
+                }
+                case "APP1": {
                     DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
                     sb.append(StringUtil.getDump(dis));
                     sb.append('\n');
-                } else {
+                    break;
+                }
+                default:
+                    break;
                 }
                 return sb.toString();
             } catch (IOException e) {

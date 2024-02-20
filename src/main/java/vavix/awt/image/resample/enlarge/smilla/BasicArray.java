@@ -258,7 +258,7 @@ abstract class BasicArray<T extends Primitive<T>> {
         return clipArr;
     }
 
-    private class TnA<Y> {
+    private static class TnA<Y> {
         Class<Y> type;
         Y arg;
         TnA(Class<Y> type, Y arg) {

@@ -10,8 +10,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.collections.BidiMap;
-import org.apache.commons.collections.bidimap.TreeBidiMap;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.TreeBidiMap;
 
 
 /**
@@ -42,7 +42,7 @@ public class Qrcode {
     private char errorCorrectionLevel;
     /** */
     private static final BidiMap levels = new TreeBidiMap();
-    /** */
+    /* */
     static {
         levels.put(0, ERROR_CORRECTION_LEVEL_M);
         levels.put(1, ERROR_CORRECTION_LEVEL_L);
@@ -659,8 +659,8 @@ public class Qrcode {
 
         if (l1 != data.length) {
         }
-        for (int i = 0; i < l1; i++) {
-            max += bits[i];
+        for (byte bit : bits) {
+            max += bit;
         }
         l2 = ((max - 1) / 8) + 1;
 
@@ -735,7 +735,7 @@ public class Qrcode {
         byte[][] rsCalTableArray = new byte[256][rsEccCodeWords];
         try {
             String filename = basePath + "/rsc" +
-                              Byte.toString(rsEccCodeWords) + ".dat";
+                    rsEccCodeWords + ".dat";
             InputStream is = new BufferedInputStream(Qrcode.class.getResourceAsStream(filename));
             for (int i = 0; i < 256; i++) {
                 is.read(rsCalTableArray[i]);

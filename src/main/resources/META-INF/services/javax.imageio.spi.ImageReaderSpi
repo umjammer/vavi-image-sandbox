@@ -1,2 +1,3 @@
 #vavix.imageio.jpeg.JPEGImageReaderSpi
-vavix.imageio.rococoa.RococoaImageReaderSpi
+vavix.imageio.rococoa.HeifImageReaderSpi
+vavix.imageio.rococoa.AvifImageReaderSpi

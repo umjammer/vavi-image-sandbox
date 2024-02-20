@@ -37,8 +37,8 @@ System.err.println(args[0]);
         boolean[][] matrix = qr.toQrcode(args[0].getBytes("Windows-31J"));
 
         for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                if (matrix[j][i]) {
+            for (boolean[] booleans : matrix) {
+                if (booleans[i]) {
                     System.out.print("##");
                 } else {
                     System.out.print("  ");

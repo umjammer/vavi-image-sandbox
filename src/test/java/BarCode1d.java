@@ -25,7 +25,6 @@ import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.MimeTypes;
 
 import vavi.awt.ImageComponent;
-import vavi.swing.JImageComponent;
 
 
 /**

@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
@@ -26,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
+import vavi.awt.image.AnimationRenderer;
 import vavi.awt.image.gif.GifRenderer;
 import vavi.imageio.IIOUtil;
 
@@ -39,13 +39,15 @@ import vavi.imageio.IIOUtil;
 public class JAnimationFrame extends JFrame {
 
     static {
-        IIOUtil.setOrder(ImageReaderSpi.class, "com.sun.imageio.plugins.gif.GIFImageReaderSpi", "vavi.imageio.gif.NonLzwGifImageReaderSpi");
+        IIOUtil.setOrder(ImageReaderSpi.class,
+                "com.sun.imageio.plugins.gif.GIFImageReaderSpi",
+                "vavi.imageio.gif.NonLzwGifImageReaderSpi");
     }
 
     private Point start;
     private Point point;
 
-    GifRenderer renderer;
+    AnimationRenderer renderer;
 
     static class LoopCounter {
         int count = 0;
@@ -61,7 +63,7 @@ public class JAnimationFrame extends JFrame {
         }
     }
 
-    public JAnimationFrame(GifRenderer renderer) {
+    public JAnimationFrame(AnimationRenderer renderer) {
         this.renderer = renderer;
 
         LoopCounter counter = new LoopCounter(renderer.size());
@@ -117,11 +119,12 @@ public class JAnimationFrame extends JFrame {
         getContentPane().add(panel);
     }
 
+    /** */
     public static void main(String[] args) throws IOException {
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
         ImageInputStream iis = ImageIO.createImageInputStream(JAnimationFrame.class.getResourceAsStream(args[0]));
         reader.setInput(iis, true);
-        GifRenderer renderer = new GifRenderer();
+        AnimationRenderer renderer = new GifRenderer();
         for (int i = 0;; i++) {
             BufferedImage image;
             try {

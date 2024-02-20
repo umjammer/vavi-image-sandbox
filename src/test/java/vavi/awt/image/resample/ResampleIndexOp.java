@@ -46,7 +46,7 @@ public class ResampleIndexOp implements BufferedImageOp {
      * @throws IllegalArgumentException TODO dst is not null
      */
     public BufferedImage filter(BufferedImage src, BufferedImage dst) {
-        if (!IndexColorModel.class.isInstance(src.getColorModel())) {
+        if (!(src.getColorModel() instanceof IndexColorModel)) {
             throw new IllegalArgumentException("not indexed color model image");
         }
 

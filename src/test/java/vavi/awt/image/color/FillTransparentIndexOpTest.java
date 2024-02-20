@@ -50,7 +50,7 @@ public class FillTransparentIndexOpTest {
         BufferedImage image2 = new FillTransparentIndex2Op(image).filter(image, null);
         BufferedImage image3 = new SimpleDrawOp(40, 40, image.getWidth() - 80, image.getHeight() - 80).filter(image, image2);
 System.err.println("before: " + image.getType() + ", " + image.getColorModel().getColorSpace());
-IndexColorModel icm = IndexColorModel.class.cast(image.getColorModel());
+IndexColorModel icm = (IndexColorModel) image.getColorModel();
 int mapSize = icm.getMapSize();
 byte[] rs = new byte[mapSize];
 byte[] gs = new byte[mapSize];
@@ -62,7 +62,7 @@ for (int i = 0; i < mapSize; i++) {
  System.err.printf("[%03d] %02x%02x%02x\n", i, rs[i], gs[i], bs[i]);   
 }
 System.err.println("after: " + image3.getType() + ", " + image3.getColorModel().getColorSpace());
-icm = IndexColorModel.class.cast(image3.getColorModel());
+icm = (IndexColorModel) image3.getColorModel();
 mapSize = icm.getMapSize();
 rs = new byte[mapSize];
 gs = new byte[mapSize];
@@ -87,7 +87,7 @@ if (System.getProperty("vavi.test", "").equals("ide"))
         int h = image.getHeight() + 80;
         BufferedImage dst;
 
-        IndexColorModel icm = IndexColorModel.class.cast(targetImage.getColorModel());
+        IndexColorModel icm = (IndexColorModel) targetImage.getColorModel();
         int trans = icm.getTransparentPixel();
         if (trans != -1) {
             // 1. 透明色が設定されていればそれを使用する
@@ -142,12 +142,7 @@ System.err.printf("unused color: %d\n", i);
 System.err.printf("trans unused color: %d %08x, %d/%d\n", trans, getRgb(trans, rs, bs, gs), icm.getMapSize() - colorMap.size(), colorMap.size());
             } else {
                 List<Entry<Integer, Integer>> list = new ArrayList<>(colorMap.entrySet());
-                Collections.sort(list, new Comparator<Entry<Integer, Integer>>() {
-                    @Override
-                    public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
-                        return o2.getValue() - o1.getValue();
-                    }
-                });
+                list.sort((o1, o2) -> o2.getValue() - o1.getValue());
 //System.err.printf("most used color: %d: %08x count %d\n", list.get(0).getKey(), getRgb(list.get(0).getKey(), rs, gs, bs), list.get(0).getValue());
 //System.err.printf("last used color: %d: %08x count %d\n", list.get(list.size() - 1).getKey(), getRgb(list.get(list.size() - 1).getKey(), rs, gs, bs), list.get(list.size() - 1).getValue());
 
@@ -191,7 +186,7 @@ if (System.getProperty("vavi.test", "").equals("ide"))
     public void test03() {
         BufferedImageOp filter = new SimpleDrawOp(40, 40, image.getWidth() + 80, image.getHeight() + 80); 
         BufferedImage dst = null;
-        if (IndexColorModel.class.isInstance(image.getColorModel())) {
+        if (image.getColorModel() instanceof IndexColorModel) {
             BufferedImage temp = filter.createCompatibleDestImage(image, image.getColorModel());
 //System.err.println(image.getColorModel());
             dst = new FillTransparentIndexOp(image).filter(temp, null);
@@ -205,7 +200,7 @@ if (System.getProperty("vavi.test", "").equals("ide"))
 
         filter = new SimpleDrawOp(40, 40, image.getWidth() + 80, image.getHeight() + 80); 
         dst = null;
-        if (IndexColorModel.class.isInstance(image.getColorModel())) {
+        if (image.getColorModel() instanceof IndexColorModel) {
             BufferedImage temp = filter.createCompatibleDestImage(image, image.getColorModel());
 //System.err.println(image.getColorModel());
             dst = new FillTransparentIndex2Op(image).filter(temp, null);

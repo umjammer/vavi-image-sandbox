@@ -195,7 +195,7 @@ public class QueueLinearFloodFiller {
     }
 
     /** Represents a linear range to be filled and branched from. */
-    protected class FloodFillRange {
+    protected static class FloodFillRange {
         public int startX;
         public int endX;
         public int y;

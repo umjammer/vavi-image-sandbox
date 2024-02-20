@@ -319,7 +319,7 @@ public class ColorCurveOp implements BufferedImageOp {
     }
 
     /** */
-    public static interface CurvesFactory {
+    public interface CurvesFactory {
         Curves getCurves(InputStream is) throws IOException;
     }
 

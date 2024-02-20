@@ -333,8 +333,8 @@ public class ArevaloRectanglePacker extends RectanglePacker {
 
         // Brute-force search whether the rectangle touches any of the other
         // rectangles already in the packing area
-        for (int index = 0; index < packedRectangles.size(); ++index) {
-            if (packedRectangles.get(index).intersects(rectangle)) {
+        for (Rectangle packedRectangle : packedRectangles) {
+            if (packedRectangle.intersects(rectangle)) {
                 return false;
             }
         }
@@ -364,7 +364,7 @@ public class ArevaloRectanglePacker extends RectanglePacker {
         // (~) to
         // this negative integer to get the index of the first element that is
         // larger than the search value."
-        Collections.sort(anchors, AnchorRankComparer.Default);
+        anchors.sort(AnchorRankComparer.Default);
         int insertIndex = anchors.indexOf(anchor);
         if (insertIndex < 0) {
             insertIndex = ~insertIndex;

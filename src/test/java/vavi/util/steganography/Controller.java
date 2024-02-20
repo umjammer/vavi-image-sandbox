@@ -164,7 +164,7 @@ public class Controller {
     /**
      * Exit Class - handles the Exit menu item
      */
-    private class Exit implements ActionListener {
+    private static class Exit implements ActionListener {
         /* handles the click event
          * @param e The ActionEvent Object */
         public void actionPerformed(ActionEvent e) {
@@ -267,7 +267,7 @@ public class Controller {
     /**
      * Main Method for testing
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         new Controller(new View("Steganography"), new Model());
     }
 }

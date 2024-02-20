@@ -6,8 +6,11 @@
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.concurrent.CountDownLatch;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -88,18 +91,23 @@ public class Enlarger_noids {
         final BufferedImage filterdImage = filter.filter(image, null);
 
         JPanel panel = new JPanel() {
-            @Override
-            public void paint(Graphics g) {
+            @Override public void paintComponent(Graphics g) {
                 g.drawImage(filterdImage, 0, 0, null);
             }
         };
         panel.setPreferredSize(new Dimension(filterdImage.getWidth(), filterdImage.getHeight()));
 ImageIO.write(filterdImage, "PNG", new File("tmp/enlarged.png"));
+
+        // using cdl cause junit stops awt thread suddenly
+        CountDownLatch cdl = new CountDownLatch(1);
         JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override public void windowClosing(WindowEvent e) { cdl.countDown(); }
+        });
         frame.getContentPane().add(new JScrollPane(panel));
         frame.pack();
         frame.setVisible(true);
+        cdl.await();
     }
 }
 

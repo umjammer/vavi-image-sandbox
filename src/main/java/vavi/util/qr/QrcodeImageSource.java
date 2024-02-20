@@ -102,7 +102,7 @@ public class QrcodeImageSource implements ImageProducer {
     }
 
     /** */
-    private class ColorSwapFilter extends RGBImageFilter {
+    private static class ColorSwapFilter extends RGBImageFilter {
         Color oldColor;
         Color newColor;
         /** */

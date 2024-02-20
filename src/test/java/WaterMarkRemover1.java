@@ -149,7 +149,7 @@ System.err.printf("%s: %d%n", path, modified);
         case 1:
             // gray by brightest element of rgb
             int e = 255 - Math.max(Math.max(r - g, 0), Math.max(r - b, 0));
-            c = (int) (Long.parseLong(String.format("ff%1$02x%1$02x%1$02x", e), 16) & 0xffffffff);
+            c = (int) (Long.parseLong(String.format("ff%1$02x%1$02x%1$02x", e), 16) & 0xffffffffL);
             break;
         case 2:
             // for a-zmanga pink (241, 179, 182)

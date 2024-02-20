@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.color.ColorSpace;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -30,6 +31,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 import javax.swing.JCheckBox;
@@ -58,12 +60,16 @@ import vavi.swing.binding.Component;
 import vavi.swing.binding.Components;
 import vavi.swing.binding.Updater;
 
+import vavi.util.Debug;
 import vavix.awt.image.pixel.AwtCropOp;
 import vavix.awt.image.util.ImageUtil;
 
 
 /**
- * watermark remover.
+ * watermark remover (openpnp.OpenCV).
+ *
+ * TODO
+ *  cv cannot load avif
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 2018/02/05 umjammer initial version <br>
@@ -76,16 +82,25 @@ public class WaterMarkRemover {
     // @see "http://autolab-minoya.hatenablog.com/entry/2017/11/04/224627"
     static {
 //        System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
-         nu.pattern.OpenCV.loadLocally();
+        nu.pattern.OpenCV.loadLocally();
     }
 
+    /**
+     *
+     * @param img an image for search
+     * @param tmpl a sub image
+     * @param threshold b&w
+     * @return sub image's bound
+     */
     static Rectangle findSubimage(Mat img, Mat tmpl, double threshold) {
         int matchMethod = Imgproc.TM_CCOEFF_NORMED;
 
         // Create the result matrix
         int resultCols = img.cols() - tmpl.cols() + 1;
         int resultRows = img.rows() - tmpl.rows() + 1;
-        Mat result = new Mat(resultRows, resultCols, CvType.CV_32FC1); 
+Debug.println("cols: " + img.cols() + ", " + tmpl.cols());
+Debug.println("rows: " + img.rows() + ", " + tmpl.rows());
+        Mat result = new Mat(resultRows, resultCols, CvType.CV_32FC1);
 
         // Do the Matching and Normalize
         Imgproc.matchTemplate(img, tmpl, result, matchMethod);
@@ -120,8 +135,15 @@ public class WaterMarkRemover {
 
     static WaterMarkRemover app;
 
+    /**
+     * @param args 0: inDir, 1: outDir, 2: inExt, 3: outExt
+     */
     public static void main(String[] args) throws Exception {
-        app = new WaterMarkRemover(args);
+Debug.println("inDir: " + args[0]);
+Debug.println("outDir: " + args[1]);
+Debug.println("inExt: " + args[2]);
+Debug.println("inExt: " + args[3]);
+        app = new WaterMarkRemover(args[0], args[1], args[2], args[3]);
     }
 
     static class Mark {
@@ -158,13 +180,16 @@ public class WaterMarkRemover {
         double threshold = THRESHOLD;
         Method method = Method.white;
         boolean isBlack;
+        boolean dirty;
 
         Page(Path path) throws IOException {
             System.err.println(path);
             this.path = path;
             this.original = ImageIO.read(path.toFile());
             this.mat = Imgcodecs.imread(path.toString(), Imgcodecs.IMREAD_GRAYSCALE);
+Debug.println("mat: " + mat);
             Imgproc.Canny(mat, mat, 32, 128);
+Debug.println("canny mat: " + mat);
         }
 
         void clear() {
@@ -203,15 +228,17 @@ public class WaterMarkRemover {
                 Rectangle rect = markers.get(mark);
                 if (rect != null) {
                     drawer.accept(mark.color, rect);
+                    dirty = true;
                 }
             }
         }
 
         private void origin() {
             this.image = ImageUtil.clone(original);
+            dirty = false;
         }
 
-        void erase() {
+        void proceed() {
             for (Mark mark : markers.keySet()) {
                 Rectangle rect = markers.get(mark);
                 if (rect != null) {
@@ -230,7 +257,7 @@ public class WaterMarkRemover {
 
         enum Method {
             xor {
-                void exec(BufferedImage image, Mark mark, Rectangle rect) {
+                @Override void exec(BufferedImage image, Mark mark, Rectangle rect) {
                     for (int y = rect.y; y < rect.y + rect.height; y++) {
                         for (int x = rect.x; x < rect.x + rect.width; x++) {
                             int c1 = image.getRGB(x, y);
@@ -259,7 +286,7 @@ public class WaterMarkRemover {
                 }
             },
             white {
-                void exec(BufferedImage image, Mark mark, Rectangle rect) {
+                @Override void exec(BufferedImage image, Mark mark, Rectangle rect) {
                     for (int y = rect.y; y < rect.y + rect.height; y++) {
                         for (int x = rect.x; x < rect.x + rect.width; x++) {
                             image.setRGB(x, y, 0xffffffff);
@@ -268,7 +295,7 @@ public class WaterMarkRemover {
                 }
             },
             black {
-                void exec(BufferedImage image, Mark mark, Rectangle rect) {
+                @Override void exec(BufferedImage image, Mark mark, Rectangle rect) {
                     for (int y = rect.y; y < rect.y + rect.height; y++) {
                         for (int x = rect.x; x < rect.x + rect.width; x++) {
                             image.setRGB(x, y, 0);
@@ -281,11 +308,11 @@ public class WaterMarkRemover {
     }
 
     interface View {
-        void update(BufferedImage image);
+        void update(Model model);
         void paint(Graphics g);
         void addMark(Mark mark);
         void removeMark(Mark mark);
-        public BufferedImage getMarkImage(Mark mark);
+        BufferedImage getMarkImage(Mark mark);
         void setMarkSelected(int index);
         int getMarkSelected();
         double getScale();
@@ -319,6 +346,7 @@ public class WaterMarkRemover {
         void addMark(Mark mark) {
             marks.add(mark);
             view.addMark(mark);
+            update();
         }
 
         void removeMark(Mark mark) {
@@ -326,21 +354,29 @@ public class WaterMarkRemover {
             view.removeMark(mark);
         }
 
-        void up() {
+        void up(boolean first) {
             if (index > 0) {
-                index--;
+                if (first) {
+                    index = 0;
+                } else {
+                    index--;
+                }
             }
         }
 
-        void down() {
+        void down(boolean last) {
             if (index < pages.size() - 1) {
-                index++;
+                if (last) {
+                    index = pages.size() - 1;
+                } else {
+                    index++;
+                }
             }
         }
 
         void update() {
 //            System.err.println("index: " + index);
-            view.update(pages.get(index).image);
+            view.update(this);
         }
 
         void erase() {
@@ -359,7 +395,7 @@ public class WaterMarkRemover {
                 page.threshold = 0.25;
                 page.find(marks);
             }
-            page.erase();
+            page.proceed();
             update();
         }
 
@@ -416,7 +452,7 @@ System.err.println("exec done.");
 
         void load(String dir, String ext) throws IOException {
             Files.list(Paths.get(dir))
-            .filter(p -> p.toString().endsWith(ext))
+            .filter(p -> p.toString().endsWith("." + ext))
             .sorted()
             .forEach(p -> {
                 try {
@@ -430,12 +466,26 @@ System.err.println("exec done.");
                     throw new IllegalStateException(e);
                 }
             });
+System.err.println("pages: " + pages.size());
+            update();
         }
 
-        void save(String dir, String type) throws IOException { // "jpg"
+        void save(String dir, String type) throws IOException {
 System.err.println("saving start.");
+            Path path = Path.of(dir);
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            }
             for (Page page : pages) {
-                ImageIO.write(page.image, type, Paths.get(dir, page.path.getFileName().toString()).toFile());
+                if (page.dirty) {
+                    boolean r = ImageIO.write(page.image, type, Paths.get(dir, page.path.getFileName().toString()).toFile());
+                    if (!r) {
+Debug.println(Level.WARNING, "no writer for: " + type);
+                        break;
+                    }
+                } else {
+Debug.println("no modification: " + page.path);
+                }
             }
 System.err.println("saving done.");
         }
@@ -461,7 +511,7 @@ System.err.println("saving done.");
 
     /** */
     public static class MyUpdater implements Updater<Params> {
-        public void update(Params params) {
+        @Override public void update(Params params) {
             app.model.setMethod(params.xor ? Page.Method.xor : params.isBlack ? Page.Method.black : Page.Method.white);
             app.model.setThreshold(params.threshold / 100d);
 //System.err.println(app.model.isXor() + ", " + app.model.getThreshold());
@@ -482,18 +532,18 @@ System.err.println("saving done.");
         boolean isBlack;
     }
 
-    public WaterMarkRemover(String[] args) throws Exception {
+    public WaterMarkRemover(String inDir, String outDir, String inExt, String outExt) throws Exception {
 
         marksComboBox = new JComboBox<>();
-        marksComboBox.setRenderer(new ListCellRenderer<Mark>() {
+        marksComboBox.setRenderer(new ListCellRenderer<>() {
             BufferedImage image;
-            JPanel cell = new JPanel();
-            JPanel icon = new JPanel() {
-                public void paint(Graphics g) {
+            final JPanel cell = new JPanel();
+            final JPanel icon = new JPanel() {
+                @Override public void paint(Graphics g) {
                     g.drawImage(image, 0, 0, this);
                 }
             };
-            JLabel color = new JLabel();
+            final JLabel color = new JLabel();
             {
                 cell.setLayout(new FlowLayout(FlowLayout.LEFT));
                 cell.setOpaque(true);
@@ -501,7 +551,7 @@ System.err.println("saving done.");
                 cell.add(icon);
                 cell.add(color);
             }
-            public java.awt.Component getListCellRendererComponent(JList<? extends Mark> list,
+            @Override public java.awt.Component getListCellRendererComponent(JList<? extends Mark> list,
                                                                    Mark value,
                                                                    int index,
                                                                    boolean isSelected,
@@ -521,7 +571,7 @@ System.err.println("saving done.");
             }
         });
         marksComboBox.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
+            @Override public void keyReleased(KeyEvent e) {
                 int code = e.getKeyCode();
                 if (code == KeyEvent.VK_BACK_SPACE) {
                     Mark mark = marksComboBox.getItemAt(model.view.getMarkSelected());
@@ -548,38 +598,38 @@ System.err.println("saving done.");
         buttonPanel.add(bwCheckBox);
 
         JPanel panel = new JPanel() {
-            public void paint(Graphics g) {
+            @Override public void paint(Graphics g) {
                 model.view.paint(g);
             }
         };
         GlassPane glassPane = new GlassPane();
         glassPane.addRubberBandListener(new RubberBandAdapter() {
-            public void selected(RubberBandEvent ev) {
+            @Override public void selected(RubberBandEvent ev) {
                 Rectangle rect = ev.getBounds();
-                int w = Math.min(glassPane.getWidth(), model.pages.get(model.index).image.getWidth());
-                int h = Math.min(glassPane.getHeight(), model.pages.get(model.index).image.getHeight());
-                if (rect.width - rect.x < 4 || rect.height - rect.y < 4) {
+Debug.println("selected raw bounds: " + rect);
+                double scale = model.view.getScale();
+                int iw = (int) (model.pages.get(model.index).image.getWidth() * scale);
+                int ih = (int) (model.pages.get(model.index).image.getHeight() * scale);
+                int w = Math.min(glassPane.getWidth(), iw);
+                int h = Math.min(glassPane.getHeight(), ih);
+Debug.println("WxH: " + w + "x" + h);
+                if (rect.width < 4 || rect.height < 4) {
 System.err.println("selected rectangle should be larger equal 4x4");
                     return;
                 }
                 if (rect.x < 0) {
+                    rect.width += rect.x;
                     rect.x = 0;
-                }
-                if (rect.x + rect.width > w) {
+                } else if (rect.x + rect.width > w) {
                     rect.width = w - rect.x;
-                } else {
-                    rect.width -= rect.x;
                 }
                 if (rect.y < 0) {
+                    rect.height += rect.y;
                     rect.y = 0;
-                }
-                if (rect.y + rect.height > h) {
+                } else if (rect.y + rect.height > h) {
                     rect.height = h - rect.y;
-                } else {
-                    rect.height -= rect.y;
                 }
-                double scale = model.view.getScale();
-System.err.println(rect + ", " + scale);
+Debug.println("normalized bounds: " + rect + ", " + scale);
                 model.addMark(new Rectangle((int) (rect.x / scale), (int) (rect.y / scale),
                                             (int) (rect.width / scale),(int) (rect.height / scale)));
             }
@@ -597,18 +647,18 @@ System.err.println(rect + ", " + scale);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(basePanel);
         frame.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
+            @Override public void keyReleased(KeyEvent e) {
                 frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 int code = e.getKeyCode();
                 if (code == KeyEvent.VK_LEFT) {         // <-
-                    model.up();
+                    model.up((e.getModifiersEx() & InputEvent.META_DOWN_MASK) == InputEvent.META_DOWN_MASK);
                 } else if (code == KeyEvent.VK_RIGHT) { // ->
-                    model.down();
+                    model.down((e.getModifiersEx() & InputEvent.META_DOWN_MASK) == InputEvent.META_DOWN_MASK);
                 } else if (code == KeyEvent.VK_S) {     // S
                     try {
-                        model.save(args[1], "jpg");
+                        model.save(outDir, outExt);
                     } catch (IOException f) {
-                        f.printStackTrace();
+                        f.printStackTrace(System.err);
                     }
                 } else if (code == KeyEvent.VK_E) {     // E
                     model.exec();
@@ -628,19 +678,21 @@ System.err.println(rect + ", " + scale);
         model = new Model(new View() {
             boolean initialized = false;
             BufferedImage image;
-            Map<Mark, BufferedImage> markImages = new HashMap<>();
+            final Map<Mark, BufferedImage> markImages = new HashMap<>();
             double scale;
             int markIndex;
-            public void update(BufferedImage image) {
+            @Override public void update(Model model) {
                 // TODO Components.Util.copy(model, params); ???
                 params.xor = model.isXor();
                 params.threshold = (int) (model.getThreshold() * 100);
                 params.isBlack = model.isBlack();
                 Components.Util.rebind(params, WaterMarkRemover.this);
                 //
-                this.scale = ImageUtil.fitY(image, 0.8);
-                this.image = scale != 1 ? ImageUtil.scale(image, scale) : image;
+                BufferedImage target = model.pages.get(model.index).image;
+                this.scale = ImageUtil.fitY(target, 0.8);
+                this.image = scale != 1 ? ImageUtil.scale(target, scale) : target;
                 if (!initialized) {
+Debug.printf("scale: %4.2f", scale);
                     Dimension dimension = new Dimension(this.image.getWidth(), this.image.getHeight());
                     layeredPane.setPreferredSize(dimension);
                     panel.setSize(dimension);
@@ -651,46 +703,47 @@ System.err.println(rect + ", " + scale);
                     initialized = true;
                 }
                 panel.repaint();
+                frame.setTitle("WaterMarkRemover " + model.pages.get(model.index).path.getFileName());
                 frame.requestFocusInWindow();
             }
-            public void paint(Graphics g) {
+            @Override public void paint(Graphics g) {
                 g.drawImage(image, 0, 0, panel);
                 model.mark((c, r) -> {
                     g.setColor(c);
                     g.drawRect((int) (r.x * scale), (int) (r.y * scale), (int) (r.width * scale), (int) (r.height * scale));
                 });
             }
-            public void addMark(Mark mark) {
+            @Override public void addMark(Mark mark) {
                 marksComboBox.addItem(mark);
             }
-            public void removeMark(Mark mark) {
+            @Override public void removeMark(Mark mark) {
                 marksComboBox.removeItem(mark);
                 markImages.remove(mark);
             }
-            public BufferedImage getMarkImage(Mark mark) {
+            @Override public BufferedImage getMarkImage(Mark mark) {
                 if (markImages.get(mark) == null) {
                     BufferedImage image = mark.image;
                     int h = buttonPanel.getHeight();
                     double scale = (double) h / image.getHeight();
-System.err.println(image.getWidth() + ", " + image.getHeight());
+Debug.println("marked: " + image.getWidth() + ", " + image.getHeight());
                     markImages.put(mark, ImageUtil.scale(image, scale));
                 }
                 return markImages.get(mark);
             }
-            public void setMarkSelected(int index) {
+            @Override public void setMarkSelected(int index) {
                 markIndex = index;
             }
-            public int getMarkSelected() {
+            @Override public int getMarkSelected() {
                 return markIndex;
             }
-            public double getScale() {
+            @Override public double getScale() {
                 return scale;
             }
-            public void requestFocus() {
+            @Override public void requestFocus() {
                 frame.requestFocus();
             }
         });
-        model.load(args[0], ".jpg");
+        model.load(inDir, inExt);
     }
 }
 

@@ -35,7 +35,7 @@ public class JpegUtil {
     /** minimum quality */
     private static final float MINIMUM_QUARITY = 0.01f;
 
-    /** */
+    /* */
     static {
         ImageIO.setUseCache(false);
     }

@@ -33,9 +33,10 @@ import javax.imageio.ImageReader;
 import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
 
+
 public class JPEGImageReaderSpi extends ImageReaderSpi {
 
-    private static String [] writerSpiNames =
+    private static final String [] writerSpiNames =
         {"vavix.imageio.jpeg.JPEGImageWriterSpi"};
 
     public JPEGImageReaderSpi() {

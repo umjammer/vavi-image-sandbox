@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import vavi.awt.ImageComponent;
-import vavi.swing.JImageComponent;
 
 import static org.junit.jupiter.api.Assertions.*;
 

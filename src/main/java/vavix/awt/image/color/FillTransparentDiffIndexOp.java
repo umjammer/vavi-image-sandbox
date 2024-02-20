@@ -31,7 +31,7 @@ public class FillTransparentDiffIndexOp implements BufferedImageOp {
      * @throws IllegalArgumentException targetImage is not indexed color model image
      */
     public FillTransparentDiffIndexOp(BufferedImage targetImage) {
-        if (!IndexColorModel.class.isInstance(targetImage.getColorModel())) {
+        if (!(targetImage.getColorModel() instanceof IndexColorModel)) {
             throw new IllegalArgumentException("not indexed color model image");
         }
         this.targetImage = targetImage;
@@ -51,8 +51,8 @@ public class FillTransparentDiffIndexOp implements BufferedImageOp {
             throw new IllegalArgumentException("src is not same size as targetImage");
         }
 
-        int[] targetRgbs = targetImage.getRGB(0, 0, sw, sh, (int[]) null, 0, sw);
-        int[] srcRgbs = src.getRGB(0, 0, sw, sh, (int[]) null, 0, sw);
+        int[] targetRgbs = targetImage.getRGB(0, 0, sw, sh, null, 0, sw);
+        int[] srcRgbs = src.getRGB(0, 0, sw, sh, null, 0, sw);
         int[] srcData = src.getRaster().getPixels(0, 0, sw, sh, (int[]) null);
         int[] dstData = dst.getRaster().getPixels(0, 0, sw, sh, (int[]) null);
         for (int y = 0; y < sh; y++) {

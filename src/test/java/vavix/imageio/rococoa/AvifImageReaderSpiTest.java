@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 by Naohide Sano, All rights reserved.
+ * Copyright (c) 2023 by Naohide Sano, All rights reserved.
  *
  * Programmed by Naohide Sano
  */
@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.Arrays;
-
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.FileCacheImageInputStream;
@@ -18,7 +17,6 @@ import javax.imageio.stream.FileCacheImageInputStream;
 import org.junit.jupiter.api.Test;
 import org.rococoa.cocoa.appkit.NSImage;
 import org.rococoa.cocoa.foundation.NSData;
-
 import vavi.imageio.IIOUtil;
 import vavi.util.Debug;
 
@@ -30,63 +28,61 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
- * RococoaImageReaderSpiTest.
+ * AvifImageReaderSpiTest.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
- * @version 0.00 2017/11/17 umjammer initial version <br>
+ * @version 0.00 2023/10/09 umjammer initial version <br>
  */
-public class RococoaImageReaderSpiTest {
+public class AvifImageReaderSpiTest {
 
     @Test
     public void test0() throws Exception {
-        assertTrue(Arrays.asList(ImageIO.getReaderFormatNames()).contains("heif"));
-        assertTrue(Arrays.asList(ImageIO.getReaderFormatNames()).contains("heic"));
-        assertFalse(Arrays.asList(ImageIO.getWriterFormatNames()).contains("heif"));
-        assertInstanceOf(RococoaImageReader.class, IIOUtil.getImageReader("HEIF", ImageReader.class.getName()));
-        assertInstanceOf(RococoaImageReader.class, IIOUtil.getImageReader("HEIC", ImageReader.class.getName()));
+        assertTrue(Arrays.asList(ImageIO.getReaderFormatNames()).contains("avif"));
+        assertFalse(Arrays.asList(ImageIO.getWriterFormatNames()).contains("avif"));
+        assertInstanceOf(RococoaImageReader.class, IIOUtil.getImageReader("AVIF", ImageReader.class.getName()));
     }
 
     @Test
     public void test11() throws Exception {
-        BufferedImage image = ImageIO.read(new File("src/test/resources/sample1.heic"));
+        BufferedImage image = ImageIO.read(new File("src/test/resources/kimono.avif"));
 Debug.println(image);
         assertNotNull(image);
-        assertEquals(1440, image.getWidth());
-        assertEquals(960, image.getHeight());
+        assertEquals(722, image.getWidth());
+        assertEquals(1024, image.getHeight());
     }
 
     @Test
     public void test() throws Exception {
-        BufferedImage image = ImageIO.read(RococoaImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"));
+        BufferedImage image = ImageIO.read(AvifImageReaderSpiTest.class.getResourceAsStream("/kimono.avif"));
 Debug.println(image);
         assertNotNull(image);
-        assertEquals(1440, image.getWidth());
-        assertEquals(960, image.getHeight());
+        assertEquals(722, image.getWidth());
+        assertEquals(1024, image.getHeight());
     }
 
     @Test
     public void test2() throws Exception {
-        ImageReader ir = IIOUtil.getImageReader("HEIF", ImageReader.class.getName());
-        ir.setInput(new FileCacheImageInputStream(RococoaImageReaderSpiTest.class.getResourceAsStream("/sample1.heic"), null));
+        ImageReader ir = IIOUtil.getImageReader("AVIF", ImageReader.class.getName());
+        ir.setInput(new FileCacheImageInputStream(AvifImageReaderSpiTest.class.getResourceAsStream("/kimono.avif"), null));
         BufferedImage image = ir.read(0);
 Debug.println(image);
         assertNotNull(image);
-        assertEquals(1440, image.getWidth());
-        assertEquals(960, image.getHeight());
+        assertEquals(722, image.getWidth());
+        assertEquals(1024, image.getHeight());
     }
 
 
     @Test
     public void test3() throws Exception {
-        NSImage nsImage = NSImage.imageWithContentsOfFile("src/test/resources/sample1.heic");
+        NSImage nsImage = NSImage.imageWithContentsOfFile("src/test/resources/kimono.avif");
         NSData data = nsImage.TIFFRepresentation();
         ByteArrayInputStream bais = new ByteArrayInputStream(data.getBytes());
 
         BufferedImage image = ImageIO.read(bais);
 Debug.println(image);
         assertNotNull(image);
-        assertEquals(1440, image.getWidth());
-        assertEquals(960, image.getHeight());
+        assertEquals(722, image.getWidth());
+        assertEquals(1024, image.getHeight());
     }
 }
 

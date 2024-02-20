@@ -70,7 +70,7 @@ public class OutOfSpaceExceptionTest {
         ObjectInputStream formatterIn = new ObjectInputStream(memoryIn);
         Object exception2 = formatterIn.readObject();
 
-        assertTrue(OutOfSpaceException.class.isInstance(exception2));
+        assertTrue(exception2 instanceof OutOfSpaceException);
         assertEquals(exception1.getMessage(), ((OutOfSpaceException) exception2).getMessage());
     }
 }

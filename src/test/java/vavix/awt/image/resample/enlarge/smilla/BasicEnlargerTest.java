@@ -9,7 +9,6 @@ package vavix.awt.image.resample.enlarge.smilla;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 

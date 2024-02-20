@@ -4,8 +4,6 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
-import org.junit.jupiter.api.Disabled;
-
 
 /**
  * Jpeg2K_profiling. (JPEG 2000 profiling)

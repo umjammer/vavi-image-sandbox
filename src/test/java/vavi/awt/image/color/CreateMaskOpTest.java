@@ -225,33 +225,40 @@ XmlUtil.printNode(String.valueOf(i), metadataNode);
 System.err.println("disposalMethod: " + disposalMethod);
 
                 BufferedImage renderedImage = null;
-                if (disposalMethod.equals("notSpecified") || disposalMethod.equals("doNotDispose")) {
+                switch (disposalMethod) {
+                case "notSpecified":
+                case "doNotDispose":
                     graphics1.drawImage(image, null, x, y);
                     renderedImage = image1;
-                } else if (disposalMethod.equals("restoreToPrevious")) {
+                    break;
+                case "restoreToPrevious": {
                     if (image2 == null) {
                         image2 = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
                         graphics2 = image2.createGraphics();
                         graphics2.setBackground(color);
                         graphics2.clearRect(0, 0, w, h);
                     }
-                    int data1[] = ((DataBufferInt) image1.getRaster().getDataBuffer()).getData();
-                    int data2[] = ((DataBufferInt) image2.getRaster().getDataBuffer()).getData();
+                    int[] data1 = ((DataBufferInt) image1.getRaster().getDataBuffer()).getData();
+                    int[] data2 = ((DataBufferInt) image2.getRaster().getDataBuffer()).getData();
                     System.arraycopy(data1, 0, data2, 0, data1.length);
                     graphics2.drawImage(image, null, x, y);
                     renderedImage = image2;
-                } else if (disposalMethod.equals("restoreToBackgroundColor")) {
+                    break;
+                }
+                case "restoreToBackgroundColor": {
                     if (image2 == null) {
                         image2 = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
                         graphics2 = image2.createGraphics();
                     }
-                    int data1[] = ((DataBufferInt) image1.getRaster().getDataBuffer()).getData();
-                    int data2[] = ((DataBufferInt) image2.getRaster().getDataBuffer()).getData();
+                    int[] data1 = ((DataBufferInt) image1.getRaster().getDataBuffer()).getData();
+                    int[] data2 = ((DataBufferInt) image2.getRaster().getDataBuffer()).getData();
                     System.arraycopy(data1, 0, data2, 0, data1.length);
                     graphics2.drawImage(image, null, x, y);
                     renderedImage = image2;
                     graphics1.setBackground(color);
                     graphics1.clearRect(x, y, w, h);
+                    break;
+                }
                 }
 
                 BufferedImage tempImage1 = new AwtResampleOp(.5, .5).filter(renderedImage, null);

@@ -16,14 +16,14 @@ public class MyFrame2  extends JFrame implements GLEventListener {
     String TitleString;
     double[] eye = {40.0, 10.0, 20.0};
 
-    float light_ambient[]     = { 0.2f, 0.2f, 0.2f, 1.0f},
-          light_diffuse[]     = { 1.0f, 1.0f, 1.0f, 1.0f},
-          light_specular[]    = { 1.0f, 1.0f, 1.0f, 1.0f};
+    float[] light_ambient = { 0.2f, 0.2f, 0.2f, 1.0f},
+          light_diffuse = { 1.0f, 1.0f, 1.0f, 1.0f},
+          light_specular = { 1.0f, 1.0f, 1.0f, 1.0f};
 
-    float emerald_ambient[]   = {0.0215f,  0.1745f,   0.0215f,  1.0f},
-          emerald_diffuse[]   = {0.07568f, 0.61424f,  0.07568f, 1.0f},
-          emerald_specular[]  = {0.633f,   0.727811f, 0.633f,   1.0f},
-          emerald_shininess[] = {76.8f};
+    float[] emerald_ambient = {0.0215f,  0.1745f,   0.0215f,  1.0f},
+          emerald_diffuse = {0.07568f, 0.61424f,  0.07568f, 1.0f},
+          emerald_specular = {0.633f,   0.727811f, 0.633f,   1.0f},
+          emerald_shininess = {76.8f};
 
     public MyFrame2(String title){
         mycanvas.addGLEventListener(this);
@@ -49,8 +49,8 @@ public class MyFrame2  extends JFrame implements GLEventListener {
         //
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        float light_position0[] = { 1,0f, 1.0f, 1.0f, 0.0f};
-        float light_position1[] = {-1.0f, 1.0f, 1.0f, 0.0f};
+        float[] light_position0 = { 1,0f, 1.0f, 1.0f, 0.0f};
+        float[] light_position1 = {-1.0f, 1.0f, 1.0f, 0.0f};
 
         gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, light_position0, 0);
         gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, light_position1, 0);

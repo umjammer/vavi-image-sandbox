@@ -87,9 +87,7 @@ class DQTMarkerSegment extends MarkerSegment {
     protected Object clone() {
         DQTMarkerSegment newGuy = (DQTMarkerSegment) super.clone();
         newGuy.tables = new ArrayList<>(tables.size());
-        Iterator<Qtable> iter = tables.iterator();
-        while (iter.hasNext()) {
-            Qtable table = iter.next();
+        for (Qtable table : tables) {
             newGuy.tables.add((Qtable) table.clone());
         }
         return newGuy;
@@ -97,8 +95,7 @@ class DQTMarkerSegment extends MarkerSegment {
 
     IIOMetadataNode getNativeNode() {
         IIOMetadataNode node = new IIOMetadataNode("dqt");
-        for (int i= 0; i<tables.size(); i++) {
-            Qtable table = tables.get(i);
+        for (Qtable table : tables) {
             node.appendChild(table.getNativeNode());
         }
         return node;
@@ -115,9 +112,8 @@ class DQTMarkerSegment extends MarkerSegment {
     void print() {
         printTag("DQT");
         System.out.println("Num tables: "
-                           + Integer.toString(tables.size()));
-        for (int i= 0; i<tables.size(); i++) {
-            Qtable table = tables.get(i);
+                           + tables.size());
+        for (Qtable table : tables) {
             table.print();
         }
         System.out.println();
@@ -175,7 +171,7 @@ class DQTMarkerSegment extends MarkerSegment {
     /**
      * A quantization table within a DQT marker segment.
      */
-    class Qtable implements Cloneable {
+    static class Qtable implements Cloneable {
         int elementPrecision;
         int tableID;
         final int QTABLE_SIZE = 64;
@@ -290,9 +286,9 @@ class DQTMarkerSegment extends MarkerSegment {
         }
 
         void print() {
-            System.out.println("Table id: " + Integer.toString(tableID));
+            System.out.println("Table id: " + tableID);
             System.out.println("Element precision: "
-                               + Integer.toString(elementPrecision));
+                               + elementPrecision);
 
             (new JPEGQTable(data)).toString();
             /*

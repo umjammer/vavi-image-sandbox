@@ -37,6 +37,7 @@ import vavi.util.Debug;
 public class RococoaImageReader extends ImageReader {
 
     static {
+        // this mean -Djna.library.path=${java.library.path}
         com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
     }
 

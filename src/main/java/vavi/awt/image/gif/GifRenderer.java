@@ -8,14 +8,18 @@ package vavi.awt.image.gif;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 
+import vavi.awt.image.AnimationRenderer;
+import vavi.util.Debug;
 import vavi.xml.util.XmlUtil;
 
 
@@ -25,7 +29,7 @@ import vavi.xml.util.XmlUtil;
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 060616 nsano initial version <br>
  */
-public class GifRenderer implements Iterable<BufferedImage> {
+public class GifRenderer implements AnimationRenderer {
 
     /** transparent color */
     private static final Color color = new Color(0x00ffffff, true);
@@ -34,15 +38,14 @@ public class GifRenderer implements Iterable<BufferedImage> {
     private List<BufferedImage> images = new ArrayList<>();
     /** the same index as {@link #images} */
     private List<IIOMetadata> imageMetaDataList = new ArrayList<>();
+    /** the same index as {@link #images} */
+    private List<Rectangle> imageBoundsList = new ArrayList<>();
     /** the first image width */
     private int imageWidth = 0;
     /** the first image height */
     private int imageHeight = 0;
 
-    /**
-     * Adds a frame image with it's image meta data.
-     * @return rendered frame image
-     */
+    @Override
     public BufferedImage addFrame(BufferedImage image, IIOMetadata imageMetaData) {
 
         if (images.size() == 0) {
@@ -71,38 +74,48 @@ public class GifRenderer implements Iterable<BufferedImage> {
         if (images.size() > 0) {
             IIOMetadataNode previousMetadataNode = (IIOMetadataNode) imageMetaDataList.get(imageMetaDataList.size() - 2).getAsTree(metaFormatName);
 
-            IIOMetadataNode previouosImageDescriptorNode = XmlUtil.getNode(previousMetadataNode, "ImageDescriptor");
-            int px = Integer.parseInt(previouosImageDescriptorNode.getAttribute("imageLeftPosition"));
-            int py = Integer.parseInt(previouosImageDescriptorNode.getAttribute("imageTopPosition"));
-            int pw = Integer.parseInt(previouosImageDescriptorNode.getAttribute("imageWidth"));
-            int ph = Integer.parseInt(previouosImageDescriptorNode.getAttribute("imageHeight"));
+            IIOMetadataNode previousImageDescriptorNode = XmlUtil.getNode(previousMetadataNode, "ImageDescriptor");
+            int px = Integer.parseInt(previousImageDescriptorNode.getAttribute("imageLeftPosition"));
+            int py = Integer.parseInt(previousImageDescriptorNode.getAttribute("imageTopPosition"));
+            int pw = Integer.parseInt(previousImageDescriptorNode.getAttribute("imageWidth"));
+            int ph = Integer.parseInt(previousImageDescriptorNode.getAttribute("imageHeight"));
 
             IIOMetadataNode graphicControlExtensionNode = XmlUtil.getNode(previousMetadataNode, "GraphicControlExtension");
             String disposalMethod = graphicControlExtensionNode.getAttribute("disposalMethod");
-//System.err.println("disposalMethod: " + disposalMethod);
 
-            if (disposalMethod.equals("notSpecified") || disposalMethod.equals("none")) {
+            switch (disposalMethod) {
+            case "notSpecified":
+            case "none":
+Debug.println(Level.FINE, disposalMethod + ": " + (images.size() - 1) + ", " + images.get(images.size() - 1));
+                graphicsR.drawImage(image, null, x, y);
+                break;
+            case "doNotDispose":
+Debug.println(Level.FINE, "disposalMethod: " + disposalMethod);
                 graphicsR.drawImage(images.get(images.size() - 1), null, 0, 0);
                 graphicsR.drawImage(image, null, x, y);
-            } else if (disposalMethod.equals("doNotDispose")) {
-                graphicsR.drawImage(image, null, x, y);
-            } else if (disposalMethod.equals("restoreToPrevious")) {
+                break;
+            case "restoreToPrevious":
+Debug.println(Level.FINE, "restoreToPrevious: " + (images.size() - 1) + ", " + images.get(images.size() - 1));
                 graphicsR.drawImage(images.get(images.size() - 1), null, 0, 0);
-            } else if (disposalMethod.equals("restoreToBackgroundColor")) {
+                break;
+            case "restoreToBackgroundColor":
+Debug.println(Level.FINER, "disposalMethod: " + disposalMethod);
                 graphicsR.setBackground(color);
                 graphicsR.clearRect(px, py, pw, ph);
                 graphicsR.drawImage(image, null, x, y);
+                break;
             }
         } else {
             graphicsR.drawImage(image, null, x, y);
         }
 
         images.add(imageR);
+        imageBoundsList.add(new Rectangle(x, y, image.getWidth(), image.getHeight()));
 
         return imageR;
     }
 
-    /** Gets delay time of frame image in [msec]. */
+    @Override
     public int getDelayTime(IIOMetadata imageMetaData) {
         String metaFormatName = imageMetaData.getNativeMetadataFormatName();
         IIOMetadataNode metadataNode = (IIOMetadataNode) imageMetaData.getAsTree(metaFormatName);
@@ -111,22 +124,27 @@ public class GifRenderer implements Iterable<BufferedImage> {
         return Integer.parseInt(graphicControlExtensionNode.getAttribute("delayTime")) * 10;
     }
 
-    /** Gets delay time of frame image in [msec]. */
+    @Override
     public int getDelayTime(int index) {
         return getDelayTime(imageMetaDataList.get(index));
     }
 
-    /** Gets a number of frame images */
+    @Override
+    public Rectangle getBounds(int index) {
+        return imageBoundsList.get(index);
+    }
+
+    @Override
     public int size() {
         return images.size();
     }
 
-    /** Gets a rendered frame image specified by the index number. */
+    @Override
     public BufferedImage get(int index) {
         return images.get(index);
     }
 
-    /* Gets a rendered frame image iterator. */
+    @Override
     public Iterator<BufferedImage> iterator() {
         return images.iterator();
     }

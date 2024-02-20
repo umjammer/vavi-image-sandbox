@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Disabled;
 @Disabled
 public class AwtResampleOpTest {
 
-    class JImageComponent extends JComponent {
+    static class JImageComponent extends JComponent {
 
         /** */
         private Image image;

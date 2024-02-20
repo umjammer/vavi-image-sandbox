@@ -214,9 +214,9 @@ class MarkerSegment implements Cloneable {
             }
         } else {
             System.out.print("Data:");
-            for (int i=0;i<data.length;i++) {
+            for (byte datum : data) {
                 System.out.print(" Ox"
-                                 + Integer.toHexString(data[i]));
+                        + Integer.toHexString(datum));
             }
         }
         System.out.println();

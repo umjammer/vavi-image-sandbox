@@ -63,7 +63,7 @@ class SOSMarkerSegment extends MarkerSegment {
                 }
             }
             componentSpecs[i] = new ScanComponentSpec(componentIDs[i],
-                                                      tableSel);
+                    tableSel);
         }
     }
 
@@ -115,8 +115,8 @@ class SOSMarkerSegment extends MarkerSegment {
                           Integer.toString(approxHigh));
         node.setAttribute("approxLow",
                           Integer.toString(approxLow));
-        for (int i = 0; i < componentSpecs.length; i++) {
-            node.appendChild(componentSpecs[i].getNativeNode());
+        for (ScanComponentSpec componentSpec : componentSpecs) {
+            node.appendChild(componentSpec.getNativeNode());
         }
 
         return node;
@@ -170,8 +170,8 @@ class SOSMarkerSegment extends MarkerSegment {
         System.out.println(approxLow);
         System.out.print("Num scan components: ");
         System.out.println(componentSpecs.length);
-        for (int i = 0; i< componentSpecs.length; i++) {
-            componentSpecs[i].print();
+        for (ScanComponentSpec componentSpec : componentSpecs) {
+            componentSpec.print();
         }
     }
 
@@ -182,7 +182,7 @@ class SOSMarkerSegment extends MarkerSegment {
     /**
      * A scan component spec within an SOS marker segment.
      */
-    class ScanComponentSpec implements Cloneable {
+    static class ScanComponentSpec implements Cloneable {
         int componentSelector;
         int dcHuffTable;
         int acHuffTable;

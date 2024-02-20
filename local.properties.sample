@@ -1,3 +1,5 @@
 watermark1.file1=
 watermark2.file1=
 cropped.dir=
+
+brew.prefix=/usr/local
