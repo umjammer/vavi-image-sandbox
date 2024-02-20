@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.logging.Level;
-
 import javax.imageio.ImageReader;
 import javax.imageio.spi.ImageReaderSpi;
 import javax.imageio.stream.ImageInputStream;
@@ -19,25 +18,25 @@ import vavi.util.Debug;
 
 
 /**
- * RococoaImageReaderSpi.
+ * AvifImageReaderSpi.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (umjammer)
  * @version 0.00 Nov 16, 2017 umjammer initial version <br>
  */
-public class RococoaImageReaderSpi extends ImageReaderSpi {
+public class AvifImageReaderSpi extends ImageReaderSpi {
 
     private static final String VendorName = "https://github.com/umjammer/vavi-image-sandbox";
     private static final String Version = "1.0.5";
     private static final String ReaderClassName =
         "vavix.imageio.rocococa.RococoaImageReader";
     private static final String[] Names = {
-        "heif", "heic", "HEIF", "HEIC"
+        "avif"
     };
     private static final String[] Suffixes = {
-        "heif", "heic"
+        "avif", "heif", "hif"
     };
     private static final String[] mimeTypes = {
-        "image/heif", "image/heic"
+        "image/avif"
     };
     static final String[] WriterSpiNames = {};
     private static final boolean SupportsStandardStreamMetadataFormat = false;
@@ -46,13 +45,13 @@ public class RococoaImageReaderSpi extends ImageReaderSpi {
     private static final String[] ExtraStreamMetadataFormatNames = null;
     private static final String[] ExtraStreamMetadataFormatClassNames = null;
     private static final boolean SupportsStandardImageMetadataFormat = false;
-    private static final String NativeImageMetadataFormatName = "heic";
+    private static final String NativeImageMetadataFormatName = "avif";
     private static final String NativeImageMetadataFormatClassName = null;
     private static final String[] ExtraImageMetadataFormatNames = null;
     private static final String[] ExtraImageMetadataFormatClassNames = null;
 
     /** */
-    public RococoaImageReaderSpi() {
+    public AvifImageReaderSpi() {
         super(VendorName,
               Version,
               Names,
@@ -75,23 +74,22 @@ public class RococoaImageReaderSpi extends ImageReaderSpi {
 
     @Override
     public String getDescription(Locale locale) {
-        return "HEIF Image";
+        return "AVIF Image";
     }
 
     @Override
     public boolean canDecodeInput(Object obj) throws IOException {
-Debug.println(Level.FINE, "input: " + obj);
-        if (obj instanceof ImageInputStream) {
-            ImageInputStream fiis = (ImageInputStream) obj;
+Debug.println(Level.FINER, "input: " + obj);
+        if (obj instanceof ImageInputStream fiis) {
             fiis.mark();
-            // we currently accept heif only
+            // we currently accept avif only
             byte[] buf = new byte[8];
             fiis.skipBytes(4);
             fiis.readFully(buf);
             fiis.reset();
-            // "ftyp" "mif1"
-            final byte[] magic = { 0x66, 0x74, 0x79, 0x70, 0x6d, 0x69, 0x66, 0x31 };
-Debug.println(Level.FINE, "magic: " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
+            // "ftyp" "avif"
+            final byte[] magic = { 0x66, 0x74, 0x79, 0x70, 0x61, 0x76, 0x69, 0x66 };
+Debug.println(Level.FINER, "magic: " + Arrays.equals(buf, magic) + "\n" + vavi.util.StringUtil.getDump(buf));
             return Arrays.equals(buf, magic);
         } else {
             return false;
