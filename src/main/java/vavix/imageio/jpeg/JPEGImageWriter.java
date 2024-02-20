@@ -41,8 +41,8 @@ import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.imageio.IIOException;
 import javax.imageio.IIOImage;
@@ -62,13 +62,13 @@ import org.w3c.dom.Node;
 
 import sun.java2d.Disposer;
 import sun.java2d.DisposerRecord;
+import vavi.util.Debug;
 import vavix.imageio.jpeg.DQTMarkerSegment.Qtable;
+
 
 public class JPEGImageWriter extends ImageWriter {
 
-    ///////// Private variables
-
-    private boolean debug = false;
+    // Private variables
 
     /**
      * The following variable contains a pointer to the IJG library
@@ -498,7 +498,7 @@ public class JPEGImageWriter extends ImageWriter {
             }
         }
 
-        if (debug) {
+        if (Debug.isLoggable(Level.FINER)) {
             System.out.println("numSrcBands is " + numSrcBands);
             System.out.println("numBandsUsed is " + numBandsUsed);
             System.out.println("usingBandSubset is " + usingBandSubset);
@@ -600,10 +600,7 @@ public class JPEGImageWriter extends ImageWriter {
         if (mdata != null) {
             if (mdata instanceof JPEGMetadata) {
                 metadata = (JPEGMetadata) mdata;
-                if (debug) {
-                    System.out.println
-                        ("We have metadata, and it's JPEG metadata");
-                }
+                Debug.println(Level.FINER, "We have metadata, and it's JPEG metadata");
             } else {
                 if (!rasterOnly) {
                     ImageTypeSpecifier type = destType;
@@ -1042,7 +1039,7 @@ public class JPEGImageWriter extends ImageWriter {
 
         boolean aborted = false;
 
-        if (debug) {
+        if (Debug.isLoggable(Level.FINER)) {
             System.out.println("inCsType: " + inCsType);
             System.out.println("outCsType: " + outCsType);
         }
@@ -1133,11 +1130,9 @@ public class JPEGImageWriter extends ImageWriter {
                 // Set the tables
                 // If the metadata has no tables, use default tables.
                 streamQTables = collectQTablesFromMetadata(jmeta);
-                if (debug) {
-                    System.out.println("after collecting from stream metadata, "
+                Debug.println(Level.FINER, "after collecting from stream metadata, "
                                        + "streamQTables.length is "
                                        + streamQTables.length);
-                }
                 if (streamQTables == null) {
                     streamQTables = JPEG.getDefaultQTables();
                 }
@@ -1710,9 +1705,7 @@ public class JPEGImageWriter extends ImageWriter {
                                             srcBands);
         }
         if (convertTosRGB) {
-            if (debug) {
-                System.out.println("Converting to sRGB");
-            }
+            Debug.println(Level.FINER, "Converting to sRGB");
             // The first time through, converted is null, so
             // a new raster is allocated.  It is then reused
             // on subsequent lines.
