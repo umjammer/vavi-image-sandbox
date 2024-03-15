@@ -111,5 +111,3 @@ public class RotationOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

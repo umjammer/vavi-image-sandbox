@@ -107,5 +107,3 @@ public class SetTransparentIndexOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

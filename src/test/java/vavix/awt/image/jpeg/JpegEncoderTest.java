@@ -26,5 +26,3 @@ public class JpegEncoderTest {
 //        encoder.jpg_save_dib_file();
     }
 }
-
-/* */

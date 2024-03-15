@@ -250,5 +250,3 @@ System.err.println("hsv: " + hsv);
         frame.setVisible(true);
     }
 }
-
-/* */

@@ -90,5 +90,3 @@ public class CreateMaskOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

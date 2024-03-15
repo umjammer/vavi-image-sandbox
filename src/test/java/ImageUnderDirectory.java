@@ -68,5 +68,3 @@ System.err.println(file);
         }, Pattern.compile(".+\\.(png|PNG)")).dig(new File(args[0]));
     }
 }
-
-/* */

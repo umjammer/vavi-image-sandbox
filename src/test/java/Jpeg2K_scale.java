@@ -40,5 +40,3 @@ public class Jpeg2K_scale {
         ios.close();
     }
 }
-
-/* */

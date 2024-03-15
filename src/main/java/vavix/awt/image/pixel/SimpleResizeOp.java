@@ -84,5 +84,3 @@ public class SimpleResizeOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

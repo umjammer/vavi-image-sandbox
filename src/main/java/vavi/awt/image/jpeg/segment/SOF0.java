@@ -76,5 +76,3 @@ public class SOF0 extends Segment {
     }
 
 }
-
-/* */

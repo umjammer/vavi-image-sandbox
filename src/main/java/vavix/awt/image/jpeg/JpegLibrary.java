@@ -100,5 +100,3 @@ public interface JpegLibrary extends Library {
      */
     void jpeg_write_scanlines(Pointer pointer, Pointer row_pointer, int i);
 }
-
-/* */

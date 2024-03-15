@@ -98,5 +98,3 @@ logger.debug(value);
         return config;
     }
 }
-
-/* */

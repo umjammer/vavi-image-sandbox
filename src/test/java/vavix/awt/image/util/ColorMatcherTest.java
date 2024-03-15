@@ -119,5 +119,3 @@ public class ColorMatcherTest {
         frame.setVisible(true);
     }
 }
-
-/* */

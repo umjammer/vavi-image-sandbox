@@ -355,5 +355,3 @@ public class FixedColorModelQuantizer {
         return best;
     }
 }
-
-/* */

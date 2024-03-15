@@ -38,5 +38,3 @@ public class RollingArtwork_filter_x3 {
         ImageIO.write(image4, "JPG", new File("tmp", name.substring(0, name.lastIndexOf('.')) + "_" + "Lanczos3" + ".jpg"));
     }
 }
-
-/* */

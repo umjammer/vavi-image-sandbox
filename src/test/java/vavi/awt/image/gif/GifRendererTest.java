@@ -215,5 +215,3 @@ System.err.println(renderer.getDelayTime(imageMetaData));
         app.test03();
     }
 }
-
-/* */

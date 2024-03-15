@@ -384,5 +384,3 @@ System.err.printf("%-5s: format II : %5d\n", type, size + 2);
         return segment;
     }
 }
-
-/* */

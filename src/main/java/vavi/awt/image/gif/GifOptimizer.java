@@ -1505,5 +1505,3 @@ error:
         finalize_optimizer(gfs);
     }
 }
-
-/* */

@@ -89,5 +89,3 @@ Debug.println(image);
         assertEquals(960, image.getHeight());
     }
 }
-
-/* */

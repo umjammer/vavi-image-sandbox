@@ -131,5 +131,3 @@ public class PalettizeOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

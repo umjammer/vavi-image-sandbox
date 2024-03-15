@@ -452,5 +452,3 @@ System.err.println(image);
         Thread.sleep(15000);
     }
 }
-
-/* */

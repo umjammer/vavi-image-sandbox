@@ -10,13 +10,11 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import org.rococoa.cocoa.appkit.NSImage;
 import org.rococoa.cocoa.foundation.NSData;
-
 import vavi.swing.JImageComponent;
 
 
@@ -27,11 +25,6 @@ import vavi.swing.JImageComponent;
  * @version 0.00 2017/11/16 umjammer initial version <br>
  */
 public class Heif {
-
-    static {
-        // !!! JNA は -Djava.library.path を見なくて、以下 !!!
-        com.sun.jna.NativeLibrary.addSearchPath("rococoa", System.getProperty("java.library.path"));
-    }
 
     /**
      * @param args 0: int

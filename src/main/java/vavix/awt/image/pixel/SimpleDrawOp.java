@@ -100,5 +100,3 @@ Debug.printf(Level.FINE, "%dx%d of %dx%d on %d,%d of %dx%d%n", dw, dh, w, h, x, 
         return null;
     }
 }
-
-/* */

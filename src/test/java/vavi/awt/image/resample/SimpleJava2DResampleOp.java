@@ -85,5 +85,3 @@ public class SimpleJava2DResampleOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

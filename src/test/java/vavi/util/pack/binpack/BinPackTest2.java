@@ -80,5 +80,3 @@ System.err.println("done: " + c++);
         frame.setVisible(true);
     }
 }
-
-/* */

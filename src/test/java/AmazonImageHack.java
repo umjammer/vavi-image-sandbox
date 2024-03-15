@@ -67,5 +67,3 @@ System.err.println(sb.length());
         frame.setVisible(true);
     }
 }
-
-/* */

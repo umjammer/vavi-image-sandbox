@@ -138,5 +138,3 @@ public class ColorMatcher {
         results[5] = y.toRgb().toColor();
     }
 }
-
-/* */

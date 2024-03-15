@@ -105,5 +105,3 @@ public class SimpleCropOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

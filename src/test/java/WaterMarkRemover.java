@@ -746,5 +746,3 @@ Debug.println("marked: " + image.getWidth() + ", " + image.getHeight());
         model.load(inDir, inExt);
     }
 }
-
-/* */

@@ -277,5 +277,3 @@ if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(srcImage), "Nearest Neighbor, Antialiased", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
     }
 }
-
-/* */

@@ -56,5 +56,3 @@ interface Primitive<T extends Primitive<T>> {
 
     T operatorMultiply(float a, T p);
 }
-
-/* */

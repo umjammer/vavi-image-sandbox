@@ -97,5 +97,3 @@ public class FillTransparentDiffIndexOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

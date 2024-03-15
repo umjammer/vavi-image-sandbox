@@ -61,5 +61,3 @@ class RandGen {
         return ((randL() >> 5) & 65535) * (1.0f / 65535.0f);
     }
 }
-
-/* */

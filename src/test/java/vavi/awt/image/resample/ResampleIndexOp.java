@@ -97,5 +97,3 @@ public class ResampleIndexOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */
