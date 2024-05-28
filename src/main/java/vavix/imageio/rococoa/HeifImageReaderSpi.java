@@ -7,8 +7,10 @@
 package vavix.imageio.rococoa;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.imageio.ImageReader;
@@ -26,8 +28,24 @@ import vavi.util.Debug;
  */
 public class HeifImageReaderSpi extends ImageReaderSpi {
 
+    static {
+        try {
+            try (InputStream is = HeifImageReaderSpi.class.getResourceAsStream("/META-INF/maven/vavi/vavi-image-sandbox/pom.properties")) {
+                if (is != null) {
+                    Properties props = new Properties();
+                    props.load(is);
+                    Version = props.getProperty("version", "undefined in pom.properties");
+                } else {
+                    Version = System.getProperty("vavi.test.version", "undefined");
+                }
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     private static final String VendorName = "https://github.com/umjammer/vavi-image-sandbox";
-    private static final String Version = "1.0.5";
+    private static final String Version;
     private static final String ReaderClassName =
         "vavix.imageio.rocococa.RococoaImageReader";
     private static final String[] Names = {
@@ -46,7 +64,7 @@ public class HeifImageReaderSpi extends ImageReaderSpi {
     private static final String[] ExtraStreamMetadataFormatNames = null;
     private static final String[] ExtraStreamMetadataFormatClassNames = null;
     private static final boolean SupportsStandardImageMetadataFormat = false;
-    private static final String NativeImageMetadataFormatName = "heic";
+    private static final String NativeImageMetadataFormatName = "heif";
     private static final String NativeImageMetadataFormatClassName = null;
     private static final String[] ExtraImageMetadataFormatNames = null;
     private static final String[] ExtraImageMetadataFormatClassNames = null;
