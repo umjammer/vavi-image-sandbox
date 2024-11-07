@@ -95,4 +95,3 @@ public class Rgb {
         return String.format("R:%02X G: %02X B: %02X", r, g, b);
     }
 }
-/* */

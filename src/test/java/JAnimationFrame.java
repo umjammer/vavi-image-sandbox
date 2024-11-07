@@ -69,19 +69,19 @@ public class JAnimationFrame extends JFrame {
         LoopCounter counter = new LoopCounter(renderer.size());
 
         addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent e) {
+            @Override public void mouseReleased(MouseEvent e) {
                 Component c = e.getComponent();
                 point = c.getLocation();
                 c.setLocation(point);
             }
-            public void mousePressed(MouseEvent e) {
+            @Override public void mousePressed(MouseEvent e) {
                 start = e.getPoint();
                 point = e.getPoint();
             }
         });
 
         addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent e) {
+            @Override public void mouseDragged(MouseEvent e) {
                 Component c = e.getComponent();
                 point = c.getLocation(point);
                 int x = point.x - start.x + e.getX();
@@ -91,7 +91,7 @@ public class JAnimationFrame extends JFrame {
         });
 
         JPanel panel = new JPanel() {
-            public void paintComponent(Graphics g) {
+            @Override public void paintComponent(Graphics g) {
                 g.drawImage(renderer.get(counter.get()), 0, 0, this);
             }
         };
@@ -99,7 +99,7 @@ public class JAnimationFrame extends JFrame {
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         Runnable task = new Runnable() {
-            public void run() {
+            @Override public void run() {
                 counter.increment();
                 repaint();
                 scheduler.schedule(this, renderer.getDelayTime(counter.get()), TimeUnit.MILLISECONDS);
@@ -117,6 +117,8 @@ public class JAnimationFrame extends JFrame {
         root.putClientProperty("Window.shadow", false);
 
         getContentPane().add(panel);
+
+        scheduler.close();
     }
 
     /** */

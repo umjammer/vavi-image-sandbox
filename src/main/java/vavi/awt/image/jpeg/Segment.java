@@ -32,6 +32,4 @@ System.err.printf("%-5s: format I\n", type);
         this.data = data;
 System.err.printf("%-5s: format II : %5d\n", type, size + 2);
     }
-
 }
-/* */

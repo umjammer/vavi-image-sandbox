@@ -49,5 +49,3 @@ Debug.println(filename);
         frame.setVisible(true);
     }
 }
-
-/* */

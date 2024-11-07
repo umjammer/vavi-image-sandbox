@@ -128,5 +128,3 @@ class PFloat implements Primitive<PFloat> {
         return "pfloat: " + x;
     }
 }
-
-/* */
