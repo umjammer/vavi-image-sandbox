@@ -118,7 +118,7 @@ public class JAnimationFrame extends JFrame {
 
         getContentPane().add(panel);
 
-        scheduler.close();
+//        scheduler.close(); // not for v17
     }
 
     /** */
