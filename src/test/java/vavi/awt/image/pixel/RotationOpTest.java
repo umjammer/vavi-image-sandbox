@@ -61,5 +61,3 @@ if (System.getProperty("vavi.test", "").equals("ide"))
         new Robot().keyPress(KeyEvent.VK_SPACE);
     }
 }
-
-/* */

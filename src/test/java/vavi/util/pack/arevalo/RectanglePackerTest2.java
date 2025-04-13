@@ -77,5 +77,3 @@ System.err.printf("%d, %d, %d, %d, %b\n", r.x, r.y, r.width, r.height, r);
         frame.setVisible(true);
     }
 }
-
-/* */

@@ -102,5 +102,3 @@ public class JpegUtil {
         baos.writeTo(os);
     }
 }
-
-/* */

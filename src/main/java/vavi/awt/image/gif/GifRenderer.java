@@ -149,5 +149,3 @@ Debug.println(Level.FINER, "disposalMethod: " + disposalMethod);
         return images.iterator();
     }
 }
-
-/* */

@@ -43,5 +43,3 @@ public class Jpeg_simd {
         ios.close();
     }
 }
-
-/* */

@@ -188,5 +188,3 @@ public class NoidsEnlargeOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

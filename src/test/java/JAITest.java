@@ -33,5 +33,3 @@ public class JAITest {
         encoder.encode(image);
     }
 }
-
-/* */

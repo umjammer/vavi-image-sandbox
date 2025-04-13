@@ -90,5 +90,3 @@ public class FixedColorModelQuantizeOp implements BufferedImageOp {
     }
 }
 
-/* */
-

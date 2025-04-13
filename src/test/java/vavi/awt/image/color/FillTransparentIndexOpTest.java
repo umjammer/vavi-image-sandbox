@@ -220,5 +220,3 @@ if (System.getProperty("vavi.test", "").equals("ide"))
                 (bs[i] & 0xff);   
     }
 }
-
-/* */

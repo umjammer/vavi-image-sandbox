@@ -98,5 +98,3 @@ logger.debug("size: " + w + "x" + h);
         return config;
     }
 }
-
-/* */

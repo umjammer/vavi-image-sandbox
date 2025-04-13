@@ -118,5 +118,3 @@ logger.fine(image.toString());
 //        frame.setSize(width + insets.left + insets.right, width + insets.top + insets.bottom);
     }
 }
-
-/* */

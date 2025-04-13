@@ -109,5 +109,3 @@ if (System.getProperty("vavi.test", "").equals("ide"))
         return null;
     }
 }
-
-/* */

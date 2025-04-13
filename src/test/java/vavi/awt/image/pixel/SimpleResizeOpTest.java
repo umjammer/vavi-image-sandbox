@@ -46,5 +46,3 @@ if (System.getProperty("vavi.test", "").equals("ide"))
  JOptionPane.showMessageDialog(null, new ImageIcon(image), "Double", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(filteredImage));
     }
 }
-
-/* */

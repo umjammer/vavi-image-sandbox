@@ -110,5 +110,3 @@ ImageIO.write(filterdImage, "PNG", new File("tmp/enlarged.png"));
         cdl.await();
     }
 }
-
-/* */

@@ -967,5 +967,3 @@ public class Qrcode {
         return res;
     }
 }
-
-/* */

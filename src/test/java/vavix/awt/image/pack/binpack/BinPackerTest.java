@@ -90,5 +90,3 @@ public class BinPackerTest {
 //System.err.println("packed: " + l + "/" + rects.size());
     }
 }
-
-/* */

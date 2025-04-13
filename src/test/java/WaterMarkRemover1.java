@@ -175,5 +175,3 @@ System.err.printf("%s: %d%n", path, modified);
         return c;
     }
 }
-
-/* */

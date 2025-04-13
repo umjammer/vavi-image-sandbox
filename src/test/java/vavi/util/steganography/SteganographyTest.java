@@ -43,5 +43,3 @@ public class SteganographyTest {
 //        assertNotEquals(string, steganography3.decode());
     }
 }
-
-/* */

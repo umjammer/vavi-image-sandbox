@@ -204,5 +204,3 @@ public class FillTransparentIndexOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

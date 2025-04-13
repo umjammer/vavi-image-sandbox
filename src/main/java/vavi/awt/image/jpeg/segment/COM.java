@@ -34,5 +34,3 @@ public class COM extends Segment {
         return sb.toString();
     }
 }
-
-/* */

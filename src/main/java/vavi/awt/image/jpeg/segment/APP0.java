@@ -80,5 +80,3 @@ public class APP0 extends Segment {
         }
     }
 }
-
-/* */

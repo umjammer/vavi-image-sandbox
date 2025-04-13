@@ -93,5 +93,3 @@ public class ReplaceColorOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

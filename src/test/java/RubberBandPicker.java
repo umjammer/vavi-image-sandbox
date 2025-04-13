@@ -303,5 +303,3 @@ System.err.println("selected rectangle should be larger equal 4x4");
         model.load(inDir, inExt);
     }
 }
-
-/* */

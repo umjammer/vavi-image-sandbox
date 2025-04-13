@@ -48,5 +48,3 @@ public class ColorCurveOpTest {
         ImageIO.write(dst, "JPG", new File("tmp/out4color.jpg"));
     }
 }
-
-/* */

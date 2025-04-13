@@ -151,5 +151,3 @@ System.err.printf("data: %d bytes\n", baos.size());
         return segment;
     }
 }
-
-/* */

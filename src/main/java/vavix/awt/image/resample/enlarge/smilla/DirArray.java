@@ -271,5 +271,3 @@ class DirArray extends BasicArray<Point2> {
         return w;
     }
 }
-
-/* */

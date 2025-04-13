@@ -127,5 +127,3 @@ System.err.println("scale: " + scale);
         frame.setVisible(true);
     }
 }
-
-/* */

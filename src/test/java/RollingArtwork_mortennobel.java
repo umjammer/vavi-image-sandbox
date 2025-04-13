@@ -37,5 +37,3 @@ public class RollingArtwork_mortennobel {
 System.err.println(filteredImage);
     }
 }
-
-/* */

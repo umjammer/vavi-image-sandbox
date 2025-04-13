@@ -103,5 +103,3 @@ public class RollingArtwork {
         frame.setVisible(true);
     }
 }
-
-/* */

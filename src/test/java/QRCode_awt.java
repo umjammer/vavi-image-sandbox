@@ -42,5 +42,3 @@ logger.fine("BufferedImage: " + bi);
 logger.fine("gif: " + result);
     }
 }
-
-/* */

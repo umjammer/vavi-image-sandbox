@@ -153,5 +153,3 @@ public class HexeReinLanczosResampleOp implements BufferedImageOp {
     }
 }
 
-/* */
-

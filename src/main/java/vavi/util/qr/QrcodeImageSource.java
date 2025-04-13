@@ -155,5 +155,3 @@ public class QrcodeImageSource implements ImageProducer {
         ip.requestTopDownLeftRightResend(ic);
     }
 }
-
-/* */

@@ -51,5 +51,3 @@ public class Jpeg2K {
         XmlUtil.printNode("", (IIOMetadataNode) metaData.getAsTree(formatName));
     }
 }
-
-/* */

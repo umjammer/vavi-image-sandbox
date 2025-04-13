@@ -89,5 +89,3 @@ public class BasicEnlargerTest {
         frame.setVisible(true);
     }
 }
-
-/* */

@@ -75,5 +75,3 @@ public class SOS extends Segment {
         }
     }
 }
-
-/* */

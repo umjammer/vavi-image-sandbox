@@ -88,5 +88,3 @@ public class SetTransparentOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

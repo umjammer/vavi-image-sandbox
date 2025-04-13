@@ -103,5 +103,3 @@ public class MaskAsTransparentIndexOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

@@ -204,5 +204,3 @@ System.err.println("scale: " + scale);
         new AwtResampleOpTest().test00();
     }
 }
-
-/* */

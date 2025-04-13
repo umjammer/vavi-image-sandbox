@@ -103,5 +103,3 @@ public final class ImageUtil {
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 }
-
-/* */

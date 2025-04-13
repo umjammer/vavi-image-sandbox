@@ -289,5 +289,3 @@ if (System.getProperty("vavi.test", "").equals("ide"))
         ImageIO.write(bufImg, "png", new File("tmp/out_test03.png"));
     }
  }
-
-/* */

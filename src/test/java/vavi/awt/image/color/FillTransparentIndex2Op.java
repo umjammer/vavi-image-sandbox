@@ -168,5 +168,3 @@ public class FillTransparentIndex2Op implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

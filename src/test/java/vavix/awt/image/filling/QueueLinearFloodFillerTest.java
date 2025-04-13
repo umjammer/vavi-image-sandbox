@@ -61,5 +61,3 @@ public class QueueLinearFloodFillerTest {
         frame.setVisible(true);
     }
 }
-
-/* */

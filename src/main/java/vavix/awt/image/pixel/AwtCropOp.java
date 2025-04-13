@@ -105,5 +105,3 @@ public class AwtCropOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

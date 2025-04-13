@@ -86,5 +86,3 @@ public class CreateMaskIndexOp implements BufferedImageOp {
         return null;
     }
 }
-
-/* */

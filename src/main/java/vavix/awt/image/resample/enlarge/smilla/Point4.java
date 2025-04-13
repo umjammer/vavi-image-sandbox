@@ -187,5 +187,3 @@ public class Point4 implements Primitive<Point4> {
         return p;
     }
 }
-
-/* */
