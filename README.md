@@ -1,5 +1,5 @@
 [![Release](https://jitpack.io/v/umjammer/vavi-image-sandbox.svg)](https://jitpack.io/#umjammer/vavi-image-sandbox)
-[![Java CI](https://github.com/umjammer/vavi-image-sandbox/workflows/Java%20CI/badge.svg)](https://github.com/umjammer/vavi-image-sandbox/actions)
+[![Java CI](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/maven.yml/badge.svg)](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/umjammer/vavi-image-sandbox/actions/workflows/codeql-analysis.yml)
 ![Java](https://img.shields.io/badge/Java-17-b07219)
 
@@ -7,16 +7,16 @@
 
 🎨 Imaging the world more!
 
-## Contents
+### Contents
 
-### formats
+#### formats
 
   * jpeg (simd) (WIP)
   * qrcode
   * barcode
   * heif
 
-### filter
+#### filter
 
   * pixel operation
 
@@ -42,7 +42,7 @@
   * [Imagemagick](https://github.com/umjammer/vavi-image-sandbox/wiki/ImageMagickFilter)
   * flood filling
 
-### Others
+#### Others
 
   * gif animation renderer
 
@@ -70,6 +70,12 @@ as a desktop mascot
 
  * [maven](https://jitpack.io/#umjammer/vavi-image-sandbox)
 
+## Usage
+
+```java
+    var image = ImageIO.read(Path.of("test.heic").toFile());
+```
+
 ## References
 
  * https://github.com/haraldk/TwelveMonkeys
@@ -84,3 +90,4 @@ as a desktop mascot
  * apng
  * https://johncostella.com/unblur/
  * https://johncostella.com/unblock/
+ * https://github.com/phoboslab/qoi
