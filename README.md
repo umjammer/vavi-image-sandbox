@@ -5,6 +5,8 @@
 
 # vavi-image-sandbox
 
+<img alt="logo" src="src/test/resources/duke_paint.png" width="200" />
+
 🎨 Imaging the world more!
 
 ### Contents
@@ -14,7 +16,7 @@
   * jpeg (simd) (WIP)
   * qrcode
   * barcode
-  * heif
+  * heif/avif
 
 #### filter
 
@@ -91,3 +93,8 @@ as a desktop mascot
  * https://johncostella.com/unblur/
  * https://johncostella.com/unblock/
  * https://github.com/phoboslab/qoi
+ * https://github.com/stanio/xbrz-java
+
+---
+
+<sub>image designed by @umjammer, drawn by nano banana</sub>
