@@ -14,7 +14,7 @@
   * jpeg (simd) (WIP)
   * qrcode
   * barcode
-  * heif
+  * heif/avif
 
 #### filter
 
@@ -91,3 +91,4 @@ as a desktop mascot
  * https://johncostella.com/unblur/
  * https://johncostella.com/unblock/
  * https://github.com/phoboslab/qoi
+ * https://github.com/stanio/xbrz-java
